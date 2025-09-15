@@ -1,0 +1,8 @@
+{$CLEO .csi}
+
+//Made by DaniloSZK
+
+:DEMOTEXT
+03A4: name_thread "menu_szk"
+
+004E: terminate_this_script

@@ -1,0 +1,2634 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineSystem.cmake:207 (message)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      The target system is: Android - 1 - aarch64
+      The host system is: Windows - 10.0.19045 - AMD64
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeMinGWFindMake.cmake:5 (find_program)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_MAKE_PROGRAM"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "mingw32-make.exe"
+    candidate_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sbin/"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/MinGW/bin/"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/Danilo/AppData/Roaming/npm/"
+      - "/usr/lib/aarch64-linux-android/33/bin/"
+      - "/usr/lib/aarch64-linux-android/33/sbin/"
+      - "/usr/lib/aarch64-linux-android/33/"
+      - "/REGISTRY-NOTFOUND/bin/"
+      - "c:/MinGW/bin/"
+      - "/MinGW/bin/"
+      - "/REGISTRY-NOTFOUND/MinGW/bin/"
+    searched_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/mingw32-make.exe.com"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/mingw32-make.exe"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sbin/mingw32-make.exe.com"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sbin/mingw32-make.exe"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/mingw32-make.exe.com"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/mingw32-make.exe"
+      - "C:/Windows/System32/mingw32-make.exe.com"
+      - "C:/Windows/System32/mingw32-make.exe"
+      - "C:/Windows/mingw32-make.exe.com"
+      - "C:/Windows/mingw32-make.exe"
+      - "C:/Windows/System32/wbem/mingw32-make.exe.com"
+      - "C:/Windows/System32/wbem/mingw32-make.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/mingw32-make.exe.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/mingw32-make.exe"
+      - "C:/Windows/System32/OpenSSH/mingw32-make.exe.com"
+      - "C:/Windows/System32/OpenSSH/mingw32-make.exe"
+      - "C:/Program Files/Git/cmd/mingw32-make.exe.com"
+      - "C:/Program Files/Git/cmd/mingw32-make.exe"
+      - "C:/Program Files/nodejs/mingw32-make.exe.com"
+      - "C:/Program Files/nodejs/mingw32-make.exe"
+      - "C:/Program Files/dotnet/mingw32-make.exe.com"
+      - "C:/Program Files/dotnet/mingw32-make.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/mingw32-make.exe.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/mingw32-make.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/mingw32-make.exe.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/mingw32-make.exe"
+      - "C:/Program Files/CMake/bin/mingw32-make.exe.com"
+      - "C:/Program Files/CMake/bin/mingw32-make.exe"
+      - "C:/MinGW/bin/mingw32-make.exe.com"
+    found: "C:/MinGW/bin/mingw32-make.exe"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64"
+      ENV{PATH}:
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\MinGW\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Roaming\\npm"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/33"
+      CMAKE_SYSROOT: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "C:/android-ndk"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCCompilerId.c.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeCCompilerId.c.in"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64"
+      ENV{PATH}:
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\MinGW\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Roaming\\npm"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/33"
+      CMAKE_SYSROOT: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "C:/android-ndk"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe 
+      Build flags: -g;-DANDROID;-fdata-sections;-ffunction-sections;-funwind-tables;-fstack-protector-strong;-no-canonical-prefixes;-D_FORTIFY_SOURCE=2;-Wformat;-Werror=format-security
+      Id flags: -c;--target=aarch64-none-linux-android33 
+      
+      The output was:
+      0
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.o"
+      
+      The C compiler identification is Clang, found in:
+        C:/PC/Projetos/menu-szk-mobile/build/CMakeFiles/4.1.1/CompilerIdC/CMakeCCompilerId.o
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:238 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_LINKER"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "ld.lld"
+      - "ld"
+    candidate_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/MinGW/bin/"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/Danilo/AppData/Roaming/npm/"
+      - "/usr/lib/aarch64-linux-android/33/bin/"
+      - "/usr/lib/aarch64-linux-android/33/sbin/"
+      - "/usr/lib/aarch64-linux-android/33/"
+    searched_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/ld.lld.com"
+    found: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/ld.lld.exe"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64"
+      ENV{PATH}:
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\MinGW\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Roaming\\npm"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/33"
+      CMAKE_SYSROOT: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "C:/android-ndk"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:238 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_NM"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "llvm-nm"
+      - "nm"
+    candidate_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/MinGW/bin/"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/Danilo/AppData/Roaming/npm/"
+      - "/usr/lib/aarch64-linux-android/33/bin/"
+      - "/usr/lib/aarch64-linux-android/33/sbin/"
+      - "/usr/lib/aarch64-linux-android/33/"
+    searched_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-nm.com"
+    found: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-nm.exe"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64"
+      ENV{PATH}:
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\MinGW\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Roaming\\npm"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/33"
+      CMAKE_SYSROOT: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "C:/android-ndk"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:238 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_OBJDUMP"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "llvm-objdump"
+      - "objdump"
+    candidate_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/MinGW/bin/"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/Danilo/AppData/Roaming/npm/"
+      - "/usr/lib/aarch64-linux-android/33/bin/"
+      - "/usr/lib/aarch64-linux-android/33/sbin/"
+      - "/usr/lib/aarch64-linux-android/33/"
+    searched_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-objdump.com"
+    found: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-objdump.exe"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64"
+      ENV{PATH}:
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\MinGW\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Roaming\\npm"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/33"
+      CMAKE_SYSROOT: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "C:/android-ndk"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:238 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_OBJCOPY"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "llvm-objcopy"
+      - "objcopy"
+    candidate_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/MinGW/bin/"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/Danilo/AppData/Roaming/npm/"
+      - "/usr/lib/aarch64-linux-android/33/bin/"
+      - "/usr/lib/aarch64-linux-android/33/sbin/"
+      - "/usr/lib/aarch64-linux-android/33/"
+    searched_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-objcopy.com"
+    found: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-objcopy.exe"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64"
+      ENV{PATH}:
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\MinGW\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Roaming\\npm"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/33"
+      CMAKE_SYSROOT: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "C:/android-ndk"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:238 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_READELF"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "llvm-readelf"
+      - "readelf"
+    candidate_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/MinGW/bin/"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/Danilo/AppData/Roaming/npm/"
+      - "/usr/lib/aarch64-linux-android/33/bin/"
+      - "/usr/lib/aarch64-linux-android/33/sbin/"
+      - "/usr/lib/aarch64-linux-android/33/"
+    searched_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-readelf.com"
+    found: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-readelf.exe"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64"
+      ENV{PATH}:
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\MinGW\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Roaming\\npm"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/33"
+      CMAKE_SYSROOT: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "C:/android-ndk"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:238 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_DLLTOOL"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "llvm-dlltool"
+      - "dlltool"
+    candidate_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/MinGW/bin/"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/Danilo/AppData/Roaming/npm/"
+      - "/usr/lib/aarch64-linux-android/33/bin/"
+      - "/usr/lib/aarch64-linux-android/33/sbin/"
+      - "/usr/lib/aarch64-linux-android/33/"
+    searched_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-dlltool.com"
+    found: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-dlltool.exe"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64"
+      ENV{PATH}:
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\MinGW\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Roaming\\npm"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/33"
+      CMAKE_SYSROOT: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "C:/android-ndk"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:238 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_ADDR2LINE"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "llvm-addr2line"
+      - "addr2line"
+    candidate_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/MinGW/bin/"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/Danilo/AppData/Roaming/npm/"
+      - "/usr/lib/aarch64-linux-android/33/bin/"
+      - "/usr/lib/aarch64-linux-android/33/sbin/"
+      - "/usr/lib/aarch64-linux-android/33/"
+    searched_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-addr2line.com"
+    found: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-addr2line.exe"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64"
+      ENV{PATH}:
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\MinGW\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Roaming\\npm"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/33"
+      CMAKE_SYSROOT: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "C:/android-ndk"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:238 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_TAPI"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "tapi"
+    candidate_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/MinGW/bin/"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/Danilo/AppData/Roaming/npm/"
+      - "/usr/lib/aarch64-linux-android/33/bin/"
+      - "/usr/lib/aarch64-linux-android/33/sbin/"
+      - "/usr/lib/aarch64-linux-android/33/"
+    searched_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/tapi.com"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/tapi.exe"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/tapi"
+      - "C:/Windows/System32/tapi.com"
+      - "C:/Windows/System32/tapi.exe"
+      - "C:/Windows/System32/tapi"
+      - "C:/Windows/tapi.com"
+      - "C:/Windows/tapi.exe"
+      - "C:/Windows/tapi"
+      - "C:/Windows/System32/wbem/tapi.com"
+      - "C:/Windows/System32/wbem/tapi.exe"
+      - "C:/Windows/System32/wbem/tapi"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/tapi.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/tapi.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/tapi"
+      - "C:/Windows/System32/OpenSSH/tapi.com"
+      - "C:/Windows/System32/OpenSSH/tapi.exe"
+      - "C:/Windows/System32/OpenSSH/tapi"
+      - "C:/Program Files/Git/cmd/tapi.com"
+      - "C:/Program Files/Git/cmd/tapi.exe"
+      - "C:/Program Files/Git/cmd/tapi"
+      - "C:/Program Files/nodejs/tapi.com"
+      - "C:/Program Files/nodejs/tapi.exe"
+      - "C:/Program Files/nodejs/tapi"
+      - "C:/Program Files/dotnet/tapi.com"
+      - "C:/Program Files/dotnet/tapi.exe"
+      - "C:/Program Files/dotnet/tapi"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/tapi.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/tapi.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/tapi"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/tapi.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/tapi.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/tapi"
+      - "C:/Program Files/CMake/bin/tapi.com"
+      - "C:/Program Files/CMake/bin/tapi.exe"
+      - "C:/Program Files/CMake/bin/tapi"
+      - "C:/MinGW/bin/tapi.com"
+      - "C:/MinGW/bin/tapi.exe"
+      - "C:/MinGW/bin/tapi"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/tapi.com"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/tapi.exe"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/tapi"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/tapi.com"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/tapi.exe"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/tapi"
+      - "C:/Users/Danilo/AppData/Roaming/npm/tapi.com"
+      - "C:/Users/Danilo/AppData/Roaming/npm/tapi.exe"
+      - "C:/Users/Danilo/AppData/Roaming/npm/tapi"
+      - "/usr/lib/aarch64-linux-android/33/bin/tapi.com"
+      - "/usr/lib/aarch64-linux-android/33/bin/tapi.exe"
+      - "/usr/lib/aarch64-linux-android/33/bin/tapi"
+      - "/usr/lib/aarch64-linux-android/33/sbin/tapi.com"
+      - "/usr/lib/aarch64-linux-android/33/sbin/tapi.exe"
+      - "/usr/lib/aarch64-linux-android/33/sbin/tapi"
+      - "/usr/lib/aarch64-linux-android/33/tapi.com"
+      - "/usr/lib/aarch64-linux-android/33/tapi.exe"
+      - "/usr/lib/aarch64-linux-android/33/tapi"
+    found: false
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64"
+      ENV{PATH}:
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\MinGW\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Roaming\\npm"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/33"
+      CMAKE_SYSROOT: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "C:/android-ndk"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/Compiler/Clang-FindBinUtils.cmake:26 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCCompiler.cmake:201 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_C_COMPILER_AR"
+    description: "LLVM archiver"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "llvm-ar-18.0"
+      - "llvm-ar-18"
+      - "llvm-ar18"
+      - "llvm-ar"
+    candidate_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/MinGW/bin/"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/Danilo/AppData/Roaming/npm/"
+      - "/usr/lib/aarch64-linux-android/33/bin/"
+      - "/usr/lib/aarch64-linux-android/33/sbin/"
+      - "/usr/lib/aarch64-linux-android/33/"
+    searched_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ar-18.0.com"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ar-18.0.exe"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ar-18.0"
+      - "C:/Windows/System32/llvm-ar-18.0.com"
+      - "C:/Windows/System32/llvm-ar-18.0.exe"
+      - "C:/Windows/System32/llvm-ar-18.0"
+      - "C:/Windows/llvm-ar-18.0.com"
+      - "C:/Windows/llvm-ar-18.0.exe"
+      - "C:/Windows/llvm-ar-18.0"
+      - "C:/Windows/System32/wbem/llvm-ar-18.0.com"
+      - "C:/Windows/System32/wbem/llvm-ar-18.0.exe"
+      - "C:/Windows/System32/wbem/llvm-ar-18.0"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ar-18.0.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ar-18.0.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ar-18.0"
+      - "C:/Windows/System32/OpenSSH/llvm-ar-18.0.com"
+      - "C:/Windows/System32/OpenSSH/llvm-ar-18.0.exe"
+      - "C:/Windows/System32/OpenSSH/llvm-ar-18.0"
+      - "C:/Program Files/Git/cmd/llvm-ar-18.0.com"
+      - "C:/Program Files/Git/cmd/llvm-ar-18.0.exe"
+      - "C:/Program Files/Git/cmd/llvm-ar-18.0"
+      - "C:/Program Files/nodejs/llvm-ar-18.0.com"
+      - "C:/Program Files/nodejs/llvm-ar-18.0.exe"
+      - "C:/Program Files/nodejs/llvm-ar-18.0"
+      - "C:/Program Files/dotnet/llvm-ar-18.0.com"
+      - "C:/Program Files/dotnet/llvm-ar-18.0.exe"
+      - "C:/Program Files/dotnet/llvm-ar-18.0"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ar-18.0.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ar-18.0.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ar-18.0"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ar-18.0.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ar-18.0.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ar-18.0"
+      - "C:/Program Files/CMake/bin/llvm-ar-18.0.com"
+      - "C:/Program Files/CMake/bin/llvm-ar-18.0.exe"
+      - "C:/Program Files/CMake/bin/llvm-ar-18.0"
+      - "C:/MinGW/bin/llvm-ar-18.0.com"
+      - "C:/MinGW/bin/llvm-ar-18.0.exe"
+      - "C:/MinGW/bin/llvm-ar-18.0"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ar-18.0.com"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ar-18.0.exe"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ar-18.0"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ar-18.0.com"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ar-18.0.exe"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ar-18.0"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ar-18.0.com"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ar-18.0.exe"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ar-18.0"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ar-18.0.com"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ar-18.0.exe"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ar-18.0"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ar-18.0.com"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ar-18.0.exe"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ar-18.0"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ar-18.0.com"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ar-18.0.exe"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ar-18.0"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ar-18.com"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ar-18.exe"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ar-18"
+      - "C:/Windows/System32/llvm-ar-18.com"
+      - "C:/Windows/System32/llvm-ar-18.exe"
+      - "C:/Windows/System32/llvm-ar-18"
+      - "C:/Windows/llvm-ar-18.com"
+      - "C:/Windows/llvm-ar-18.exe"
+      - "C:/Windows/llvm-ar-18"
+      - "C:/Windows/System32/wbem/llvm-ar-18.com"
+      - "C:/Windows/System32/wbem/llvm-ar-18.exe"
+      - "C:/Windows/System32/wbem/llvm-ar-18"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ar-18.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ar-18.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ar-18"
+      - "C:/Windows/System32/OpenSSH/llvm-ar-18.com"
+      - "C:/Windows/System32/OpenSSH/llvm-ar-18.exe"
+      - "C:/Windows/System32/OpenSSH/llvm-ar-18"
+      - "C:/Program Files/Git/cmd/llvm-ar-18.com"
+      - "C:/Program Files/Git/cmd/llvm-ar-18.exe"
+      - "C:/Program Files/Git/cmd/llvm-ar-18"
+      - "C:/Program Files/nodejs/llvm-ar-18.com"
+      - "C:/Program Files/nodejs/llvm-ar-18.exe"
+      - "C:/Program Files/nodejs/llvm-ar-18"
+      - "C:/Program Files/dotnet/llvm-ar-18.com"
+      - "C:/Program Files/dotnet/llvm-ar-18.exe"
+      - "C:/Program Files/dotnet/llvm-ar-18"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ar-18.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ar-18.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ar-18"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ar-18.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ar-18.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ar-18"
+      - "C:/Program Files/CMake/bin/llvm-ar-18.com"
+      - "C:/Program Files/CMake/bin/llvm-ar-18.exe"
+      - "C:/Program Files/CMake/bin/llvm-ar-18"
+      - "C:/MinGW/bin/llvm-ar-18.com"
+      - "C:/MinGW/bin/llvm-ar-18.exe"
+      - "C:/MinGW/bin/llvm-ar-18"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ar-18.com"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ar-18.exe"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ar-18"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ar-18.com"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ar-18.exe"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ar-18"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ar-18.com"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ar-18.exe"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ar-18"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ar-18.com"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ar-18.exe"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ar-18"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ar-18.com"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ar-18.exe"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ar-18"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ar-18.com"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ar-18.exe"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ar-18"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ar18.com"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ar18.exe"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ar18"
+      - "C:/Windows/System32/llvm-ar18.com"
+      - "C:/Windows/System32/llvm-ar18.exe"
+      - "C:/Windows/System32/llvm-ar18"
+      - "C:/Windows/llvm-ar18.com"
+      - "C:/Windows/llvm-ar18.exe"
+      - "C:/Windows/llvm-ar18"
+      - "C:/Windows/System32/wbem/llvm-ar18.com"
+      - "C:/Windows/System32/wbem/llvm-ar18.exe"
+      - "C:/Windows/System32/wbem/llvm-ar18"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ar18.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ar18.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ar18"
+      - "C:/Windows/System32/OpenSSH/llvm-ar18.com"
+      - "C:/Windows/System32/OpenSSH/llvm-ar18.exe"
+      - "C:/Windows/System32/OpenSSH/llvm-ar18"
+      - "C:/Program Files/Git/cmd/llvm-ar18.com"
+      - "C:/Program Files/Git/cmd/llvm-ar18.exe"
+      - "C:/Program Files/Git/cmd/llvm-ar18"
+      - "C:/Program Files/nodejs/llvm-ar18.com"
+      - "C:/Program Files/nodejs/llvm-ar18.exe"
+      - "C:/Program Files/nodejs/llvm-ar18"
+      - "C:/Program Files/dotnet/llvm-ar18.com"
+      - "C:/Program Files/dotnet/llvm-ar18.exe"
+      - "C:/Program Files/dotnet/llvm-ar18"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ar18.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ar18.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ar18"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ar18.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ar18.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ar18"
+      - "C:/Program Files/CMake/bin/llvm-ar18.com"
+      - "C:/Program Files/CMake/bin/llvm-ar18.exe"
+      - "C:/Program Files/CMake/bin/llvm-ar18"
+      - "C:/MinGW/bin/llvm-ar18.com"
+      - "C:/MinGW/bin/llvm-ar18.exe"
+      - "C:/MinGW/bin/llvm-ar18"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ar18.com"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ar18.exe"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ar18"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ar18.com"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ar18.exe"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ar18"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ar18.com"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ar18.exe"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ar18"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ar18.com"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ar18.exe"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ar18"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ar18.com"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ar18.exe"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ar18"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ar18.com"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ar18.exe"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ar18"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ar.com"
+    found: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ar.exe"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64"
+      ENV{PATH}:
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\MinGW\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Roaming\\npm"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/33"
+      CMAKE_SYSROOT: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "C:/android-ndk"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/Compiler/Clang-FindBinUtils.cmake:38 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCCompiler.cmake:201 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_C_COMPILER_RANLIB"
+    description: "Generate index for LLVM archive"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "llvm-ranlib-18.0"
+      - "llvm-ranlib-18"
+      - "llvm-ranlib18"
+      - "llvm-ranlib"
+    candidate_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/MinGW/bin/"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/Danilo/AppData/Roaming/npm/"
+      - "/usr/lib/aarch64-linux-android/33/bin/"
+      - "/usr/lib/aarch64-linux-android/33/sbin/"
+      - "/usr/lib/aarch64-linux-android/33/"
+    searched_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ranlib-18.0.com"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ranlib-18.0.exe"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ranlib-18.0"
+      - "C:/Windows/System32/llvm-ranlib-18.0.com"
+      - "C:/Windows/System32/llvm-ranlib-18.0.exe"
+      - "C:/Windows/System32/llvm-ranlib-18.0"
+      - "C:/Windows/llvm-ranlib-18.0.com"
+      - "C:/Windows/llvm-ranlib-18.0.exe"
+      - "C:/Windows/llvm-ranlib-18.0"
+      - "C:/Windows/System32/wbem/llvm-ranlib-18.0.com"
+      - "C:/Windows/System32/wbem/llvm-ranlib-18.0.exe"
+      - "C:/Windows/System32/wbem/llvm-ranlib-18.0"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ranlib-18.0.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ranlib-18.0.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ranlib-18.0"
+      - "C:/Windows/System32/OpenSSH/llvm-ranlib-18.0.com"
+      - "C:/Windows/System32/OpenSSH/llvm-ranlib-18.0.exe"
+      - "C:/Windows/System32/OpenSSH/llvm-ranlib-18.0"
+      - "C:/Program Files/Git/cmd/llvm-ranlib-18.0.com"
+      - "C:/Program Files/Git/cmd/llvm-ranlib-18.0.exe"
+      - "C:/Program Files/Git/cmd/llvm-ranlib-18.0"
+      - "C:/Program Files/nodejs/llvm-ranlib-18.0.com"
+      - "C:/Program Files/nodejs/llvm-ranlib-18.0.exe"
+      - "C:/Program Files/nodejs/llvm-ranlib-18.0"
+      - "C:/Program Files/dotnet/llvm-ranlib-18.0.com"
+      - "C:/Program Files/dotnet/llvm-ranlib-18.0.exe"
+      - "C:/Program Files/dotnet/llvm-ranlib-18.0"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ranlib-18.0.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ranlib-18.0.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ranlib-18.0"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ranlib-18.0.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ranlib-18.0.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ranlib-18.0"
+      - "C:/Program Files/CMake/bin/llvm-ranlib-18.0.com"
+      - "C:/Program Files/CMake/bin/llvm-ranlib-18.0.exe"
+      - "C:/Program Files/CMake/bin/llvm-ranlib-18.0"
+      - "C:/MinGW/bin/llvm-ranlib-18.0.com"
+      - "C:/MinGW/bin/llvm-ranlib-18.0.exe"
+      - "C:/MinGW/bin/llvm-ranlib-18.0"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ranlib-18.0.com"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ranlib-18.0.exe"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ranlib-18.0"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ranlib-18.0.com"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ranlib-18.0.exe"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ranlib-18.0"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ranlib-18.0.com"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ranlib-18.0.exe"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ranlib-18.0"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ranlib-18.0.com"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ranlib-18.0.exe"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ranlib-18.0"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ranlib-18.0.com"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ranlib-18.0.exe"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ranlib-18.0"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ranlib-18.0.com"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ranlib-18.0.exe"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ranlib-18.0"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ranlib-18.com"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ranlib-18.exe"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ranlib-18"
+      - "C:/Windows/System32/llvm-ranlib-18.com"
+      - "C:/Windows/System32/llvm-ranlib-18.exe"
+      - "C:/Windows/System32/llvm-ranlib-18"
+      - "C:/Windows/llvm-ranlib-18.com"
+      - "C:/Windows/llvm-ranlib-18.exe"
+      - "C:/Windows/llvm-ranlib-18"
+      - "C:/Windows/System32/wbem/llvm-ranlib-18.com"
+      - "C:/Windows/System32/wbem/llvm-ranlib-18.exe"
+      - "C:/Windows/System32/wbem/llvm-ranlib-18"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ranlib-18.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ranlib-18.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ranlib-18"
+      - "C:/Windows/System32/OpenSSH/llvm-ranlib-18.com"
+      - "C:/Windows/System32/OpenSSH/llvm-ranlib-18.exe"
+      - "C:/Windows/System32/OpenSSH/llvm-ranlib-18"
+      - "C:/Program Files/Git/cmd/llvm-ranlib-18.com"
+      - "C:/Program Files/Git/cmd/llvm-ranlib-18.exe"
+      - "C:/Program Files/Git/cmd/llvm-ranlib-18"
+      - "C:/Program Files/nodejs/llvm-ranlib-18.com"
+      - "C:/Program Files/nodejs/llvm-ranlib-18.exe"
+      - "C:/Program Files/nodejs/llvm-ranlib-18"
+      - "C:/Program Files/dotnet/llvm-ranlib-18.com"
+      - "C:/Program Files/dotnet/llvm-ranlib-18.exe"
+      - "C:/Program Files/dotnet/llvm-ranlib-18"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ranlib-18.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ranlib-18.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ranlib-18"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ranlib-18.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ranlib-18.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ranlib-18"
+      - "C:/Program Files/CMake/bin/llvm-ranlib-18.com"
+      - "C:/Program Files/CMake/bin/llvm-ranlib-18.exe"
+      - "C:/Program Files/CMake/bin/llvm-ranlib-18"
+      - "C:/MinGW/bin/llvm-ranlib-18.com"
+      - "C:/MinGW/bin/llvm-ranlib-18.exe"
+      - "C:/MinGW/bin/llvm-ranlib-18"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ranlib-18.com"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ranlib-18.exe"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ranlib-18"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ranlib-18.com"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ranlib-18.exe"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ranlib-18"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ranlib-18.com"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ranlib-18.exe"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ranlib-18"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ranlib-18.com"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ranlib-18.exe"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ranlib-18"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ranlib-18.com"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ranlib-18.exe"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ranlib-18"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ranlib-18.com"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ranlib-18.exe"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ranlib-18"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ranlib18.com"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ranlib18.exe"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ranlib18"
+      - "C:/Windows/System32/llvm-ranlib18.com"
+      - "C:/Windows/System32/llvm-ranlib18.exe"
+      - "C:/Windows/System32/llvm-ranlib18"
+      - "C:/Windows/llvm-ranlib18.com"
+      - "C:/Windows/llvm-ranlib18.exe"
+      - "C:/Windows/llvm-ranlib18"
+      - "C:/Windows/System32/wbem/llvm-ranlib18.com"
+      - "C:/Windows/System32/wbem/llvm-ranlib18.exe"
+      - "C:/Windows/System32/wbem/llvm-ranlib18"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ranlib18.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ranlib18.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ranlib18"
+      - "C:/Windows/System32/OpenSSH/llvm-ranlib18.com"
+      - "C:/Windows/System32/OpenSSH/llvm-ranlib18.exe"
+      - "C:/Windows/System32/OpenSSH/llvm-ranlib18"
+      - "C:/Program Files/Git/cmd/llvm-ranlib18.com"
+      - "C:/Program Files/Git/cmd/llvm-ranlib18.exe"
+      - "C:/Program Files/Git/cmd/llvm-ranlib18"
+      - "C:/Program Files/nodejs/llvm-ranlib18.com"
+      - "C:/Program Files/nodejs/llvm-ranlib18.exe"
+      - "C:/Program Files/nodejs/llvm-ranlib18"
+      - "C:/Program Files/dotnet/llvm-ranlib18.com"
+      - "C:/Program Files/dotnet/llvm-ranlib18.exe"
+      - "C:/Program Files/dotnet/llvm-ranlib18"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ranlib18.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ranlib18.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ranlib18"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ranlib18.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ranlib18.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ranlib18"
+      - "C:/Program Files/CMake/bin/llvm-ranlib18.com"
+      - "C:/Program Files/CMake/bin/llvm-ranlib18.exe"
+      - "C:/Program Files/CMake/bin/llvm-ranlib18"
+      - "C:/MinGW/bin/llvm-ranlib18.com"
+      - "C:/MinGW/bin/llvm-ranlib18.exe"
+      - "C:/MinGW/bin/llvm-ranlib18"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ranlib18.com"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ranlib18.exe"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ranlib18"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ranlib18.com"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ranlib18.exe"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ranlib18"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ranlib18.com"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ranlib18.exe"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ranlib18"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ranlib18.com"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ranlib18.exe"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ranlib18"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ranlib18.com"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ranlib18.exe"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ranlib18"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ranlib18.com"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ranlib18.exe"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ranlib18"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ranlib.com"
+    found: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ranlib.exe"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64"
+      ENV{PATH}:
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\MinGW\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Roaming\\npm"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/33"
+      CMAKE_SYSROOT: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "C:/android-ndk"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/Compiler/Clang-FindBinUtils.cmake:50 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCCompiler.cmake:201 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_C_COMPILER_CLANG_SCAN_DEPS"
+    description: "`clang-scan-deps` dependency scanner"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "clang-scan-deps-18.0"
+      - "clang-scan-deps-18"
+      - "clang-scan-deps18"
+      - "clang-scan-deps"
+    candidate_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/MinGW/bin/"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/Danilo/AppData/Roaming/npm/"
+      - "/usr/lib/aarch64-linux-android/33/bin/"
+      - "/usr/lib/aarch64-linux-android/33/sbin/"
+      - "/usr/lib/aarch64-linux-android/33/"
+    searched_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang-scan-deps-18.0.com"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang-scan-deps-18.0.exe"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang-scan-deps-18.0"
+      - "C:/Windows/System32/clang-scan-deps-18.0.com"
+      - "C:/Windows/System32/clang-scan-deps-18.0.exe"
+      - "C:/Windows/System32/clang-scan-deps-18.0"
+      - "C:/Windows/clang-scan-deps-18.0.com"
+      - "C:/Windows/clang-scan-deps-18.0.exe"
+      - "C:/Windows/clang-scan-deps-18.0"
+      - "C:/Windows/System32/wbem/clang-scan-deps-18.0.com"
+      - "C:/Windows/System32/wbem/clang-scan-deps-18.0.exe"
+      - "C:/Windows/System32/wbem/clang-scan-deps-18.0"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/clang-scan-deps-18.0.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/clang-scan-deps-18.0.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/clang-scan-deps-18.0"
+      - "C:/Windows/System32/OpenSSH/clang-scan-deps-18.0.com"
+      - "C:/Windows/System32/OpenSSH/clang-scan-deps-18.0.exe"
+      - "C:/Windows/System32/OpenSSH/clang-scan-deps-18.0"
+      - "C:/Program Files/Git/cmd/clang-scan-deps-18.0.com"
+      - "C:/Program Files/Git/cmd/clang-scan-deps-18.0.exe"
+      - "C:/Program Files/Git/cmd/clang-scan-deps-18.0"
+      - "C:/Program Files/nodejs/clang-scan-deps-18.0.com"
+      - "C:/Program Files/nodejs/clang-scan-deps-18.0.exe"
+      - "C:/Program Files/nodejs/clang-scan-deps-18.0"
+      - "C:/Program Files/dotnet/clang-scan-deps-18.0.com"
+      - "C:/Program Files/dotnet/clang-scan-deps-18.0.exe"
+      - "C:/Program Files/dotnet/clang-scan-deps-18.0"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/clang-scan-deps-18.0.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/clang-scan-deps-18.0.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/clang-scan-deps-18.0"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/clang-scan-deps-18.0.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/clang-scan-deps-18.0.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/clang-scan-deps-18.0"
+      - "C:/Program Files/CMake/bin/clang-scan-deps-18.0.com"
+      - "C:/Program Files/CMake/bin/clang-scan-deps-18.0.exe"
+      - "C:/Program Files/CMake/bin/clang-scan-deps-18.0"
+      - "C:/MinGW/bin/clang-scan-deps-18.0.com"
+      - "C:/MinGW/bin/clang-scan-deps-18.0.exe"
+      - "C:/MinGW/bin/clang-scan-deps-18.0"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/clang-scan-deps-18.0.com"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/clang-scan-deps-18.0.exe"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/clang-scan-deps-18.0"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/clang-scan-deps-18.0.com"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/clang-scan-deps-18.0.exe"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/clang-scan-deps-18.0"
+      - "C:/Users/Danilo/AppData/Roaming/npm/clang-scan-deps-18.0.com"
+      - "C:/Users/Danilo/AppData/Roaming/npm/clang-scan-deps-18.0.exe"
+      - "C:/Users/Danilo/AppData/Roaming/npm/clang-scan-deps-18.0"
+      - "/usr/lib/aarch64-linux-android/33/bin/clang-scan-deps-18.0.com"
+      - "/usr/lib/aarch64-linux-android/33/bin/clang-scan-deps-18.0.exe"
+      - "/usr/lib/aarch64-linux-android/33/bin/clang-scan-deps-18.0"
+      - "/usr/lib/aarch64-linux-android/33/sbin/clang-scan-deps-18.0.com"
+      - "/usr/lib/aarch64-linux-android/33/sbin/clang-scan-deps-18.0.exe"
+      - "/usr/lib/aarch64-linux-android/33/sbin/clang-scan-deps-18.0"
+      - "/usr/lib/aarch64-linux-android/33/clang-scan-deps-18.0.com"
+      - "/usr/lib/aarch64-linux-android/33/clang-scan-deps-18.0.exe"
+      - "/usr/lib/aarch64-linux-android/33/clang-scan-deps-18.0"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang-scan-deps-18.com"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang-scan-deps-18.exe"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang-scan-deps-18"
+      - "C:/Windows/System32/clang-scan-deps-18.com"
+      - "C:/Windows/System32/clang-scan-deps-18.exe"
+      - "C:/Windows/System32/clang-scan-deps-18"
+      - "C:/Windows/clang-scan-deps-18.com"
+      - "C:/Windows/clang-scan-deps-18.exe"
+      - "C:/Windows/clang-scan-deps-18"
+      - "C:/Windows/System32/wbem/clang-scan-deps-18.com"
+      - "C:/Windows/System32/wbem/clang-scan-deps-18.exe"
+      - "C:/Windows/System32/wbem/clang-scan-deps-18"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/clang-scan-deps-18.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/clang-scan-deps-18.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/clang-scan-deps-18"
+      - "C:/Windows/System32/OpenSSH/clang-scan-deps-18.com"
+      - "C:/Windows/System32/OpenSSH/clang-scan-deps-18.exe"
+      - "C:/Windows/System32/OpenSSH/clang-scan-deps-18"
+      - "C:/Program Files/Git/cmd/clang-scan-deps-18.com"
+      - "C:/Program Files/Git/cmd/clang-scan-deps-18.exe"
+      - "C:/Program Files/Git/cmd/clang-scan-deps-18"
+      - "C:/Program Files/nodejs/clang-scan-deps-18.com"
+      - "C:/Program Files/nodejs/clang-scan-deps-18.exe"
+      - "C:/Program Files/nodejs/clang-scan-deps-18"
+      - "C:/Program Files/dotnet/clang-scan-deps-18.com"
+      - "C:/Program Files/dotnet/clang-scan-deps-18.exe"
+      - "C:/Program Files/dotnet/clang-scan-deps-18"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/clang-scan-deps-18.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/clang-scan-deps-18.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/clang-scan-deps-18"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/clang-scan-deps-18.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/clang-scan-deps-18.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/clang-scan-deps-18"
+      - "C:/Program Files/CMake/bin/clang-scan-deps-18.com"
+      - "C:/Program Files/CMake/bin/clang-scan-deps-18.exe"
+      - "C:/Program Files/CMake/bin/clang-scan-deps-18"
+      - "C:/MinGW/bin/clang-scan-deps-18.com"
+      - "C:/MinGW/bin/clang-scan-deps-18.exe"
+      - "C:/MinGW/bin/clang-scan-deps-18"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/clang-scan-deps-18.com"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/clang-scan-deps-18.exe"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/clang-scan-deps-18"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/clang-scan-deps-18.com"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/clang-scan-deps-18.exe"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/clang-scan-deps-18"
+      - "C:/Users/Danilo/AppData/Roaming/npm/clang-scan-deps-18.com"
+      - "C:/Users/Danilo/AppData/Roaming/npm/clang-scan-deps-18.exe"
+      - "C:/Users/Danilo/AppData/Roaming/npm/clang-scan-deps-18"
+      - "/usr/lib/aarch64-linux-android/33/bin/clang-scan-deps-18.com"
+      - "/usr/lib/aarch64-linux-android/33/bin/clang-scan-deps-18.exe"
+      - "/usr/lib/aarch64-linux-android/33/bin/clang-scan-deps-18"
+      - "/usr/lib/aarch64-linux-android/33/sbin/clang-scan-deps-18.com"
+      - "/usr/lib/aarch64-linux-android/33/sbin/clang-scan-deps-18.exe"
+      - "/usr/lib/aarch64-linux-android/33/sbin/clang-scan-deps-18"
+      - "/usr/lib/aarch64-linux-android/33/clang-scan-deps-18.com"
+      - "/usr/lib/aarch64-linux-android/33/clang-scan-deps-18.exe"
+      - "/usr/lib/aarch64-linux-android/33/clang-scan-deps-18"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang-scan-deps18.com"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang-scan-deps18.exe"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang-scan-deps18"
+      - "C:/Windows/System32/clang-scan-deps18.com"
+      - "C:/Windows/System32/clang-scan-deps18.exe"
+      - "C:/Windows/System32/clang-scan-deps18"
+      - "C:/Windows/clang-scan-deps18.com"
+      - "C:/Windows/clang-scan-deps18.exe"
+      - "C:/Windows/clang-scan-deps18"
+      - "C:/Windows/System32/wbem/clang-scan-deps18.com"
+      - "C:/Windows/System32/wbem/clang-scan-deps18.exe"
+      - "C:/Windows/System32/wbem/clang-scan-deps18"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/clang-scan-deps18.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/clang-scan-deps18.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/clang-scan-deps18"
+      - "C:/Windows/System32/OpenSSH/clang-scan-deps18.com"
+      - "C:/Windows/System32/OpenSSH/clang-scan-deps18.exe"
+      - "C:/Windows/System32/OpenSSH/clang-scan-deps18"
+      - "C:/Program Files/Git/cmd/clang-scan-deps18.com"
+      - "C:/Program Files/Git/cmd/clang-scan-deps18.exe"
+      - "C:/Program Files/Git/cmd/clang-scan-deps18"
+      - "C:/Program Files/nodejs/clang-scan-deps18.com"
+      - "C:/Program Files/nodejs/clang-scan-deps18.exe"
+      - "C:/Program Files/nodejs/clang-scan-deps18"
+      - "C:/Program Files/dotnet/clang-scan-deps18.com"
+      - "C:/Program Files/dotnet/clang-scan-deps18.exe"
+      - "C:/Program Files/dotnet/clang-scan-deps18"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/clang-scan-deps18.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/clang-scan-deps18.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/clang-scan-deps18"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/clang-scan-deps18.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/clang-scan-deps18.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/clang-scan-deps18"
+      - "C:/Program Files/CMake/bin/clang-scan-deps18.com"
+      - "C:/Program Files/CMake/bin/clang-scan-deps18.exe"
+      - "C:/Program Files/CMake/bin/clang-scan-deps18"
+      - "C:/MinGW/bin/clang-scan-deps18.com"
+      - "C:/MinGW/bin/clang-scan-deps18.exe"
+      - "C:/MinGW/bin/clang-scan-deps18"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/clang-scan-deps18.com"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/clang-scan-deps18.exe"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/clang-scan-deps18"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/clang-scan-deps18.com"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/clang-scan-deps18.exe"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/clang-scan-deps18"
+      - "C:/Users/Danilo/AppData/Roaming/npm/clang-scan-deps18.com"
+      - "C:/Users/Danilo/AppData/Roaming/npm/clang-scan-deps18.exe"
+      - "C:/Users/Danilo/AppData/Roaming/npm/clang-scan-deps18"
+      - "/usr/lib/aarch64-linux-android/33/bin/clang-scan-deps18.com"
+      - "/usr/lib/aarch64-linux-android/33/bin/clang-scan-deps18.exe"
+      - "/usr/lib/aarch64-linux-android/33/bin/clang-scan-deps18"
+      - "/usr/lib/aarch64-linux-android/33/sbin/clang-scan-deps18.com"
+      - "/usr/lib/aarch64-linux-android/33/sbin/clang-scan-deps18.exe"
+      - "/usr/lib/aarch64-linux-android/33/sbin/clang-scan-deps18"
+      - "/usr/lib/aarch64-linux-android/33/clang-scan-deps18.com"
+      - "/usr/lib/aarch64-linux-android/33/clang-scan-deps18.exe"
+      - "/usr/lib/aarch64-linux-android/33/clang-scan-deps18"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang-scan-deps.com"
+    found: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang-scan-deps.exe"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64"
+      ENV{PATH}:
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\MinGW\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Roaming\\npm"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/33"
+      CMAKE_SYSROOT: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "C:/android-ndk"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCXXCompilerId.cpp.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeCXXCompilerId.cpp.in"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64"
+      ENV{PATH}:
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\MinGW\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Roaming\\npm"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/33"
+      CMAKE_SYSROOT: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "C:/android-ndk"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler: C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe 
+      Build flags: -g;-DANDROID;-fdata-sections;-ffunction-sections;-funwind-tables;-fstack-protector-strong;-no-canonical-prefixes;-D_FORTIFY_SOURCE=2;-Wformat;-Werror=format-security
+      Id flags: -c;--target=aarch64-none-linux-android33 
+      
+      The output was:
+      0
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.o"
+      
+      The CXX compiler identification is Clang, found in:
+        C:/PC/Projetos/menu-szk-mobile/build/CMakeFiles/4.1.1/CompilerIdCXX/CMakeCXXCompilerId.o
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/Compiler/Clang-FindBinUtils.cmake:26 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCXXCompiler.cmake:207 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_CXX_COMPILER_AR"
+    description: "LLVM archiver"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "llvm-ar-18.0"
+      - "llvm-ar-18"
+      - "llvm-ar18"
+      - "llvm-ar"
+    candidate_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/MinGW/bin/"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/Danilo/AppData/Roaming/npm/"
+      - "/usr/lib/aarch64-linux-android/33/bin/"
+      - "/usr/lib/aarch64-linux-android/33/sbin/"
+      - "/usr/lib/aarch64-linux-android/33/"
+    searched_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ar-18.0.com"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ar-18.0.exe"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ar-18.0"
+      - "C:/Windows/System32/llvm-ar-18.0.com"
+      - "C:/Windows/System32/llvm-ar-18.0.exe"
+      - "C:/Windows/System32/llvm-ar-18.0"
+      - "C:/Windows/llvm-ar-18.0.com"
+      - "C:/Windows/llvm-ar-18.0.exe"
+      - "C:/Windows/llvm-ar-18.0"
+      - "C:/Windows/System32/wbem/llvm-ar-18.0.com"
+      - "C:/Windows/System32/wbem/llvm-ar-18.0.exe"
+      - "C:/Windows/System32/wbem/llvm-ar-18.0"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ar-18.0.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ar-18.0.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ar-18.0"
+      - "C:/Windows/System32/OpenSSH/llvm-ar-18.0.com"
+      - "C:/Windows/System32/OpenSSH/llvm-ar-18.0.exe"
+      - "C:/Windows/System32/OpenSSH/llvm-ar-18.0"
+      - "C:/Program Files/Git/cmd/llvm-ar-18.0.com"
+      - "C:/Program Files/Git/cmd/llvm-ar-18.0.exe"
+      - "C:/Program Files/Git/cmd/llvm-ar-18.0"
+      - "C:/Program Files/nodejs/llvm-ar-18.0.com"
+      - "C:/Program Files/nodejs/llvm-ar-18.0.exe"
+      - "C:/Program Files/nodejs/llvm-ar-18.0"
+      - "C:/Program Files/dotnet/llvm-ar-18.0.com"
+      - "C:/Program Files/dotnet/llvm-ar-18.0.exe"
+      - "C:/Program Files/dotnet/llvm-ar-18.0"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ar-18.0.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ar-18.0.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ar-18.0"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ar-18.0.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ar-18.0.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ar-18.0"
+      - "C:/Program Files/CMake/bin/llvm-ar-18.0.com"
+      - "C:/Program Files/CMake/bin/llvm-ar-18.0.exe"
+      - "C:/Program Files/CMake/bin/llvm-ar-18.0"
+      - "C:/MinGW/bin/llvm-ar-18.0.com"
+      - "C:/MinGW/bin/llvm-ar-18.0.exe"
+      - "C:/MinGW/bin/llvm-ar-18.0"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ar-18.0.com"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ar-18.0.exe"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ar-18.0"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ar-18.0.com"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ar-18.0.exe"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ar-18.0"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ar-18.0.com"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ar-18.0.exe"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ar-18.0"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ar-18.0.com"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ar-18.0.exe"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ar-18.0"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ar-18.0.com"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ar-18.0.exe"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ar-18.0"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ar-18.0.com"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ar-18.0.exe"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ar-18.0"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ar-18.com"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ar-18.exe"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ar-18"
+      - "C:/Windows/System32/llvm-ar-18.com"
+      - "C:/Windows/System32/llvm-ar-18.exe"
+      - "C:/Windows/System32/llvm-ar-18"
+      - "C:/Windows/llvm-ar-18.com"
+      - "C:/Windows/llvm-ar-18.exe"
+      - "C:/Windows/llvm-ar-18"
+      - "C:/Windows/System32/wbem/llvm-ar-18.com"
+      - "C:/Windows/System32/wbem/llvm-ar-18.exe"
+      - "C:/Windows/System32/wbem/llvm-ar-18"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ar-18.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ar-18.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ar-18"
+      - "C:/Windows/System32/OpenSSH/llvm-ar-18.com"
+      - "C:/Windows/System32/OpenSSH/llvm-ar-18.exe"
+      - "C:/Windows/System32/OpenSSH/llvm-ar-18"
+      - "C:/Program Files/Git/cmd/llvm-ar-18.com"
+      - "C:/Program Files/Git/cmd/llvm-ar-18.exe"
+      - "C:/Program Files/Git/cmd/llvm-ar-18"
+      - "C:/Program Files/nodejs/llvm-ar-18.com"
+      - "C:/Program Files/nodejs/llvm-ar-18.exe"
+      - "C:/Program Files/nodejs/llvm-ar-18"
+      - "C:/Program Files/dotnet/llvm-ar-18.com"
+      - "C:/Program Files/dotnet/llvm-ar-18.exe"
+      - "C:/Program Files/dotnet/llvm-ar-18"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ar-18.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ar-18.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ar-18"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ar-18.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ar-18.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ar-18"
+      - "C:/Program Files/CMake/bin/llvm-ar-18.com"
+      - "C:/Program Files/CMake/bin/llvm-ar-18.exe"
+      - "C:/Program Files/CMake/bin/llvm-ar-18"
+      - "C:/MinGW/bin/llvm-ar-18.com"
+      - "C:/MinGW/bin/llvm-ar-18.exe"
+      - "C:/MinGW/bin/llvm-ar-18"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ar-18.com"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ar-18.exe"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ar-18"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ar-18.com"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ar-18.exe"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ar-18"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ar-18.com"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ar-18.exe"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ar-18"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ar-18.com"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ar-18.exe"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ar-18"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ar-18.com"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ar-18.exe"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ar-18"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ar-18.com"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ar-18.exe"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ar-18"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ar18.com"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ar18.exe"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ar18"
+      - "C:/Windows/System32/llvm-ar18.com"
+      - "C:/Windows/System32/llvm-ar18.exe"
+      - "C:/Windows/System32/llvm-ar18"
+      - "C:/Windows/llvm-ar18.com"
+      - "C:/Windows/llvm-ar18.exe"
+      - "C:/Windows/llvm-ar18"
+      - "C:/Windows/System32/wbem/llvm-ar18.com"
+      - "C:/Windows/System32/wbem/llvm-ar18.exe"
+      - "C:/Windows/System32/wbem/llvm-ar18"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ar18.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ar18.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ar18"
+      - "C:/Windows/System32/OpenSSH/llvm-ar18.com"
+      - "C:/Windows/System32/OpenSSH/llvm-ar18.exe"
+      - "C:/Windows/System32/OpenSSH/llvm-ar18"
+      - "C:/Program Files/Git/cmd/llvm-ar18.com"
+      - "C:/Program Files/Git/cmd/llvm-ar18.exe"
+      - "C:/Program Files/Git/cmd/llvm-ar18"
+      - "C:/Program Files/nodejs/llvm-ar18.com"
+      - "C:/Program Files/nodejs/llvm-ar18.exe"
+      - "C:/Program Files/nodejs/llvm-ar18"
+      - "C:/Program Files/dotnet/llvm-ar18.com"
+      - "C:/Program Files/dotnet/llvm-ar18.exe"
+      - "C:/Program Files/dotnet/llvm-ar18"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ar18.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ar18.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ar18"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ar18.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ar18.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ar18"
+      - "C:/Program Files/CMake/bin/llvm-ar18.com"
+      - "C:/Program Files/CMake/bin/llvm-ar18.exe"
+      - "C:/Program Files/CMake/bin/llvm-ar18"
+      - "C:/MinGW/bin/llvm-ar18.com"
+      - "C:/MinGW/bin/llvm-ar18.exe"
+      - "C:/MinGW/bin/llvm-ar18"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ar18.com"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ar18.exe"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ar18"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ar18.com"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ar18.exe"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ar18"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ar18.com"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ar18.exe"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ar18"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ar18.com"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ar18.exe"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ar18"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ar18.com"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ar18.exe"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ar18"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ar18.com"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ar18.exe"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ar18"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ar.com"
+    found: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ar.exe"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64"
+      ENV{PATH}:
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\MinGW\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Roaming\\npm"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/33"
+      CMAKE_SYSROOT: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "C:/android-ndk"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/Compiler/Clang-FindBinUtils.cmake:38 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCXXCompiler.cmake:207 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_CXX_COMPILER_RANLIB"
+    description: "Generate index for LLVM archive"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "llvm-ranlib-18.0"
+      - "llvm-ranlib-18"
+      - "llvm-ranlib18"
+      - "llvm-ranlib"
+    candidate_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/MinGW/bin/"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/Danilo/AppData/Roaming/npm/"
+      - "/usr/lib/aarch64-linux-android/33/bin/"
+      - "/usr/lib/aarch64-linux-android/33/sbin/"
+      - "/usr/lib/aarch64-linux-android/33/"
+    searched_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ranlib-18.0.com"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ranlib-18.0.exe"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ranlib-18.0"
+      - "C:/Windows/System32/llvm-ranlib-18.0.com"
+      - "C:/Windows/System32/llvm-ranlib-18.0.exe"
+      - "C:/Windows/System32/llvm-ranlib-18.0"
+      - "C:/Windows/llvm-ranlib-18.0.com"
+      - "C:/Windows/llvm-ranlib-18.0.exe"
+      - "C:/Windows/llvm-ranlib-18.0"
+      - "C:/Windows/System32/wbem/llvm-ranlib-18.0.com"
+      - "C:/Windows/System32/wbem/llvm-ranlib-18.0.exe"
+      - "C:/Windows/System32/wbem/llvm-ranlib-18.0"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ranlib-18.0.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ranlib-18.0.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ranlib-18.0"
+      - "C:/Windows/System32/OpenSSH/llvm-ranlib-18.0.com"
+      - "C:/Windows/System32/OpenSSH/llvm-ranlib-18.0.exe"
+      - "C:/Windows/System32/OpenSSH/llvm-ranlib-18.0"
+      - "C:/Program Files/Git/cmd/llvm-ranlib-18.0.com"
+      - "C:/Program Files/Git/cmd/llvm-ranlib-18.0.exe"
+      - "C:/Program Files/Git/cmd/llvm-ranlib-18.0"
+      - "C:/Program Files/nodejs/llvm-ranlib-18.0.com"
+      - "C:/Program Files/nodejs/llvm-ranlib-18.0.exe"
+      - "C:/Program Files/nodejs/llvm-ranlib-18.0"
+      - "C:/Program Files/dotnet/llvm-ranlib-18.0.com"
+      - "C:/Program Files/dotnet/llvm-ranlib-18.0.exe"
+      - "C:/Program Files/dotnet/llvm-ranlib-18.0"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ranlib-18.0.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ranlib-18.0.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ranlib-18.0"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ranlib-18.0.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ranlib-18.0.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ranlib-18.0"
+      - "C:/Program Files/CMake/bin/llvm-ranlib-18.0.com"
+      - "C:/Program Files/CMake/bin/llvm-ranlib-18.0.exe"
+      - "C:/Program Files/CMake/bin/llvm-ranlib-18.0"
+      - "C:/MinGW/bin/llvm-ranlib-18.0.com"
+      - "C:/MinGW/bin/llvm-ranlib-18.0.exe"
+      - "C:/MinGW/bin/llvm-ranlib-18.0"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ranlib-18.0.com"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ranlib-18.0.exe"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ranlib-18.0"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ranlib-18.0.com"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ranlib-18.0.exe"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ranlib-18.0"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ranlib-18.0.com"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ranlib-18.0.exe"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ranlib-18.0"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ranlib-18.0.com"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ranlib-18.0.exe"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ranlib-18.0"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ranlib-18.0.com"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ranlib-18.0.exe"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ranlib-18.0"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ranlib-18.0.com"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ranlib-18.0.exe"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ranlib-18.0"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ranlib-18.com"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ranlib-18.exe"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ranlib-18"
+      - "C:/Windows/System32/llvm-ranlib-18.com"
+      - "C:/Windows/System32/llvm-ranlib-18.exe"
+      - "C:/Windows/System32/llvm-ranlib-18"
+      - "C:/Windows/llvm-ranlib-18.com"
+      - "C:/Windows/llvm-ranlib-18.exe"
+      - "C:/Windows/llvm-ranlib-18"
+      - "C:/Windows/System32/wbem/llvm-ranlib-18.com"
+      - "C:/Windows/System32/wbem/llvm-ranlib-18.exe"
+      - "C:/Windows/System32/wbem/llvm-ranlib-18"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ranlib-18.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ranlib-18.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ranlib-18"
+      - "C:/Windows/System32/OpenSSH/llvm-ranlib-18.com"
+      - "C:/Windows/System32/OpenSSH/llvm-ranlib-18.exe"
+      - "C:/Windows/System32/OpenSSH/llvm-ranlib-18"
+      - "C:/Program Files/Git/cmd/llvm-ranlib-18.com"
+      - "C:/Program Files/Git/cmd/llvm-ranlib-18.exe"
+      - "C:/Program Files/Git/cmd/llvm-ranlib-18"
+      - "C:/Program Files/nodejs/llvm-ranlib-18.com"
+      - "C:/Program Files/nodejs/llvm-ranlib-18.exe"
+      - "C:/Program Files/nodejs/llvm-ranlib-18"
+      - "C:/Program Files/dotnet/llvm-ranlib-18.com"
+      - "C:/Program Files/dotnet/llvm-ranlib-18.exe"
+      - "C:/Program Files/dotnet/llvm-ranlib-18"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ranlib-18.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ranlib-18.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ranlib-18"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ranlib-18.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ranlib-18.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ranlib-18"
+      - "C:/Program Files/CMake/bin/llvm-ranlib-18.com"
+      - "C:/Program Files/CMake/bin/llvm-ranlib-18.exe"
+      - "C:/Program Files/CMake/bin/llvm-ranlib-18"
+      - "C:/MinGW/bin/llvm-ranlib-18.com"
+      - "C:/MinGW/bin/llvm-ranlib-18.exe"
+      - "C:/MinGW/bin/llvm-ranlib-18"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ranlib-18.com"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ranlib-18.exe"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ranlib-18"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ranlib-18.com"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ranlib-18.exe"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ranlib-18"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ranlib-18.com"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ranlib-18.exe"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ranlib-18"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ranlib-18.com"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ranlib-18.exe"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ranlib-18"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ranlib-18.com"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ranlib-18.exe"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ranlib-18"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ranlib-18.com"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ranlib-18.exe"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ranlib-18"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ranlib18.com"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ranlib18.exe"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ranlib18"
+      - "C:/Windows/System32/llvm-ranlib18.com"
+      - "C:/Windows/System32/llvm-ranlib18.exe"
+      - "C:/Windows/System32/llvm-ranlib18"
+      - "C:/Windows/llvm-ranlib18.com"
+      - "C:/Windows/llvm-ranlib18.exe"
+      - "C:/Windows/llvm-ranlib18"
+      - "C:/Windows/System32/wbem/llvm-ranlib18.com"
+      - "C:/Windows/System32/wbem/llvm-ranlib18.exe"
+      - "C:/Windows/System32/wbem/llvm-ranlib18"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ranlib18.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ranlib18.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/llvm-ranlib18"
+      - "C:/Windows/System32/OpenSSH/llvm-ranlib18.com"
+      - "C:/Windows/System32/OpenSSH/llvm-ranlib18.exe"
+      - "C:/Windows/System32/OpenSSH/llvm-ranlib18"
+      - "C:/Program Files/Git/cmd/llvm-ranlib18.com"
+      - "C:/Program Files/Git/cmd/llvm-ranlib18.exe"
+      - "C:/Program Files/Git/cmd/llvm-ranlib18"
+      - "C:/Program Files/nodejs/llvm-ranlib18.com"
+      - "C:/Program Files/nodejs/llvm-ranlib18.exe"
+      - "C:/Program Files/nodejs/llvm-ranlib18"
+      - "C:/Program Files/dotnet/llvm-ranlib18.com"
+      - "C:/Program Files/dotnet/llvm-ranlib18.exe"
+      - "C:/Program Files/dotnet/llvm-ranlib18"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ranlib18.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ranlib18.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/llvm-ranlib18"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ranlib18.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ranlib18.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/llvm-ranlib18"
+      - "C:/Program Files/CMake/bin/llvm-ranlib18.com"
+      - "C:/Program Files/CMake/bin/llvm-ranlib18.exe"
+      - "C:/Program Files/CMake/bin/llvm-ranlib18"
+      - "C:/MinGW/bin/llvm-ranlib18.com"
+      - "C:/MinGW/bin/llvm-ranlib18.exe"
+      - "C:/MinGW/bin/llvm-ranlib18"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ranlib18.com"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ranlib18.exe"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/llvm-ranlib18"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ranlib18.com"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ranlib18.exe"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/llvm-ranlib18"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ranlib18.com"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ranlib18.exe"
+      - "C:/Users/Danilo/AppData/Roaming/npm/llvm-ranlib18"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ranlib18.com"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ranlib18.exe"
+      - "/usr/lib/aarch64-linux-android/33/bin/llvm-ranlib18"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ranlib18.com"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ranlib18.exe"
+      - "/usr/lib/aarch64-linux-android/33/sbin/llvm-ranlib18"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ranlib18.com"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ranlib18.exe"
+      - "/usr/lib/aarch64-linux-android/33/llvm-ranlib18"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ranlib.com"
+    found: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ranlib.exe"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64"
+      ENV{PATH}:
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\MinGW\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Roaming\\npm"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/33"
+      CMAKE_SYSROOT: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "C:/android-ndk"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/Compiler/Clang-FindBinUtils.cmake:50 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCXXCompiler.cmake:207 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS"
+    description: "`clang-scan-deps` dependency scanner"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "clang-scan-deps-18.0"
+      - "clang-scan-deps-18"
+      - "clang-scan-deps18"
+      - "clang-scan-deps"
+    candidate_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/MinGW/bin/"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/Danilo/AppData/Roaming/npm/"
+      - "/usr/lib/aarch64-linux-android/33/bin/"
+      - "/usr/lib/aarch64-linux-android/33/sbin/"
+      - "/usr/lib/aarch64-linux-android/33/"
+    searched_directories:
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang-scan-deps-18.0.com"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang-scan-deps-18.0.exe"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang-scan-deps-18.0"
+      - "C:/Windows/System32/clang-scan-deps-18.0.com"
+      - "C:/Windows/System32/clang-scan-deps-18.0.exe"
+      - "C:/Windows/System32/clang-scan-deps-18.0"
+      - "C:/Windows/clang-scan-deps-18.0.com"
+      - "C:/Windows/clang-scan-deps-18.0.exe"
+      - "C:/Windows/clang-scan-deps-18.0"
+      - "C:/Windows/System32/wbem/clang-scan-deps-18.0.com"
+      - "C:/Windows/System32/wbem/clang-scan-deps-18.0.exe"
+      - "C:/Windows/System32/wbem/clang-scan-deps-18.0"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/clang-scan-deps-18.0.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/clang-scan-deps-18.0.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/clang-scan-deps-18.0"
+      - "C:/Windows/System32/OpenSSH/clang-scan-deps-18.0.com"
+      - "C:/Windows/System32/OpenSSH/clang-scan-deps-18.0.exe"
+      - "C:/Windows/System32/OpenSSH/clang-scan-deps-18.0"
+      - "C:/Program Files/Git/cmd/clang-scan-deps-18.0.com"
+      - "C:/Program Files/Git/cmd/clang-scan-deps-18.0.exe"
+      - "C:/Program Files/Git/cmd/clang-scan-deps-18.0"
+      - "C:/Program Files/nodejs/clang-scan-deps-18.0.com"
+      - "C:/Program Files/nodejs/clang-scan-deps-18.0.exe"
+      - "C:/Program Files/nodejs/clang-scan-deps-18.0"
+      - "C:/Program Files/dotnet/clang-scan-deps-18.0.com"
+      - "C:/Program Files/dotnet/clang-scan-deps-18.0.exe"
+      - "C:/Program Files/dotnet/clang-scan-deps-18.0"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/clang-scan-deps-18.0.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/clang-scan-deps-18.0.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/clang-scan-deps-18.0"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/clang-scan-deps-18.0.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/clang-scan-deps-18.0.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/clang-scan-deps-18.0"
+      - "C:/Program Files/CMake/bin/clang-scan-deps-18.0.com"
+      - "C:/Program Files/CMake/bin/clang-scan-deps-18.0.exe"
+      - "C:/Program Files/CMake/bin/clang-scan-deps-18.0"
+      - "C:/MinGW/bin/clang-scan-deps-18.0.com"
+      - "C:/MinGW/bin/clang-scan-deps-18.0.exe"
+      - "C:/MinGW/bin/clang-scan-deps-18.0"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/clang-scan-deps-18.0.com"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/clang-scan-deps-18.0.exe"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/clang-scan-deps-18.0"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/clang-scan-deps-18.0.com"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/clang-scan-deps-18.0.exe"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/clang-scan-deps-18.0"
+      - "C:/Users/Danilo/AppData/Roaming/npm/clang-scan-deps-18.0.com"
+      - "C:/Users/Danilo/AppData/Roaming/npm/clang-scan-deps-18.0.exe"
+      - "C:/Users/Danilo/AppData/Roaming/npm/clang-scan-deps-18.0"
+      - "/usr/lib/aarch64-linux-android/33/bin/clang-scan-deps-18.0.com"
+      - "/usr/lib/aarch64-linux-android/33/bin/clang-scan-deps-18.0.exe"
+      - "/usr/lib/aarch64-linux-android/33/bin/clang-scan-deps-18.0"
+      - "/usr/lib/aarch64-linux-android/33/sbin/clang-scan-deps-18.0.com"
+      - "/usr/lib/aarch64-linux-android/33/sbin/clang-scan-deps-18.0.exe"
+      - "/usr/lib/aarch64-linux-android/33/sbin/clang-scan-deps-18.0"
+      - "/usr/lib/aarch64-linux-android/33/clang-scan-deps-18.0.com"
+      - "/usr/lib/aarch64-linux-android/33/clang-scan-deps-18.0.exe"
+      - "/usr/lib/aarch64-linux-android/33/clang-scan-deps-18.0"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang-scan-deps-18.com"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang-scan-deps-18.exe"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang-scan-deps-18"
+      - "C:/Windows/System32/clang-scan-deps-18.com"
+      - "C:/Windows/System32/clang-scan-deps-18.exe"
+      - "C:/Windows/System32/clang-scan-deps-18"
+      - "C:/Windows/clang-scan-deps-18.com"
+      - "C:/Windows/clang-scan-deps-18.exe"
+      - "C:/Windows/clang-scan-deps-18"
+      - "C:/Windows/System32/wbem/clang-scan-deps-18.com"
+      - "C:/Windows/System32/wbem/clang-scan-deps-18.exe"
+      - "C:/Windows/System32/wbem/clang-scan-deps-18"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/clang-scan-deps-18.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/clang-scan-deps-18.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/clang-scan-deps-18"
+      - "C:/Windows/System32/OpenSSH/clang-scan-deps-18.com"
+      - "C:/Windows/System32/OpenSSH/clang-scan-deps-18.exe"
+      - "C:/Windows/System32/OpenSSH/clang-scan-deps-18"
+      - "C:/Program Files/Git/cmd/clang-scan-deps-18.com"
+      - "C:/Program Files/Git/cmd/clang-scan-deps-18.exe"
+      - "C:/Program Files/Git/cmd/clang-scan-deps-18"
+      - "C:/Program Files/nodejs/clang-scan-deps-18.com"
+      - "C:/Program Files/nodejs/clang-scan-deps-18.exe"
+      - "C:/Program Files/nodejs/clang-scan-deps-18"
+      - "C:/Program Files/dotnet/clang-scan-deps-18.com"
+      - "C:/Program Files/dotnet/clang-scan-deps-18.exe"
+      - "C:/Program Files/dotnet/clang-scan-deps-18"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/clang-scan-deps-18.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/clang-scan-deps-18.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/clang-scan-deps-18"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/clang-scan-deps-18.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/clang-scan-deps-18.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/clang-scan-deps-18"
+      - "C:/Program Files/CMake/bin/clang-scan-deps-18.com"
+      - "C:/Program Files/CMake/bin/clang-scan-deps-18.exe"
+      - "C:/Program Files/CMake/bin/clang-scan-deps-18"
+      - "C:/MinGW/bin/clang-scan-deps-18.com"
+      - "C:/MinGW/bin/clang-scan-deps-18.exe"
+      - "C:/MinGW/bin/clang-scan-deps-18"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/clang-scan-deps-18.com"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/clang-scan-deps-18.exe"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/clang-scan-deps-18"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/clang-scan-deps-18.com"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/clang-scan-deps-18.exe"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/clang-scan-deps-18"
+      - "C:/Users/Danilo/AppData/Roaming/npm/clang-scan-deps-18.com"
+      - "C:/Users/Danilo/AppData/Roaming/npm/clang-scan-deps-18.exe"
+      - "C:/Users/Danilo/AppData/Roaming/npm/clang-scan-deps-18"
+      - "/usr/lib/aarch64-linux-android/33/bin/clang-scan-deps-18.com"
+      - "/usr/lib/aarch64-linux-android/33/bin/clang-scan-deps-18.exe"
+      - "/usr/lib/aarch64-linux-android/33/bin/clang-scan-deps-18"
+      - "/usr/lib/aarch64-linux-android/33/sbin/clang-scan-deps-18.com"
+      - "/usr/lib/aarch64-linux-android/33/sbin/clang-scan-deps-18.exe"
+      - "/usr/lib/aarch64-linux-android/33/sbin/clang-scan-deps-18"
+      - "/usr/lib/aarch64-linux-android/33/clang-scan-deps-18.com"
+      - "/usr/lib/aarch64-linux-android/33/clang-scan-deps-18.exe"
+      - "/usr/lib/aarch64-linux-android/33/clang-scan-deps-18"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang-scan-deps18.com"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang-scan-deps18.exe"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang-scan-deps18"
+      - "C:/Windows/System32/clang-scan-deps18.com"
+      - "C:/Windows/System32/clang-scan-deps18.exe"
+      - "C:/Windows/System32/clang-scan-deps18"
+      - "C:/Windows/clang-scan-deps18.com"
+      - "C:/Windows/clang-scan-deps18.exe"
+      - "C:/Windows/clang-scan-deps18"
+      - "C:/Windows/System32/wbem/clang-scan-deps18.com"
+      - "C:/Windows/System32/wbem/clang-scan-deps18.exe"
+      - "C:/Windows/System32/wbem/clang-scan-deps18"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/clang-scan-deps18.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/clang-scan-deps18.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/clang-scan-deps18"
+      - "C:/Windows/System32/OpenSSH/clang-scan-deps18.com"
+      - "C:/Windows/System32/OpenSSH/clang-scan-deps18.exe"
+      - "C:/Windows/System32/OpenSSH/clang-scan-deps18"
+      - "C:/Program Files/Git/cmd/clang-scan-deps18.com"
+      - "C:/Program Files/Git/cmd/clang-scan-deps18.exe"
+      - "C:/Program Files/Git/cmd/clang-scan-deps18"
+      - "C:/Program Files/nodejs/clang-scan-deps18.com"
+      - "C:/Program Files/nodejs/clang-scan-deps18.exe"
+      - "C:/Program Files/nodejs/clang-scan-deps18"
+      - "C:/Program Files/dotnet/clang-scan-deps18.com"
+      - "C:/Program Files/dotnet/clang-scan-deps18.exe"
+      - "C:/Program Files/dotnet/clang-scan-deps18"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/clang-scan-deps18.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/clang-scan-deps18.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/clang-scan-deps18"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/clang-scan-deps18.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/clang-scan-deps18.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/clang-scan-deps18"
+      - "C:/Program Files/CMake/bin/clang-scan-deps18.com"
+      - "C:/Program Files/CMake/bin/clang-scan-deps18.exe"
+      - "C:/Program Files/CMake/bin/clang-scan-deps18"
+      - "C:/MinGW/bin/clang-scan-deps18.com"
+      - "C:/MinGW/bin/clang-scan-deps18.exe"
+      - "C:/MinGW/bin/clang-scan-deps18"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/clang-scan-deps18.com"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/clang-scan-deps18.exe"
+      - "C:/Users/Danilo/AppData/Local/Microsoft/WindowsApps/clang-scan-deps18"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/clang-scan-deps18.com"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/clang-scan-deps18.exe"
+      - "C:/Users/Danilo/AppData/Local/Programs/Microsoft VS Code/bin/clang-scan-deps18"
+      - "C:/Users/Danilo/AppData/Roaming/npm/clang-scan-deps18.com"
+      - "C:/Users/Danilo/AppData/Roaming/npm/clang-scan-deps18.exe"
+      - "C:/Users/Danilo/AppData/Roaming/npm/clang-scan-deps18"
+      - "/usr/lib/aarch64-linux-android/33/bin/clang-scan-deps18.com"
+      - "/usr/lib/aarch64-linux-android/33/bin/clang-scan-deps18.exe"
+      - "/usr/lib/aarch64-linux-android/33/bin/clang-scan-deps18"
+      - "/usr/lib/aarch64-linux-android/33/sbin/clang-scan-deps18.com"
+      - "/usr/lib/aarch64-linux-android/33/sbin/clang-scan-deps18.exe"
+      - "/usr/lib/aarch64-linux-android/33/sbin/clang-scan-deps18"
+      - "/usr/lib/aarch64-linux-android/33/clang-scan-deps18.com"
+      - "/usr/lib/aarch64-linux-android/33/clang-scan-deps18.exe"
+      - "/usr/lib/aarch64-linux-android/33/clang-scan-deps18"
+      - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang-scan-deps.com"
+    found: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang-scan-deps.exe"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64"
+      ENV{PATH}:
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\MinGW\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Danilo\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\Danilo\\AppData\\Roaming\\npm"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/33"
+      CMAKE_SYSROOT: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "C:/android-ndk"
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerABI.cmake:83 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    checks:
+      - "Detecting C compiler ABI info"
+    directories:
+      source: "C:/PC/Projetos/menu-szk-mobile/build/CMakeFiles/CMakeScratch/TryCompile-42cctb"
+      binary: "C:/PC/Projetos/menu-szk-mobile/build/CMakeFiles/CMakeScratch/TryCompile-42cctb"
+    cmakeVariables:
+      ANDROID_ABI: "arm64-v8a"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-33"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang-scan-deps.exe"
+      CMAKE_CXX_COMPILER_TARGET: "aarch64-none-linux-android33"
+      CMAKE_C_COMPILER_TARGET: "aarch64-none-linux-android33"
+      CMAKE_C_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat "
+      CMAKE_C_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot"
+    buildResult:
+      variable: "CMAKE_C_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/PC/Projetos/menu-szk-mobile/build/CMakeFiles/CMakeScratch/TryCompile-42cctb'
+        
+        Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/MinGW/bin/mingw32-make.exe -f Makefile cmTC_298d1/fast
+        C:/MinGW/bin/mingw32-make.exe  -f CMakeFiles\\cmTC_298d1.dir\\build.make CMakeFiles/cmTC_298d1.dir/build
+        mingw32-make.exe[1]: Entering directory 'C:/PC/Projetos/menu-szk-mobile/build/CMakeFiles/CMakeScratch/TryCompile-42cctb'
+        Building C object CMakeFiles/cmTC_298d1.dir/CMakeCCompilerABI.c.o
+        C:\\android-ndk\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe --target=aarch64-none-linux-android33 --sysroot=C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat   -fPIE   -v -MD -MT CMakeFiles/cmTC_298d1.dir/CMakeCCompilerABI.c.o -MF CMakeFiles\\cmTC_298d1.dir\\CMakeCCompilerABI.c.o.d -o CMakeFiles\\cmTC_298d1.dir\\CMakeCCompilerABI.c.o -c "C:\\Program Files\\CMake\\share\\cmake-4.1\\Modules\\CMakeCCompilerABI.c"
+        Android (13691557, based on r522817d) clang version 18.0.4 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)
+        Target: aarch64-none-linux-android33
+        Thread model: posix
+        InstalledDir: C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin
+         (in-process)
+         "C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64\\\\bin\\\\clang.exe" -cc1 -triple aarch64-none-linux-android33 -emit-obj -mrelax-all -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu generic -target-feature +neon -target-feature +v8a -target-feature +fix-cortex-a53-835769 -target-abi aapcs -debug-info-kind=constructor -dwarf-version=4 -debugger-tuning=gdb -fdebug-compilation-dir=C:/PC/Projetos/menu-szk-mobile/build/CMakeFiles/CMakeScratch/TryCompile-42cctb -v -ffunction-sections -fdata-sections -fcoverage-compilation-dir=C:/PC/Projetos/menu-szk-mobile/build/CMakeFiles/CMakeScratch/TryCompile-42cctb -resource-dir "C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18" -dependency-file "CMakeFiles\\\\cmTC_298d1.dir\\\\CMakeCCompilerABI.c.o.d" -MT CMakeFiles/cmTC_298d1.dir/CMakeCCompilerABI.c.o -sys-header-deps -D ANDROID -D _FORTIFY_SOURCE=2 -isysroot C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot -internal-isystem "C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/include" -internal-isystem C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/local/include -internal-externc-isystem C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/aarch64-linux-android -internal-externc-isystem C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/include -internal-externc-isystem C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include -Wformat -ferror-limit 19 -stack-protector 2 -fno-signed-char -fgnuc-version=4.2.1 -target-feature +outline-atomics -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o "CMakeFiles\\\\cmTC_298d1.dir\\\\CMakeCCompilerABI.c.o" -x c "C:\\\\Program Files\\\\CMake\\\\share\\\\cmake-4.1\\\\Modules\\\\CMakeCCompilerABI.c"
+        clang -cc1 version 18.0.4 based upon LLVM 18.0.4 default target x86_64-w64-windows-gnu
+        ignoring nonexistent directory "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/local/include"
+        ignoring nonexistent directory "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         C:\\android-ndk\\toolchains\\llvm\\prebuilt\\windows-x86_64/lib/clang/18/include
+         C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/aarch64-linux-android
+         C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include
+        End of search list.
+        Linking C executable cmTC_298d1
+        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\cmTC_298d1.dir\\link.txt --verbose=1
+        Android (13691557, based on r522817d) clang version 18.0.4 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)
+        Target: aarch64-none-linux-android33
+        Thread model: posix
+        InstalledDir: C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin
+         "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/ld.lld" --sysroot=C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot -EL --fix-cortex-a53-843419 -z now -z relro -z max-page-size=4096 --hash-style=gnu --eh-frame-hdr -m aarch64linux -pie -dynamic-linker /system/bin/linker64 -o cmTC_298d1 C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33/crtbegin_dynamic.o "-LC:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/aarch64" -LC:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33 -LC:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android -LC:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib --build-id=sha1 --no-undefined-version --fatal-warnings --no-undefined CMakeFiles/cmTC_298d1.dir/CMakeCCompilerABI.c.o "C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a" -l:libunwind.a -ldl -lc "C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a" -l:libunwind.a -ldl C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33/crtend_android.o
+        C:\\android-ndk\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe --target=aarch64-none-linux-android33 --sysroot=C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments   -v CMakeFiles/cmTC_298d1.dir/CMakeCCompilerABI.c.o -o cmTC_298d1
+        mingw32-make.exe[1]: Leaving directory 'C:/PC/Projetos/menu-szk-mobile/build/CMakeFiles/CMakeScratch/TryCompile-42cctb'
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerABI.cmake:217 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed C implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/lib/clang/18/include]
+          add: [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/aarch64-linux-android]
+          add: [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include]
+        end of search list found
+        collapse include dir [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/lib/clang/18/include] ==> [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/lib/clang/18/include]
+        collapse include dir [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/aarch64-linux-android] ==> [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/aarch64-linux-android]
+        collapse include dir [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include] ==> [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include]
+        implicit include dirs: [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/lib/clang/18/include;C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/aarch64-linux-android;C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerABI.cmake:253 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed C implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
+        ignore line: [Change Dir: 'C:/PC/Projetos/menu-szk-mobile/build/CMakeFiles/CMakeScratch/TryCompile-42cctb']
+        ignore line: []
+        ignore line: [Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/MinGW/bin/mingw32-make.exe -f Makefile cmTC_298d1/fast]
+        ignore line: [C:/MinGW/bin/mingw32-make.exe  -f CMakeFiles\\cmTC_298d1.dir\\build.make CMakeFiles/cmTC_298d1.dir/build]
+        ignore line: [mingw32-make.exe[1]: Entering directory 'C:/PC/Projetos/menu-szk-mobile/build/CMakeFiles/CMakeScratch/TryCompile-42cctb']
+        ignore line: [Building C object CMakeFiles/cmTC_298d1.dir/CMakeCCompilerABI.c.o]
+        ignore line: [C:\\android-ndk\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe --target=aarch64-none-linux-android33 --sysroot=C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat   -fPIE   -v -MD -MT CMakeFiles/cmTC_298d1.dir/CMakeCCompilerABI.c.o -MF CMakeFiles\\cmTC_298d1.dir\\CMakeCCompilerABI.c.o.d -o CMakeFiles\\cmTC_298d1.dir\\CMakeCCompilerABI.c.o -c "C:\\Program Files\\CMake\\share\\cmake-4.1\\Modules\\CMakeCCompilerABI.c"]
+        ignore line: [Android (13691557  based on r522817d) clang version 18.0.4 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)]
+        ignore line: [Target: aarch64-none-linux-android33]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin]
+        ignore line: [ (in-process)]
+        ignore line: [ "C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64\\\\bin\\\\clang.exe" -cc1 -triple aarch64-none-linux-android33 -emit-obj -mrelax-all -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu generic -target-feature +neon -target-feature +v8a -target-feature +fix-cortex-a53-835769 -target-abi aapcs -debug-info-kind=constructor -dwarf-version=4 -debugger-tuning=gdb -fdebug-compilation-dir=C:/PC/Projetos/menu-szk-mobile/build/CMakeFiles/CMakeScratch/TryCompile-42cctb -v -ffunction-sections -fdata-sections -fcoverage-compilation-dir=C:/PC/Projetos/menu-szk-mobile/build/CMakeFiles/CMakeScratch/TryCompile-42cctb -resource-dir "C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18" -dependency-file "CMakeFiles\\\\cmTC_298d1.dir\\\\CMakeCCompilerABI.c.o.d" -MT CMakeFiles/cmTC_298d1.dir/CMakeCCompilerABI.c.o -sys-header-deps -D ANDROID -D _FORTIFY_SOURCE=2 -isysroot C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot -internal-isystem "C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/include" -internal-isystem C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/local/include -internal-externc-isystem C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/aarch64-linux-android -internal-externc-isystem C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/include -internal-externc-isystem C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include -Wformat -ferror-limit 19 -stack-protector 2 -fno-signed-char -fgnuc-version=4.2.1 -target-feature +outline-atomics -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o "CMakeFiles\\\\cmTC_298d1.dir\\\\CMakeCCompilerABI.c.o" -x c "C:\\\\Program Files\\\\CMake\\\\share\\\\cmake-4.1\\\\Modules\\\\CMakeCCompilerABI.c"]
+        ignore line: [clang -cc1 version 18.0.4 based upon LLVM 18.0.4 default target x86_64-w64-windows-gnu]
+        ignore line: [ignoring nonexistent directory "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/local/include"]
+        ignore line: [ignoring nonexistent directory "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ C:\\android-ndk\\toolchains\\llvm\\prebuilt\\windows-x86_64/lib/clang/18/include]
+        ignore line: [ C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/aarch64-linux-android]
+        ignore line: [ C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include]
+        ignore line: [End of search list.]
+        ignore line: [Linking C executable cmTC_298d1]
+        ignore line: ["C:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\cmTC_298d1.dir\\link.txt --verbose=1]
+        ignore line: [Android (13691557  based on r522817d) clang version 18.0.4 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)]
+        ignore line: [Target: aarch64-none-linux-android33]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin]
+        link line: [ "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/ld.lld" --sysroot=C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot -EL --fix-cortex-a53-843419 -z now -z relro -z max-page-size=4096 --hash-style=gnu --eh-frame-hdr -m aarch64linux -pie -dynamic-linker /system/bin/linker64 -o cmTC_298d1 C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33/crtbegin_dynamic.o "-LC:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/aarch64" -LC:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33 -LC:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android -LC:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib --build-id=sha1 --no-undefined-version --fatal-warnings --no-undefined CMakeFiles/cmTC_298d1.dir/CMakeCCompilerABI.c.o "C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a" -l:libunwind.a -ldl -lc "C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a" -l:libunwind.a -ldl C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33/crtend_android.o]
+          arg [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/ld.lld] ==> ignore
+          arg [--sysroot=C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot] ==> ignore
+          arg [-EL] ==> ignore
+          arg [--fix-cortex-a53-843419] ==> ignore
+          arg [-znow] ==> ignore
+          arg [-zrelro] ==> ignore
+          arg [-zmax-page-size=4096] ==> ignore
+          arg [--hash-style=gnu] ==> ignore
+          arg [--eh-frame-hdr] ==> ignore
+          arg [-m] ==> ignore
+          arg [aarch64linux] ==> ignore
+          arg [-pie] ==> ignore
+          arg [-dynamic-linker] ==> ignore
+          arg [/system/bin/linker64] ==> ignore
+          arg [-o] ==> ignore
+          arg [cmTC_298d1] ==> ignore
+          arg [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33/crtbegin_dynamic.o] ==> obj [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33/crtbegin_dynamic.o]
+          arg [-LC:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/aarch64] ==> dir [C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/aarch64]
+          arg [-LC:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33] ==> dir [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33]
+          arg [-LC:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android] ==> dir [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android]
+          arg [-LC:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib] ==> dir [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib]
+          arg [--build-id=sha1] ==> ignore
+          arg [--no-undefined-version] ==> ignore
+          arg [--fatal-warnings] ==> ignore
+          arg [--no-undefined] ==> ignore
+          arg [CMakeFiles/cmTC_298d1.dir/CMakeCCompilerABI.c.o] ==> ignore
+          arg [C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a] ==> lib [C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a]
+          arg [-l:libunwind.a] ==> lib [-l:libunwind.a]
+          arg [-ldl] ==> lib [dl]
+          arg [-lc] ==> lib [c]
+          arg [C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a] ==> lib [C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a]
+          arg [-l:libunwind.a] ==> lib [-l:libunwind.a]
+          arg [-ldl] ==> lib [dl]
+          arg [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33/crtend_android.o] ==> obj [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33/crtend_android.o]
+        linker tool for 'C': C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/ld.lld
+        remove lib [C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a]
+        remove lib [C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a]
+        collapse library dir [C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/aarch64] ==> [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/lib/clang/18/lib/linux/aarch64]
+        collapse library dir [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33] ==> [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33]
+        collapse library dir [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android] ==> [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android]
+        collapse library dir [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib] ==> [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib]
+        implicit libs: [-l:libunwind.a;dl;c;-l:libunwind.a;dl]
+        implicit objs: [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33/crtbegin_dynamic.o;C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33/crtend_android.o]
+        implicit dirs: [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/lib/clang/18/lib/linux/aarch64;C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33;C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android;C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib]
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/Internal/CMakeDetermineLinkerId.cmake:36 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerABI.cmake:299 (cmake_determine_linker_id)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Running the C compiler's linker: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/ld.lld" "-v"
+      LLD 18.0.4 (compatible with GNU linkers)
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerABI.cmake:83 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "C:/PC/Projetos/menu-szk-mobile/build/CMakeFiles/CMakeScratch/TryCompile-qsj4ox"
+      binary: "C:/PC/Projetos/menu-szk-mobile/build/CMakeFiles/CMakeScratch/TryCompile-qsj4ox"
+    cmakeVariables:
+      ANDROID_ABI: "arm64-v8a"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-33"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang-scan-deps.exe"
+      CMAKE_CXX_COMPILER_TARGET: "aarch64-none-linux-android33"
+      CMAKE_CXX_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat  "
+      CMAKE_CXX_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_CXX_SCAN_FOR_MODULES: "OFF"
+      CMAKE_C_COMPILER_TARGET: "aarch64-none-linux-android33"
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot"
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/PC/Projetos/menu-szk-mobile/build/CMakeFiles/CMakeScratch/TryCompile-qsj4ox'
+        
+        Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/MinGW/bin/mingw32-make.exe -f Makefile cmTC_56d0c/fast
+        C:/MinGW/bin/mingw32-make.exe  -f CMakeFiles\\cmTC_56d0c.dir\\build.make CMakeFiles/cmTC_56d0c.dir/build
+        mingw32-make.exe[1]: Entering directory 'C:/PC/Projetos/menu-szk-mobile/build/CMakeFiles/CMakeScratch/TryCompile-qsj4ox'
+        Building CXX object CMakeFiles/cmTC_56d0c.dir/CMakeCXXCompilerABI.cpp.o
+        C:\\android-ndk\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android33 --sysroot=C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat    -fPIE   -v -MD -MT CMakeFiles/cmTC_56d0c.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles\\cmTC_56d0c.dir\\CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles\\cmTC_56d0c.dir\\CMakeCXXCompilerABI.cpp.o -c "C:\\Program Files\\CMake\\share\\cmake-4.1\\Modules\\CMakeCXXCompilerABI.cpp"
+        Android (13691557, based on r522817d) clang version 18.0.4 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)
+        Target: aarch64-none-linux-android33
+        Thread model: posix
+        InstalledDir: C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin
+         (in-process)
+         "C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64\\\\bin\\\\clang++.exe" -cc1 -triple aarch64-none-linux-android33 -emit-obj -mrelax-all -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu generic -target-feature +neon -target-feature +v8a -target-feature +fix-cortex-a53-835769 -target-abi aapcs -debug-info-kind=constructor -dwarf-version=4 -debugger-tuning=gdb -fdebug-compilation-dir=C:/PC/Projetos/menu-szk-mobile/build/CMakeFiles/CMakeScratch/TryCompile-qsj4ox -v -ffunction-sections -fdata-sections -fcoverage-compilation-dir=C:/PC/Projetos/menu-szk-mobile/build/CMakeFiles/CMakeScratch/TryCompile-qsj4ox -resource-dir "C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18" -dependency-file "CMakeFiles\\\\cmTC_56d0c.dir\\\\CMakeCXXCompilerABI.cpp.o.d" -MT CMakeFiles/cmTC_56d0c.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -D ANDROID -D _FORTIFY_SOURCE=2 -isysroot C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot -internal-isystem C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/c++/v1 -internal-isystem "C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/include" -internal-isystem C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/local/include -internal-externc-isystem C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/aarch64-linux-android -internal-externc-isystem C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/include -internal-externc-isystem C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include -Wformat -fdeprecated-macro -ferror-limit 19 -stack-protector 2 -fno-signed-char -fgnuc-version=4.2.1 -fcxx-exceptions -fexceptions -target-feature +outline-atomics -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o "CMakeFiles\\\\cmTC_56d0c.dir\\\\CMakeCXXCompilerABI.cpp.o" -x c++ "C:\\\\Program Files\\\\CMake\\\\share\\\\cmake-4.1\\\\Modules\\\\CMakeCXXCompilerABI.cpp"
+        clang -cc1 version 18.0.4 based upon LLVM 18.0.4 default target x86_64-w64-windows-gnu
+        ignoring nonexistent directory "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/local/include"
+        ignoring nonexistent directory "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/c++/v1
+         C:\\android-ndk\\toolchains\\llvm\\prebuilt\\windows-x86_64/lib/clang/18/include
+         C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/aarch64-linux-android
+         C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include
+        End of search list.
+        Linking CXX executable cmTC_56d0c
+        "C:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\cmTC_56d0c.dir\\link.txt --verbose=1
+        Android (13691557, based on r522817d) clang version 18.0.4 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)
+        Target: aarch64-none-linux-android33
+        Thread model: posix
+        InstalledDir: C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin
+         "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/ld.lld" --sysroot=C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot -EL --fix-cortex-a53-843419 -z now -z relro -z max-page-size=4096 --hash-style=gnu --eh-frame-hdr -m aarch64linux -pie -dynamic-linker /system/bin/linker64 -o cmTC_56d0c C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33/crtbegin_dynamic.o "-LC:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/aarch64" -LC:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33 -LC:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android -LC:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib --build-id=sha1 --no-undefined-version --fatal-warnings --no-undefined CMakeFiles/cmTC_56d0c.dir/CMakeCXXCompilerABI.cpp.o -Bstatic -lc++ -Bdynamic -lm "C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a" -l:libunwind.a -ldl -lc "C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a" -l:libunwind.a -ldl C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33/crtend_android.o
+        C:\\android-ndk\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android33 --sysroot=C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat    -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments   -v CMakeFiles/cmTC_56d0c.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_56d0c
+        mingw32-make.exe[1]: Leaving directory 'C:/PC/Projetos/menu-szk-mobile/build/CMakeFiles/CMakeScratch/TryCompile-qsj4ox'
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerABI.cmake:217 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed CXX implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/c++/v1]
+          add: [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/lib/clang/18/include]
+          add: [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/aarch64-linux-android]
+          add: [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include]
+        end of search list found
+        collapse include dir [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/c++/v1] ==> [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/c++/v1]
+        collapse include dir [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/lib/clang/18/include] ==> [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/lib/clang/18/include]
+        collapse include dir [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/aarch64-linux-android] ==> [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/aarch64-linux-android]
+        collapse include dir [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include] ==> [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include]
+        implicit include dirs: [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/c++/v1;C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/lib/clang/18/include;C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/aarch64-linux-android;C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerABI.cmake:253 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed CXX implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
+        ignore line: [Change Dir: 'C:/PC/Projetos/menu-szk-mobile/build/CMakeFiles/CMakeScratch/TryCompile-qsj4ox']
+        ignore line: []
+        ignore line: [Run Build Command(s): "C:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 C:/MinGW/bin/mingw32-make.exe -f Makefile cmTC_56d0c/fast]
+        ignore line: [C:/MinGW/bin/mingw32-make.exe  -f CMakeFiles\\cmTC_56d0c.dir\\build.make CMakeFiles/cmTC_56d0c.dir/build]
+        ignore line: [mingw32-make.exe[1]: Entering directory 'C:/PC/Projetos/menu-szk-mobile/build/CMakeFiles/CMakeScratch/TryCompile-qsj4ox']
+        ignore line: [Building CXX object CMakeFiles/cmTC_56d0c.dir/CMakeCXXCompilerABI.cpp.o]
+        ignore line: [C:\\android-ndk\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android33 --sysroot=C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat    -fPIE   -v -MD -MT CMakeFiles/cmTC_56d0c.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles\\cmTC_56d0c.dir\\CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles\\cmTC_56d0c.dir\\CMakeCXXCompilerABI.cpp.o -c "C:\\Program Files\\CMake\\share\\cmake-4.1\\Modules\\CMakeCXXCompilerABI.cpp"]
+        ignore line: [Android (13691557  based on r522817d) clang version 18.0.4 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)]
+        ignore line: [Target: aarch64-none-linux-android33]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin]
+        ignore line: [ (in-process)]
+        ignore line: [ "C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64\\\\bin\\\\clang++.exe" -cc1 -triple aarch64-none-linux-android33 -emit-obj -mrelax-all -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu generic -target-feature +neon -target-feature +v8a -target-feature +fix-cortex-a53-835769 -target-abi aapcs -debug-info-kind=constructor -dwarf-version=4 -debugger-tuning=gdb -fdebug-compilation-dir=C:/PC/Projetos/menu-szk-mobile/build/CMakeFiles/CMakeScratch/TryCompile-qsj4ox -v -ffunction-sections -fdata-sections -fcoverage-compilation-dir=C:/PC/Projetos/menu-szk-mobile/build/CMakeFiles/CMakeScratch/TryCompile-qsj4ox -resource-dir "C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18" -dependency-file "CMakeFiles\\\\cmTC_56d0c.dir\\\\CMakeCXXCompilerABI.cpp.o.d" -MT CMakeFiles/cmTC_56d0c.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -D ANDROID -D _FORTIFY_SOURCE=2 -isysroot C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot -internal-isystem C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/c++/v1 -internal-isystem "C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/include" -internal-isystem C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/local/include -internal-externc-isystem C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/aarch64-linux-android -internal-externc-isystem C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/include -internal-externc-isystem C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include -Wformat -fdeprecated-macro -ferror-limit 19 -stack-protector 2 -fno-signed-char -fgnuc-version=4.2.1 -fcxx-exceptions -fexceptions -target-feature +outline-atomics -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o "CMakeFiles\\\\cmTC_56d0c.dir\\\\CMakeCXXCompilerABI.cpp.o" -x c++ "C:\\\\Program Files\\\\CMake\\\\share\\\\cmake-4.1\\\\Modules\\\\CMakeCXXCompilerABI.cpp"]
+        ignore line: [clang -cc1 version 18.0.4 based upon LLVM 18.0.4 default target x86_64-w64-windows-gnu]
+        ignore line: [ignoring nonexistent directory "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/local/include"]
+        ignore line: [ignoring nonexistent directory "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/c++/v1]
+        ignore line: [ C:\\android-ndk\\toolchains\\llvm\\prebuilt\\windows-x86_64/lib/clang/18/include]
+        ignore line: [ C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/aarch64-linux-android]
+        ignore line: [ C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include]
+        ignore line: [End of search list.]
+        ignore line: [Linking CXX executable cmTC_56d0c]
+        ignore line: ["C:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\cmTC_56d0c.dir\\link.txt --verbose=1]
+        ignore line: [Android (13691557  based on r522817d) clang version 18.0.4 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)]
+        ignore line: [Target: aarch64-none-linux-android33]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin]
+        link line: [ "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/ld.lld" --sysroot=C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot -EL --fix-cortex-a53-843419 -z now -z relro -z max-page-size=4096 --hash-style=gnu --eh-frame-hdr -m aarch64linux -pie -dynamic-linker /system/bin/linker64 -o cmTC_56d0c C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33/crtbegin_dynamic.o "-LC:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/aarch64" -LC:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33 -LC:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android -LC:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib --build-id=sha1 --no-undefined-version --fatal-warnings --no-undefined CMakeFiles/cmTC_56d0c.dir/CMakeCXXCompilerABI.cpp.o -Bstatic -lc++ -Bdynamic -lm "C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a" -l:libunwind.a -ldl -lc "C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a" -l:libunwind.a -ldl C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33/crtend_android.o]
+          arg [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/ld.lld] ==> ignore
+          arg [--sysroot=C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot] ==> ignore
+          arg [-EL] ==> ignore
+          arg [--fix-cortex-a53-843419] ==> ignore
+          arg [-znow] ==> ignore
+          arg [-zrelro] ==> ignore
+          arg [-zmax-page-size=4096] ==> ignore
+          arg [--hash-style=gnu] ==> ignore
+          arg [--eh-frame-hdr] ==> ignore
+          arg [-m] ==> ignore
+          arg [aarch64linux] ==> ignore
+          arg [-pie] ==> ignore
+          arg [-dynamic-linker] ==> ignore
+          arg [/system/bin/linker64] ==> ignore
+          arg [-o] ==> ignore
+          arg [cmTC_56d0c] ==> ignore
+          arg [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33/crtbegin_dynamic.o] ==> obj [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33/crtbegin_dynamic.o]
+          arg [-LC:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/aarch64] ==> dir [C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/aarch64]
+          arg [-LC:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33] ==> dir [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33]
+          arg [-LC:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android] ==> dir [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android]
+          arg [-LC:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib] ==> dir [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib]
+          arg [--build-id=sha1] ==> ignore
+          arg [--no-undefined-version] ==> ignore
+          arg [--fatal-warnings] ==> ignore
+          arg [--no-undefined] ==> ignore
+          arg [CMakeFiles/cmTC_56d0c.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+          arg [-Bstatic] ==> search static
+          arg [-lc++] ==> lib [c++]
+          arg [-Bdynamic] ==> search dynamic
+          arg [-lm] ==> lib [m]
+          arg [C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a] ==> lib [C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a]
+          arg [-l:libunwind.a] ==> lib [-l:libunwind.a]
+          arg [-ldl] ==> lib [dl]
+          arg [-lc] ==> lib [c]
+          arg [C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a] ==> lib [C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a]
+          arg [-l:libunwind.a] ==> lib [-l:libunwind.a]
+          arg [-ldl] ==> lib [dl]
+          arg [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33/crtend_android.o] ==> obj [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33/crtend_android.o]
+        linker tool for 'CXX': C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/ld.lld
+        remove lib [C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a]
+        remove lib [C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a]
+        collapse library dir [C:\\\\android-ndk\\\\toolchains\\\\llvm\\\\prebuilt\\\\windows-x86_64/lib/clang/18/lib/linux/aarch64] ==> [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/lib/clang/18/lib/linux/aarch64]
+        collapse library dir [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33] ==> [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33]
+        collapse library dir [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android] ==> [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android]
+        collapse library dir [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib] ==> [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib]
+        implicit libs: [c++;m;-l:libunwind.a;dl;c;-l:libunwind.a;dl]
+        implicit objs: [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33/crtbegin_dynamic.o;C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33/crtend_android.o]
+        implicit dirs: [C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/lib/clang/18/lib/linux/aarch64;C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/33;C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android;C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib]
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/Internal/CMakeDetermineLinkerId.cmake:36 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerABI.cmake:299 (cmake_determine_linker_id)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Running the CXX compiler's linker: "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/ld.lld" "-v"
+      LLD 18.0.4 (compatible with GNU linkers)
+...

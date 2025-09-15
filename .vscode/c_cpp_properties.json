@@ -1,0 +1,20 @@
+{
+    "configurations": [
+        {
+            "name": "AndroidNDK",
+            "intelliSenseMode": "clang-x64",
+            "compilerPath": "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "includePath": [
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/PoliceMod",
+                "D:/Program Files/Java/jdk-24/include",
+                "D:/Program Files/Java/jdk-24/include/win32",
+                "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/include",
+                "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/c++/v1"
+            ]
+        }
+    ],
+    "version": 4
+}
