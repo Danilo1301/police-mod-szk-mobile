@@ -7,6 +7,7 @@ extern IMenuSZK* menuSZK;
 #include "Pullover.h"
 #include "CleoFunctions.h"
 #include "Vehicles.h"
+#include "Audios.h"
 
 bool hasLoadedAnimations = false;
 
@@ -46,6 +47,15 @@ void PoliceMod::Initialize()
     widget->onClickWidget->Add([]() {
         menuSZK->CreateTestWindow();
     });
+
+    auto widgetEquip = menuSZK->CreateWidgetButton(350, 650, getPathFromMenuAssets("widget_background1.png"), getPathFromAssets("widget_vest.png"));
+    widgetEquip->onClickWidget->Add([this, widgetEquip]() {
+        TestEquip();
+        
+        widgetEquip->Destroy();
+    });
+
+    Audios::CreateAudios();
 }
 
 void PoliceMod::Update()
@@ -77,4 +87,17 @@ void PoliceMod::Update()
     CleoFunctions::Update(menuSZK->deltaTime);
 
     logInternal("PoliceMod: Update end");
+}
+
+void PoliceMod::TestEquip()
+{
+    int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+
+    CleoFunctions::GIVE_ACTOR_WEAPON(playerActor, 31, 800);
+    CleoFunctions::GIVE_ACTOR_WEAPON(playerActor, 22, 200);
+    // if(!Ped::PedHasWeaponId(playerActor, 10))
+    // {
+    //     CleoFunctions::GIVE_ACTOR_WEAPON(playerActor, 10, 1);
+    // }
+    CleoFunctions::CHANGE_PLAYER_MODEL_TO(0, 280);
 }

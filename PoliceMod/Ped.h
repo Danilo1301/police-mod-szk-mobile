@@ -25,6 +25,11 @@ public:
 
     bool doHandsup = false;
 
+    std::string name = "Maria Sem Nome";
+    std::string birthDate = "00/00/0000";
+    std::string rg = "12-123-123-5";
+    std::string cpf = "123-123-123-52";
+
     PedSeat previousSeat = PedSeat::NO_SEAT;
 
     Ped(int ref, void* ptr);

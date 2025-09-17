@@ -8,6 +8,8 @@ public:
 
     void Initialize();
     void Update();
+
+    void TestEquip();
 };
 
 extern PoliceMod* policeMod;

@@ -10,6 +10,10 @@ Ped::Ped(int ref, void* ptr)
 {
     this->ref = ref;
     this->ptr = ptr;
+
+    birthDate = randomBirthDate(1970, 2000);
+    cpf = randomCPF();
+    rg = randomRG();
 }
 
 Ped::~Ped()

@@ -1,3 +1,0 @@
-C:/PC/Projetos/menu-szk-mobile/build/CMakeFiles/MenuSZK.dir
-C:/PC/Projetos/menu-szk-mobile/build/CMakeFiles/edit_cache.dir
-C:/PC/Projetos/menu-szk-mobile/build/CMakeFiles/rebuild_cache.dir

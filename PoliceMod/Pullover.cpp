@@ -6,6 +6,8 @@ extern IMenuSZK* menuSZK;
 #include "CleoFunctions.h"
 #include "Peds.h"
 #include "Vehicles.h"
+#include "windows/RGWindow.h"
+#include "Audios.h"
 
 int aimingPed = NO_PED_FOUND;
 std::vector<Ped*> pedsPulledOver;
@@ -83,6 +85,7 @@ void Pullover::FreePed(Ped* ped)
 
     pedsPulledOver.erase(std::find(pedsPulledOver.begin(), pedsPulledOver.end(), ped));
     ped->StopHandsup();
+    ped->RemoveBlip();
 }
 
 void Pullover::FreeVehicle(Vehicle* vehicle)
@@ -92,6 +95,8 @@ void Pullover::FreeVehicle(Vehicle* vehicle)
     vehiclesPulledOver.erase(std::find(vehiclesPulledOver.begin(), vehiclesPulledOver.end(), vehicle));
     
     vehicle->RemoveBlip();
+
+    Audios::audioLiberado->Play();
 
     auto owners = vehicle->GetOwners();
     for(auto owner : owners)
@@ -162,6 +167,8 @@ void Pullover::PulloverVehicle(Vehicle* vehicle)
     vehicle->AddBlip();
     vehicle->SetOwners();
 
+    Audios::audioEncostaCarro->Play();
+
     CleoFunctions::WAIT(1000, [vehicle]() {
         CleoFunctions::CAR_TURN_OFF_ENGINE(vehicle->ref);
     });
@@ -187,6 +194,16 @@ void Pullover::OpenPedMenu(Ped* ped)
     
     {
         window->AddText("Pedestre " + std::to_string(ped->ref));
+    }
+
+    {
+        auto button = window->AddButton("> Pedir RG");
+        button->onClick->Add([window, ped](IContainer*) {
+            window->Close();
+            isMenuOpen = false;
+
+            RGWindow::CreateRG(ped);
+        });
     }
 
     if(ped->pulledOverFromVehicle == 0)
@@ -232,6 +249,8 @@ void Pullover::OpenVehicleMenu(Vehicle* vehicle)
     {
         auto button = window->AddButton("> Descer com as maos na cabeca");
         button->onClick->Add([window, vehicle](IContainer*) {
+
+            Audios::audioDesceMaoCabeca->Play();
 
             auto peds = vehicle->GetCurrentOccupants();
 
