@@ -23,6 +23,7 @@ public:
     virtual IWindowItem* AddIntOptions(std::string text, int* ptr, int min, int max) = 0;
     virtual IWindowItem* AddFloatOptions(std::string text, float* ptr, float min, float max) = 0;
     virtual IWindowItem* AddCheckbox(std::string text, bool* ptr) = 0;
+    virtual IWindowItem* AddImage(std::string src, float height) = 0;
 
     virtual void Close() = 0;
 };

@@ -4,6 +4,8 @@
 
 class PoliceMod {
 public:
+    static bool m_IsUsingMenu;
+
     PoliceMod();
 
     void Initialize();

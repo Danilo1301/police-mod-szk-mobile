@@ -6,11 +6,15 @@ extern IMenuSZK* menuSZK;
 #include "CleoFunctions.h"
 #include "Peds.h"
 #include "Pullover.h"
+#include "PoliceMod.h"
+#include "VehicleDummy.h"
 
 Vehicle::Vehicle(int ref, void* ptr)
 {
     this->ref = ref;
     this->ptr = ptr;
+
+    plate = randomPlateLimited();
 }
 
 Vehicle::~Vehicle()
@@ -24,7 +28,9 @@ void Vehicle::Update()
     auto playerPosition = GetPlayerPosition();
     float distanceToPlayer = distanceBetweenPoints(playerPosition, position);
 
-    if (!isWidgetVisible && Pullover::IsVehicleBeeingPulledOver(this) && distanceToPlayer < 5.0f && !Pullover::IsPulloverMenuOpen())
+    auto isMenuOpen = PoliceMod::m_IsUsingMenu;
+
+    if (!isWidgetVisible && Pullover::IsVehicleBeeingPulledOver(this) && distanceToPlayer < 5.0f && !isMenuOpen)
     {
         widgetOptions = menuSZK->CreateWidgetButton(
             500, 500,
@@ -37,7 +43,7 @@ void Vehicle::Update()
             Pullover::OpenVehicleMenu(this);
         });
     }
-    else if (isWidgetVisible && (!Pullover::IsVehicleBeeingPulledOver(this) || distanceToPlayer > 6.0f || Pullover::IsPulloverMenuOpen()))
+    else if (isWidgetVisible && (!Pullover::IsVehicleBeeingPulledOver(this) || distanceToPlayer > 6.0f || isMenuOpen))
     {
         if (widgetOptions)
         {
@@ -54,6 +60,43 @@ void Vehicle::Update()
         container->worldPosition = position;
         container->fixPositionToCenter = true;
     }
+}
+
+void Vehicle::OnRenderBefore()
+{
+    auto vehicle = (CVehicle*)ptr;
+
+    auto playerCar = CleoFunctions::ACTOR_USED_CAR(GetPlayerActor());
+
+    if(playerCar != ref) return;
+
+    debug->AddLine("~b~atomics");
+
+    auto atomics = VehicleDummy::RpClumpGetAllAtomics(vehicle->m_pRwClump);
+    for(auto atomic : atomics)
+    {
+        auto frameAtomic = GetObjectParent((RwObject*)atomic);
+		auto name = to_lower(GetFrameName(frameAtomic));
+
+        debug->AddLine(name);
+
+        if(!atomic->geometry) continue;
+        
+        if (name.find("plate") != std::string::npos)
+        {
+            //if(plateHidden) continue;
+            plateHidden = true;
+
+            debug->AddLine("~y~plate hidden");
+            
+            HideAllAtomics(frameAtomic);
+        }
+    }
+}
+
+void Vehicle::OnRenderAfter()
+{
+
 }
 
 int Vehicle::AddBlip()

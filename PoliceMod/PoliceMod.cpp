@@ -8,10 +8,13 @@ extern IMenuSZK* menuSZK;
 #include "CleoFunctions.h"
 #include "Vehicles.h"
 #include "Audios.h"
+#include "windows/TestWindow.h"
 
 bool hasLoadedAnimations = false;
 
 PoliceMod* policeMod = new PoliceMod();
+
+bool PoliceMod::m_IsUsingMenu = false;
 
 PoliceMod::PoliceMod()
 {
@@ -43,16 +46,9 @@ void PoliceMod::Initialize()
 
     Pullover::Initialize();
 
-    auto widget = menuSZK->CreateWidgetButton(350, 500, getPathFromMenuAssets("widget_background1.png"), getPathFromMenuAssets("widget_menu.png"));
-    widget->onClickWidget->Add([]() {
-        menuSZK->CreateTestWindow();
-    });
-
-    auto widgetEquip = menuSZK->CreateWidgetButton(350, 650, getPathFromMenuAssets("widget_background1.png"), getPathFromAssets("widget_vest.png"));
-    widgetEquip->onClickWidget->Add([this, widgetEquip]() {
-        TestEquip();
-        
-        widgetEquip->Destroy();
+    auto widgetTestMenu = menuSZK->CreateWidgetButton(350, 650, getPathFromMenuAssets("widget_background1.png"), getPathFromAssets("widget_vest.png"));
+    widgetTestMenu->onClickWidget->Add([]() {
+        TestWindow::ShowWindow();
     });
 
     Audios::CreateAudios();
@@ -60,8 +56,6 @@ void PoliceMod::Initialize()
 
 void PoliceMod::Update()
 {
-    logInternal("PoliceMod: Update");
-
     if(!hasLoadedAnimations && CleoFunctions::PLAYER_DEFINED(0))
     {
         if(
@@ -85,8 +79,6 @@ void PoliceMod::Update()
     Pullover::Update();
 
     CleoFunctions::Update(menuSZK->deltaTime);
-
-    logInternal("PoliceMod: Update end");
 }
 
 void PoliceMod::TestEquip()

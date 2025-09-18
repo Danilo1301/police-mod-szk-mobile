@@ -8,12 +8,11 @@ extern IMenuSZK* menuSZK;
 #include "Vehicles.h"
 #include "windows/RGWindow.h"
 #include "Audios.h"
+#include "PoliceMod.h"
 
 int aimingPed = NO_PED_FOUND;
 std::vector<Ped*> pedsPulledOver;
 std::vector<Vehicle*> vehiclesPulledOver;
-
-bool isMenuOpen = false;
 
 void Pullover::Initialize()
 {
@@ -108,10 +107,17 @@ void Pullover::FreeVehicle(Vehicle* vehicle)
     
     vehicle->MakeOwnersEnter();
 
-    CleoFunctions::AddWaitForFunction([vehicle, ownersCount] () {
-        auto ocuppantsCount = vehicle->GetCurrentOccupants().size();
+    auto ocuppantsCount = vehicle->GetCurrentOccupants().size();
+    debug->AddLine("esperando passageiros " + std::to_string(ocuppantsCount) + "/" + std::to_string(ownersCount));
 
-        debug->AddLine("esperando passageiros " + std::to_string(ocuppantsCount) + "/" + std::to_string(ownersCount));
+    CleoFunctions::AddWaitForFunction([vehicle, ownersCount] () {
+
+        if(!Vehicles::IsValid(vehicle))
+        {
+            return true;
+        }
+
+        auto ocuppantsCount = vehicle->GetCurrentOccupants().size();
 
         if(ocuppantsCount >= ownersCount)
         {
@@ -120,6 +126,9 @@ void Pullover::FreeVehicle(Vehicle* vehicle)
 
         return false;
     }, [vehicle] () {
+
+        if(!Vehicles::IsValid(vehicle)) return;
+
         auto driver = vehicle->GetCurrentDriver();
         
         if(driver) driver->StartDrivingRandomly();
@@ -188,57 +197,81 @@ bool Pullover::IsVehicleBeeingPulledOver(Vehicle* vehicle)
 
 void Pullover::OpenPedMenu(Ped* ped)
 {
-    isMenuOpen = true;
-
     auto window = menuSZK->CreateWindow(400, 200, 800, "Abordagem");
     
+    PoliceMod::m_IsUsingMenu = true;
+
+    auto closeWindow = [window]() {
+        window->Close();
+        PoliceMod::m_IsUsingMenu = false;
+    };
+
     {
         window->AddText("Pedestre " + std::to_string(ped->ref));
     }
 
     {
         auto button = window->AddButton("> Pedir RG");
-        button->onClick->Add([window, ped](IContainer*) {
-            window->Close();
-            isMenuOpen = false;
+        button->onClick->Add([window, ped, closeWindow](IContainer*) {
+            closeWindow();
 
-            RGWindow::CreateRG(ped);
+            Audios::audioPedirRG->Play();
+
+            CleoFunctions::AddWaitForFunction([]() {
+
+                if(Audios::audioPedirRG->HasEnded())
+                {
+                    return true;
+                }
+
+                return false;
+            }, [ped]() {
+                RGWindow::CreateRG(ped);
+            });
         });
     }
 
     if(ped->pulledOverFromVehicle == 0)
     {
         auto button = window->AddButton("> ~r~Liberar");
-        button->onClick->Add([window, ped](IContainer*) {
+        button->onClick->Add([ped, closeWindow](IContainer*) {
+            closeWindow();
+
             FreePed(ped);
-            window->Close();
-            isMenuOpen = false;
         });
     } else {
         auto fromVehicle = Vehicles::GetVehicle(ped->pulledOverFromVehicle);
         if(fromVehicle != NULL)
         {
             auto button = window->AddButton("> ~r~Liberar veiculo");
-            button->onClick->Add([window, fromVehicle](IContainer*) {
+            button->onClick->Add([closeWindow, fromVehicle](IContainer*) {
+                closeWindow();
+
                 FreeVehicle(fromVehicle);
-                window->Close();
-                isMenuOpen = false;
             });
         }
     }
 
     {
         auto button = window->AddButton("> ~y~Pedir para aguardar");
-        button->onClick->Add([window](IContainer*) {
-            window->Close();
-            isMenuOpen = false;
+        button->onClick->Add([closeWindow](IContainer*) {
+            closeWindow();
         });
     }
 }
 
 void Pullover::OpenVehicleMenu(Vehicle* vehicle)
 {
+    PoliceMod::m_IsUsingMenu = true;
+
+
+    
     auto window = menuSZK->CreateWindow(400, 200, 800, "Abordagem");
+
+    auto closeWindow = [window]() {
+        window->Close();
+        PoliceMod::m_IsUsingMenu = false;
+    };
     
     {
         window->AddText("Veiculo " + std::to_string(vehicle->ref));
@@ -248,47 +281,72 @@ void Pullover::OpenVehicleMenu(Vehicle* vehicle)
     if(numOcuppants > 0)
     {
         auto button = window->AddButton("> Descer com as maos na cabeca");
-        button->onClick->Add([window, vehicle](IContainer*) {
+        button->onClick->Add([closeWindow, vehicle](IContainer*) {
+
+            closeWindow();
 
             Audios::audioDesceMaoCabeca->Play();
 
-            auto peds = vehicle->GetCurrentOccupants();
+            CleoFunctions::WAIT(3000, [vehicle]() {
+                auto peds = vehicle->GetCurrentOccupants();
 
-            for(auto ped : peds)
-            {
-                ped->LeaveCar();
-                ped->pulledOverFromVehicle = vehicle->ref;
-
-                if(!IsPedBeeingPulledOver(ped))
+                for(auto ped : peds)
                 {
-                    PulloverPed(ped);
-                }
-            }
+                    ped->LeaveCar();
+                    ped->pulledOverFromVehicle = vehicle->ref;
 
-            window->Close();
-            isMenuOpen = false;
+                    if(!IsPedBeeingPulledOver(ped))
+                    {
+                        PulloverPed(ped);
+                    }
+                }
+            });
         });
     }
 
+    auto button = window->AddButton("> Consultar placa ~b~" + vehicle->plate);
+    button->onClick->Add([closeWindow, vehicle](IContainer*) {
+        closeWindow();
+
+        auto audioGroup = currentAudioGroup = new AudioGroup();
+        audioGroup->AddAudio(menuSZK->CreateAudio(getPathFromAssets("audios/ht.wav")));
+        audioGroup->AddAudio(menuSZK->CreateAudio(getPathFromAssets("audios/officer/license_plate_check.wav")));
+
+        auto plate = vehicle->plate;
+
+        debug->AddLine("Consulta de placa: ~y~" + plate);
+
+        // percorrendo cada caractere
+        for (size_t i = 0; i < plate.size(); ++i)
+        {
+            char c = plate[i];
+
+            if (c == ' ') continue; // pula espaços
+
+            // monta o caminho do áudio dinamicamente
+            std::string audioPath = "audios/officer/codes/";
+            audioPath += c;        // adiciona a letra ou número
+            audioPath += ".wav";   // extensão
+
+            audioGroup->AddAudio(menuSZK->CreateAudio(getPathFromAssets(audioPath)));
+        }
+
+        audioGroup->Play();
+    });
+
     {
         auto button = window->AddButton("> ~r~Liberar veiculo");
-        button->onClick->Add([window, vehicle](IContainer*) {
+        button->onClick->Add([closeWindow, vehicle](IContainer*) {
+            closeWindow();
+
             FreeVehicle(vehicle);
-            window->Close();
-            isMenuOpen = false;
         });
     }
 
     {
         auto button = window->AddButton("> ~y~Pedir para aguardar");
-        button->onClick->Add([window](IContainer*) {
-            window->Close();
-            isMenuOpen = false;
+        button->onClick->Add([closeWindow](IContainer*) {
+            closeWindow();
         });
     }
-}
-
-bool Pullover::IsPulloverMenuOpen()
-{
-    return isMenuOpen;
 }

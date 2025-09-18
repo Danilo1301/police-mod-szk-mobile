@@ -9,6 +9,7 @@ class Vehicle {
 private:
     bool isWidgetVisible = false;
     IWidgetButton* widgetOptions = nullptr;
+    bool plateHidden = false;
 public:
     int ref;
     void* ptr;
@@ -18,10 +19,15 @@ public:
     int hDriver;
     std::vector<int> hPassengers;
 
+    std::string plate;
+
     Vehicle(int ref, void* ptr);
     ~Vehicle();
 
     void Update();
+
+    void OnRenderBefore();
+    void OnRenderAfter();
 
     int AddBlip();
     void RemoveBlip();

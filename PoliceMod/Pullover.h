@@ -22,8 +22,6 @@ public:
     static bool IsPedBeeingPulledOver(Ped* ped);
     static bool IsVehicleBeeingPulledOver(Vehicle* vehicle);
 
-    static void OpenPedMenu(Ped* ped);
     static void OpenVehicleMenu(Vehicle* vehicle);
-
-    static bool IsPulloverMenuOpen();
+    static void OpenPedMenu(Ped* ped);
 };

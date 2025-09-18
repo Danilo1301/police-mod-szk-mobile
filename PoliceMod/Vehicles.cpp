@@ -27,6 +27,34 @@ Vehicle* Vehicles::GetVehicle(int ref)
     return it->second;   // existe, retorna o Vehicle*
 }
 
+Vehicle* Vehicles::GetVehicle(void* ptr)
+{
+    for(auto pair : vehicles)
+    {
+        auto vehicle = pair.second;
+
+        if(vehicle->ptr == ptr)
+        {
+            return vehicle;
+        }
+    }
+
+    return NULL;
+}
+
+bool Vehicles::IsValid(Vehicle* vehicle)
+{
+    if (!vehicle) return false; // ponteiro nulo nunca é válido
+
+    for (const auto& pair : vehicles)
+    {
+        if (pair.second == vehicle) // encontrou o ponteiro
+            return true;
+    }
+
+    return false; // não encontrado
+}
+
 void Vehicles::Update()
 {
     for (auto& pair : vehicles)

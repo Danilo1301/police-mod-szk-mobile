@@ -130,3 +130,68 @@ static std::string randomCPF() {
 
     return ss.str();
 }
+
+static std::string randomPlate()
+{
+    // Letras permitidas (pode adicionar/remover)
+    static const std::vector<std::string> prefixes = {
+        "EGC", "BRA", "MNT", "CPU", "LVR", "SJP", "FGT", "QXZ", "HJK", "VPE", 
+        "NDO", "RSC", "YAB", "ZGM", "PQL", "TJS", "WFM", "LXN", "CBF", "GVN"
+    };
+
+    // RNG (random device + Mersenne Twister)
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+
+    // Sorteia prefixo
+    std::uniform_int_distribution<> prefixDist(0, prefixes.size() - 1);
+    std::string plate = prefixes[prefixDist(gen)];
+
+    // Sorteia números (0000–9999)
+    std::uniform_int_distribution<> numDist(0, 9999);
+    int number = numDist(gen);
+
+    // Formata para sempre ter 4 dígitos
+    char buf[10];
+    snprintf(buf, sizeof(buf), " %04d", number);
+
+    plate += buf;
+    return plate;
+}
+
+static std::string randomPlateLimited()
+{
+    // Letras permitidas para o prefixo
+    static const std::vector<char> letters = {'A', 'C', 'E', 'P'};
+    // Números permitidos para os dígitos
+    static const std::vector<char> numbers = {'3', '4', '6', '7', '8'};
+
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+
+    std::uniform_int_distribution<> distLetters(0, letters.size() - 1);
+    std::uniform_int_distribution<> distNumbers(0, numbers.size() - 1);
+
+    std::string plate;
+
+    // 3 letras
+    for (int i = 0; i < 3; ++i)
+        plate += letters[distLetters(gen)];
+
+    plate += " "; // espaço antes dos números
+
+    // 4 números
+    for (int i = 0; i < 4; ++i)
+        plate += numbers[distNumbers(gen)];
+
+    return plate;
+}
+
+// Converte string para minúsculas
+static std::string to_lower(const std::string& str)
+{
+    std::string out = str;
+    std::transform(out.begin(), out.end(), out.begin(),
+        [](unsigned char c) { return std::tolower(c); });
+    return out;
+}

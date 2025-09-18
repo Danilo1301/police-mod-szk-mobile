@@ -1,10 +1,11 @@
 #include "Ped.h"
-#include "CleoFunctions.h"
 
 #include "menuSZK/IMenuSZK.h"
 extern IMenuSZK* menuSZK;
 
+#include "CleoFunctions.h"
 #include "Pullover.h"
+#include "PoliceMod.h"
 
 Ped::Ped(int ref, void* ptr)
 {
@@ -38,7 +39,9 @@ void Ped::Update()
         }
     }
 
-    if (!isWidgetVisible && doHandsup && distanceToPlayer < 3.0f && !Pullover::IsPulloverMenuOpen())
+    auto isMenuOpen = PoliceMod::m_IsUsingMenu;
+
+    if (!isWidgetVisible && doHandsup && distanceToPlayer < 3.0f && !isMenuOpen)
     {
         widgetOptions = menuSZK->CreateWidgetButton(
             500, 500,
@@ -51,7 +54,7 @@ void Ped::Update()
             Pullover::OpenPedMenu(this);
         });
     }
-    else if (isWidgetVisible && (!doHandsup || distanceToPlayer > 4.0f || Pullover::IsPulloverMenuOpen()))
+    else if (isWidgetVisible && (!doHandsup || distanceToPlayer > 4.0f || isMenuOpen))
     {
         if (widgetOptions)
         {
