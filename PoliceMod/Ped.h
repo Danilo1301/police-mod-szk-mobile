@@ -29,6 +29,8 @@ public:
     std::string birthDate = "00/00/0000";
     std::string rg = "12-123-123-5";
     std::string cpf = "123-123-123-52";
+    std::string catHab = "";
+    std::string cnhExpireDate = "";
 
     PedSeat previousSeat = PedSeat::NO_SEAT;
 

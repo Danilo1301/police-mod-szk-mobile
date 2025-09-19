@@ -12,9 +12,18 @@ Ped::Ped(int ref, void* ptr)
     this->ref = ref;
     this->ptr = ptr;
 
+    auto currentYear = getCurrentYear();
+
     birthDate = randomBirthDate(1970, 2000);
     cpf = randomCPF();
     rg = randomRG();
+    catHab = gerarCatHab();
+    cnhExpireDate = gerarValidadeCNH(currentYear - 3, currentYear + 10);
+
+    if(calculateProbability(0.10f))
+    {
+        catHab = "";
+    }
 }
 
 Ped::~Ped()
@@ -122,7 +131,7 @@ void Ped::StartDrivingRandomly()
     CleoFunctions::SET_CAR_ENGINE_OPERATION(vehicleRef, true);
     CleoFunctions::SET_CAR_TRAFFIC_BEHAVIOUR(vehicleRef, 0);
     CleoFunctions::SET_CAR_TO_PSYCHO_DRIVER(vehicleRef);
-    CleoFunctions::SET_CAR_MAX_SPEED(vehicleRef, 30.0f);
+    CleoFunctions::SET_CAR_MAX_SPEED(vehicleRef, 20.0f);
 }
 
 void Ped::LeaveCar()

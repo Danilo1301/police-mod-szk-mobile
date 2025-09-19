@@ -14,6 +14,8 @@
 #include "Log.h"
 
 #include <random>
+#include <cstdlib>
+#include <ctime>
 
 template <typename T>
 static T* loadInterface(T** out, std::string name)
@@ -194,4 +196,94 @@ static std::string to_lower(const std::string& str)
     std::transform(out.begin(), out.end(), out.begin(),
         [](unsigned char c) { return std::tolower(c); });
     return out;
+}
+
+static int getRandomNumber(int min, int max)
+{
+    int n = max - min + 1;
+    int remainder = RAND_MAX % n;
+    int x;
+    do{
+        x = rand();
+    }while (x >= RAND_MAX - remainder);
+    return min + x % n;
+}
+
+static bool calculateProbability(float chance)
+{
+    int i = getRandomNumber(0, 99);
+    return i < (int)(chance * 100.0f);
+}
+
+static std::string gerarCatHab()
+{
+    std::string cat;
+
+    // 50% chance de ter A
+    if (calculateProbability(0.50f))
+        cat += "A";
+
+    // 90% chance de ter B
+    if (calculateProbability(0.90f))
+    {
+        cat += "B";
+
+        // 8% chance de ter C
+        if (calculateProbability(0.08f))
+            cat += "C";
+
+        // 3% chance de ter D
+        if (calculateProbability(0.03f))
+            cat += "D";
+
+        // 3% chance de ter E
+        if (calculateProbability(0.03f))
+        {
+            cat += "E";
+        }
+    }
+        
+    if (cat.empty())
+        cat = "B"; // fallback, sempre tem pelo menos B
+
+    return cat;
+}
+
+#include <iostream>
+#include <string>
+#include <ctime>
+#include <cstdlib>
+
+// Pega ano atual
+static int getCurrentYear()
+{
+    std::time_t t = std::time(nullptr);
+    std::tm* now = std::localtime(&t);
+    return now->tm_year + 1900;
+}
+
+// Retorna string no formato DD/MM/AAAA
+static std::string gerarValidadeCNH(int minYear, int maxYear)
+{
+    int ano = getRandomNumber(minYear, maxYear);
+    int mes = getRandomNumber(1, 12);
+
+    int diaMax;
+    switch (mes) {
+        case 2: // Fevereiro (ignora bissexto por simplicidade)
+            diaMax = 28;
+            break;
+        case 4: case 6: case 9: case 11: // Abril, Junho, Setembro, Novembro
+            diaMax = 30;
+            break;
+        default:
+            diaMax = 31;
+    }
+
+    int dia = getRandomNumber(1, diaMax);
+
+    char buffer[11];
+    std::snprintf(buffer, sizeof(buffer), "%02d/%02d/%04d", dia, mes, ano);
+
+    return std::string(buffer);
 }

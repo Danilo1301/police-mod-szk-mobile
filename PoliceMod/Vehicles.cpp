@@ -2,12 +2,37 @@
 
 #include "CleoFunctions.h"
 
+#include "menuSZK/IMenuSZK.h"
+extern IMenuSZK* menuSZK;
+
 std::map<int, Vehicle*> Vehicles::vehicles;
 
 void Vehicles::AddVehicle(int ref, void* ptr)
 {
+    if(vehicles.find(ref) != vehicles.end())
+    {
+        // já existe
+        return;
+    }
+
     auto vehicle = new Vehicle(ref, ptr);
     vehicles[ref] = vehicle;
+}
+
+Vehicle* Vehicles::RegisterVehicle(int ref)
+{
+    if(vehicles.find(ref) != vehicles.end())
+    {
+        // já existe
+        return NULL;
+    }
+
+    auto ptr = menuSZK->GetCVehicleFromRef(ref);
+
+    auto vehicle = new Vehicle(ref, ptr);
+    vehicles[ref] = vehicle;
+
+    return vehicle;
 }
 
 void Vehicles::RemoveVehicle(int ref)

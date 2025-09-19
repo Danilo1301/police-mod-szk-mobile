@@ -7,8 +7,13 @@ extern IMenuSZK* menuSZK;
 #include "Peds.h"
 #include "Vehicles.h"
 #include "windows/RGWindow.h"
+#include "windows/CNHWindow.h"
 #include "Audios.h"
 #include "PoliceMod.h"
+#include "ModelLoader.h"
+#include "VehicleTask.h"
+#include "Dialogs.h"
+#include "Objectives.h"
 
 int aimingPed = NO_PED_FOUND;
 std::vector<Ped*> pedsPulledOver;
@@ -89,19 +94,9 @@ void Pullover::FreePed(Ped* ped)
 
 void Pullover::FreeVehicle(Vehicle* vehicle)
 {
-    menuSZK->GetDebug()->AddLine("~g~free vehicle");
-
-    vehiclesPulledOver.erase(std::find(vehiclesPulledOver.begin(), vehiclesPulledOver.end(), vehicle));
-    
-    vehicle->RemoveBlip();
+    RemoveVehicleFromPullover(vehicle);
 
     Audios::audioLiberado->Play();
-
-    auto owners = vehicle->GetOwners();
-    for(auto owner : owners)
-    {
-        owner->RemoveBlip();
-    }
 
     auto ownersCount = vehicle->GetOwners().size();
     
@@ -133,6 +128,21 @@ void Pullover::FreeVehicle(Vehicle* vehicle)
         
         if(driver) driver->StartDrivingRandomly();
     });
+}
+
+void Pullover::RemoveVehicleFromPullover(Vehicle* vehicle)
+{
+    menuSZK->GetDebug()->AddLine("~g~free vehicle");
+
+    vehiclesPulledOver.erase(std::find(vehiclesPulledOver.begin(), vehiclesPulledOver.end(), vehicle));
+    
+    vehicle->RemoveBlip();
+
+    auto owners = vehicle->GetOwners();
+    for(auto owner : owners)
+    {
+        owner->RemoveBlip();
+    }
 }
 
 void Pullover::TryPulloverFromVehicle()
@@ -226,7 +236,34 @@ void Pullover::OpenPedMenu(Ped* ped)
 
                 return false;
             }, [ped]() {
-                RGWindow::CreateRG(ped);
+                auto docWindow = RGWindow::CreateRG(ped);
+                docWindow->onClose = [ped]() {
+                    OpenPedMenu(ped);
+                };
+            });
+        });
+    }
+
+    {
+        auto button = window->AddButton("> Pedir CNH");
+        button->onClick->Add([window, ped, closeWindow](IContainer*) {
+            closeWindow();
+
+            Audios::audioPedirRG->Play();
+
+            CleoFunctions::AddWaitForFunction([]() {
+
+                if(Audios::audioPedirRG->HasEnded())
+                {
+                    return true;
+                }
+
+                return false;
+            }, [ped]() {
+                auto docWindow = CNHWindow::CreateCNH(ped);
+                docWindow->onClose = [ped]() {
+                    OpenPedMenu(ped);
+                };
             });
         });
     }
@@ -264,8 +301,8 @@ void Pullover::OpenVehicleMenu(Vehicle* vehicle)
 {
     PoliceMod::m_IsUsingMenu = true;
 
+    auto numOcuppants = vehicle->GetCurrentOccupants().size();
 
-    
     auto window = menuSZK->CreateWindow(400, 200, 800, "Abordagem");
 
     auto closeWindow = [window]() {
@@ -277,7 +314,7 @@ void Pullover::OpenVehicleMenu(Vehicle* vehicle)
         window->AddText("Veiculo " + std::to_string(vehicle->ref));
     }
 
-    auto numOcuppants = vehicle->GetCurrentOccupants().size();
+   
     if(numOcuppants > 0)
     {
         auto button = window->AddButton("> Descer com as maos na cabeca");
@@ -334,6 +371,28 @@ void Pullover::OpenVehicleMenu(Vehicle* vehicle)
         audioGroup->Play();
     });
 
+    if(numOcuppants == 0)
+    {
+        auto button = window->AddButton("> Pedir para habilitado buscar");
+        button->onClick->Add([closeWindow, vehicle](IContainer*) {
+            closeWindow();
+
+            vehicle->RemoveOwners();
+            RemoveVehicleFromPullover(vehicle);
+
+            Dialogs::AddDialog("~b~[Policial] ", "Voce vai ter que chamar algum habilitado para buscar seu veiculo...", 3000);
+            Dialogs::AddDialog("~y~[Suspeito] ", "Ok, so um minuto... vou chamar aqui", 3000);
+
+            CleoFunctions::WAIT(6000, [vehicle]() {
+                Objectives::SetObjective("Aguarde o habilitado chegar com o veiculo");
+            });
+
+            CleoFunctions::WAIT(5000 + 12000, [vehicle]() {
+                AskSomeoneToGetVehicle(vehicle);
+            });
+        });
+    }
+
     {
         auto button = window->AddButton("> ~r~Liberar veiculo");
         button->onClick->Add([closeWindow, vehicle](IContainer*) {
@@ -349,4 +408,93 @@ void Pullover::OpenVehicleMenu(Vehicle* vehicle)
             closeWindow();
         });
     }
+}
+
+void Pullover::AskSomeoneToGetVehicle(Vehicle* vehicle)
+{
+    auto pulledVehicle = vehicle;
+
+    int friendCarModelId = 560;
+    int friendModelId = 150;
+
+    ModelLoader::AddModelToLoad(friendCarModelId);
+    ModelLoader::AddModelToLoad(friendModelId);
+
+    ModelLoader::LoadAll([friendCarModelId, friendModelId, pulledVehicle]() {
+        auto playerActor = GetPlayerActor();
+        auto playerPosition = GetPedPosition(playerActor);
+
+        float spawnX = 0, spawnY = 0, spawnZ = 0;
+        CleoFunctions::GET_NEAREST_CAR_PATH_COORDS_FROM(playerPosition.x + 120, playerPosition.y, playerPosition.z, 2, &spawnX, &spawnY, &spawnZ);
+
+        auto vehicleRef = CleoFunctions::CREATE_CAR_AT(friendCarModelId, spawnX, spawnY, spawnZ);
+        auto vehicle = Vehicles::RegisterVehicle(vehicleRef);
+        
+        int type = 23; // special
+
+        auto driverRef = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(vehicleRef, type, friendModelId);
+        auto driverPed = Peds::RegisterPed(driverRef);
+
+        auto friendRef = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT(vehicleRef, type, friendModelId, 0);
+        auto pedPassenger = Peds::RegisterPed(friendRef);
+
+        vehicle->SetOwners();
+        vehicle->AddBlip();
+
+        auto taskFollow = new VehicleTask(vehicle);
+        taskFollow->DriveTo(playerPosition, [vehicle, taskFollow, pulledVehicle]() {
+
+            delete taskFollow;
+
+            debug->AddLine("chegou perto do player");
+
+            Objectives::ClearObjective();
+
+            if(!Vehicles::IsValid(vehicle)) return;
+
+            CleoFunctions::CAR_TURN_OFF_ENGINE(vehicle->ref);
+
+            auto passengers = vehicle->GetCurrentPassengers();
+            
+            if(passengers.size() == 0) return;
+            
+            auto passenger = passengers[0];
+            
+            debug->AddLine("saindo do veiculo");
+
+            passenger->LeaveCar();
+
+            CleoFunctions::AddWaitForFunction([passenger]() {
+
+                if(passenger->IsInAnyCar()) return false;
+
+                return true;
+            }, [vehicle, passenger, pulledVehicle]() {
+                if(!Vehicles::IsValid(vehicle)) return;
+
+                debug->AddLine("entrando no veiculo");
+
+                CleoFunctions::ENTER_CAR_AS_DRIVER_AS_ACTOR(passenger->ref, pulledVehicle->ref, 8000);
+                
+                CleoFunctions::AddWaitForFunction([passenger]() {
+
+                    if(!passenger->IsInAnyCar()) return false;
+
+                    return true;
+                }, [vehicle, pulledVehicle]() {
+
+                    debug->AddLine("indo embora com os carros");
+
+                    vehicle->SetOwners();
+                    vehicle->GetCurrentDriver()->StartDrivingRandomly();
+
+                    pulledVehicle->SetOwners();
+                    pulledVehicle->GetCurrentDriver()->StartDrivingRandomly();
+                });
+            });
+
+            // if(driverPed) driverPed->LeaveCar();
+            // if(pedPassenger) pedPassenger->LeaveCar();
+        });
+    });
 }

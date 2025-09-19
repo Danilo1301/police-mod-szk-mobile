@@ -1,17 +1,14 @@
-#include "RGWindow.h"
-
-#include <utils.h>
-#include <menuSZK/ILabel.h>
+#include "CNHWindow.h"
 
 #include "menuSZK/IMenuSZK.h"
 extern IMenuSZK* menuSZK;
 
-RGWindow::RGWindow() : DocumentWindow("Documento - RG")
+CNHWindow::CNHWindow() : DocumentWindow("CNH")
 {
     
 }
 
-void RGWindow::MakeWindow(Ped* ped)
+void CNHWindow::MakeWindow(Ped* ped)
 {
     DocumentWindow::MakeWindow(ped);
 
@@ -24,7 +21,7 @@ void RGWindow::MakeWindow(Ped* ped)
         auto rgContainer = container->CreateChildContainer();
         rgContainer->fillHorizontal = true;
         rgContainer->fillVertical = true;
-        rgContainer->SetBackgroundTexture(getPathFromAssets("rg.png"));
+        rgContainer->SetBackgroundTexture(getPathFromAssets("cnh.png"));
 
         auto createRGLabel = [rgContainer]() -> ILabel* {
 
@@ -45,27 +42,19 @@ void RGWindow::MakeWindow(Ped* ped)
         };
 
         {
-            //CPF
-
-            auto label = createRGLabel();
-            label->text = ped->cpf;
-            label->GetContainer()->localOffset = CVector2D(140, 65);
-        }
-
-        {
-            //RG
-
-            auto label = createRGLabel();
-            label->text = ped->rg;
-            label->GetContainer()->localOffset = CVector2D(350, 120);
-        }
-
-        {
             //Nome
 
             auto label = createRGLabel();
             label->text = ped->name;
-            label->GetContainer()->localOffset = CVector2D(180, 178);
+            label->GetContainer()->localOffset = CVector2D(155, 138);
+        }
+
+        {
+            //CPF
+
+            auto label = createRGLabel();
+            label->text = ped->cpf;
+            label->GetContainer()->localOffset = CVector2D(460, 265);
         }
 
         {
@@ -73,16 +62,24 @@ void RGWindow::MakeWindow(Ped* ped)
 
             auto label = createRGLabel();
             label->text = ped->birthDate;
-            label->GetContainer()->localOffset = CVector2D(310, 310);
+            label->GetContainer()->localOffset = CVector2D(460, 335);
         }
 
         {
-            //Ped ID
+            //Cat Hab
 
             auto label = createRGLabel();
-            label->text = std::to_string(ped->ref);
-            label->textHorizontalAlign = HorizontalAlign::Right;
-            label->GetContainer()->localOffset = CVector2D(590, 90);
+            label->text = ped->catHab;
+            label->textColor = CRGBA(255, 0, 0);
+            label->GetContainer()->localOffset = CVector2D(650, 490);
+        }
+
+        {
+            //Validade
+
+            auto label = createRGLabel();
+            label->text = ped->cnhExpireDate;
+            label->GetContainer()->localOffset = CVector2D(455, 550);
         }
     }
 

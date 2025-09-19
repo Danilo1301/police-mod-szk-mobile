@@ -1,11 +1,36 @@
 #include "Peds.h"
 
+#include "menuSZK/IMenuSZK.h"
+extern IMenuSZK* menuSZK;
+
 std::map<int, Ped*> Peds::peds;
 
 void Peds::AddPed(int ref, void* ptr)
 {
+    if(peds.find(ref) != peds.end())
+    {
+        // já existe
+        return;
+    }
+
     auto ped = new Ped(ref, ptr);
     peds[ref] = ped;
+}
+
+Ped* Peds::RegisterPed(int ref)
+{
+    if(peds.find(ref) != peds.end())
+    {
+        // já existe
+        return NULL;
+    }
+
+    auto ptr = menuSZK->GetCPedFromRef(ref);
+
+    auto ped = new Ped(ref, ptr);
+    peds[ref] = ped;
+
+    return ped;
 }
 
 void Peds::RemovePed(int ref)

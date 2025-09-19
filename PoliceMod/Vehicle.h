@@ -36,6 +36,7 @@ public:
 
     void SetOwners();
     std::vector<Ped*> GetOwners();
+    void RemoveOwners();
 
     Ped* GetCurrentDriver();
     std::vector<Ped*> GetCurrentPassengers();

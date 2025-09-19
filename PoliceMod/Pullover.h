@@ -14,6 +14,7 @@ public:
     static void PulloverPed(Ped* ped);
     static void FreePed(Ped* ped);
     static void FreeVehicle(Vehicle* vehicle);
+    static void RemoveVehicleFromPullover(Vehicle* vehicle);
 
     static void TryPulloverFromVehicle();
     static void TryPulloverVehicle();
@@ -24,4 +25,6 @@ public:
 
     static void OpenVehicleMenu(Vehicle* vehicle);
     static void OpenPedMenu(Ped* ped);
+
+    static void AskSomeoneToGetVehicle(Vehicle* vehicle);
 };

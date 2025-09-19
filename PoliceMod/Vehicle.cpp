@@ -166,6 +166,32 @@ std::vector<Ped*> Vehicle::GetOwners()
     return owners;
 }
 
+void Vehicle::RemoveOwners()
+{
+    if(hDriver > 0)
+    {
+        auto ped = Peds::GetPed(hDriver);
+        if(ped)
+        {
+            ped->pulledOverFromVehicle = 0;
+        }
+    }
+    hDriver = 0;
+
+    // passengers
+
+    for(auto hPassenger : hPassengers)
+    {
+        auto ped = Peds::GetPed(hPassenger);
+
+        if(ped)
+        {
+            ped->pulledOverFromVehicle = 0;
+        }
+    }
+    hPassengers.clear();
+}
+
 Ped* Vehicle::GetCurrentDriver()
 {
     auto refDriver = CleoFunctions::GET_DRIVER_OF_CAR(ref);
