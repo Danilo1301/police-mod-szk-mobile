@@ -8,6 +8,7 @@ extern IMenuSZK* menuSZK;
 #include "Vehicles.h"
 #include "windows/RGWindow.h"
 #include "windows/CNHWindow.h"
+#include "windows/CRLVWindow.h"
 #include "Audios.h"
 #include "PoliceMod.h"
 #include "ModelLoader.h"
@@ -22,7 +23,7 @@ std::vector<Vehicle*> vehiclesPulledOver;
 void Pullover::Initialize()
 {
     {
-        auto widget = menuSZK->CreateWidgetButton(350, 350, getPathFromMenuAssets("widget_background1.png"), getPathFromAssets("widget_pullover.png"));
+        auto widget = menuSZK->CreateWidgetButton(600, 30, getPathFromMenuAssets("widget_background1.png"), getPathFromAssets("widget_pullover.png"));
         widget->onClickWidget->Add([]() {
 
             int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
@@ -190,6 +191,8 @@ void Pullover::PulloverVehicle(Vehicle* vehicle)
 
     CleoFunctions::WAIT(1000, [vehicle]() {
         CleoFunctions::CAR_TURN_OFF_ENGINE(vehicle->ref);
+
+        Dialogs::AddDialog("~y~Aproxime-se do veiculo!", 3000);
     });
 }
 
@@ -207,6 +210,12 @@ bool Pullover::IsVehicleBeeingPulledOver(Vehicle* vehicle)
 
 void Pullover::OpenPedMenu(Ped* ped)
 {
+    Vehicle* vehiclePulled = Vehicles::GetVehicle(ped->pulledOverFromVehicle);
+    Vehicle* vehicleOwned = NULL;
+    
+    if(vehiclePulled)
+        vehicleOwned = vehiclePulled->hDriver == ped->ref ? vehiclePulled : NULL;
+
     auto window = menuSZK->CreateWindow(400, 200, 800, "Abordagem");
     
     PoliceMod::m_IsUsingMenu = true;
@@ -268,6 +277,19 @@ void Pullover::OpenPedMenu(Ped* ped)
         });
     }
 
+    if(vehicleOwned)
+    {
+        auto button = window->AddButton("> Pedir documento do veiculo");
+        button->onClick->Add([ped, closeWindow, vehicleOwned](IContainer*) {
+            closeWindow();
+
+            auto docWindow = CRLV_Window::Create(ped, vehicleOwned);
+            docWindow->onClose = [ped]() {
+                OpenPedMenu(ped);
+            };
+        });
+    }
+
     if(ped->pulledOverFromVehicle == 0)
     {
         auto button = window->AddButton("> ~r~Liberar");
@@ -324,7 +346,7 @@ void Pullover::OpenVehicleMenu(Vehicle* vehicle)
 
             Audios::audioDesceMaoCabeca->Play();
 
-            CleoFunctions::WAIT(3000, [vehicle]() {
+            CleoFunctions::WAIT(2500, [vehicle]() {
                 auto peds = vehicle->GetCurrentOccupants();
 
                 for(auto ped : peds)
@@ -414,8 +436,8 @@ void Pullover::AskSomeoneToGetVehicle(Vehicle* vehicle)
 {
     auto pulledVehicle = vehicle;
 
-    int friendCarModelId = 560;
-    int friendModelId = 150;
+    int friendCarModelId = 546;
+    int friendModelId = 59;
 
     ModelLoader::AddModelToLoad(friendCarModelId);
     ModelLoader::AddModelToLoad(friendModelId);
@@ -441,8 +463,11 @@ void Pullover::AskSomeoneToGetVehicle(Vehicle* vehicle)
         vehicle->SetOwners();
         vehicle->AddBlip();
 
+        float targetX, targetY, targetZ;
+        CleoFunctions::GET_NEAREST_CAR_PATH_COORDS_FROM(playerPosition.x, playerPosition.y, playerPosition.z, 2, &targetX, &targetY, &targetZ);
+
         auto taskFollow = new VehicleTask(vehicle);
-        taskFollow->DriveTo(playerPosition, [vehicle, taskFollow, pulledVehicle]() {
+        taskFollow->DriveTo(CVector(targetX, targetY, targetZ), [vehicle, taskFollow, pulledVehicle]() {
 
             delete taskFollow;
 

@@ -5,12 +5,13 @@
 #include "menuSZK/IMenuSZK.h"
 extern IMenuSZK* menuSZK;
 
-DocumentWindow::DocumentWindow(std::string title)
+DocumentWindow::DocumentWindow(std::string title, Ped* ped)
 {
-    window = menuSZK->CreateWindow(400, 50, 900, title);
+    this->ped = ped;
+    window = menuSZK->CreateWindow(400, 30, 900, title);
 }
 
-void DocumentWindow::MakeWindow(Ped* ped)
+void DocumentWindow::MakeWindow()
 {
     // dont make window here
 }

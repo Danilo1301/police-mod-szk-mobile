@@ -14,6 +14,7 @@ private:
     static std::vector<BasicDialog*> dialogs;
 public:
     static void Initialize();
+    static void AddDialog(std::string message, int time);
     static void AddDialog(std::string title, std::string message, int time);
     static void Update();
     static bool HasDialogs() { return !dialogs.empty(); }

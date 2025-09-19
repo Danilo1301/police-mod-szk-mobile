@@ -23,6 +23,16 @@ void Dialogs::Initialize()
     menuSZK->GetScreenContainer()->AddChild(label->GetContainer());
 }
 
+void Dialogs::AddDialog(std::string message, int time)
+{
+    auto dialog = new BasicDialog();
+    dialog->title = "";
+    dialog->message = message;
+    dialog->time = time;
+
+    dialogs.push_back(dialog);
+}
+
 void Dialogs::AddDialog(std::string title, std::string message, int time)
 {
     auto dialog = new BasicDialog();
@@ -58,7 +68,12 @@ void Dialogs::Update()
         {
             auto dialog = dialogs[0];
 
-            dialogsLabel->text = dialog->title + "~w~" + dialog->message;
+            if(dialog->title.empty())
+            {
+                dialogsLabel->text = dialog->message;
+            } else {
+                dialogsLabel->text = dialog->title + "~w~" + dialog->message;
+            }
         }
     }
 }

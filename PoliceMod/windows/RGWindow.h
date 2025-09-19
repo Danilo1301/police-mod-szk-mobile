@@ -5,13 +5,13 @@
 
 class RGWindow : public DocumentWindow {
 public:
-    RGWindow();
+    RGWindow(Ped* ped);
 
-    void MakeWindow(Ped* ped) override;
+    void MakeWindow() override;
     
     static RGWindow* CreateRG(Ped* ped) {
-        auto window = new RGWindow();
-        window->MakeWindow(ped);
+        auto window = new RGWindow(ped);
+        window->MakeWindow();
         return window;
     }
 };

@@ -249,11 +249,6 @@ static std::string gerarCatHab()
     return cat;
 }
 
-#include <iostream>
-#include <string>
-#include <ctime>
-#include <cstdlib>
-
 // Pega ano atual
 static int getCurrentYear()
 {
@@ -286,4 +281,45 @@ static std::string gerarValidadeCNH(int minYear, int maxYear)
     std::snprintf(buffer, sizeof(buffer), "%02d/%02d/%04d", dia, mes, ano);
 
     return std::string(buffer);
+}
+
+static char randomCharVIN()
+{
+    static const char chars[] =
+        "ABCDEFGHJKLMNPRSTUVWXYZ"  // letras válidas (sem I, O, Q)
+        "0123456789";
+    int idx = rand() % (sizeof(chars) - 1);
+    return chars[idx];
+}
+
+static std::string gerarChassi()
+{
+    std::string vin;
+
+    // WMI fixo brasileiro (ex.: 9BW = VW Brasil, mas pode variar)
+    vin += "9BW";
+
+    // VDS (4–9): aleatório
+    for (int i = 0; i < 6; i++)
+        vin += randomCharVIN();
+
+    // VIS (10–17): aleatório
+    for (int i = 0; i < 8; i++)
+        vin += randomCharVIN();
+
+    return vin;
+}
+
+static std::string gerarRenavam()
+{
+    std::string renavam;
+    renavam.reserve(11);
+
+    for (int i = 0; i < 11; ++i)
+    {
+        int digit = getRandomNumber(0, 9);
+        renavam.push_back('0' + digit);
+    }
+
+    return renavam;
 }

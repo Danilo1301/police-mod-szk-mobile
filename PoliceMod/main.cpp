@@ -23,7 +23,7 @@ ISAUtils* sautils = NULL;
 #include "menuSZK/IMenuSZK.h"
 IMenuSZK* menuSZK = NULL;
 
-MYMODCFG(net.daniloszk.policemod, Police Mod SZK, 0.1.0, DaniloSZK)
+MYMODCFG(net.daniloszk.policemod, Police Mod SZK, 0.2.0, DaniloSZK)
 
 // --------------------------------------
 

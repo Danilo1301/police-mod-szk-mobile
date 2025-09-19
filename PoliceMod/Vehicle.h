@@ -20,6 +20,11 @@ public:
     std::vector<int> hPassengers;
 
     std::string plate;
+    std::string chassis;
+    std::string renavamCode;
+    int exerciseYear;
+    int manufactureYear;
+    int modelYear;
 
     Vehicle(int ref, void* ptr);
     ~Vehicle();

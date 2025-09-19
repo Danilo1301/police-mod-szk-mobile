@@ -6,14 +6,14 @@
 #include "menuSZK/IMenuSZK.h"
 extern IMenuSZK* menuSZK;
 
-RGWindow::RGWindow() : DocumentWindow("Documento - RG")
+RGWindow::RGWindow(Ped* ped) : DocumentWindow("RG", ped)
 {
     
 }
 
-void RGWindow::MakeWindow(Ped* ped)
+void RGWindow::MakeWindow()
 {
-    DocumentWindow::MakeWindow(ped);
+    DocumentWindow::MakeWindow();
 
     {
         auto item = window->AddCustomItem();
@@ -29,7 +29,7 @@ void RGWindow::MakeWindow(Ped* ped)
         auto createRGLabel = [rgContainer]() -> ILabel* {
 
             auto label = menuSZK->CreateLabel();
-            label->textColor = CRGBA(255, 255, 255);
+            label->textColor = CRGBA(180, 180, 180);
             label->text = "This is a text Label";
             label->textHorizontalAlign = HorizontalAlign::Left;
             label->textVerticalAlign = VerticalAlign::Middle;

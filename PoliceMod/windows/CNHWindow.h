@@ -5,13 +5,14 @@
 
 class CNHWindow : public DocumentWindow {
 public:
-    CNHWindow();
 
-    void MakeWindow(Ped* ped) override;
+    CNHWindow(Ped* ped);
+
+    void MakeWindow() override;
     
     static CNHWindow* CreateCNH(Ped* ped) {
-        auto window = new CNHWindow();
-        window->MakeWindow(ped);
+        auto window = new CNHWindow(ped);
+        window->MakeWindow();
         return window;
     }
 };

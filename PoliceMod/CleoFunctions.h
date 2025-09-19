@@ -166,44 +166,10 @@ public:
     static bool PLAYER_DEFINED(int player);
     static bool HAS_ANIMATION_LOADED(const char* animationFile);
     static void LOAD_ANIMATION(const char* animationFile);
+    static void SET_CAR_HEALTH(int car, int health);
 
     static int CreateMarker(float x, float y, float z, int color, int display, int size);
 };
-
-/*
-Player1 = 0
-Player2 = 1
-PlayerNetwork = 2
-PlayerUnused = 3
-CivMale = 4
-CivFemale = 5
-Cop = 6
-Gang1 = 7
-Gang2 = 8
-Gang3 = 9
-Gang4 = 10
-Gang5 = 11
-Gang6 = 12
-Gang7 = 13
-Gang8 = 14
-Gang9 = 15
-Gang10 = 16
-Dealer = 17
-Emergency = 18
-Fireman = 19
-Criminal = 20
-Bum = 21
-Prostitute = 22
-Special = 23
-Mission1 = 24
-Mission2 = 25
-Mission3 = 26
-Mission4 = 27
-Mission5 = 28
-Mission6 = 29
-Mission7 = 30
-Mission8 = 31
-*/
 
 static CVector GetCarPositionWithOffset(int hVehicle, CVector offset)
 {

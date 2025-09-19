@@ -1,14 +1,14 @@
-#include "CNHWindow.h"
+#include "CRLVWindow.h"
 
 #include "menuSZK/IMenuSZK.h"
 extern IMenuSZK* menuSZK;
 
-CNHWindow::CNHWindow(Ped* ped) : DocumentWindow("CNH", ped)
+CRLV_Window::CRLV_Window(Ped* ped, Vehicle* vehicle) : DocumentWindow("CRLV", ped)
 {
-    
+    this->vehicle = vehicle;
 }
 
-void CNHWindow::MakeWindow()
+void CRLV_Window::MakeWindow()
 {
     DocumentWindow::MakeWindow();
 
@@ -21,7 +21,7 @@ void CNHWindow::MakeWindow()
         auto rgContainer = container->CreateChildContainer();
         rgContainer->fillHorizontal = true;
         rgContainer->fillVertical = true;
-        rgContainer->SetBackgroundTexture(getPathFromAssets("cnh.png"));
+        rgContainer->SetBackgroundTexture(getPathFromAssets("crlv.png"));
 
         auto createRGLabel = [rgContainer]() -> ILabel* {
 
@@ -42,44 +42,67 @@ void CNHWindow::MakeWindow()
         };
 
         {
+            //Codigo REN
+
+            auto label = createRGLabel();
+            label->text = vehicle->renavamCode;
+            label->GetContainer()->localOffset = CVector2D(42, 175);
+        }
+
+        {
+            //Placa
+
+            auto label = createRGLabel();
+            label->text = vehicle->plate;
+            label->GetContainer()->localOffset = CVector2D(42, 245);
+        }
+
+        {
+            //Exercício
+
+            auto label = createRGLabel();
+            label->text = std::to_string(vehicle->exerciseYear);
+            label->GetContainer()->localOffset = CVector2D(232, 245);
+        }
+
+        {
+            //Ano Fabricação
+
+            auto label = createRGLabel();
+            label->text = std::to_string(vehicle->manufactureYear);
+            label->GetContainer()->localOffset = CVector2D(415, 245);
+        }
+
+        {
+            //Ano Modelo
+
+            auto label = createRGLabel();
+            label->text = std::to_string(vehicle->modelYear);
+            label->GetContainer()->localOffset = CVector2D(42, 314);
+        }
+
+        {
+            //Chassis
+
+            auto label = createRGLabel();
+            label->text = vehicle->chassis;
+            label->GetContainer()->localOffset = CVector2D(42, 385);
+        }
+
+        {
             //Nome
 
             auto label = createRGLabel();
             label->text = ped->name;
-            label->GetContainer()->localOffset = CVector2D(155, 138);
+            label->GetContainer()->localOffset = CVector2D(42, 453);
         }
 
         {
-            //CPF
+            //CPF / CNPJ
 
             auto label = createRGLabel();
             label->text = ped->cpf;
-            label->GetContainer()->localOffset = CVector2D(460, 265);
-        }
-
-        {
-            //Data Nascimento
-
-            auto label = createRGLabel();
-            label->text = ped->birthDate;
-            label->GetContainer()->localOffset = CVector2D(460, 335);
-        }
-
-        {
-            //Cat Hab
-
-            auto label = createRGLabel();
-            label->text = ped->catHab;
-            label->textColor = CRGBA(255, 0, 0);
-            label->GetContainer()->localOffset = CVector2D(650, 490);
-        }
-
-        {
-            //Validade
-
-            auto label = createRGLabel();
-            label->text = ped->cnhExpireDate;
-            label->GetContainer()->localOffset = CVector2D(455, 550);
+            label->GetContainer()->localOffset = CVector2D(42, 520);
         }
     }
 

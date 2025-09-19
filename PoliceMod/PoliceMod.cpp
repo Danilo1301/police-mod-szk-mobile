@@ -50,7 +50,7 @@ void PoliceMod::Initialize()
     Dialogs::Initialize();
     Objectives::Initialize();
 
-    auto widgetTestMenu = menuSZK->CreateWidgetButton(350, 650, getPathFromMenuAssets("widget_background1.png"), getPathFromAssets("widget_vest.png"));
+    auto widgetTestMenu = menuSZK->CreateWidgetButton(600 + 150, 30, getPathFromMenuAssets("widget_background1.png"), getPathFromAssets("widget_vest.png"));
     widgetTestMenu->onClickWidget->Add([]() {
         TestWindow::ShowWindow();
     });

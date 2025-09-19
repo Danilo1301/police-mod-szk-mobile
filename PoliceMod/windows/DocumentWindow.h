@@ -12,8 +12,9 @@ protected:
     IContainer* container;
 public:
     std::function<void()> onClose;
+    Ped* ped;
     
-    DocumentWindow(std::string title);
+    DocumentWindow(std::string title, Ped* ped);
 
-    virtual void MakeWindow(Ped* ped);
+    virtual void MakeWindow();
 };

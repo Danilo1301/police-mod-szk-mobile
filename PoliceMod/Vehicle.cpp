@@ -15,6 +15,30 @@ Vehicle::Vehicle(int ref, void* ptr)
     this->ptr = ptr;
 
     plate = randomPlateLimited();
+    chassis = gerarChassi();
+    renavamCode = gerarRenavam();
+
+    int anoAtual = getCurrentYear();
+
+    manufactureYear = getRandomNumber(anoAtual - 20, anoAtual);
+    modelYear = getRandomNumber(manufactureYear, manufactureYear + 1);
+
+    // decide se está atrasado
+    if (calculateProbability(0.20f))
+    {
+        // queremos um exerciseYear entre manufactureYear e anoAtual - 1
+        int latest = std::max(manufactureYear, anoAtual - 1);
+
+        // se manufactureYear == anoAtual (veículo do ano), forçamos pequeno atraso
+        if (latest < manufactureYear) latest = manufactureYear;
+
+        exerciseYear = getRandomNumber(manufactureYear, latest);
+    }
+    else
+    {
+        // em dia
+        exerciseYear = anoAtual;
+    }
 }
 
 Vehicle::~Vehicle()
@@ -60,6 +84,8 @@ void Vehicle::Update()
         container->worldPosition = position;
         container->fixPositionToCenter = true;
     }
+
+    CleoFunctions::SET_CAR_HEALTH(ref, 1000);
 }
 
 void Vehicle::OnRenderBefore()
