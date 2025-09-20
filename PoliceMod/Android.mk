@@ -8,6 +8,7 @@ LOCAL_CPP_FEATURES += exceptions
 LOCAL_SRC_FILES := mod/logger.cpp mod/config.cpp
 LOCAL_SRC_FILES += $(wildcard $(LOCAL_PATH)/*.cpp)
 LOCAL_SRC_FILES += $(wildcard $(LOCAL_PATH)/windows/*.cpp)
+LOCAL_SRC_FILES += $(wildcard $(LOCAL_PATH)/dialog/*.cpp)
 
 LOCAL_CFLAGS += -O2 -mfloat-abi=softfp -DNDEBUG -std=c++17
 LOCAL_C_INCLUDES += ./include

@@ -15,6 +15,7 @@ extern IMenuSZK* menuSZK;
 #include "VehicleTask.h"
 #include "Dialogs.h"
 #include "Objectives.h"
+#include "dialog/DialogManager.h"
 
 int aimingPed = NO_PED_FOUND;
 std::vector<Ped*> pedsPulledOver;
@@ -166,6 +167,7 @@ void Pullover::TryPulloverVehicle()
     if(closestCar == NULL)
     {
         debug->AddLine("~r~no car found to pull over");
+        Dialogs::AddDialog("~r~Nenhum veiculo encontrado", 2000);
         return;
     }
     
@@ -189,9 +191,13 @@ void Pullover::PulloverVehicle(Vehicle* vehicle)
 
     Audios::audioEncostaCarro->Play();
 
+    Dialogs::AddOfficerDialog("Encosta o carro", 2000);
+
     CleoFunctions::WAIT(1000, [vehicle]() {
         CleoFunctions::CAR_TURN_OFF_ENGINE(vehicle->ref);
+    });
 
+    CleoFunctions::WAIT(2500, [vehicle]() {
         Dialogs::AddDialog("~y~Aproxime-se do veiculo!", 3000);
     });
 }
@@ -229,6 +235,13 @@ void Pullover::OpenPedMenu(Ped* ped)
         window->AddText("Pedestre " + std::to_string(ped->ref));
     }
 
+    auto button = window->AddButton("> Dialogos");
+    button->onClick->Add([ped, closeWindow](IContainer*) {
+        closeWindow();
+
+        DialogManager::BeginDialogue(&ped->dialogue);
+    });
+
     {
         auto button = window->AddButton("> Pedir RG");
         button->onClick->Add([window, ped, closeWindow](IContainer*) {
@@ -247,7 +260,7 @@ void Pullover::OpenPedMenu(Ped* ped)
             }, [ped]() {
                 auto docWindow = RGWindow::CreateRG(ped);
                 docWindow->onClose = [ped]() {
-                    OpenPedMenu(ped);
+                    //OpenPedMenu(ped);
                 };
             });
         });
@@ -269,9 +282,16 @@ void Pullover::OpenPedMenu(Ped* ped)
 
                 return false;
             }, [ped]() {
+
+                if(!ped->HasCNH())
+                {
+                    Dialogs::AddDialog("~y~[Suspeito] ", "Eu nao tenho habilitacao...", 3000);
+                    return;
+                }
+
                 auto docWindow = CNHWindow::CreateCNH(ped);
                 docWindow->onClose = [ped]() {
-                    OpenPedMenu(ped);
+                    //OpenPedMenu(ped);
                 };
             });
         });
@@ -283,9 +303,15 @@ void Pullover::OpenPedMenu(Ped* ped)
         button->onClick->Add([ped, closeWindow, vehicleOwned](IContainer*) {
             closeWindow();
 
+            if(!ped->HasCNH())
+            {
+                Dialogs::AddDialog("~y~[Suspeito] ", "O veiculo nao e meu.. E nao tenho o documento", 3000);
+                return;
+            }
+
             auto docWindow = CRLV_Window::Create(ped, vehicleOwned);
             docWindow->onClose = [ped]() {
-                OpenPedMenu(ped);
+                //OpenPedMenu(ped);
             };
         });
     }
@@ -512,9 +538,11 @@ void Pullover::AskSomeoneToGetVehicle(Vehicle* vehicle)
 
                     vehicle->SetOwners();
                     vehicle->GetCurrentDriver()->StartDrivingRandomly();
+                    vehicle->RemoveBlip();
 
                     pulledVehicle->SetOwners();
                     pulledVehicle->GetCurrentDriver()->StartDrivingRandomly();
+                    pulledVehicle->RemoveBlip();
                 });
             });
 

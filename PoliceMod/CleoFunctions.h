@@ -167,6 +167,7 @@ public:
     static bool HAS_ANIMATION_LOADED(const char* animationFile);
     static void LOAD_ANIMATION(const char* animationFile);
     static void SET_CAR_HEALTH(int car, int health);
+    static int GET_CAR_HEALTH(int car);
 
     static int CreateMarker(float x, float y, float z, int color, int display, int size);
 };

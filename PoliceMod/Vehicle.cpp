@@ -85,7 +85,12 @@ void Vehicle::Update()
         container->fixPositionToCenter = true;
     }
 
-    CleoFunctions::SET_CAR_HEALTH(ref, 1000);
+    // auto carHealth = CleoFunctions::GET_CAR_HEALTH(ref);
+    // if(carHealth < 300)
+    // {
+    //     CleoFunctions::SET_CAR_HEALTH(ref, 1000);
+    //     debug->AddLine("~y~car health restored");
+    // }
 }
 
 void Vehicle::OnRenderBefore()

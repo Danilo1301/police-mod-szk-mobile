@@ -11,6 +11,7 @@ extern IMenuSZK* menuSZK;
 #include "windows/TestWindow.h"
 #include "Dialogs.h"
 #include "Objectives.h"
+#include "dialog/DialogManager.h"
 
 bool hasLoadedAnimations = false;
 
@@ -48,6 +49,7 @@ void PoliceMod::Initialize()
 
     Pullover::Initialize();
     Dialogs::Initialize();
+    DialogManager::Initialize();
     Objectives::Initialize();
 
     auto widgetTestMenu = menuSZK->CreateWidgetButton(600 + 150, 30, getPathFromMenuAssets("widget_background1.png"), getPathFromAssets("widget_vest.png"));
@@ -82,6 +84,7 @@ void PoliceMod::Update()
     Vehicles::Update();
     Pullover::Update();
     Dialogs::Update();
+    DialogManager::Update();
     Objectives::Update();
 
     CleoFunctions::Update(menuSZK->deltaTime);

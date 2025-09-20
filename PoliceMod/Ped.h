@@ -4,6 +4,8 @@
 
 #include "menuSZK/IWidgetButton.h"
 
+#include "dialog/DialogManager.h"
+
 enum PedSeat
 {
     NO_SEAT = 0,
@@ -34,6 +36,8 @@ public:
 
     PedSeat previousSeat = PedSeat::NO_SEAT;
 
+    Dialogue dialogue;
+
     Ped(int ref, void* ptr);
     ~Ped();
 
@@ -53,4 +57,6 @@ public:
 
     int AddBlip();
     void RemoveBlip();
+
+    bool HasCNH() { return catHab != ""; }
 };

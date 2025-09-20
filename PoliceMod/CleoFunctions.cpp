@@ -130,6 +130,7 @@ static DEFOPCODE(0256, PLAYER_DEFINED, i); //0256: player $PLAYER_CHAR defined
 static DEFOPCODE(04EE, HAS_ANIMATION_LOADED, s); //04EE: animation "GANGS" loaded 
 static DEFOPCODE(04ED, LOAD_ANIMATION, s); //04ED: load_animation "GANGS"
 static DEFOPCODE(0224, SET_CAR_HEALTH, ii); //0224: set_car $2868 health_to 1000 
+static DEFOPCODE(0227, GET_CAR_HEALTH, ii);
 
 std::vector<WaitFunction*> CleoFunctions::m_WaitFunctions;
 
@@ -936,6 +937,12 @@ void CleoFunctions::LOAD_ANIMATION(const char* animationFile)
 void CleoFunctions::SET_CAR_HEALTH(int car, int health)
 {
     sautils->ScriptCommand(&scm_SET_CAR_HEALTH, car, health);
+}
+
+int CleoFunctions::GET_CAR_HEALTH(int car)
+{
+    int result = sautils->ScriptCommand(&scm_GET_CAR_HEALTH, car);
+    return result;
 }
 
 int CleoFunctions::CreateMarker(float x, float y, float z, int color, int display, int size)

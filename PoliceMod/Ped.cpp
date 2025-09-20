@@ -12,6 +12,52 @@ Ped::Ped(int ref, void* ptr)
     this->ref = ref;
     this->ptr = ptr;
 
+    std::string DIALOG_THAT_HAS_OPTIONS = "";
+
+    dialogue.variables.hasCNH = false;
+
+    dialogue.AddNode({
+        "start",
+        "Boa tarde...",
+        DIALOG_THAT_HAS_OPTIONS,
+        {
+            {"Esta armado?", "armed"},
+            {"Tem habilitacao?", "hab"}
+        }
+    });
+
+    dialogue.AddNode({
+        "armed",
+        "Voce ta armado?",
+        "armed.answer",
+        {}
+    });
+
+    dialogue.AddNode({
+        "armed.answer",
+        "Nao senhor, nao estou armado",
+        DIALOG_THAT_HAS_OPTIONS,
+        {
+            {"Voltar", "start"}
+        }
+    });
+
+    dialogue.AddNode({
+        "hab",
+        "Voce tem habilitacao?",
+        "hab.answer",
+        {}
+    });
+
+    dialogue.AddNode({
+        "hab.answer",
+        "Nao tenho",
+        DIALOG_THAT_HAS_OPTIONS,
+        {
+            {"Voltar", "start"}
+        }
+    });
+
     auto currentYear = getCurrentYear();
 
     birthDate = randomBirthDate(1970, 2000);
@@ -20,7 +66,7 @@ Ped::Ped(int ref, void* ptr)
     catHab = gerarCatHab();
     cnhExpireDate = gerarValidadeCNH(currentYear - 3, currentYear + 10);
 
-    if(calculateProbability(0.10f))
+    if(!dialogue.variables.hasCNH)
     {
         catHab = "";
     }

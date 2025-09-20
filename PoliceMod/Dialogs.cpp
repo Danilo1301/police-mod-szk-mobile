@@ -43,6 +43,11 @@ void Dialogs::AddDialog(std::string title, std::string message, int time)
     dialogs.push_back(dialog);
 }
 
+void Dialogs::AddOfficerDialog(std::string message, int time)
+{
+    AddDialog("~b~[Policial]", message, time);
+}
+
 void Dialogs::Update()
 {
     int deltaTime = menuSZK->deltaTime;
