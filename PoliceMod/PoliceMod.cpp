@@ -62,21 +62,21 @@ void PoliceMod::Initialize()
 
 void PoliceMod::Update()
 {
-    if(!hasLoadedAnimations && CleoFunctions::PLAYER_DEFINED(0))
+    if(!hasLoadedAnimations && PLAYER_DEFINED(0))
     {
         if(
-            CleoFunctions::HAS_ANIMATION_LOADED("POLICE") &&
-            CleoFunctions::HAS_ANIMATION_LOADED("GANGS") &&
-            CleoFunctions::HAS_ANIMATION_LOADED("MEDIC")
+            HAS_ANIMATION_LOADED("POLICE") &&
+            HAS_ANIMATION_LOADED("GANGS") &&
+            HAS_ANIMATION_LOADED("MEDIC")
         )
         {
             hasLoadedAnimations = true;
 
             menuSZK->GetDebug()->AddLine("Animations loaded");
         } else {
-            CleoFunctions::LOAD_ANIMATION("GANGS");
-            CleoFunctions::LOAD_ANIMATION("POLICE");
-            CleoFunctions::LOAD_ANIMATION("MEDIC");
+            LOAD_ANIMATION("GANGS");
+            LOAD_ANIMATION("POLICE");
+            LOAD_ANIMATION("MEDIC");
         }
     }
 
@@ -92,13 +92,13 @@ void PoliceMod::Update()
 
 void PoliceMod::TestEquip()
 {
-    int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+    int playerActor = GET_PLAYER_ACTOR(0);
 
-    CleoFunctions::GIVE_ACTOR_WEAPON(playerActor, 31, 800);
-    CleoFunctions::GIVE_ACTOR_WEAPON(playerActor, 22, 200);
+    GIVE_ACTOR_WEAPON(playerActor, 31, 800);
+    GIVE_ACTOR_WEAPON(playerActor, 22, 200);
     // if(!Ped::PedHasWeaponId(playerActor, 10))
     // {
     //     CleoFunctions::GIVE_ACTOR_WEAPON(playerActor, 10, 1);
     // }
-    CleoFunctions::CHANGE_PLAYER_MODEL_TO(0, 280);
+    CHANGE_PLAYER_MODEL_TO(0, 280);
 }

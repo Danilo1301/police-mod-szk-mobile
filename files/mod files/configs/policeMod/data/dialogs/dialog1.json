@@ -1,0 +1,46 @@
+{
+  "variables": {
+    "isArmed": false,
+    "isDocummentExpired": true,
+    "hasCNH": false
+  },
+  "nodes": [
+    {
+      "id": "start",
+      "npcText": "Boa tarde...",
+      "nextId": "",
+      "options": [
+        { "text": "Está armado?", "nextId": "armed" },
+        { "text": "Tem habilitação?", "nextId": "hab" }
+      ]
+    },
+    {
+      "id": "armed",
+      "npcText": "Você está armado?",
+      "nextId": "armed.answer",
+      "options": []
+    },
+    {
+      "id": "armed.answer",
+      "npcText": "Não senhor, não estou armado",
+      "nextId": "",
+      "options": [
+        { "text": "Voltar", "nextId": "start" }
+      ]
+    },
+    {
+      "id": "hab",
+      "npcText": "Você tem habilitação?",
+      "nextId": "hab.answer",
+      "options": []
+    },
+    {
+      "id": "hab.answer",
+      "npcText": "Não tenho",
+      "nextId": "",
+      "options": [
+        { "text": "Voltar", "nextId": "start" }
+      ]
+    }
+  ]
+}

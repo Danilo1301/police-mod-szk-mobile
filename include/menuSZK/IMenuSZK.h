@@ -25,6 +25,9 @@ public:
     IEventListener<int>* onVehicleAdded;
     IEventListener<int>* onVehicleRemoved;
 
+    IEventListener<CVector2D>* onPointerDown;
+    IEventListener<CVector2D>* onPointerUp;
+
     virtual IDebug* GetDebug() = 0;
     virtual IContainer* CreateContainer() = 0;
     virtual ILabel* CreateLabel() = 0;

@@ -23,9 +23,9 @@ struct DialogueVariables
 };
 
 class Dialogue {
-private:
-    std::vector<DialogueNode> nodes;
 public:
+std::string name = "dialog";
+    std::vector<DialogueNode> nodes;
     DialogueVariables variables;
 
     void AddNode(const DialogueNode& node)

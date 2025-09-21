@@ -111,24 +111,19 @@ std::vector<Vehicle*> Vehicles::GetAllCarsInSphere(CVector position, float radiu
     return foundVehicles;
 }
 
-Vehicle* Vehicles::GetClosestVehicle(CVector position, float radius)
+Vehicle* Vehicles::GetClosestVehicle(CVector sphereCenter, CVector targetPosition, float radius)
 {
-    std::vector<Vehicle*> vehicles = GetAllCarsInSphere(position, radius);
+    std::vector<Vehicle*> vehicles = GetAllCarsInSphere(sphereCenter, radius);
 
     Vehicle* closestCar = NULL;
     double closestDistance = 99999;
-
-    auto playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
-
-    float playerX = 0.0f, playerY = 0.0f, playerZ = 0.0f;
-    CleoFunctions::GET_CHAR_COORDINATES(playerActor, &playerX, &playerY, &playerZ);
 
     for(size_t i = 0; i < vehicles.size(); i++)
     {
         auto vehicle = vehicles[i];
         auto vehiclePosition = GetCarPosition(vehicle->ref);
         
-        auto distance = distanceBetweenPoints(vehiclePosition, CVector(playerX, playerY, playerZ));
+        auto distance = distanceBetweenPoints(vehiclePosition, targetPosition);
 
         if(distance < closestDistance)
         {

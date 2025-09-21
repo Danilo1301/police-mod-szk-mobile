@@ -27,4 +27,5 @@ public:
     static void OpenPedMenu(Ped* ped);
 
     static void AskSomeoneToGetVehicle(Vehicle* vehicle);
+    static void CallTowTruck(Vehicle* vehicle);
 };

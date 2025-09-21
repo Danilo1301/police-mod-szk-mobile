@@ -15,10 +15,10 @@ void VehicleTask::DriveTo(CVector position, std::function<void()> onArrive)
 {
     auto vehicleRef = vehicle->ref;
 
-    CleoFunctions::SET_CAR_MAX_SPEED(vehicleRef, 20.0f);
-    CleoFunctions::SET_CAR_TRAFFIC_BEHAVIOUR(vehicleRef, 2);
+    SET_CAR_MAX_SPEED(vehicleRef, 20.0f);
+    SET_CAR_TRAFFIC_BEHAVIOUR(vehicleRef, 2);
 
-    CleoFunctions::CAR_DRIVE_TO(vehicleRef, position.x, position.y, position.z);
+    CAR_DRIVE_TO(vehicleRef, position.x, position.y, position.z);
 
     CleoFunctions::AddWaitForFunction([this, position] () {
 

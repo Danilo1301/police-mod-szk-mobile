@@ -9,6 +9,7 @@ private:
     static std::string currentId;
     static std::stack<std::string> history;
 public:
+    static std::vector<Dialogue> loadedDialogs;
     static Dialogue* currentDialogue;
 
     static void Initialize();
@@ -31,4 +32,7 @@ public:
         }
         return false;
     };
+
+    static void LoadDialogs();
+    static Dialogue LoadDialogFromFile(std::string src);
 };

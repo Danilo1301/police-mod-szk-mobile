@@ -9,10 +9,13 @@ ILabel* dialogLabel = NULL;
 
 std::string DialogManager::currentId = "start";
 std::stack<std::string> DialogManager::history;
+std::vector<Dialogue> DialogManager::loadedDialogs;
 Dialogue* DialogManager::currentDialogue = nullptr;
 
 void DialogManager::Initialize()
 {
+    LoadDialogs();
+
     auto container = dialogContainer = menuSZK->CreateContainer();
     container->localOffset = CVector2D(0, -50);
     container->size = CVector2D(1200, 150);
@@ -181,4 +184,65 @@ void DialogManager::ShowOptionsForNode(DialogueNode* node)
         closeWindow();
         EndDialogue();
     });
+}
+
+void DialogManager::LoadDialogs()
+{
+    loadedDialogs.clear();
+
+    std::string dialogsFolder = getPathFromModFolder("data/dialogs");
+
+    // Iterar sobre todos os arquivos da pasta
+    for (const auto& entry : std::filesystem::directory_iterator(dialogsFolder))
+    {
+        if (!entry.is_regular_file()) continue;
+
+        std::string path = entry.path().string();
+
+        // Filtrar apenas .json
+        if (entry.path().extension() == ".json")
+        {
+            Dialogue dlg = LoadDialogFromFile(path);
+            dlg.name = entry.path().filename().string();
+
+            debug->AddLine("loaded dialog: " + dlg.name);
+
+            loadedDialogs.push_back(dlg);
+        }
+
+    }
+}
+
+Dialogue DialogManager::LoadDialogFromFile(std::string src)
+{
+    Json::Value root = jsonReadFile(src);
+
+    Dialogue dialogue;
+
+    // Variáveis
+    dialogue.variables.isArmed = root["variables"].get("isArmed", false).asBool();
+    dialogue.variables.isDocummentExpired = root["variables"].get("isDocummentExpired", false).asBool();
+    dialogue.variables.hasCNH = root["variables"].get("hasCNH", false).asBool();
+
+    // Nós
+    const Json::Value nodes = root["nodes"];
+    for (const auto& nodeJson : nodes)
+    {
+        DialogueNode node;
+        node.id = nodeJson.get("id", "").asString();
+        node.npcText = nodeJson.get("npcText", "").asString();
+        node.nextId = nodeJson.get("nextId", "").asString();
+
+        const Json::Value options = nodeJson["options"];
+        for (const auto& optJson : options)
+        {
+            DialogueOption opt;
+            opt.text = optJson.get("text", "").asString();
+            opt.nextId = optJson.get("nextId", "").asString();
+            node.options.push_back(opt);
+        }
+
+        dialogue.nodes.push_back(node);
+    }
+    return dialogue;
 }

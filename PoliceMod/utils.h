@@ -17,6 +17,8 @@
 #include <cstdlib>
 #include <ctime>
 
+#include "json/json.h"
+
 template <typename T>
 static T* loadInterface(T** out, std::string name)
 {
@@ -78,6 +80,13 @@ static std::string getPathFromAssets(const std::string localPath)
 {
     std::ostringstream oss;
     oss << aml->GetConfigPath() << "/policeMod/assets/" << localPath;
+    return oss.str();
+}
+
+static std::string getPathFromModFolder(const std::string localPath)
+{
+    std::ostringstream oss;
+    oss << aml->GetConfigPath() << "/policeMod/" << localPath;
     return oss.str();
 }
 
@@ -322,4 +331,34 @@ static std::string gerarRenavam()
     }
 
     return renavam;
+}
+
+static Json::Value jsonReadFile(std::string path)
+{
+	std::ifstream file(path);
+
+	Json::Value value;
+	Json::Reader reader;
+
+	if (!reader.parse(file, value, true)) {
+		//MessageBox(HWND_DESKTOP, std::string("Error loading " + path).c_str(), "GiroflexVSL", MB_ICONERROR);
+	}
+
+	return value;
+}
+
+
+static void jsonWriteToFile(std::string path, Json::Value value)
+{
+	Json::StyledWriter writer;
+	std::string strJson = writer.write(value);
+
+	std::ofstream file(path);
+	file << strJson;
+	file.close();
+}
+
+static std::string CVectorToString(CVector v)
+{
+    return std::to_string(v.x) + ", " + std::to_string(v.y) + ", " + std::to_string(v.z);
 }

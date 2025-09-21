@@ -16,6 +16,7 @@ extern IMenuSZK* menuSZK;
 #include "Dialogs.h"
 #include "Objectives.h"
 #include "dialog/DialogManager.h"
+#include "ScriptTask.h"
 
 int aimingPed = NO_PED_FOUND;
 std::vector<Ped*> pedsPulledOver;
@@ -27,9 +28,9 @@ void Pullover::Initialize()
         auto widget = menuSZK->CreateWidgetButton(600, 30, getPathFromMenuAssets("widget_background1.png"), getPathFromAssets("widget_pullover.png"));
         widget->onClickWidget->Add([]() {
 
-            int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+            int playerActor = GET_PLAYER_ACTOR(0);
 
-            if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor))
+            if(IS_CHAR_IN_ANY_CAR(playerActor))
             {
                 TryPulloverFromVehicle();
                 return;
@@ -64,11 +65,11 @@ void Pullover::Update()
 
 int Pullover::GetCharPlayerIsAiming()
 {
-    int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+    int playerActor = GET_PLAYER_ACTOR(0);
 
     for(int ped = 0; ped < 35584; ped++)
     {
-        if(CleoFunctions::PLAYER_AIMING_AT_ACTOR(0, ped))
+        if(PLAYER_AIMING_AT_ACTOR(0, ped))
         {
             return ped;
         }
@@ -154,15 +155,15 @@ void Pullover::TryPulloverFromVehicle()
 
 void Pullover::TryPulloverVehicle()
 {
-    int playerActor = CleoFunctions::GET_PLAYER_ACTOR(0);
+    int playerActor = GET_PLAYER_ACTOR(0);
 
     float range = 4.0f;
-    if(CleoFunctions::IS_CHAR_IN_ANY_CAR(playerActor)) range = 7.0f;
+    if(IS_CHAR_IN_ANY_CAR(playerActor)) range = 7.0f;
 
     float x = 0.0f, y = 0.0f, z = 0.0f;
-    CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, 0.0f, range, 0.0f, &x, &y, &z);
+    STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, 0.0f, range, 0.0f, &x, &y, &z);
 
-    Vehicle* closestCar = Vehicles::GetClosestVehicle(CVector(x, y, z), 5.0f);
+    Vehicle* closestCar = Vehicles::GetClosestVehicle(CVector(x, y, z), GetPlayerPosition(), 5.0f);
 
     if(closestCar == NULL)
     {
@@ -193,11 +194,11 @@ void Pullover::PulloverVehicle(Vehicle* vehicle)
 
     Dialogs::AddOfficerDialog("Encosta o carro", 2000);
 
-    CleoFunctions::WAIT(1000, [vehicle]() {
-        CleoFunctions::CAR_TURN_OFF_ENGINE(vehicle->ref);
+    WAIT(1000, [vehicle]() {
+        CAR_TURN_OFF_ENGINE(vehicle->ref);
     });
 
-    CleoFunctions::WAIT(2500, [vehicle]() {
+    WAIT(2500, [vehicle]() {
         Dialogs::AddDialog("~y~Aproxime-se do veiculo!", 3000);
     });
 }
@@ -372,7 +373,7 @@ void Pullover::OpenVehicleMenu(Vehicle* vehicle)
 
             Audios::audioDesceMaoCabeca->Play();
 
-            CleoFunctions::WAIT(2500, [vehicle]() {
+            WAIT(2500, [vehicle]() {
                 auto peds = vehicle->GetCurrentOccupants();
 
                 for(auto ped : peds)
@@ -431,13 +432,26 @@ void Pullover::OpenVehicleMenu(Vehicle* vehicle)
             Dialogs::AddDialog("~b~[Policial] ", "Voce vai ter que chamar algum habilitado para buscar seu veiculo...", 3000);
             Dialogs::AddDialog("~y~[Suspeito] ", "Ok, so um minuto... vou chamar aqui", 3000);
 
-            CleoFunctions::WAIT(6000, [vehicle]() {
+            WAIT(6000, [vehicle]() {
                 Objectives::SetObjective("Aguarde o habilitado chegar com o veiculo");
             });
 
-            CleoFunctions::WAIT(5000 + 12000, [vehicle]() {
+            WAIT(1000, [vehicle]() {
                 AskSomeoneToGetVehicle(vehicle);
             });
+        });
+    }
+
+    if(numOcuppants == 0)
+    {
+        auto button = window->AddButton("> Chamar guincho");
+        button->onClick->Add([closeWindow, vehicle](IContainer*) {
+            closeWindow();
+
+            vehicle->RemoveOwners();
+            RemoveVehicleFromPullover(vehicle);
+
+            CallTowTruck(vehicle);
         });
     }
 
@@ -472,28 +486,26 @@ void Pullover::AskSomeoneToGetVehicle(Vehicle* vehicle)
         auto playerActor = GetPlayerActor();
         auto playerPosition = GetPedPosition(playerActor);
 
-        float spawnX = 0, spawnY = 0, spawnZ = 0;
-        CleoFunctions::GET_NEAREST_CAR_PATH_COORDS_FROM(playerPosition.x + 120, playerPosition.y, playerPosition.z, 2, &spawnX, &spawnY, &spawnZ);
+        auto spawnPosition = GET_CLOSEST_CAR_NODE(playerPosition.x + 120, playerPosition.y, playerPosition.z);
 
-        auto vehicleRef = CleoFunctions::CREATE_CAR_AT(friendCarModelId, spawnX, spawnY, spawnZ);
+        auto vehicleRef = CREATE_CAR_AT(friendCarModelId, spawnPosition.x, spawnPosition.y, spawnPosition.z);
         auto vehicle = Vehicles::RegisterVehicle(vehicleRef);
         
-        int type = 23; // special
+        auto type = PedType::Special; // special
 
-        auto driverRef = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(vehicleRef, type, friendModelId);
+        auto driverRef = CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(vehicleRef, type, friendModelId);
         auto driverPed = Peds::RegisterPed(driverRef);
 
-        auto friendRef = CleoFunctions::CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT(vehicleRef, type, friendModelId, 0);
+        auto friendRef = CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT(vehicleRef, type, friendModelId, 0);
         auto pedPassenger = Peds::RegisterPed(friendRef);
 
         vehicle->SetOwners();
         vehicle->AddBlip();
 
-        float targetX, targetY, targetZ;
-        CleoFunctions::GET_NEAREST_CAR_PATH_COORDS_FROM(playerPosition.x, playerPosition.y, playerPosition.z, 2, &targetX, &targetY, &targetZ);
+        auto targetPosition = GET_CLOSEST_CAR_NODE(playerPosition.x, playerPosition.y, playerPosition.z);
 
         auto taskFollow = new VehicleTask(vehicle);
-        taskFollow->DriveTo(CVector(targetX, targetY, targetZ), [vehicle, taskFollow, pulledVehicle]() {
+        taskFollow->DriveTo(targetPosition, [vehicle, taskFollow, pulledVehicle]() {
 
             delete taskFollow;
 
@@ -503,7 +515,7 @@ void Pullover::AskSomeoneToGetVehicle(Vehicle* vehicle)
 
             if(!Vehicles::IsValid(vehicle)) return;
 
-            CleoFunctions::CAR_TURN_OFF_ENGINE(vehicle->ref);
+            CAR_TURN_OFF_ENGINE(vehicle->ref);
 
             auto passengers = vehicle->GetCurrentPassengers();
             
@@ -525,7 +537,7 @@ void Pullover::AskSomeoneToGetVehicle(Vehicle* vehicle)
 
                 debug->AddLine("entrando no veiculo");
 
-                CleoFunctions::ENTER_CAR_AS_DRIVER_AS_ACTOR(passenger->ref, pulledVehicle->ref, 8000);
+                ENTER_CAR_AS_DRIVER_AS_ACTOR(passenger->ref, pulledVehicle->ref, 8000);
                 
                 CleoFunctions::AddWaitForFunction([passenger]() {
 
@@ -549,5 +561,103 @@ void Pullover::AskSomeoneToGetVehicle(Vehicle* vehicle)
             // if(driverPed) driverPed->LeaveCar();
             // if(pedPassenger) pedPassenger->LeaveCar();
         });
+    });
+}
+
+void Pullover::CallTowTruck(Vehicle* vehicle)
+{
+    int towModelId = 578;
+    int driverId = 50;
+
+    ModelLoader::AddModelToLoad(towModelId);
+    ModelLoader::AddModelToLoad(driverId);
+
+    debug->AddLine("loading models");
+
+    ModelLoader::LoadAll([towModelId, driverId, vehicle]() {
+        
+        auto playerPosition = GetPlayerPosition();
+
+        debug->AddLine("get car node");
+
+        auto spawnPosition = GET_CLOSEST_CAR_NODE(playerPosition.x, playerPosition.y + 100, playerPosition.z);
+        
+        debug->AddLine("create car");
+
+        auto towRef = CREATE_CAR_AT(towModelId, spawnPosition.x, spawnPosition.y, spawnPosition.z);
+        auto towTruck = Vehicles::RegisterVehicle(towRef);
+
+        towTruck->AddBlip();
+
+        debug->AddLine("create driver");
+
+        auto driver = CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(towRef, PedType::CivFemale, driverId);
+
+        debug->AddLine("get node again");
+
+        auto targetPosition = GET_CLOSEST_CAR_NODE(playerPosition.x, playerPosition.y, playerPosition.z);
+
+        ScriptTask* taskDrive = new ScriptTask();
+
+        taskDrive->onBegin = [towRef, targetPosition]() {
+            Dialogs::AddDialog("Rodando task", 1000);
+            
+            SET_CAR_MAX_SPEED(towRef, 20.0f);
+            SET_CAR_TRAFFIC_BEHAVIOUR(towRef, 2);
+            CAR_DRIVE_TO(towRef, targetPosition.x, targetPosition.y, targetPosition.z);
+        };
+        taskDrive->onExecute = [towRef, targetPosition]() {
+            
+            auto distance = DistanceFromVehicle(towRef, targetPosition);
+
+            debug->AddLine("distance to " + CVectorToString(targetPosition) + " is " + std::to_string(distance));
+
+            if(distance > 10.0f) return false;
+
+            return true;
+        };
+        taskDrive->onComplete = [vehicle, towTruck]() {
+            
+            Objectives::ClearObjective();
+            
+            towTruck->RemoveBlip();
+
+            //
+
+            CVector offset = CVector(0, -0.5, 0.3);
+
+            if(Vehicles::IsValid(vehicle))
+            {
+                ATTACH_CAR_TO_CAR(vehicle->ref, towTruck->ref, offset.x, offset.y, offset.z, 0, 0, 0);
+            }
+
+            //
+
+            ScriptTask* taskLeave = new ScriptTask();
+            taskLeave->onBegin = [towTruck]() {
+                ScriptTask::MakeVehicleLeave(towTruck->ref);
+            };
+            taskLeave->onExecute = [towTruck]() {
+                auto towPosition = GetCarPosition(towTruck->ref);
+                auto distance = DistanceFromPed(GetPlayerActor(), towPosition);
+
+                debug->AddLine("leaving, distance is " + std::to_string(distance));
+
+                if(distance < 120.0f) return false;
+
+                return true;
+            };
+            taskLeave->onComplete = [vehicle, towTruck]() {
+                //on complete
+
+                
+            };
+            taskLeave->Start();
+
+            
+        };
+        taskDrive->Start();
+
+        Objectives::SetObjective("Aguarde o guincho chegar ao destino");
     });
 }

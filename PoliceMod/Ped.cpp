@@ -12,51 +12,12 @@ Ped::Ped(int ref, void* ptr)
     this->ref = ref;
     this->ptr = ptr;
 
-    std::string DIALOG_THAT_HAS_OPTIONS = "";
-
-    dialogue.variables.hasCNH = false;
-
-    dialogue.AddNode({
-        "start",
-        "Boa tarde...",
-        DIALOG_THAT_HAS_OPTIONS,
-        {
-            {"Esta armado?", "armed"},
-            {"Tem habilitacao?", "hab"}
-        }
-    });
-
-    dialogue.AddNode({
-        "armed",
-        "Voce ta armado?",
-        "armed.answer",
-        {}
-    });
-
-    dialogue.AddNode({
-        "armed.answer",
-        "Nao senhor, nao estou armado",
-        DIALOG_THAT_HAS_OPTIONS,
-        {
-            {"Voltar", "start"}
-        }
-    });
-
-    dialogue.AddNode({
-        "hab",
-        "Voce tem habilitacao?",
-        "hab.answer",
-        {}
-    });
-
-    dialogue.AddNode({
-        "hab.answer",
-        "Nao tenho",
-        DIALOG_THAT_HAS_OPTIONS,
-        {
-            {"Voltar", "start"}
-        }
-    });
+    if(DialogManager::loadedDialogs.size() > 0)
+    {
+        int idx = getRandomNumber(0, DialogManager::loadedDialogs.size() - 1);
+    
+        dialogue = DialogManager::loadedDialogs[idx];
+    }
 
     auto currentYear = getCurrentYear();
 
@@ -87,8 +48,8 @@ void Ped::Update()
     {
         if (!IsDoingHandsupAnim() && !IsInAnyCar())
         {
-            CleoFunctions::CLEAR_ACTOR_TASK(ref);
-            CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(
+            CLEAR_ACTOR_TASK(ref);
+            PERFORM_ANIMATION_AS_ACTOR(
                 ref, "handsup", "PED", 4.0f, 0, 0, 0, 1, -1
             );
         }
@@ -134,8 +95,8 @@ void Ped::DoHandsup()
 
     if(!IsInAnyCar())
     {
-        CleoFunctions::CLEAR_ACTOR_TASK(ref);
-        CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(ref, "handsup", "PED", 4.0f, 0, 0, 0, 1, -1);
+        CLEAR_ACTOR_TASK(ref);
+        PERFORM_ANIMATION_AS_ACTOR(ref, "handsup", "PED", 4.0f, 0, 0, 0, 1, -1);
     }
 }
 
@@ -143,19 +104,19 @@ void Ped::StopHandsup()
 {
     doHandsup = false;
 
-    CleoFunctions::CLEAR_ACTOR_TASK(ref);
+    CLEAR_ACTOR_TASK(ref);
     ClearPedAnimations(ref);
 }
 
 bool Ped::IsDoingHandsupAnim()
 {
-    bool isDoingHandsup = CleoFunctions::ACTOR_PERFORMING_ANIMATION(ref, "handsup");
+    bool isDoingHandsup = ACTOR_PERFORMING_ANIMATION(ref, "handsup");
     return isDoingHandsup;
 }
 
 bool Ped::IsInAnyCar()
 {
-    return CleoFunctions::IS_CHAR_IN_ANY_CAR(ref);
+    return IS_CHAR_IN_ANY_CAR(ref);
 }
 
 CVector Ped::GetPosition()
@@ -165,19 +126,19 @@ CVector Ped::GetPosition()
 
 void Ped::StartDrivingRandomly()
 {
-    if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(ref))
+    if(!IS_CHAR_IN_ANY_CAR(ref))
     {
         debug->AddLine("~r~ped is not in any car");
         return;
     }
     
-    auto vehicleRef = CleoFunctions::ACTOR_USED_CAR(ref);
+    auto vehicleRef = ACTOR_USED_CAR(ref);
 
-    CleoFunctions::REMOVE_REFERENCES_TO_CAR(vehicleRef);
-    CleoFunctions::SET_CAR_ENGINE_OPERATION(vehicleRef, true);
-    CleoFunctions::SET_CAR_TRAFFIC_BEHAVIOUR(vehicleRef, 0);
-    CleoFunctions::SET_CAR_TO_PSYCHO_DRIVER(vehicleRef);
-    CleoFunctions::SET_CAR_MAX_SPEED(vehicleRef, 20.0f);
+    REMOVE_REFERENCES_TO_CAR(vehicleRef);
+    SET_CAR_ENGINE_OPERATION(vehicleRef, true);
+    SET_CAR_TRAFFIC_BEHAVIOUR(vehicleRef, 0);
+    SET_CAR_TO_PSYCHO_DRIVER(vehicleRef);
+    SET_CAR_MAX_SPEED(vehicleRef, 20.0f);
 }
 
 void Ped::LeaveCar()
@@ -188,8 +149,8 @@ void Ped::LeaveCar()
         return;
     }
 
-    auto carRef = CleoFunctions::ACTOR_USED_CAR(ref);
-    auto driverRef = CleoFunctions::GET_DRIVER_OF_CAR(carRef);
+    auto carRef = ACTOR_USED_CAR(ref);
+    auto driverRef = GET_DRIVER_OF_CAR(carRef);
 
     if(driverRef == ref)
     {
@@ -198,7 +159,7 @@ void Ped::LeaveCar()
         previousSeat = PedSeat::PASSENGER;
     }
 
-    CleoFunctions::EXIT_CAR_AS_ACTOR(ref);
+    EXIT_CAR_AS_ACTOR(ref);
 }
 
 void Ped::EnterVehicle(int vehicleRef, PedSeat seat, int seatId)
@@ -215,21 +176,21 @@ void Ped::EnterVehicle(int vehicleRef, PedSeat seat, int seatId)
         return;
     }
 
-    CleoFunctions::CLEAR_ACTOR_TASK(ref);
+    CLEAR_ACTOR_TASK(ref);
 
     if(seat == PedSeat::DRIVER)
     {
-        CleoFunctions::ENTER_CAR_AS_DRIVER_AS_ACTOR(ref, vehicleRef, 10000);
+        ENTER_CAR_AS_DRIVER_AS_ACTOR(ref, vehicleRef, 10000);
     } else if(seat == PedSeat::PASSENGER)
     {
-        CleoFunctions::ACTOR_ENTER_CAR_PASSENGER_SEAT(ref, vehicleRef, 10000, seatId);
+        ACTOR_ENTER_CAR_PASSENGER_SEAT(ref, vehicleRef, 10000, seatId);
     }
 }
 
 int Ped::AddBlip()
 {
     if(blip != NO_BLIP) RemoveBlip();
-    blip = CleoFunctions::ADD_BLIP_FOR_CHAR(ref);
+    blip = ADD_BLIP_FOR_CHAR(ref);
     return blip;
 }
 
@@ -237,6 +198,6 @@ void Ped::RemoveBlip()
 {
     if(blip == NO_BLIP) return;
 
-    CleoFunctions::DISABLE_MARKER(blip);
+    DISABLE_MARKER(blip);
     blip = NO_BLIP;
 }

@@ -97,7 +97,7 @@ void Vehicle::OnRenderBefore()
 {
     auto vehicle = (CVehicle*)ptr;
 
-    auto playerCar = CleoFunctions::ACTOR_USED_CAR(GetPlayerActor());
+    auto playerCar = ACTOR_USED_CAR(GetPlayerActor());
 
     if(playerCar != ref) return;
 
@@ -133,7 +133,7 @@ void Vehicle::OnRenderAfter()
 int Vehicle::AddBlip()
 {
     if(blip != NO_BLIP) RemoveBlip();
-    blip = CleoFunctions::ADD_BLIP_FOR_CAR(ref);
+    blip = ADD_BLIP_FOR_CAR(ref);
     return blip;
 }
 
@@ -141,7 +141,7 @@ void Vehicle::RemoveBlip()
 {
     if(blip == NO_BLIP) return;
 
-    CleoFunctions::DISABLE_MARKER(blip);
+    DISABLE_MARKER(blip);
     blip = NO_BLIP;
 }
 
@@ -152,7 +152,7 @@ CVector Vehicle::GetPosition()
 
 void Vehicle::SetOwners()
 {
-    hDriver = CleoFunctions::GET_DRIVER_OF_CAR(ref);
+    hDriver = GET_DRIVER_OF_CAR(ref);
 
     if(hDriver > 0)
     {
@@ -225,7 +225,7 @@ void Vehicle::RemoveOwners()
 
 Ped* Vehicle::GetCurrentDriver()
 {
-    auto refDriver = CleoFunctions::GET_DRIVER_OF_CAR(ref);
+    auto refDriver = GET_DRIVER_OF_CAR(ref);
 
     if(refDriver <= 0)
     {
@@ -239,13 +239,13 @@ std::vector<Ped*> Vehicle::GetCurrentPassengers()
 {
     std::vector<Ped*> passengers;
 
-    auto maxPassengers = CleoFunctions::CAR_MAX_PASSENGERS(ref);
+    auto maxPassengers = CAR_MAX_PASSENGERS(ref);
 
     for(int seatId = 0; seatId < maxPassengers; seatId++)
     {
-        if(!CleoFunctions::CAR_PASSENGER_SEAT_FREE(ref, seatId))
+        if(!CAR_PASSENGER_SEAT_FREE(ref, seatId))
         {
-            auto passengerHandle = CleoFunctions::GET_ACTOR_HANDLE_FROM_CAR_PASSENGER_SEAT(ref, seatId);
+            auto passengerHandle = GET_ACTOR_HANDLE_FROM_CAR_PASSENGER_SEAT(ref, seatId);
             auto ped = Peds::GetPed(passengerHandle);
             passengers.push_back(ped);
         }

@@ -1,8 +1,11 @@
 #pragma once
 
+#include <functional>
+
 #include "pch.h"
 
-#include <functional>
+#include "isautils.h"
+extern ISAUtils* sautils;
 
 enum WAIT_FN_STATE {
     WAIT_FN_NONE,
@@ -24,10 +27,44 @@ struct WaitFunction {
     std::function<void(std::function<void()>, std::function<void()>)> conditionFn;
 };
 
+enum class PedType : int
+{
+    Player1       = 0,
+    Player2       = 1,
+    PlayerNetwork = 2,
+    PlayerUnused  = 3,
+    CivMale       = 4,
+    CivFemale     = 5,
+    Cop           = 6,
+    Gang1         = 7,
+    Gang2         = 8,
+    Gang3         = 9,
+    Gang4         = 10,
+    Gang5         = 11,
+    Gang6         = 12,
+    Gang7         = 13,
+    Gang8         = 14,
+    Gang9         = 15,
+    Gang10        = 16,
+    Dealer        = 17,
+    Emergency     = 18,
+    Fireman       = 19,
+    Criminal      = 20,
+    Bum           = 21,
+    Prostitute    = 22,
+    Special       = 23,
+    Mission1      = 24,
+    Mission2      = 25,
+    Mission3      = 26,
+    Mission4      = 27,
+    Mission5      = 28,
+    Mission6      = 29,
+    Mission7      = 30,
+    Mission8      = 31
+};
+
 class CleoFunctions {
 public:
-    static std::vector<WaitFunction*> m_WaitFunctions;
-
     static void Update(int dt);
 
     static WaitFunction* AddWaitFunction(int time, std::function<void()> callback);
@@ -35,160 +72,474 @@ public:
 
     static WaitFunction* AddWaitForFunction(std::function<bool()> testFn, std::function<void()> callback);
     static WaitFunction* AddCondition(std::function<void(std::function<void()>, std::function<void()>)> fn, std::function<void()> onComplete, std::function<void()> onCancel);
-
-    static void WAIT(int time, std::function<void()> callback);
-
-    static void RESTORE_CAMERA_WITH_JUMPCUT();
-    static void SET_CAMERA_POSITION(float x, float y, float z, float rotX, float rotY, float rotZ);
-    static void SET_CAMERA_POINT_AT(float x, float y, float z, int switchStyle);
-    static void PUT_OBJECT_AT(int object, float x, float y, float z);
-    static void GOTO_CHAR_AIMING(int handle, int target, float radiusFrom, float radiusTo);
-    static void SET_ACTOR_ARMED_WEAPON(int _char, int weaponType);
-    static void AIM_AT_ACTOR(int _char, int target, int time);
-    static bool ACTOR_MALE(int _char);
-    static float GET_CAR_Z_ANGLE(int car);
-    static int GET_CURRENT_WEAPON(int _char);
-    static void GET_WEAPON_DATA_FROM_ACTOR(int _char, int weaponSlotId, int* weaponType, int* weaponAmmo, int* weaponModel);
-    static void ATTACH_TO_OBJECT_AND_PERFORM_ANIMATION(int _char, int object, float offsetX, float offsetY, float offsetZ, int boneId, int _p7, const char* animationName, const char* animationFile, int time);
-    static void PLAY_SOUND(float x, float y, float z, int soundId);
-    static void SET_OBJECT_VISIBILITY(int object, bool state);
-    static void ADD_MONEY(int player, int money);
-    static void SET_HELI_BEHAVIOR_TO_POLICE_HELI_AND_FOLLOW(int heli, int _char, int vehicle, float radius);
-    static void SET_ACTOR_ANGLE_TO(int _char, float heading);
-    static void PUT_ACTOR_INTO_TURRET_ON_CAR(int _char, int vehicle, float offsetX, float offsetY, float offsetZ, int position, float angleLimit, int weaponType);
-    static void REMOVE_ACTOR_FROM_TURRET_MODE(int _char);
-    static void ENABLE_ACTOR_COLLISION_DETECTION(int _char, bool state);
-    static void SET_OBJECT_COLLISION_DETECTION(int object, bool state);
-    static void PUT_ACTOR_INTO_TURRET_ON_OBJECT(int _char, int object, float offsetX, float offsetY, float offsetZ, int orientation, float angleLimit, int weaponType);
-    static void ATTACH_OBJECT_TO_ACTOR(int object, int _char, float offsetX, float offsetY, float offsetZ, float rotationX, float rotationY, float rotationZ);
-    static int ACTOR_HEALTH(int _char);
-    static void SET_PLAYER_WANTED_LEVEL(int player, int wantedLevel);
-    static void DESTROY_PICKUP(int pickup);
-    static int CREATE_PICKUP(int modelId, int pickupType, float x, float y, float z);
-    static void SET_ACTOR_HEALTH(int _char, int health);
-    static void HELI_FLY_TO(int heli, float x, float y, float z, float minAltitude, float maxAltitude);
-    static void AS_ACTOR_EXIT_CAR(int _char);
-    static float CAR_SPEED(int car);
-    static int ACTOR_USED_CAR(int _char);
-    static bool ACTOR_DRIVING(int _char);
-    static void ACTOR_DRIVEBY(int _char, int targetChar, int targetVehicle, float x, float y, float z, float radius, int style, bool rightHandCarSeat, int fireRate);
-    static bool CAR_PASSENGER_SEAT_FREE(int car, int seatId);
-    static int GET_ACTOR_HANDLE_FROM_CAR_PASSENGER_SEAT(int car, int seatId);
-    static int CAR_MAX_PASSENGERS(int car);
-    static bool ACTOR_STOPPED(int _char);
-    static bool MODEL_AVAILABLE(int modelId);
-    static void LOAD_MODEL(int modelId);
-    static void LOAD_REQUESTED_MODELS();
-    static void DESTROY_OBJECT(int object);
-    static void DEFLATE_TIRE_ON_CAR(int car, int tireId);
-    static void SET_OBJECT_Z_ANGLE(int object, float heading);
-    static int CREATE_OBJECT(int modelId, float x, float y, float z);
-    static float GROUND_Z_AT(float x, float y, float z);
-    static void PUT_CAR_AT(int car, float x, float y, float z);
-    static void SET_CAR_Z_ANGLE(int car, float heading);
-    static float ACTOR_Z_ANGLE(int _char);
-    static void ROTATE_AND_SHOOT(int _char, float x, float y, float z, int time);
-    static int GET_ACTOR_MODEL(int _char);
-    static void AS_ACTOR_RUN_TO_ACTOR(int walking, int target, int time, float radius);
-    static void SET_MAX_WANTED_LEVEL_TO(int wantedLevel);
-    static void SET_PLAYER_IGNORED_BY_COPS(int player, bool state);
-    static void PUT_TRAILER_ON_CAB(int trailer, int cab);
-    static void AS_ACTOR_DRIVE_CAR_TO(int driver, int vehicle, float x, float y, float z, float speed, int driveStyle, int modelId, int drivingStyle);
-    static void CLEAR_ACTOR_TASK(int _char);
-    static void CHANGE_PLAYER_MODEL_TO(int player, int modelId);
-    static int GET_CAR_MODEL(int car);
-    static int CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT(int vehicle, int pedType, int modelId, int seatId);
-    static void GIVE_ACTOR_WEAPON(int _char, int weaponType, int ammo);
-    static void SHOW_TEXT_BOX(const char* key);
-    static void HELI_FOLLOW(int heli, int _char, int vehicle, float radius);
-    static void SET_CAR_ENGINE_OPERATION(int car, bool state);
-    static void SET_HELICOPTER_INSTANT_ROTOR_START(int heli);
-    static void FADE(int time, int direction);
-    static void DESTROY_CAR(int car);
-    static void SET_CAR_DOOR_STATUS(int car, int lockStatus);
-    static void ACTOR_ENTER_CAR_PASSENGER_SEAT(int _char, int vehicle, int time, int seatId);
-    static void CAR_DRIVE_TO(int car, float x, float y, float z);
-    static void FREEZE_CAR_POSITION(int car, bool state);
-    static void SET_MARKER_COLOR_TO(int blip, int color);
-
-    //doesnt work for some reason
-    static void SET_ACTOR_WEAPON_AND_AMMO(int _char, int weaponType, int ammo);
-    static void ENABLE_CAR_SIREN(int car, bool state);
-    static bool ACTOR_DEAD(int actor);
-    static bool ACTOR_DEFINED(int actor);
-    static void SET_ACTOR_WANTED_BY_POLICE(int _char, bool state);
-    static void KILL_ACTOR(int killer, int target);
-    static void FLEE_FROM_ACTOR(int _char, int threat, float radius, int time);
-    static void STORE_PED_PATH_COORDS_CLOSEST_TO(float x, float y, float z, float* nodeX, float* nodeY, float* nodeZ);
-    static int CREATE_ACTOR_PEDTYPE(int pedType, int modelId, float x, float y, float z);
-    static void SET_MARKER_SIZE(int blip, int size);
-    static bool PLAYER_AIMING_AT_ACTOR(int player, int _char);
-    static void CAR_FOLLOR_CAR(int car, int followCar, float radius);
-    static int CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(int car, int pedType, int modelId);
-    static int CREATE_CAR_AT(int modelId, float x, float y, float z);
-    static void GET_NEAREST_CAR_PATH_COORDS_FROM(float fromX, float fromY, float fromZ, int type, float* x, float* y, float* z);
-    static int CREATE_MARKER_AT(float x, float y, float z, int color, int display);
-    static bool ACTOR_PERFORMING_ANIMATION(int _char, const char* animationName);
-    static bool CAR_DEFINED(int car);
-    static void SET_CAR_TRAFFIC_BEHAVIOUR(int car, int drivingStyle);
-    static void SET_CAR_MAX_SPEED(int car, float maxSpeed);
-    static void SET_CAR_TO_PSYCHO_DRIVER(int car);
-    static void DESTROY_ACTOR(int actor);
-    static void DESTROY_SPHERE(int sphere);
-    static int CREATE_SPHERE(float x, float y, float z, float radius);
-    static void PUT_ACTOR_IN_GROUP(int group, int _char);
-    static void PUT_ACTOR_IN_GROUP_AS_LEADER(int group, int _char);
-    static int GET_PLAYER_GROUP(int player);
-    static void ENTER_CAR_AS_DRIVER_AS_ACTOR(int _char, int vehicle, int time);
-    static void EXIT_CAR_AS_ACTOR(int _actor);
-    static void CAR_TURN_OFF_ENGINE(int car);
-    static int GET_DRIVER_OF_CAR(int car);
-    static void STORE_COORDS_FROM_CAR_WITH_OFFSET(int car, float offsetX, float offsetY, float offsetZ, float* x, float* y, float* z);
-    static void STORE_COORDS_FROM_ACTOR_WITH_OFFSET(int _char, float offsetX, float offsetY, float offsetZ, float* x, float* y, float* z);
-    static int GET_CAR_IN_SPHERE(float x, float y, float z, float radius, int modelVehicle);
-    static bool IS_CHAR_IN_ANY_CAR(int _char);
-    static void REMOVE_REFERENCES_TO_CAR(int car);
-    static void REMOVE_REFERENCES_TO_ACTOR(int _char);
-    static void SET_PLAYER_CAN_MOVE(int player, bool state);
-    static void PERFORM_ANIMATION_AS_ACTOR(int _char, const char* animationName, const char* animationFile, float frameDelta, bool loop, bool lockX, bool lockY, bool lockF, int time);
-    static int GET_PLAYER_ACTOR(int player);
-    static void GET_CHAR_COORDINATES(int _char, float* x, float* y, float* z);
-    static void SHOW_TEXT_2NUMBERS_STYLED(const char* key, int num1, int num2, int duration, int style);
-    static void SHOW_TEXT_3NUMBERS(const char* key, int num1, int num2, int num3, int duration, int style);
-    static void SHOW_TEXT_3NUMBERS(int gxtId, int num1, int num2, int num3, int duration, int style);
-
-    //issue: its not detecting gang members and police
-    static int GET_RANDOM_CHAR_IN_SPHERE(float x, float y, float z, float radius, bool civilian, bool gang, bool criminal);
-    static void DISABLE_MARKER(int blip);
-    static int ADD_BLIP_FOR_CAR(int car);
-    static int ADD_BLIP_FOR_CHAR(int _char);
-    static bool IS_WIDGET_PRESSED(int widgetId);
-    static bool PLAYER_DEFINED(int player);
-    static bool HAS_ANIMATION_LOADED(const char* animationFile);
-    static void LOAD_ANIMATION(const char* animationFile);
-    static void SET_CAR_HEALTH(int car, int health);
-    static int GET_CAR_HEALTH(int car);
-
-    static int CreateMarker(float x, float y, float z, int color, int display, int size);
 };
 
-static CVector GetCarPositionWithOffset(int hVehicle, CVector offset)
-{
-    float x = 0, y = 0, z = 0;
-    CleoFunctions::STORE_COORDS_FROM_CAR_WITH_OFFSET(hVehicle, offset.x, offset.y, offset.z, &x, &y, &z);
+// --------------------------------------------
 
-    return CVector(x, y, z);
+//0247: load_model 110
+static DEFOPCODE(0247, LOAD_MODEL, i);
+static void LOAD_MODEL(int modelId)
+{
+    sautils->ScriptCommand(&scm_LOAD_MODEL, modelId);
 }
 
-static CVector GetCarPosition(int hVehicle)
+//01F5: $PLAYER_ACTOR = get_player_actor $PLAYER_CHAR 
+static DEFOPCODE(01F5, GET_PLAYER_ACTOR, iv);
+static int GET_PLAYER_ACTOR(int player)
 {
-    return GetCarPositionWithOffset(hVehicle, CVector(0, 0, 0));
+    int playerActor = 0;
+    sautils->ScriptCommand(&scm_GET_PLAYER_ACTOR, 0, &playerActor);
+    return playerActor;
+}
+
+//0457: player $PLAYER_CHAR aiming_at_actor 0@
+static DEFOPCODE(0457, PLAYER_AIMING_AT_ACTOR, ii);
+static bool PLAYER_AIMING_AT_ACTOR(int player, int _char)
+{
+    bool result = sautils->ScriptCommand(&scm_PLAYER_AIMING_AT_ACTOR, player, _char);
+    return result;
+}
+
+//02C1: store_to 127@ 128@ 129@ car_path_coords_closest_to 124@ 125@ 126@
+static DEFOPCODE(02C1, GET_CLOSEST_CAR_NODE, fffvvv);
+static CVector GET_CLOSEST_CAR_NODE(float x, float y, float z)
+{
+    CVector result;
+    sautils->ScriptCommand(&scm_GET_CLOSEST_CAR_NODE, x, y, z, &result.x, &result.y, &result.z);
+    return result;
+}
+
+// 0683: attach_car 216@ to_car 196@ with_offset 0.0 -4.6 0.65 rotation 15.0 0.0 0.0 
+static DEFOPCODE(0683, ATTACH_CAR_TO_CAR, iiffffff);
+static void ATTACH_CAR_TO_CAR(int car, int toCar, float offsetX, float offsetY, float offsetZ, float rotX, float rotY, float rotZ)
+{
+    sautils->ScriptCommand(&scm_ATTACH_CAR_TO_CAR, car, toCar, offsetX, offsetY, offsetZ, rotX, rotY, rotZ);
+}
+
+//00A5: 6@ = create_car #COPCARLA at 3@ 4@ 5@
+static DEFOPCODE(00A5, CREATE_CAR_AT, ifffv);
+static int CREATE_CAR_AT(int modelId, float x, float y, float z)
+{
+    int car = 0;
+    sautils->ScriptCommand(&scm_CREATE_CAR_AT, modelId, x, y, z, &car);
+    return car;
+}
+
+//01C8: $P2 = create_actor_pedtype 23 model 280 in_car $POLICE_CAR passenger_seat 0 
+static DEFOPCODE(01C8, CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT, iiiiv);
+static int CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT(int vehicle, PedType pedType, int modelId, int seatId)
+{
+    int ped = 0;
+    sautils->ScriptCommand(&scm_CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT, vehicle, (int)pedType, modelId, seatId, &ped);
+    return ped;
+}
+
+//02D4: car 3@ turn_off_engine 
+static DEFOPCODE(02D4, CAR_TURN_OFF_ENGINE, i);
+static void CAR_TURN_OFF_ENGINE(int car)
+{
+    sautils->ScriptCommand(&scm_CAR_TURN_OFF_ENGINE, car);
+}
+
+//02C0: store_to 3@ 4@ 5@ ped_path_coords_closest_to 0@ 1@ 2@
+static DEFOPCODE(02C0, STORE_PED_PATH_COORDS_CLOSEST_TO, fffvvv);
+static CVector STORE_PED_PATH_COORDS_CLOSEST_TO(float x, float y, float z)
+{
+    CVector result = CVector(0, 0, 0);
+    sautils->ScriptCommand(&scm_STORE_PED_PATH_COORDS_CLOSEST_TO, x, y, z, &result.x, &result.y, &result.z);
+    return result;
+}
+
+static DEFOPCODE(0129, CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT, iiiv); //0129: 10@ = create_actor_pedtype 23 model #LAPD1 in_car 6@ driverseat
+static int CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(int car, PedType pedType, int modelId)
+{
+    int _char = 0;
+    sautils->ScriptCommand(&scm_CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT, car, (int)pedType, modelId, &_char);
+    return _char;
+}
+
+static DEFOPCODE(0186, ADD_BLIP_FOR_CAR, iv); //0186: $60 = create_marker_above_car $59 
+static int ADD_BLIP_FOR_CAR(int car)
+{
+    int blip = 0;
+    sautils->ScriptCommand(&scm_ADD_BLIP_FOR_CAR, car, &blip);
+    return blip;
+}
+
+// 044B: actor %1d male
+static DEFOPCODE(044B, ACTOR_MALE, i);
+static bool ACTOR_MALE(int actor)
+{
+    return sautils->ScriptCommand(&scm_ACTOR_MALE, actor);
+}
+
+// 044C: actor %1d driving
+static DEFOPCODE(044C, ACTOR_DRIVING, i);
+static bool ACTOR_DRIVING(int actor)
+{
+    return sautils->ScriptCommand(&scm_ACTOR_DRIVING, actor);
+}
+
+//01B2: give_actor 3@ weapon 22 ammo 10000
+static DEFOPCODE(01B2, GIVE_ACTOR_WEAPON, iii);
+static void GIVE_ACTOR_WEAPON(int _char, int weaponType, int ammo)
+{
+    sautils->ScriptCommand(&scm_GIVE_ACTOR_WEAPON, _char, weaponType, ammo);
+}
+
+// 02E3: car %1d speed
+static DEFOPCODE(02E3, CAR_SPEED, iF);
+static float CAR_SPEED(int vehicle)
+{
+    float speed = 0.0f;
+    sautils->ScriptCommand(&scm_CAR_SPEED, vehicle, &speed);
+    return speed;
+}
+
+// 01BD: put_car_at %1d x %2f y %3f z %4f
+static DEFOPCODE(01BD, PUT_CAR_AT, ifff);
+static void PUT_CAR_AT(int vehicle, float x, float y, float z)
+{
+    sautils->ScriptCommand(&scm_PUT_CAR_AT, vehicle, x, y, z);
+}
+
+// 0175: set_car_z_angle %1d to %2f
+static DEFOPCODE(0175, SET_CAR_Z_ANGLE, if);
+static void SET_CAR_Z_ANGLE(int vehicle, float heading)
+{
+    sautils->ScriptCommand(&scm_SET_CAR_Z_ANGLE, vehicle, heading);
+}
+
+// 017A: set_car_immunities %1d BP %2d FP %3d EP %4d CP %5d MP %6d
+static DEFOPCODE(017A, SET_CAR_IMMUNITIES, iiiiii);
+static void SET_CAR_IMMUNITIES(int vehicle, bool BP, bool FP, bool EP, bool CP, bool MP)
+{
+    sautils->ScriptCommand(&scm_SET_CAR_IMMUNITIES, vehicle, BP ? 1 : 0, FP ? 1 : 0, EP ? 1 : 0, CP ? 1 : 0, MP ? 1 : 0);
+}
+
+// 03AC: load_requested_models
+static DEFOPCODE(03AC, LOAD_REQUESTED_MODELS, );
+static void LOAD_REQUESTED_MODELS()
+{
+    sautils->ScriptCommand(&scm_LOAD_REQUESTED_MODELS);
+}
+
+// 038B: load_requested_anims
+static DEFOPCODE(038B, LOAD_REQUESTED_ANIMS, );
+static void LOAD_REQUESTED_ANIMS()
+{
+    sautils->ScriptCommand(&scm_LOAD_REQUESTED_ANIMS);
+}
+
+// 0247: request_model %1d
+static DEFOPCODE(0247, REQUEST_MODEL, i);
+static void REQUEST_MODEL(int modelId)
+{
+    sautils->ScriptCommand(&scm_REQUEST_MODEL, modelId);
+}
+
+// 0249: release_model %1d
+static DEFOPCODE(0249, RELEASE_MODEL, i);
+static void RELEASE_MODEL(int modelId)
+{
+    sautils->ScriptCommand(&scm_RELEASE_MODEL, modelId);
+}
+
+//09C7: change_player 0 model_to 280
+static DEFOPCODE(09C7, CHANGE_PLAYER_MODEL_TO, ii);
+static void CHANGE_PLAYER_MODEL_TO(int player, int modelId)
+{
+    sautils->ScriptCommand(&scm_CHANGE_PLAYER_MODEL_TO, player, modelId);
+}
+
+//04EE: animation "GANGS" loaded 
+static DEFOPCODE(04EE, HAS_ANIMATION_LOADED, s);
+static bool HAS_ANIMATION_LOADED(const char* animationFile)
+{
+    bool result = sautils->ScriptCommand(&scm_HAS_ANIMATION_LOADED, animationFile);
+    return result;
+}
+
+//04ED: load_animation "GANGS"
+static DEFOPCODE(04ED, LOAD_ANIMATION, s);
+static void LOAD_ANIMATION(const char* animationFile)
+{
+    sautils->ScriptCommand(&scm_LOAD_ANIMATION, animationFile);
+}
+
+//0256: player $PLAYER_CHAR defined 
+static DEFOPCODE(0256, PLAYER_DEFINED, i);
+static bool PLAYER_DEFINED(int player)
+{
+    bool result = sautils->ScriptCommand(&scm_PLAYER_DEFINED, 0);
+    return result;
+}
+
+// 0248: model %1d available
+static DEFOPCODE(0248, HAS_MODEL_LOADED, i);
+static bool HAS_MODEL_LOADED(int modelId)
+{
+    return sautils->ScriptCommand(&scm_HAS_MODEL_LOADED, modelId);
+}
+
+// 02F6: actor %1d in_zone %2s
+static DEFOPCODE(02F6, ACTOR_IN_ZONE, is);
+static bool ACTOR_IN_ZONE(int actor, const char* zoneName)
+{
+    return sautils->ScriptCommand(&scm_ACTOR_IN_ZONE, actor, zoneName);
+}
+
+// 0107: player %1d money += %2d
+static DEFOPCODE(0107, ADD_PLAYER_MONEY, ii);
+static void ADD_PLAYER_MONEY(int player, int amount)
+{
+    sautils->ScriptCommand(&scm_ADD_PLAYER_MONEY, player, amount);
+}
+
+// 0109: player %1d money = %2d
+static DEFOPCODE(0109, SET_PLAYER_MONEY, ii);
+static void SET_PLAYER_MONEY(int player, int amount)
+{
+    sautils->ScriptCommand(&scm_SET_PLAYER_MONEY, player, amount);
+}
+
+// 0108: player %1d money
+static DEFOPCODE(0108, GET_PLAYER_MONEY, iI);
+static int GET_PLAYER_MONEY(int player)
+{
+    int money = 0;
+    sautils->ScriptCommand(&scm_GET_PLAYER_MONEY, player, &money);
+    return money;
+}
+
+// 01C2: remove_references_to_actor %1d
+static DEFOPCODE(01C2, REMOVE_REFERENCES_TO_ACTOR, i);
+static void REMOVE_REFERENCES_TO_ACTOR(int actor)
+{
+    sautils->ScriptCommand(&scm_REMOVE_REFERENCES_TO_ACTOR, actor);
+}
+
+// 01C3: remove_references_to_car %1d
+static DEFOPCODE(01C3, REMOVE_REFERENCES_TO_CAR, i);
+static void REMOVE_REFERENCES_TO_CAR(int vehicle)
+{
+    sautils->ScriptCommand(&scm_REMOVE_REFERENCES_TO_CAR, vehicle);
+}
+
+static DEFOPCODE(01EA, CAR_MAX_PASSENGERS, iv); //01EA: 68@ = car 67@ max_passengers 
+static int CAR_MAX_PASSENGERS(int car)
+{
+    int maxPassengers = 0;
+    sautils->ScriptCommand(&scm_CAR_MAX_PASSENGERS, car, &maxPassengers);
+    return maxPassengers;
+}
+
+//0432: 19@ = get_actor_handle_from_car $47 passenger_seat 0 
+static DEFOPCODE(0432, GET_ACTOR_HANDLE_FROM_CAR_PASSENGER_SEAT, iiv);
+static int GET_ACTOR_HANDLE_FROM_CAR_PASSENGER_SEAT(int car, int seatId)
+{
+    int _char = 0;
+    sautils->ScriptCommand(&scm_GET_ACTOR_HANDLE_FROM_CAR_PASSENGER_SEAT, car, seatId, &_char);
+    return _char;
+}
+
+//0431: car $47 passenger_seat_free 0
+static DEFOPCODE(0431, CAR_PASSENGER_SEAT_FREE, ii);
+static bool CAR_PASSENGER_SEAT_FREE(int car, int seatId)
+{
+    bool result = false;
+    result = sautils->ScriptCommand(&scm_CAR_PASSENGER_SEAT_FREE, car, seatId);
+    return result;
+}
+
+static DEFOPCODE(00A7, CAR_DRIVE_TO, ifff); //00A7: car 7@ drive_to 0@ 1@ 2@
+static void CAR_DRIVE_TO(int car, float x, float y, float z)
+{
+    sautils->ScriptCommand(&scm_CAR_DRIVE_TO, car, x, y, z);
+}
+
+// 01C4: remove_references_to_object %1d
+static DEFOPCODE(01C4, REMOVE_REFERENCES_TO_OBJECT, i);
+static void REMOVE_REFERENCES_TO_OBJECT(int obj)
+{
+    sautils->ScriptCommand(&scm_REMOVE_REFERENCES_TO_OBJECT, obj);
+}
+
+// 01C7: remove_references_to_car %1d
+static DEFOPCODE(01C7, REMOVE_REFERENCES_TO_HELI, i);
+static void REMOVE_REFERENCES_TO_HELI(int heli)
+{
+    sautils->ScriptCommand(&scm_REMOVE_REFERENCES_TO_HELI, heli);
+}
+
+// 01C8: remove_references_to_pickup %1d
+static DEFOPCODE(01C8, REMOVE_REFERENCES_TO_PICKUP, i);
+static void REMOVE_REFERENCES_TO_PICKUP(int pickup)
+{
+    sautils->ScriptCommand(&scm_REMOVE_REFERENCES_TO_PICKUP, pickup);
+}
+
+//04C4: store_coords_to 4@ 5@ 6@ from_actor $PLAYER_ACTOR with_offset 1.0 2.0 0.0 
+static DEFOPCODE(04C4, STORE_COORDS_FROM_ACTOR_WITH_OFFSET, ifffvvv);
+static void STORE_COORDS_FROM_ACTOR_WITH_OFFSET(int _char, float offsetX, float offsetY, float offsetZ, float* x, float* y, float* z)
+{
+    sautils->ScriptCommand(&scm_STORE_COORDS_FROM_ACTOR_WITH_OFFSET, _char, offsetX, offsetY, offsetZ, x, y, z);
+}
+
+//00DF: actor $PLAYER_ACTOR driving 
+static DEFOPCODE(00DF, IS_CHAR_IN_ANY_CAR, i);
+static bool IS_CHAR_IN_ANY_CAR(int _char)
+{
+    bool result = sautils->ScriptCommand(&scm_IS_CHAR_IN_ANY_CAR, _char);
+    return result;
+}
+
+//0811: $47 = actor $PLAYER_ACTOR used_car 
+static DEFOPCODE(0811, ACTOR_USED_CAR, iv);
+static int ACTOR_USED_CAR(int _char)
+{
+    int car = 0;
+    sautils->ScriptCommand(&scm_ACTOR_USED_CAR, _char, &car);
+    return car;
+}
+
+//0407: store_coords_to 128@ 138@ 148@ from_car 551@ with_offset -0.337 1.566 0.657 
+static DEFOPCODE(0407, STORE_COORDS_FROM_CAR_WITH_OFFSET, ifffvvv);
+static void STORE_COORDS_FROM_CAR_WITH_OFFSET(int car, float offsetX, float offsetY, float offsetZ, float* x, float* y, float* z)
+{
+    sautils->ScriptCommand(&scm_STORE_COORDS_FROM_CAR_WITH_OFFSET, car, offsetX, offsetY, offsetZ, x, y, z);
+}
+
+//0812: AS_actor 0@ perform_animation "handsup" IFP "PED" framedelta 4.0 loopA 0 lockX 0 lockY 0 lockF 1 time -1
+static DEFOPCODE(0812, PERFORM_ANIMATION_AS_ACTOR, issfbbbbi);
+static void PERFORM_ANIMATION_AS_ACTOR(int _char, const char* animationName, const char* animationFile, float frameDelta, bool loop, bool lockX, bool lockY, bool lockF, int time)
+{
+    sautils->ScriptCommand(&scm_PERFORM_ANIMATION_AS_ACTOR, _char, animationName, animationFile, frameDelta, loop, lockX, lockY, lockF, time);
+}
+
+//009A: 6@ = create_actor_pedtype 20 model #DNFYLC at 3@ 4@ 5@
+static DEFOPCODE(009A, CREATE_ACTOR_PEDTYPE, iifffv);
+static int CREATE_ACTOR_PEDTYPE(PedType pedType, int modelId, float x, float y, float z)
+{
+    int _char = 0;
+    sautils->ScriptCommand(&scm_CREATE_ACTOR_PEDTYPE, (int)pedType, modelId, x, y, z, &_char);
+    return _char;
+}
+
+//0687: clear_actor $PLAYER_ACTOR task
+static DEFOPCODE(0687, CLEAR_ACTOR_TASK, i);
+static void CLEAR_ACTOR_TASK(int _char)
+{
+    sautils->ScriptCommand(&scm_CLEAR_ACTOR_TASK, _char);
+}
+
+//0611: actor 2@ performing_animation "LRGIRL_IDLE_TO_L0"
+static DEFOPCODE(0611, ACTOR_PERFORMING_ANIMATION, is);
+static bool ACTOR_PERFORMING_ANIMATION(int _char, const char* animationName)
+{
+    bool result = sautils->ScriptCommand(&scm_ACTOR_PERFORMING_ANIMATION, _char, animationName);
+    return result;
+}
+
+//0603: AS_actor @3 goto_point_any_means 2493.82 -1669.91 12.8 mode 7 use_car -1 
+static DEFOPCODE(0603, TASK_GO_TO_COORD_ANY_MEANS, ifffib);
+static void TASK_GO_TO_COORD_ANY_MEANS(int actor, float x, float y, float z, int mode, bool useCar)
+{
+    sautils->ScriptCommand(&scm_TASK_GO_TO_COORD_ANY_MEANS, actor, x, y, z, mode, useCar ? 1 : 0);
+}
+
+//0918: set_car 3@ engine_operation 1 
+static DEFOPCODE(0918, SET_CAR_ENGINE_OPERATION, ib);
+static void SET_CAR_ENGINE_OPERATION(int car, bool state)
+{
+    sautils->ScriptCommand(&scm_SET_CAR_ENGINE_OPERATION, car, state);
+}
+
+//00AE: set_car 3@ traffic_behaviour_to 2
+static DEFOPCODE(00AE, SET_CAR_TRAFFIC_BEHAVIOUR, ii);
+static void SET_CAR_TRAFFIC_BEHAVIOUR(int car, int drivingStyle)
+{
+    sautils->ScriptCommand(&scm_SET_CAR_TRAFFIC_BEHAVIOUR, car, drivingStyle);
+}
+
+//00A8: set_car 52@ to_psycho_driver 
+static DEFOPCODE(00A8, SET_CAR_TO_PSYCHO_DRIVER, i);
+static void SET_CAR_TO_PSYCHO_DRIVER(int car)
+{
+    sautils->ScriptCommand(&scm_SET_CAR_TO_PSYCHO_DRIVER, car);
+}
+
+//00AD: set_car 3@ max_speed_to 50.0
+static DEFOPCODE(00AD, SET_CAR_MAX_SPEED, if);
+static void SET_CAR_MAX_SPEED(int car, float maxSpeed)
+{
+    sautils->ScriptCommand(&scm_SET_CAR_MAX_SPEED, car, maxSpeed);
+}
+
+//046C: 133@ = car 50@ driver 
+static DEFOPCODE(046C, GET_DRIVER_OF_CAR, iv);
+static int GET_DRIVER_OF_CAR(int car)
+{
+    int _char = 0;
+    sautils->ScriptCommand(&scm_GET_DRIVER_OF_CAR, car, &_char);
+    return _char;
+}
+
+//0633: AS_actor 4@ exit_car
+static DEFOPCODE(0633, EXIT_CAR_AS_ACTOR, i);
+static void EXIT_CAR_AS_ACTOR(int _actor)
+{
+    sautils->ScriptCommand(&scm_EXIT_CAR_AS_ACTOR, _actor);
+}
+
+//05CB: AS_actor 21@ enter_car 0@ as_driver 20000 ms
+static DEFOPCODE(05CB, ENTER_CAR_AS_DRIVER_AS_ACTOR, iii);
+static void ENTER_CAR_AS_DRIVER_AS_ACTOR(int _char, int vehicle, int time)
+{
+    sautils->ScriptCommand(&scm_ENTER_CAR_AS_DRIVER_AS_ACTOR, _char, vehicle, time);
+}
+
+//05CA: AS_actor 3@ enter_car 7@ passenger_seat 1 time 10000
+static DEFOPCODE(05CA, ACTOR_ENTER_CAR_PASSENGER_SEAT, iiii);
+static void ACTOR_ENTER_CAR_PASSENGER_SEAT(int _char, int vehicle, int time, int seatId)
+{
+    sautils->ScriptCommand(&scm_ACTOR_ENTER_CAR_PASSENGER_SEAT, _char, vehicle, time, seatId);
+}
+
+//0187: 47@ = create_marker_above_actor 75@ 
+static DEFOPCODE(0187, ADD_BLIP_FOR_CHAR, iv);
+static int ADD_BLIP_FOR_CHAR(int _char)
+{
+    int blip = 0;
+    sautils->ScriptCommand(&scm_ADD_BLIP_FOR_CHAR, _char, &blip);
+    return blip;
+}
+
+//0164: disable_marker $482
+static DEFOPCODE(0164, DISABLE_MARKER, i);
+static void DISABLE_MARKER(int blip)
+{
+    sautils->ScriptCommand(&scm_DISABLE_MARKER, blip);
+}
+
+// --------------------------------------------
+
+static void WAIT(int time, std::function<void()> callback)
+{
+    CleoFunctions::AddWaitFunction(time, callback);
+}
+
+// --------------------------------------------
+
+static int GetPlayerActor()
+{
+    return GET_PLAYER_ACTOR(0);
 }
 
 static CVector GetPedPositionWithOffset(int hPed, CVector offset)
 {
     float x = 0, y = 0, z = 0;
-    CleoFunctions::STORE_COORDS_FROM_ACTOR_WITH_OFFSET(hPed, offset.x, offset.y, offset.z, &x, &y, &z);
+    STORE_COORDS_FROM_ACTOR_WITH_OFFSET(hPed, offset.x, offset.y, offset.z, &x, &y, &z);
 
     return CVector(x, y, z);
 }
@@ -198,14 +549,40 @@ static CVector GetPedPosition(int hPed)
     return GetPedPositionWithOffset(hPed, CVector(0, 0, 0));
 }
 
-static int GetPlayerActor()
+static int GetVehiclePedIsUsing(int hPed)
 {
-    return CleoFunctions::GET_PLAYER_ACTOR(0);
+    if(!IS_CHAR_IN_ANY_CAR(hPed)) return 0;
+
+    return ACTOR_USED_CAR(hPed);
+}
+
+static void ClearPedAnimations(int hPed)
+{
+    REMOVE_REFERENCES_TO_ACTOR(hPed);
+    PERFORM_ANIMATION_AS_ACTOR(hPed, "hndshkfa_swt", "gangs", 500.0f, 0, 0, 0, 0, 1);
 }
 
 static CVector GetPlayerPosition()
 {
-    return GetPedPositionWithOffset(GetPlayerActor(), CVector(0, 0, 0));
+    return GetPedPosition(GetPlayerActor());
+}
+
+static CVector GetPlayerPositionInForward(float distanceY)
+{
+    return GetPedPositionWithOffset(GetPlayerActor(), CVector(0, distanceY, 0));
+}
+
+static CVector GetCarPositionWithOffset(int hVehicle, CVector offset)
+{
+    float x = 0, y = 0, z = 0;
+    STORE_COORDS_FROM_CAR_WITH_OFFSET(hVehicle, offset.x, offset.y, offset.z, &x, &y, &z);
+
+    return CVector(x, y, z);
+}
+
+static CVector GetCarPosition(int hVehicle)
+{
+    return GetCarPositionWithOffset(hVehicle, CVector(0, 0, 0));
 }
 
 static double DistanceFromPed(int hPed, CVector position)
@@ -215,20 +592,9 @@ static double DistanceFromPed(int hPed, CVector position)
     return distance;
 }
 
-static bool IsActorAliveAndDefined(int hPed)
+static double DistanceFromVehicle(int hCar, CVector position)
 {
-    return CleoFunctions::ACTOR_DEFINED(hPed) && !CleoFunctions::ACTOR_DEAD(hPed);
-}
-
-static int GetVehiclePedIsUsing(int hPed)
-{
-    if(!CleoFunctions::IS_CHAR_IN_ANY_CAR(hPed)) return 0;
-
-    return CleoFunctions::ACTOR_USED_CAR(hPed);
-}
-
-static void ClearPedAnimations(int hPed)
-{
-    CleoFunctions::REMOVE_REFERENCES_TO_ACTOR(hPed);
-    CleoFunctions::PERFORM_ANIMATION_AS_ACTOR(hPed, "hndshkfa_swt", "gangs", 500.0f, 0, 0, 0, 0, 1);
+    auto carPosition = GetCarPosition(hCar);
+    auto distance = distanceBetweenPoints(carPosition, position);
+    return distance;
 }

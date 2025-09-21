@@ -22,22 +22,22 @@ void ModelLoader::LoadNextModel()
 
     int modelId = modelsToLoad.front();
 
-    if (CleoFunctions::MODEL_AVAILABLE(modelId)) {
+    if (HAS_MODEL_LOADED(modelId)) {
         ModelLoaded(modelId);
         return;
     }
 
 
-    CleoFunctions::LOAD_MODEL(modelId);
-    CleoFunctions::LOAD_REQUESTED_MODELS();
+    LOAD_MODEL(modelId);
+    LOAD_REQUESTED_MODELS();
 
-    if (CleoFunctions::MODEL_AVAILABLE(modelId)) {
+    if (HAS_MODEL_LOADED(modelId)) {
         ModelLoaded(modelId);
         return;
     }
 
     CleoFunctions::AddWaitForFunction(
-        [modelId]() { return CleoFunctions::MODEL_AVAILABLE(modelId); },
+        [modelId]() { return HAS_MODEL_LOADED(modelId); },
         [modelId]() { ModelLoaded(modelId); }
     );
 }

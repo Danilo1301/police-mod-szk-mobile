@@ -5,6 +5,37 @@ extern IMenuSZK* menuSZK;
 
 #include "PoliceMod.h"
 #include "Audios.h"
+#include "ScriptTask.h"
+#include "ModelLoader.h"
+#include "CleoFunctions.h"
+#include "Dialogs.h"
+
+static void CreateTowTruck()
+{
+    int towModelId = 578;
+    int testCar = 560;
+    int driverId = 50;
+
+    ModelLoader::AddModelToLoad(towModelId);
+    ModelLoader::AddModelToLoad(driverId);
+    ModelLoader::AddModelToLoad(testCar);
+
+    ModelLoader::LoadAll([towModelId, driverId, testCar]() {
+        
+        auto playerPosition = GetPlayerPosition();
+
+        auto spawnPosition = GetPlayerPositionInForward(5.0f);
+
+        Dialogs::AddDialog("Criando veiculos", 3000);
+
+        auto towRef = CREATE_CAR_AT(towModelId, spawnPosition.x, spawnPosition.y, spawnPosition.z);
+        auto testCarRef = CREATE_CAR_AT(testCar, spawnPosition.x, spawnPosition.y, spawnPosition.z + 3);
+
+        CVector offset = CVector(0, -0.5, 0.3);
+
+        ATTACH_CAR_TO_CAR(testCarRef, towRef, offset.x, offset.y, offset.z, 0, 0, 0);
+    });
+}
 
 TestWindow::TestWindow()
 {
@@ -45,6 +76,24 @@ TestWindow::TestWindow()
             }
 
             audioGroup->Play();
+        });
+    }
+
+    {
+        auto button = window->AddButton("> Test task");
+        button->onClick->Add([window](IContainer*) {
+            window->Close();
+            
+            ScriptTask::CreateTest();
+        });
+    }
+
+    {
+        auto button = window->AddButton("> Test tow truck");
+        button->onClick->Add([window](IContainer*) {
+            window->Close();
+            
+            CreateTowTruck();
         });
     }
 
