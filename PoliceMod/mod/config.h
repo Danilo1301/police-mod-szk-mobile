@@ -47,7 +47,7 @@ public:
 
     // Self-explained
     inline bool  IsValueChanged() { return m_bValueChanged; }
-    inline void  ClearLast() { if(pLastEntry) { delete pLastEntry; pLastEntry = NULL; } }
+    inline void  ClearLast();
     
     static Config* GetConfig();
     static ConfigEntry* pLastEntry;

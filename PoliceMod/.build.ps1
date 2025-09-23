@@ -10,4 +10,4 @@ Write-Output "[BUILD] Starting NDK..."
 & $buildScript NDK_PROJECT_PATH=$PSScriptRoot APP_BUILD_SCRIPT=$PSScriptRoot/Android.mk NDK_APPLICATION_MK=$PSScriptRoot/Application.mk NDK_DEBUG=0
 Write-Output "[BUILD] Done!"
 
-Exit $LASTEXITCODE6
+Exit $LASTEXITCODE65

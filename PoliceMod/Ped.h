@@ -5,6 +5,7 @@
 #include "menuSZK/IWidgetButton.h"
 
 #include "dialog/DialogManager.h"
+#include "inventory/Inventory.h"
 
 enum PedSeat
 {
@@ -37,6 +38,8 @@ public:
     PedSeat previousSeat = PedSeat::NO_SEAT;
 
     Dialogue dialogue;
+
+    Inventory inventory;
 
     Ped(int ref, void* ptr);
     ~Ped();

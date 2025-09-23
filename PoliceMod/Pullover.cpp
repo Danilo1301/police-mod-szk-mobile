@@ -168,7 +168,7 @@ void Pullover::TryPulloverVehicle()
     if(closestCar == NULL)
     {
         debug->AddLine("~r~no car found to pull over");
-        Dialogs::AddDialog("~r~Nenhum veiculo encontrado", 2000);
+        Dialogs::AddDialog("~r~Nenhum veiculo ou pedestre encontrado", 2000);
         return;
     }
     

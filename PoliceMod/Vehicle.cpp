@@ -101,7 +101,7 @@ void Vehicle::OnRenderBefore()
 
     if(playerCar != ref) return;
 
-    debug->AddLine("~b~atomics");
+    //debug->AddLine("~b~atomics");
 
     auto atomics = VehicleDummy::RpClumpGetAllAtomics(vehicle->m_pRwClump);
     for(auto atomic : atomics)
@@ -109,18 +109,18 @@ void Vehicle::OnRenderBefore()
         auto frameAtomic = GetObjectParent((RwObject*)atomic);
 		auto name = to_lower(GetFrameName(frameAtomic));
 
-        debug->AddLine(name);
+        //debug->AddLine(name);
 
         if(!atomic->geometry) continue;
         
         if (name.find("plate") != std::string::npos)
         {
             //if(plateHidden) continue;
-            plateHidden = true;
+            // plateHidden = true;
 
-            debug->AddLine("~y~plate hidden");
+            // debug->AddLine("~y~plate hidden");
             
-            HideAllAtomics(frameAtomic);
+            // HideAllAtomics(frameAtomic);
         }
     }
 }

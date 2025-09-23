@@ -2,7 +2,7 @@
   "variables": {
     "isArmed": false,
     "isDocummentExpired": false,
-    "hasCNH": false
+    "hasCNH": true
   },
   "nodes": [
     {
@@ -36,7 +36,7 @@
     },
     {
       "id": "hab.answer",
-      "npcText": "Nao tenho",
+      "npcText": "Tenho sim",
       "nextId": "",
       "options": [
         { "text": "Voltar", "nextId": "start" }

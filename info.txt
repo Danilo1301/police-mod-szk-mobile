@@ -1,1 +1,9 @@
-info goes here
+> To release
+
+In main.cpp, edit version in MYMODCFG
+Build and make .zip of the version
+
+> Notes
+
+20/09/25
+* 0.2

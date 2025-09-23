@@ -31,6 +31,8 @@ Ped::Ped(int ref, void* ptr)
     {
         catHab = "";
     }
+
+    inventory.AddItem(new InventoryItem("docs"));
 }
 
 Ped::~Ped()

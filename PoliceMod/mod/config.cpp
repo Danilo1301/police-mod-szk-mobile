@@ -353,6 +353,10 @@ rgba_t Config::GetColor(const char* szKey, rgba_t clr, const char* szSection)
     return pRet->ParseColor();
 }
 
+void Config::ClearLast() {
+    if(pLastEntry) { delete pLastEntry; pLastEntry = NULL; }
+}
+
 void ConfigEntry::SetString(const char* newValue)
 {
     if(m_bLoadedData && str_equal(newValue, m_szValue)) return;
