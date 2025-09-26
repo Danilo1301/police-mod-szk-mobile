@@ -76,7 +76,7 @@ void Ped::Update()
     {
         if (widgetOptions)
         {
-            widgetOptions->Destroy();
+            widgetOptions->Close();
             widgetOptions = nullptr;
         }
         isWidgetVisible = false;

@@ -64,4 +64,5 @@ public:
     virtual IContainer* CreateChildContainer() = 0;
     virtual void SetBackgroundTexture(std::string src) = 0;
     virtual bool IsContainerOverMouse() = 0;
+    virtual void SetToBeDestroyed() = 0;
 };

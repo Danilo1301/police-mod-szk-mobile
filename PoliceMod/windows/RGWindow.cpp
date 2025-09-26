@@ -98,8 +98,12 @@ void RGWindow::MakeWindow()
         button->onClick->Add([this](IContainer*) {
             window->Close();
 
-            if(onClose)
-                onClose();
+            auto fn = onClose;
+
+            delete this;
+
+            if(fn)
+                fn();
         });
     }
 }

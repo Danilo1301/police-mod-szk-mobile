@@ -9,6 +9,7 @@ extern IMenuSZK* menuSZK;
 #include "Vehicles.h"
 #include "Audios.h"
 #include "windows/TestWindow.h"
+#include "windows/RadioWindow.h"
 #include "Dialogs.h"
 #include "Objectives.h"
 #include "dialog/DialogManager.h"
@@ -51,10 +52,18 @@ void PoliceMod::Initialize()
     Dialogs::Initialize();
     DialogManager::Initialize();
     Objectives::Initialize();
+    RadioWindow::Initialize();
 
     auto widgetTestMenu = menuSZK->CreateWidgetButton(600 + 150, 30, getPathFromMenuAssets("widget_background1.png"), getPathFromAssets("widget_vest.png"));
     widgetTestMenu->onClickWidget->Add([]() {
         TestWindow::ShowWindow();
+    });
+
+    auto widgetRadio = menuSZK->CreateWidgetButton(600 + 300, 30, getPathFromMenuAssets("widget_background1.png"), getPathFromAssets("widget_radio.png"));
+    widgetRadio->onClickWidget->Add([]() {
+
+        RadioWindow::Toggle();
+
     });
 
     Audios::CreateAudios();

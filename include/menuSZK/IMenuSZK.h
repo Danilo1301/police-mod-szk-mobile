@@ -39,6 +39,6 @@ public:
     virtual void* GetCPedFromRef(int ref) = 0;
     virtual void* GetCVehicleFromRef(int ref) = 0;
     virtual CVector2D ConvertWorldPositionToScreenPosition(CVector worldPosition) = 0;
-
     virtual IAudio* CreateAudio(std::string src) = 0;
+    virtual void QueueContainerDestroy(IContainer* container) = 0;
 };

@@ -26,6 +26,8 @@ public:
     int manufactureYear;
     int modelYear;
 
+    bool outdatedDoc = false;
+
     Vehicle(int ref, void* ptr);
     ~Vehicle();
 

@@ -10,6 +10,6 @@ public:
 
     CRGBA pointerOverColor = CRGBA(90, 180, 100);
 
-    virtual void Destroy() = 0;
+    virtual void Close() = 0;
     virtual IContainer* GetContainer() = 0;
 };

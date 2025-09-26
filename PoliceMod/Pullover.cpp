@@ -17,6 +17,7 @@ extern IMenuSZK* menuSZK;
 #include "Objectives.h"
 #include "dialog/DialogManager.h"
 #include "ScriptTask.h"
+#include "windows/CellphoneWindow.h"
 
 int aimingPed = NO_PED_FOUND;
 std::vector<Ped*> pedsPulledOver;
@@ -293,6 +294,7 @@ void Pullover::OpenPedMenu(Ped* ped)
                 auto docWindow = CNHWindow::CreateCNH(ped);
                 docWindow->onClose = [ped]() {
                     //OpenPedMenu(ped);
+                    
                 };
             });
         });
@@ -390,35 +392,46 @@ void Pullover::OpenVehicleMenu(Vehicle* vehicle)
         });
     }
 
-    auto button = window->AddButton("> Consultar placa ~b~" + vehicle->plate);
-    button->onClick->Add([closeWindow, vehicle](IContainer*) {
-        closeWindow();
+    {
+        auto button = window->AddButton("> Consultar placa ~b~" + vehicle->plate);
+        button->onClick->Add([closeWindow, vehicle](IContainer*) {
+            closeWindow();
 
-        auto audioGroup = currentAudioGroup = new AudioGroup();
-        audioGroup->AddAudio(menuSZK->CreateAudio(getPathFromAssets("audios/ht.wav")));
-        audioGroup->AddAudio(menuSZK->CreateAudio(getPathFromAssets("audios/officer/license_plate_check.wav")));
+            auto audioGroup = currentAudioGroup = new AudioGroup();
+            audioGroup->AddAudio(menuSZK->CreateAudio(getPathFromAssets("audios/ht.wav")));
+            audioGroup->AddAudio(menuSZK->CreateAudio(getPathFromAssets("audios/officer/license_plate_check.wav")));
 
-        auto plate = vehicle->plate;
+            auto plate = vehicle->plate;
 
-        debug->AddLine("Consulta de placa: ~y~" + plate);
+            debug->AddLine("Consulta de placa: ~y~" + plate);
 
-        // percorrendo cada caractere
-        for (size_t i = 0; i < plate.size(); ++i)
-        {
-            char c = plate[i];
+            // percorrendo cada caractere
+            for (size_t i = 0; i < plate.size(); ++i)
+            {
+                char c = plate[i];
 
-            if (c == ' ') continue; // pula espaços
+                if (c == ' ') continue; // pula espaços
 
-            // monta o caminho do áudio dinamicamente
-            std::string audioPath = "audios/officer/codes/";
-            audioPath += c;        // adiciona a letra ou número
-            audioPath += ".wav";   // extensão
+                // monta o caminho do áudio dinamicamente
+                std::string audioPath = "audios/officer/codes/";
+                audioPath += c;        // adiciona a letra ou número
+                audioPath += ".wav";   // extensão
 
-            audioGroup->AddAudio(menuSZK->CreateAudio(getPathFromAssets(audioPath)));
-        }
+                audioGroup->AddAudio(menuSZK->CreateAudio(getPathFromAssets(audioPath)));
+            }
 
-        audioGroup->Play();
-    });
+            audioGroup->Play();
+        });
+    }
+
+    {
+        auto button = window->AddButton("> Consultar no APP sistema");
+        button->onClick->Add([closeWindow, vehicle](IContainer*) {
+            closeWindow();
+
+            CellphoneWindow::CreateSINESPWindow(vehicle);
+        });
+    }
 
     if(numOcuppants == 0)
     {

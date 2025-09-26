@@ -19,12 +19,14 @@ Vehicle::Vehicle(int ref, void* ptr)
     renavamCode = gerarRenavam();
 
     int anoAtual = getCurrentYear();
-
+    
     manufactureYear = getRandomNumber(anoAtual - 20, anoAtual);
     modelYear = getRandomNumber(manufactureYear, manufactureYear + 1);
+    
+    outdatedDoc = calculateProbability(0.50f);
 
     // decide se está atrasado
-    if (calculateProbability(0.20f))
+    if (outdatedDoc)
     {
         // queremos um exerciseYear entre manufactureYear e anoAtual - 1
         int latest = std::max(manufactureYear, anoAtual - 1);
@@ -71,7 +73,7 @@ void Vehicle::Update()
     {
         if (widgetOptions)
         {
-            widgetOptions->Destroy();
+            widgetOptions->Close();
             widgetOptions = nullptr;
         }
         isWidgetVisible = false;
