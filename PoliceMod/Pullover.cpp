@@ -18,6 +18,7 @@ extern IMenuSZK* menuSZK;
 #include "dialog/DialogManager.h"
 #include "ScriptTask.h"
 #include "windows/CellphoneWindow.h"
+#include "Chase.h"
 
 int aimingPed = NO_PED_FOUND;
 std::vector<Ped*> pedsPulledOver;
@@ -164,7 +165,7 @@ void Pullover::TryPulloverVehicle()
     float x = 0.0f, y = 0.0f, z = 0.0f;
     STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, 0.0f, range, 0.0f, &x, &y, &z);
 
-    Vehicle* closestCar = Vehicles::GetClosestVehicle(CVector(x, y, z), GetPlayerPosition(), 5.0f);
+    Vehicle* closestCar = Vehicles::GetClosestVehicleNotPlayer(CVector(x, y, z), GetPlayerPosition(), 5.0f);
 
     if(closestCar == NULL)
     {
@@ -194,6 +195,17 @@ void Pullover::PulloverVehicle(Vehicle* vehicle)
     Audios::audioEncostaCarro->Play();
 
     Dialogs::AddOfficerDialog("Encosta o carro", 2000);
+
+    if(vehicle->GetCurrentDriver() != nullptr)
+    {
+        bool startChase = true;
+    
+        if(startChase)
+        {
+            Chase::StartChaseWithVehicle(vehicle);
+            return;
+        }
+    }
 
     WAIT(1000, [vehicle]() {
         CAR_TURN_OFF_ENGINE(vehicle->ref);
@@ -616,7 +628,7 @@ void Pullover::CallTowTruck(Vehicle* vehicle)
             Dialogs::AddDialog("Rodando task", 1000);
             
             SET_CAR_MAX_SPEED(towRef, 20.0f);
-            SET_CAR_TRAFFIC_BEHAVIOUR(towRef, 2);
+            SET_CAR_TRAFFIC_BEHAVIOUR(towRef, DrivingMode::AvoidCars);
             CAR_DRIVE_TO(towRef, targetPosition.x, targetPosition.y, targetPosition.z);
         };
         taskDrive->onExecute = [towRef, targetPosition]() {

@@ -5,9 +5,12 @@ extern IMenuSZK* menuSZK;
 
 #include "CleoFunctions.h"
 #include "Peds.h"
+#include "Vehicles.h"
 #include "Pullover.h"
 #include "PoliceMod.h"
 #include "VehicleDummy.h"
+#include "Chase.h"
+#include "Criminals.h"
 
 Vehicle::Vehicle(int ref, void* ptr)
 {
@@ -50,6 +53,8 @@ Vehicle::~Vehicle()
 
 void Vehicle::Update()
 {
+    lifeTime = std::min(lifeTime + (int)menuSZK->deltaTime, 100000);
+
     auto position = GetPosition();
     auto playerPosition = GetPlayerPosition();
     float distanceToPlayer = distanceBetweenPoints(playerPosition, position);
@@ -87,12 +92,12 @@ void Vehicle::Update()
         container->fixPositionToCenter = true;
     }
 
-    // auto carHealth = CleoFunctions::GET_CAR_HEALTH(ref);
-    // if(carHealth < 300)
-    // {
-    //     CleoFunctions::SET_CAR_HEALTH(ref, 1000);
-    //     debug->AddLine("~y~car health restored");
-    // }
+    auto carHealth = GET_CAR_HEALTH(ref);
+    if(carHealth < 300)
+    {
+        SET_CAR_HEALTH(ref, 300);
+        debug->AddLine("~y~car health restored");
+    }
 }
 
 void Vehicle::OnRenderBefore()
@@ -139,6 +144,13 @@ int Vehicle::AddBlip()
     return blip;
 }
 
+int Vehicle::AddBlip(int color)
+{
+    int blip = AddBlip();
+    SET_MARKER_COLOR_TO(blip, color);
+    return blip;
+}
+
 void Vehicle::RemoveBlip()
 {
     if(blip == NO_BLIP) return;
@@ -182,7 +194,7 @@ std::vector<Ped*> Vehicle::GetOwners()
 
     auto driver = Peds::GetPed(hDriver);
 
-    if(driver != NULL)
+    if(driver != nullptr)
     {
         owners.push_back(driver);
     }
@@ -191,7 +203,7 @@ std::vector<Ped*> Vehicle::GetOwners()
     {
         auto ped = Peds::GetPed(refPassenger);
 
-        if(ped == NULL) continue;
+        if(ped == nullptr) continue;
 
         owners.push_back(ped);
     }
@@ -201,7 +213,7 @@ std::vector<Ped*> Vehicle::GetOwners()
 
 void Vehicle::RemoveOwners()
 {
-    if(hDriver > 0)
+    if(hDriver >= 0)
     {
         auto ped = Peds::GetPed(hDriver);
         if(ped)
@@ -229,7 +241,7 @@ Ped* Vehicle::GetCurrentDriver()
 {
     auto refDriver = GET_DRIVER_OF_CAR(ref);
 
-    if(refDriver <= 0)
+    if(refDriver < 0)
     {
         return NULL;
     }
@@ -269,6 +281,22 @@ std::vector<Ped*> Vehicle::GetCurrentOccupants()
     return occupants;
 }
 
+bool Vehicle::IsPlayerInside()
+{
+    auto playerActor = GetPlayerActor();
+    return IsPedInside(playerActor);
+}
+
+bool Vehicle::IsPedInside(int pedRef)
+{
+    auto occupants = GetCurrentOccupants();
+    for(auto ped : occupants)
+    {
+        if(pedRef == ped->ref) return true;
+    }
+    return false;
+}
+
 void Vehicle::MakeOwnersEnter()
 {
     auto owners = GetOwners();
@@ -286,4 +314,35 @@ void Vehicle::MakeOwnersEnter()
             passengerSeatId++;
         }
     }
+}
+
+int Vehicle::GetModelId()
+{
+    return GET_CAR_MODEL(ref);
+}
+
+void Vehicle::DestroyCarAndPeds()
+{
+    auto ocuppants = GetCurrentOccupants();
+
+    for(auto ped : ocuppants)
+    {
+        DESTROY_ACTOR(ped->ref);
+        Peds::RemovePed(ped->ref);
+    }
+
+    DESTROY_CAR(ref);
+    Vehicles::RemoveVehicle(ref);
+}
+
+bool Vehicle::IsInChase()
+{
+    if(!Chase::InChase) return false;
+
+    auto criminals = Criminals::GetCriminals();
+    for(auto criminal : criminals)
+    {
+        if(IsPedInside(criminal->ref)) return true;
+    }
+    return false;
 }

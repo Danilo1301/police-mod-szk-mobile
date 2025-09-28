@@ -64,7 +64,7 @@ void ScriptTask::MakeVehicleLeave(int vehicleRef)
     auto targetPosition = GET_CLOSEST_CAR_NODE(startPosition.x, startPosition.y + 1000, startPosition.z);
 
     SET_CAR_MAX_SPEED(vehicleRef, 20.0f);
-    SET_CAR_TRAFFIC_BEHAVIOUR(vehicleRef, 2);
+    SET_CAR_TRAFFIC_BEHAVIOUR(vehicleRef, DrivingMode::StopForCarsIgnoreLights);
     CAR_DRIVE_TO(vehicleRef, targetPosition.x, targetPosition.y, targetPosition.z);
 }
 

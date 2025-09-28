@@ -28,6 +28,10 @@ public:
 
     bool outdatedDoc = false;
 
+    int lifeTime = 0;
+
+    bool spawnedWithDriver = false;
+
     Vehicle(int ref, void* ptr);
     ~Vehicle();
 
@@ -37,6 +41,7 @@ public:
     void OnRenderAfter();
 
     int AddBlip();
+    int AddBlip(int color);
     void RemoveBlip();
 
     CVector GetPosition();
@@ -48,6 +53,14 @@ public:
     Ped* GetCurrentDriver();
     std::vector<Ped*> GetCurrentPassengers();
     std::vector<Ped*> GetCurrentOccupants();
+    bool IsPlayerInside();
+    bool IsPedInside(int pedRef);
 
     void MakeOwnersEnter();
+
+    int GetModelId();
+
+    void DestroyCarAndPeds();
+
+    bool IsInChase();
 };

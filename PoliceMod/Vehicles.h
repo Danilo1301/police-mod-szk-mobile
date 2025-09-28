@@ -16,5 +16,7 @@ public:
     static bool IsValid(Vehicle* vehicle);
     static void Update();
     static std::vector<Vehicle*> GetAllCarsInSphere(CVector position, float radius);
+    static std::vector<Vehicle*> GetVehicles();
     static Vehicle* GetClosestVehicle(CVector sphereCenter, CVector targetPosition, float radius);
+    static Vehicle* GetClosestVehicleNotPlayer(CVector sphereCenter, CVector targetPosition, float radius);
 };

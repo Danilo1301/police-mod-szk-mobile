@@ -8,6 +8,7 @@ public:
 
     PoliceMod();
 
+    void OnModLoad();
     void Initialize();
     void Update();
 

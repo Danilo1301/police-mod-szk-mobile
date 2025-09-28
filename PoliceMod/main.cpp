@@ -92,6 +92,8 @@ extern "C" void OnModLoad()
     SET_TO(RpGeometryForAllMaterials, aml->GetSym(hGTASA, "_Z25RpGeometryForAllMaterialsP10RpGeometryPFP10RpMaterialS2_PvES3_"));
     SET_TO(GetFrameNodeName, aml->GetSym(hGTASA, "_Z16GetFrameNodeNameP7RwFrame"));
 
+    policeMod->OnModLoad();
+
     menuSZK->onFirstUpdate->Add([]() {
         policeMod->Initialize();
     });

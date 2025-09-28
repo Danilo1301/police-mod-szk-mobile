@@ -13,6 +13,10 @@ extern IMenuSZK* menuSZK;
 #include "Dialogs.h"
 #include "Objectives.h"
 #include "dialog/DialogManager.h"
+#include "Chase.h"
+#include "BackupUnits.h"
+#include "AIController.h"
+#include "Criminals.h"
 
 bool hasLoadedAnimations = false;
 
@@ -23,13 +27,8 @@ bool PoliceMod::m_IsUsingMenu = false;
 PoliceMod::PoliceMod()
 {
 }
-
-void PoliceMod::Initialize()
+void PoliceMod::OnModLoad()
 {
-    menuSZK->onUpdate->Add([this]() {
-        Update();
-    });
-
     menuSZK->onPedAdded->Add([](int ref) {
         auto ptr = menuSZK->GetCPedFromRef(ref);
         Peds::AddPed(ref, ptr);
@@ -46,6 +45,15 @@ void PoliceMod::Initialize()
     
     menuSZK->onVehicleRemoved->Add([](int ref) {
         Vehicles::RemoveVehicle(ref);
+    });
+}
+
+void PoliceMod::Initialize()
+{
+    menuSZK->onUpdate->Add([this]() {
+        Update();
+
+        auto ped = Peds::GetPed(GetPlayerActor());
     });
 
     Pullover::Initialize();
@@ -89,12 +97,24 @@ void PoliceMod::Update()
         }
     }
 
+    logInternal("Peds::Update");
     Peds::Update();
+    logInternal("Vehicles::Update");
     Vehicles::Update();
+    logInternal("Pullover::Update");
     Pullover::Update();
+    logInternal("Dialogs::Update");
     Dialogs::Update();
     DialogManager::Update();
     Objectives::Update();
+    logInternal("Chase::Update");
+    Chase::Update();
+    logInternal("Criminals::Update");
+    Criminals::Update();
+    logInternal("BackupUnits::Update");
+    BackupUnits::Update();
+    logInternal("AIController::Update");
+    AIController::Update();
 
     CleoFunctions::Update(menuSZK->deltaTime);
 }

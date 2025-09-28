@@ -7,6 +7,15 @@
 #include "dialog/DialogManager.h"
 #include "inventory/Inventory.h"
 
+enum PedInVehicleState
+{
+    NONE,
+    SITTING,
+    LEAVING,
+    ENTERING,
+    NOT_ON_VEHICLE
+};
+
 enum PedSeat
 {
     NO_SEAT = 0,
@@ -37,12 +46,27 @@ public:
 
     PedSeat previousSeat = PedSeat::NO_SEAT;
 
+    PedInVehicleState inVehicleState = PedInVehicleState::NONE;
+    bool justLeftVehicle = false;
+
     Dialogue dialogue;
 
     Inventory inventory;
 
     Ped(int ref, void* ptr);
     ~Ped();
+
+    void CopyFrom(const Ped& other) {
+        int oldRef = ref;
+        void* oldPtr = ptr;
+
+        *this = other; // reutiliza o operador=
+
+        this->ref = oldRef;
+        this->ptr = oldPtr;
+        this->blip = NO_BLIP;
+        this->widgetOptions = nullptr;
+    }
 
     void Update();
 

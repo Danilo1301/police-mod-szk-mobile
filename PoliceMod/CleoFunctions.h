@@ -76,11 +76,23 @@ public:
 
 // --------------------------------------------
 
+template <typename... Args>
+static int CallScriptCommand(const SCRIPT_COMMAND* cmd, Args... args)
+{
+    return sautils->ScriptCommand(cmd, args...);
+}
+
+template <typename... Args>
+static int CallScriptCommand_NoLog(const SCRIPT_COMMAND* cmd, Args... args)
+{
+    return sautils->ScriptCommand(cmd, args...);
+}
+
 //0247: load_model 110
 static DEFOPCODE(0247, LOAD_MODEL, i);
 static void LOAD_MODEL(int modelId)
 {
-    sautils->ScriptCommand(&scm_LOAD_MODEL, modelId);
+    CallScriptCommand(&scm_LOAD_MODEL, modelId);
 }
 
 //01F5: $PLAYER_ACTOR = get_player_actor $PLAYER_CHAR 
@@ -88,7 +100,7 @@ static DEFOPCODE(01F5, GET_PLAYER_ACTOR, iv);
 static int GET_PLAYER_ACTOR(int player)
 {
     int playerActor = 0;
-    sautils->ScriptCommand(&scm_GET_PLAYER_ACTOR, 0, &playerActor);
+    CallScriptCommand_NoLog(&scm_GET_PLAYER_ACTOR, 0, &playerActor);
     return playerActor;
 }
 
@@ -96,7 +108,7 @@ static int GET_PLAYER_ACTOR(int player)
 static DEFOPCODE(0457, PLAYER_AIMING_AT_ACTOR, ii);
 static bool PLAYER_AIMING_AT_ACTOR(int player, int _char)
 {
-    bool result = sautils->ScriptCommand(&scm_PLAYER_AIMING_AT_ACTOR, player, _char);
+    bool result = CallScriptCommand_NoLog(&scm_PLAYER_AIMING_AT_ACTOR, player, _char);
     return result;
 }
 
@@ -105,7 +117,7 @@ static DEFOPCODE(02C1, GET_CLOSEST_CAR_NODE, fffvvv);
 static CVector GET_CLOSEST_CAR_NODE(float x, float y, float z)
 {
     CVector result;
-    sautils->ScriptCommand(&scm_GET_CLOSEST_CAR_NODE, x, y, z, &result.x, &result.y, &result.z);
+    CallScriptCommand_NoLog(&scm_GET_CLOSEST_CAR_NODE, x, y, z, &result.x, &result.y, &result.z);
     return result;
 }
 
@@ -113,7 +125,7 @@ static CVector GET_CLOSEST_CAR_NODE(float x, float y, float z)
 static DEFOPCODE(0683, ATTACH_CAR_TO_CAR, iiffffff);
 static void ATTACH_CAR_TO_CAR(int car, int toCar, float offsetX, float offsetY, float offsetZ, float rotX, float rotY, float rotZ)
 {
-    sautils->ScriptCommand(&scm_ATTACH_CAR_TO_CAR, car, toCar, offsetX, offsetY, offsetZ, rotX, rotY, rotZ);
+    CallScriptCommand(&scm_ATTACH_CAR_TO_CAR, car, toCar, offsetX, offsetY, offsetZ, rotX, rotY, rotZ);
 }
 
 //00A5: 6@ = create_car #COPCARLA at 3@ 4@ 5@
@@ -121,7 +133,7 @@ static DEFOPCODE(00A5, CREATE_CAR_AT, ifffv);
 static int CREATE_CAR_AT(int modelId, float x, float y, float z)
 {
     int car = 0;
-    sautils->ScriptCommand(&scm_CREATE_CAR_AT, modelId, x, y, z, &car);
+    CallScriptCommand(&scm_CREATE_CAR_AT, modelId, x, y, z, &car);
     return car;
 }
 
@@ -130,7 +142,7 @@ static DEFOPCODE(01C8, CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT, iiiiv);
 static int CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT(int vehicle, PedType pedType, int modelId, int seatId)
 {
     int ped = 0;
-    sautils->ScriptCommand(&scm_CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT, vehicle, (int)pedType, modelId, seatId, &ped);
+    CallScriptCommand(&scm_CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT, vehicle, (int)pedType, modelId, seatId, &ped);
     return ped;
 }
 
@@ -138,7 +150,7 @@ static int CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT(int vehicle, PedType pedTy
 static DEFOPCODE(02D4, CAR_TURN_OFF_ENGINE, i);
 static void CAR_TURN_OFF_ENGINE(int car)
 {
-    sautils->ScriptCommand(&scm_CAR_TURN_OFF_ENGINE, car);
+    CallScriptCommand(&scm_CAR_TURN_OFF_ENGINE, car);
 }
 
 //02C0: store_to 3@ 4@ 5@ ped_path_coords_closest_to 0@ 1@ 2@
@@ -146,7 +158,7 @@ static DEFOPCODE(02C0, STORE_PED_PATH_COORDS_CLOSEST_TO, fffvvv);
 static CVector STORE_PED_PATH_COORDS_CLOSEST_TO(float x, float y, float z)
 {
     CVector result = CVector(0, 0, 0);
-    sautils->ScriptCommand(&scm_STORE_PED_PATH_COORDS_CLOSEST_TO, x, y, z, &result.x, &result.y, &result.z);
+    CallScriptCommand(&scm_STORE_PED_PATH_COORDS_CLOSEST_TO, x, y, z, &result.x, &result.y, &result.z);
     return result;
 }
 
@@ -154,109 +166,148 @@ static DEFOPCODE(0129, CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT, iiiv); //0129: 10
 static int CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(int car, PedType pedType, int modelId)
 {
     int _char = 0;
-    sautils->ScriptCommand(&scm_CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT, car, (int)pedType, modelId, &_char);
+    CallScriptCommand(&scm_CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT, car, (int)pedType, modelId, &_char);
     return _char;
 }
 
-static DEFOPCODE(0186, ADD_BLIP_FOR_CAR, iv); //0186: $60 = create_marker_above_car $59 
+//009B: destroy_actor 4@ 
+static DEFOPCODE(009B, DESTROY_ACTOR, i);
+static void DESTROY_ACTOR(int actor)
+{
+    CallScriptCommand(&scm_DESTROY_ACTOR, actor);
+}
+
+//00A6: destroy_car 7@
+static DEFOPCODE(00A6, DESTROY_CAR, i);
+static void DESTROY_CAR(int car)
+{
+    sautils->ScriptCommand(&scm_DESTROY_CAR, car);
+}
+
+//0186: $60 = create_marker_above_car $59 
+static DEFOPCODE(0186, ADD_BLIP_FOR_CAR, iv);
 static int ADD_BLIP_FOR_CAR(int car)
 {
     int blip = 0;
-    sautils->ScriptCommand(&scm_ADD_BLIP_FOR_CAR, car, &blip);
+    CallScriptCommand(&scm_ADD_BLIP_FOR_CAR, car, &blip);
     return blip;
+}
+
+//0165: set_marker 9@ color_to 2
+static DEFOPCODE(0165, SET_MARKER_COLOR_TO, ii);
+static void SET_MARKER_COLOR_TO(int blip, int color)
+{
+    sautils->ScriptCommand(&scm_SET_MARKER_COLOR_TO, blip, color);
 }
 
 // 044B: actor %1d male
 static DEFOPCODE(044B, ACTOR_MALE, i);
 static bool ACTOR_MALE(int actor)
 {
-    return sautils->ScriptCommand(&scm_ACTOR_MALE, actor);
+    return CallScriptCommand_NoLog(&scm_ACTOR_MALE, actor);
 }
 
 // 044C: actor %1d driving
 static DEFOPCODE(044C, ACTOR_DRIVING, i);
 static bool ACTOR_DRIVING(int actor)
 {
-    return sautils->ScriptCommand(&scm_ACTOR_DRIVING, actor);
+    return CallScriptCommand_NoLog(&scm_ACTOR_DRIVING, actor);
 }
 
 //01B2: give_actor 3@ weapon 22 ammo 10000
 static DEFOPCODE(01B2, GIVE_ACTOR_WEAPON, iii);
 static void GIVE_ACTOR_WEAPON(int _char, int weaponType, int ammo)
 {
-    sautils->ScriptCommand(&scm_GIVE_ACTOR_WEAPON, _char, weaponType, ammo);
+    CallScriptCommand(&scm_GIVE_ACTOR_WEAPON, _char, weaponType, ammo);
 }
 
 // 02E3: car %1d speed
-static DEFOPCODE(02E3, CAR_SPEED, iF);
+static DEFOPCODE(02E3, CAR_SPEED, iv);
 static float CAR_SPEED(int vehicle)
 {
     float speed = 0.0f;
-    sautils->ScriptCommand(&scm_CAR_SPEED, vehicle, &speed);
+    CallScriptCommand_NoLog(&scm_CAR_SPEED, vehicle, &speed);
     return speed;
 }
+
+// 0227: 5@ = car 23@ health 
+static DEFOPCODE(0227, GET_CAR_HEALTH, iv);
+static int GET_CAR_HEALTH(int vehicle)
+{
+    int result = 0;
+    CallScriptCommand_NoLog(&scm_GET_CAR_HEALTH, vehicle, &result);
+    return result;
+}
+
+// 0224: set_car $2868 health_to 1000 
+static DEFOPCODE(0224, SET_CAR_HEALTH, ii);
+static void SET_CAR_HEALTH(int vehicle, int health)
+{
+    CallScriptCommand(&scm_SET_CAR_HEALTH, vehicle, health);
+}
+
 
 // 01BD: put_car_at %1d x %2f y %3f z %4f
 static DEFOPCODE(01BD, PUT_CAR_AT, ifff);
 static void PUT_CAR_AT(int vehicle, float x, float y, float z)
 {
-    sautils->ScriptCommand(&scm_PUT_CAR_AT, vehicle, x, y, z);
+    CallScriptCommand(&scm_PUT_CAR_AT, vehicle, x, y, z);
 }
 
 // 0175: set_car_z_angle %1d to %2f
 static DEFOPCODE(0175, SET_CAR_Z_ANGLE, if);
 static void SET_CAR_Z_ANGLE(int vehicle, float heading)
 {
-    sautils->ScriptCommand(&scm_SET_CAR_Z_ANGLE, vehicle, heading);
+    CallScriptCommand(&scm_SET_CAR_Z_ANGLE, vehicle, heading);
 }
 
 // 017A: set_car_immunities %1d BP %2d FP %3d EP %4d CP %5d MP %6d
 static DEFOPCODE(017A, SET_CAR_IMMUNITIES, iiiiii);
 static void SET_CAR_IMMUNITIES(int vehicle, bool BP, bool FP, bool EP, bool CP, bool MP)
 {
-    sautils->ScriptCommand(&scm_SET_CAR_IMMUNITIES, vehicle, BP ? 1 : 0, FP ? 1 : 0, EP ? 1 : 0, CP ? 1 : 0, MP ? 1 : 0);
+    CallScriptCommand(&scm_SET_CAR_IMMUNITIES, vehicle, BP ? 1 : 0, FP ? 1 : 0, EP ? 1 : 0, CP ? 1 : 0, MP ? 1 : 0);
 }
 
 // 03AC: load_requested_models
 static DEFOPCODE(03AC, LOAD_REQUESTED_MODELS, );
 static void LOAD_REQUESTED_MODELS()
 {
-    sautils->ScriptCommand(&scm_LOAD_REQUESTED_MODELS);
+    CallScriptCommand(&scm_LOAD_REQUESTED_MODELS);
 }
 
 // 038B: load_requested_anims
 static DEFOPCODE(038B, LOAD_REQUESTED_ANIMS, );
 static void LOAD_REQUESTED_ANIMS()
 {
-    sautils->ScriptCommand(&scm_LOAD_REQUESTED_ANIMS);
+    CallScriptCommand(&scm_LOAD_REQUESTED_ANIMS);
 }
 
 // 0247: request_model %1d
 static DEFOPCODE(0247, REQUEST_MODEL, i);
 static void REQUEST_MODEL(int modelId)
 {
-    sautils->ScriptCommand(&scm_REQUEST_MODEL, modelId);
+    CallScriptCommand(&scm_REQUEST_MODEL, modelId);
 }
 
 // 0249: release_model %1d
 static DEFOPCODE(0249, RELEASE_MODEL, i);
 static void RELEASE_MODEL(int modelId)
 {
-    sautils->ScriptCommand(&scm_RELEASE_MODEL, modelId);
+    CallScriptCommand(&scm_RELEASE_MODEL, modelId);
 }
 
 //09C7: change_player 0 model_to 280
 static DEFOPCODE(09C7, CHANGE_PLAYER_MODEL_TO, ii);
 static void CHANGE_PLAYER_MODEL_TO(int player, int modelId)
 {
-    sautils->ScriptCommand(&scm_CHANGE_PLAYER_MODEL_TO, player, modelId);
+    CallScriptCommand(&scm_CHANGE_PLAYER_MODEL_TO, player, modelId);
 }
 
 //04EE: animation "GANGS" loaded 
 static DEFOPCODE(04EE, HAS_ANIMATION_LOADED, s);
 static bool HAS_ANIMATION_LOADED(const char* animationFile)
 {
-    bool result = sautils->ScriptCommand(&scm_HAS_ANIMATION_LOADED, animationFile);
+    bool result = CallScriptCommand_NoLog(&scm_HAS_ANIMATION_LOADED, animationFile);
     return result;
 }
 
@@ -264,14 +315,14 @@ static bool HAS_ANIMATION_LOADED(const char* animationFile)
 static DEFOPCODE(04ED, LOAD_ANIMATION, s);
 static void LOAD_ANIMATION(const char* animationFile)
 {
-    sautils->ScriptCommand(&scm_LOAD_ANIMATION, animationFile);
+    CallScriptCommand(&scm_LOAD_ANIMATION, animationFile);
 }
 
 //0256: player $PLAYER_CHAR defined 
 static DEFOPCODE(0256, PLAYER_DEFINED, i);
 static bool PLAYER_DEFINED(int player)
 {
-    bool result = sautils->ScriptCommand(&scm_PLAYER_DEFINED, 0);
+    bool result = CallScriptCommand_NoLog(&scm_PLAYER_DEFINED, 0);
     return result;
 }
 
@@ -279,28 +330,28 @@ static bool PLAYER_DEFINED(int player)
 static DEFOPCODE(0248, HAS_MODEL_LOADED, i);
 static bool HAS_MODEL_LOADED(int modelId)
 {
-    return sautils->ScriptCommand(&scm_HAS_MODEL_LOADED, modelId);
+    return CallScriptCommand_NoLog(&scm_HAS_MODEL_LOADED, modelId);
 }
 
 // 02F6: actor %1d in_zone %2s
 static DEFOPCODE(02F6, ACTOR_IN_ZONE, is);
 static bool ACTOR_IN_ZONE(int actor, const char* zoneName)
 {
-    return sautils->ScriptCommand(&scm_ACTOR_IN_ZONE, actor, zoneName);
+    return CallScriptCommand_NoLog(&scm_ACTOR_IN_ZONE, actor, zoneName);
 }
 
 // 0107: player %1d money += %2d
 static DEFOPCODE(0107, ADD_PLAYER_MONEY, ii);
 static void ADD_PLAYER_MONEY(int player, int amount)
 {
-    sautils->ScriptCommand(&scm_ADD_PLAYER_MONEY, player, amount);
+    CallScriptCommand(&scm_ADD_PLAYER_MONEY, player, amount);
 }
 
 // 0109: player %1d money = %2d
 static DEFOPCODE(0109, SET_PLAYER_MONEY, ii);
 static void SET_PLAYER_MONEY(int player, int amount)
 {
-    sautils->ScriptCommand(&scm_SET_PLAYER_MONEY, player, amount);
+    CallScriptCommand(&scm_SET_PLAYER_MONEY, player, amount);
 }
 
 // 0108: player %1d money
@@ -308,7 +359,7 @@ static DEFOPCODE(0108, GET_PLAYER_MONEY, iI);
 static int GET_PLAYER_MONEY(int player)
 {
     int money = 0;
-    sautils->ScriptCommand(&scm_GET_PLAYER_MONEY, player, &money);
+    CallScriptCommand(&scm_GET_PLAYER_MONEY, player, &money);
     return money;
 }
 
@@ -316,21 +367,21 @@ static int GET_PLAYER_MONEY(int player)
 static DEFOPCODE(01C2, REMOVE_REFERENCES_TO_ACTOR, i);
 static void REMOVE_REFERENCES_TO_ACTOR(int actor)
 {
-    sautils->ScriptCommand(&scm_REMOVE_REFERENCES_TO_ACTOR, actor);
+    CallScriptCommand(&scm_REMOVE_REFERENCES_TO_ACTOR, actor);
 }
 
 // 01C3: remove_references_to_car %1d
 static DEFOPCODE(01C3, REMOVE_REFERENCES_TO_CAR, i);
 static void REMOVE_REFERENCES_TO_CAR(int vehicle)
 {
-    sautils->ScriptCommand(&scm_REMOVE_REFERENCES_TO_CAR, vehicle);
+    CallScriptCommand(&scm_REMOVE_REFERENCES_TO_CAR, vehicle);
 }
 
 static DEFOPCODE(01EA, CAR_MAX_PASSENGERS, iv); //01EA: 68@ = car 67@ max_passengers 
 static int CAR_MAX_PASSENGERS(int car)
 {
     int maxPassengers = 0;
-    sautils->ScriptCommand(&scm_CAR_MAX_PASSENGERS, car, &maxPassengers);
+    CallScriptCommand_NoLog(&scm_CAR_MAX_PASSENGERS, car, &maxPassengers);
     return maxPassengers;
 }
 
@@ -339,8 +390,33 @@ static DEFOPCODE(0432, GET_ACTOR_HANDLE_FROM_CAR_PASSENGER_SEAT, iiv);
 static int GET_ACTOR_HANDLE_FROM_CAR_PASSENGER_SEAT(int car, int seatId)
 {
     int _char = 0;
-    sautils->ScriptCommand(&scm_GET_ACTOR_HANDLE_FROM_CAR_PASSENGER_SEAT, car, seatId, &_char);
+    CallScriptCommand_NoLog(&scm_GET_ACTOR_HANDLE_FROM_CAR_PASSENGER_SEAT, car, seatId, &_char);
     return _char;
+}
+
+//0665: get_actor 0@ model_to 7@
+static DEFOPCODE(0665, GET_ACTOR_MODEL, iv);
+static int GET_ACTOR_MODEL(int _char)
+{
+    int modelId = 0;
+    CallScriptCommand_NoLog(&scm_GET_ACTOR_MODEL, _char, &modelId);
+    return modelId;
+}
+
+//0441: 7@ = car $47 model 
+static DEFOPCODE(0441, GET_CAR_MODEL, iv);
+static int GET_CAR_MODEL(int car)
+{
+    int modelId = 0;
+    sautils->ScriptCommand(&scm_GET_CAR_MODEL, car, &modelId);
+    return modelId;
+}
+
+//09C9: disembark_actor $132 from_car 44@ and_freeze_actor_position 
+static DEFOPCODE(09C9, REMOVE_CHAR_FROM_CAR_MAINTAIN_POSITION, ii);
+static void REMOVE_CHAR_FROM_CAR_MAINTAIN_POSITION(int actor, int car)
+{
+    CallScriptCommand(&scm_REMOVE_CHAR_FROM_CAR_MAINTAIN_POSITION, actor, car);
 }
 
 //0431: car $47 passenger_seat_free 0
@@ -348,49 +424,49 @@ static DEFOPCODE(0431, CAR_PASSENGER_SEAT_FREE, ii);
 static bool CAR_PASSENGER_SEAT_FREE(int car, int seatId)
 {
     bool result = false;
-    result = sautils->ScriptCommand(&scm_CAR_PASSENGER_SEAT_FREE, car, seatId);
+    result = CallScriptCommand_NoLog(&scm_CAR_PASSENGER_SEAT_FREE, car, seatId);
     return result;
 }
 
 static DEFOPCODE(00A7, CAR_DRIVE_TO, ifff); //00A7: car 7@ drive_to 0@ 1@ 2@
 static void CAR_DRIVE_TO(int car, float x, float y, float z)
 {
-    sautils->ScriptCommand(&scm_CAR_DRIVE_TO, car, x, y, z);
+    CallScriptCommand(&scm_CAR_DRIVE_TO, car, x, y, z);
 }
 
 // 01C4: remove_references_to_object %1d
 static DEFOPCODE(01C4, REMOVE_REFERENCES_TO_OBJECT, i);
 static void REMOVE_REFERENCES_TO_OBJECT(int obj)
 {
-    sautils->ScriptCommand(&scm_REMOVE_REFERENCES_TO_OBJECT, obj);
+    CallScriptCommand(&scm_REMOVE_REFERENCES_TO_OBJECT, obj);
 }
 
 // 01C7: remove_references_to_car %1d
 static DEFOPCODE(01C7, REMOVE_REFERENCES_TO_HELI, i);
 static void REMOVE_REFERENCES_TO_HELI(int heli)
 {
-    sautils->ScriptCommand(&scm_REMOVE_REFERENCES_TO_HELI, heli);
+    CallScriptCommand(&scm_REMOVE_REFERENCES_TO_HELI, heli);
 }
 
 // 01C8: remove_references_to_pickup %1d
 static DEFOPCODE(01C8, REMOVE_REFERENCES_TO_PICKUP, i);
 static void REMOVE_REFERENCES_TO_PICKUP(int pickup)
 {
-    sautils->ScriptCommand(&scm_REMOVE_REFERENCES_TO_PICKUP, pickup);
+    CallScriptCommand(&scm_REMOVE_REFERENCES_TO_PICKUP, pickup);
 }
 
 //04C4: store_coords_to 4@ 5@ 6@ from_actor $PLAYER_ACTOR with_offset 1.0 2.0 0.0 
 static DEFOPCODE(04C4, STORE_COORDS_FROM_ACTOR_WITH_OFFSET, ifffvvv);
 static void STORE_COORDS_FROM_ACTOR_WITH_OFFSET(int _char, float offsetX, float offsetY, float offsetZ, float* x, float* y, float* z)
 {
-    sautils->ScriptCommand(&scm_STORE_COORDS_FROM_ACTOR_WITH_OFFSET, _char, offsetX, offsetY, offsetZ, x, y, z);
+    CallScriptCommand(&scm_STORE_COORDS_FROM_ACTOR_WITH_OFFSET, _char, offsetX, offsetY, offsetZ, x, y, z);
 }
 
 //00DF: actor $PLAYER_ACTOR driving 
 static DEFOPCODE(00DF, IS_CHAR_IN_ANY_CAR, i);
 static bool IS_CHAR_IN_ANY_CAR(int _char)
 {
-    bool result = sautils->ScriptCommand(&scm_IS_CHAR_IN_ANY_CAR, _char);
+    bool result = CallScriptCommand_NoLog(&scm_IS_CHAR_IN_ANY_CAR, _char);
     return result;
 }
 
@@ -399,7 +475,7 @@ static DEFOPCODE(0811, ACTOR_USED_CAR, iv);
 static int ACTOR_USED_CAR(int _char)
 {
     int car = 0;
-    sautils->ScriptCommand(&scm_ACTOR_USED_CAR, _char, &car);
+    CallScriptCommand_NoLog(&scm_ACTOR_USED_CAR, _char, &car);
     return car;
 }
 
@@ -407,14 +483,14 @@ static int ACTOR_USED_CAR(int _char)
 static DEFOPCODE(0407, STORE_COORDS_FROM_CAR_WITH_OFFSET, ifffvvv);
 static void STORE_COORDS_FROM_CAR_WITH_OFFSET(int car, float offsetX, float offsetY, float offsetZ, float* x, float* y, float* z)
 {
-    sautils->ScriptCommand(&scm_STORE_COORDS_FROM_CAR_WITH_OFFSET, car, offsetX, offsetY, offsetZ, x, y, z);
+    CallScriptCommand(&scm_STORE_COORDS_FROM_CAR_WITH_OFFSET, car, offsetX, offsetY, offsetZ, x, y, z);
 }
 
 //0812: AS_actor 0@ perform_animation "handsup" IFP "PED" framedelta 4.0 loopA 0 lockX 0 lockY 0 lockF 1 time -1
 static DEFOPCODE(0812, PERFORM_ANIMATION_AS_ACTOR, issfbbbbi);
 static void PERFORM_ANIMATION_AS_ACTOR(int _char, const char* animationName, const char* animationFile, float frameDelta, bool loop, bool lockX, bool lockY, bool lockF, int time)
 {
-    sautils->ScriptCommand(&scm_PERFORM_ANIMATION_AS_ACTOR, _char, animationName, animationFile, frameDelta, loop, lockX, lockY, lockF, time);
+    CallScriptCommand(&scm_PERFORM_ANIMATION_AS_ACTOR, _char, animationName, animationFile, frameDelta, loop, lockX, lockY, lockF, time);
 }
 
 //009A: 6@ = create_actor_pedtype 20 model #DNFYLC at 3@ 4@ 5@
@@ -422,7 +498,7 @@ static DEFOPCODE(009A, CREATE_ACTOR_PEDTYPE, iifffv);
 static int CREATE_ACTOR_PEDTYPE(PedType pedType, int modelId, float x, float y, float z)
 {
     int _char = 0;
-    sautils->ScriptCommand(&scm_CREATE_ACTOR_PEDTYPE, (int)pedType, modelId, x, y, z, &_char);
+    CallScriptCommand(&scm_CREATE_ACTOR_PEDTYPE, (int)pedType, modelId, x, y, z, &_char);
     return _char;
 }
 
@@ -430,14 +506,14 @@ static int CREATE_ACTOR_PEDTYPE(PedType pedType, int modelId, float x, float y, 
 static DEFOPCODE(0687, CLEAR_ACTOR_TASK, i);
 static void CLEAR_ACTOR_TASK(int _char)
 {
-    sautils->ScriptCommand(&scm_CLEAR_ACTOR_TASK, _char);
+    CallScriptCommand(&scm_CLEAR_ACTOR_TASK, _char);
 }
 
 //0611: actor 2@ performing_animation "LRGIRL_IDLE_TO_L0"
 static DEFOPCODE(0611, ACTOR_PERFORMING_ANIMATION, is);
 static bool ACTOR_PERFORMING_ANIMATION(int _char, const char* animationName)
 {
-    bool result = sautils->ScriptCommand(&scm_ACTOR_PERFORMING_ANIMATION, _char, animationName);
+    bool result = CallScriptCommand(&scm_ACTOR_PERFORMING_ANIMATION, _char, animationName);
     return result;
 }
 
@@ -445,35 +521,60 @@ static bool ACTOR_PERFORMING_ANIMATION(int _char, const char* animationName)
 static DEFOPCODE(0603, TASK_GO_TO_COORD_ANY_MEANS, ifffib);
 static void TASK_GO_TO_COORD_ANY_MEANS(int actor, float x, float y, float z, int mode, bool useCar)
 {
-    sautils->ScriptCommand(&scm_TASK_GO_TO_COORD_ANY_MEANS, actor, x, y, z, mode, useCar ? 1 : 0);
+    CallScriptCommand(&scm_TASK_GO_TO_COORD_ANY_MEANS, actor, x, y, z, mode, useCar ? 1 : 0);
 }
 
 //0918: set_car 3@ engine_operation 1 
 static DEFOPCODE(0918, SET_CAR_ENGINE_OPERATION, ib);
 static void SET_CAR_ENGINE_OPERATION(int car, bool state)
 {
-    sautils->ScriptCommand(&scm_SET_CAR_ENGINE_OPERATION, car, state);
+    CallScriptCommand(&scm_SET_CAR_ENGINE_OPERATION, car, state);
 }
+
+enum DrivingMode
+{
+   StopForCars = 0,
+   SlowDownForCars = 1,
+   AvoidCars = 2,
+   PloughThrough = 3,
+   StopForCarsIgnoreLights = 4,
+   AvoidCarsObeyLights = 5,
+   AvoidCarsStopForPedsObeyLights = 6
+};
 
 //00AE: set_car 3@ traffic_behaviour_to 2
 static DEFOPCODE(00AE, SET_CAR_TRAFFIC_BEHAVIOUR, ii);
-static void SET_CAR_TRAFFIC_BEHAVIOUR(int car, int drivingStyle)
+static void SET_CAR_TRAFFIC_BEHAVIOUR(int car, DrivingMode drivingStyle)
 {
-    sautils->ScriptCommand(&scm_SET_CAR_TRAFFIC_BEHAVIOUR, car, drivingStyle);
+    CallScriptCommand(&scm_SET_CAR_TRAFFIC_BEHAVIOUR, car, (int)drivingStyle);
+}
+
+//0397: enable_car 6@ siren 1
+static DEFOPCODE(0397, ENABLE_CAR_SIREN, ib);
+static void ENABLE_CAR_SIREN(int car, bool state)
+{
+    sautils->ScriptCommand(&scm_ENABLE_CAR_SIREN, car, state);
 }
 
 //00A8: set_car 52@ to_psycho_driver 
 static DEFOPCODE(00A8, SET_CAR_TO_PSYCHO_DRIVER, i);
 static void SET_CAR_TO_PSYCHO_DRIVER(int car)
 {
-    sautils->ScriptCommand(&scm_SET_CAR_TO_PSYCHO_DRIVER, car);
+    CallScriptCommand(&scm_SET_CAR_TO_PSYCHO_DRIVER, car);
 }
 
 //00AD: set_car 3@ max_speed_to 50.0
 static DEFOPCODE(00AD, SET_CAR_MAX_SPEED, if);
 static void SET_CAR_MAX_SPEED(int car, float maxSpeed)
 {
-    sautils->ScriptCommand(&scm_SET_CAR_MAX_SPEED, car, maxSpeed);
+    CallScriptCommand(&scm_SET_CAR_MAX_SPEED, car, maxSpeed);
+}
+
+//07F8: car 6@ follow_car 8@ radius 8.0
+static DEFOPCODE(07F8, CAR_FOLLOW_CAR, iif);
+static void CAR_FOLLOW_CAR(int car, int followCar, float radius)
+{
+    sautils->ScriptCommand(&scm_CAR_FOLLOW_CAR, car, followCar, radius);
 }
 
 //046C: 133@ = car 50@ driver 
@@ -481,7 +582,7 @@ static DEFOPCODE(046C, GET_DRIVER_OF_CAR, iv);
 static int GET_DRIVER_OF_CAR(int car)
 {
     int _char = 0;
-    sautils->ScriptCommand(&scm_GET_DRIVER_OF_CAR, car, &_char);
+    CallScriptCommand_NoLog(&scm_GET_DRIVER_OF_CAR, car, &_char);
     return _char;
 }
 
@@ -489,21 +590,21 @@ static int GET_DRIVER_OF_CAR(int car)
 static DEFOPCODE(0633, EXIT_CAR_AS_ACTOR, i);
 static void EXIT_CAR_AS_ACTOR(int _actor)
 {
-    sautils->ScriptCommand(&scm_EXIT_CAR_AS_ACTOR, _actor);
+    CallScriptCommand(&scm_EXIT_CAR_AS_ACTOR, _actor);
 }
 
 //05CB: AS_actor 21@ enter_car 0@ as_driver 20000 ms
 static DEFOPCODE(05CB, ENTER_CAR_AS_DRIVER_AS_ACTOR, iii);
 static void ENTER_CAR_AS_DRIVER_AS_ACTOR(int _char, int vehicle, int time)
 {
-    sautils->ScriptCommand(&scm_ENTER_CAR_AS_DRIVER_AS_ACTOR, _char, vehicle, time);
+    CallScriptCommand(&scm_ENTER_CAR_AS_DRIVER_AS_ACTOR, _char, vehicle, time);
 }
 
 //05CA: AS_actor 3@ enter_car 7@ passenger_seat 1 time 10000
 static DEFOPCODE(05CA, ACTOR_ENTER_CAR_PASSENGER_SEAT, iiii);
 static void ACTOR_ENTER_CAR_PASSENGER_SEAT(int _char, int vehicle, int time, int seatId)
 {
-    sautils->ScriptCommand(&scm_ACTOR_ENTER_CAR_PASSENGER_SEAT, _char, vehicle, time, seatId);
+    CallScriptCommand(&scm_ACTOR_ENTER_CAR_PASSENGER_SEAT, _char, vehicle, time, seatId);
 }
 
 //0187: 47@ = create_marker_above_actor 75@ 
@@ -511,7 +612,7 @@ static DEFOPCODE(0187, ADD_BLIP_FOR_CHAR, iv);
 static int ADD_BLIP_FOR_CHAR(int _char)
 {
     int blip = 0;
-    sautils->ScriptCommand(&scm_ADD_BLIP_FOR_CHAR, _char, &blip);
+    CallScriptCommand(&scm_ADD_BLIP_FOR_CHAR, _char, &blip);
     return blip;
 }
 
@@ -519,7 +620,7 @@ static int ADD_BLIP_FOR_CHAR(int _char)
 static DEFOPCODE(0164, DISABLE_MARKER, i);
 static void DISABLE_MARKER(int blip)
 {
-    sautils->ScriptCommand(&scm_DISABLE_MARKER, blip);
+    CallScriptCommand(&scm_DISABLE_MARKER, blip);
 }
 
 // --------------------------------------------

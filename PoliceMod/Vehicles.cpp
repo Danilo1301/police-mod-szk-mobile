@@ -17,6 +17,12 @@ void Vehicles::AddVehicle(int ref, void* ptr)
 
     auto vehicle = new Vehicle(ref, ptr);
     vehicles[ref] = vehicle;
+
+    auto refDriver = GET_DRIVER_OF_CAR(ref);
+    if(refDriver > 0)
+    {
+        vehicle->spawnedWithDriver = true;
+    }
 }
 
 Vehicle* Vehicles::RegisterVehicle(int ref)
@@ -111,6 +117,19 @@ std::vector<Vehicle*> Vehicles::GetAllCarsInSphere(CVector position, float radiu
     return foundVehicles;
 }
 
+std::vector<Vehicle*> Vehicles::GetVehicles()
+{
+    std::vector<Vehicle*> result;
+    result.reserve(vehicles.size());
+
+    for (auto& [id, vehicle] : vehicles)
+    {
+        result.push_back(vehicle);
+    }
+
+    return result;
+}
+
 Vehicle* Vehicles::GetClosestVehicle(CVector sphereCenter, CVector targetPosition, float radius)
 {
     std::vector<Vehicle*> vehicles = GetAllCarsInSphere(sphereCenter, radius);
@@ -121,6 +140,35 @@ Vehicle* Vehicles::GetClosestVehicle(CVector sphereCenter, CVector targetPositio
     for(size_t i = 0; i < vehicles.size(); i++)
     {
         auto vehicle = vehicles[i];
+        auto vehiclePosition = GetCarPosition(vehicle->ref);
+        
+        auto distance = distanceBetweenPoints(vehiclePosition, targetPosition);
+
+        if(distance < closestDistance)
+        {
+            closestDistance = distance;
+            closestCar = vehicle;
+        }
+    }
+
+    if(!closestCar) return NULL;
+
+    return closestCar;
+}
+
+Vehicle* Vehicles::GetClosestVehicleNotPlayer(CVector sphereCenter, CVector targetPosition, float radius)
+{
+    std::vector<Vehicle*> vehicles = GetAllCarsInSphere(sphereCenter, radius);
+
+    Vehicle* closestCar = NULL;
+    double closestDistance = 99999;
+
+    for(size_t i = 0; i < vehicles.size(); i++)
+    {
+        auto vehicle = vehicles[i];
+
+        if(vehicle->IsPlayerInside()) continue;
+
         auto vehiclePosition = GetCarPosition(vehicle->ref);
         
         auto distance = distanceBetweenPoints(vehiclePosition, targetPosition);

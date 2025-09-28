@@ -33,6 +33,8 @@ Ped::Ped(int ref, void* ptr)
     }
 
     inventory.AddItem(new InventoryItem("docs"));
+
+    inVehicleState = IsInAnyCar() ? PedInVehicleState::SITTING : PedInVehicleState::NOT_ON_VEHICLE;
 }
 
 Ped::~Ped()
@@ -42,6 +44,21 @@ Ped::~Ped()
 
 void Ped::Update()
 {
+    justLeftVehicle = false;
+
+    if (!IsInAnyCar() && inVehicleState != PedInVehicleState::NOT_ON_VEHICLE)
+    {
+        inVehicleState = PedInVehicleState::NOT_ON_VEHICLE;
+        justLeftVehicle = true;
+        debug->AddLine("ped just left vehicle");
+    }
+    else if (IsInAnyCar() && inVehicleState != PedInVehicleState::SITTING)
+    {
+        inVehicleState = PedInVehicleState::SITTING;
+        // justEnteredVehicle = true;
+        debug->AddLine("ped just entered vehicle");
+    }
+
     auto position = GetPosition();
     auto playerPosition = GetPlayerPosition();
     float distanceToPlayer = distanceBetweenPoints(playerPosition, position);
@@ -138,7 +155,7 @@ void Ped::StartDrivingRandomly()
 
     REMOVE_REFERENCES_TO_CAR(vehicleRef);
     SET_CAR_ENGINE_OPERATION(vehicleRef, true);
-    SET_CAR_TRAFFIC_BEHAVIOUR(vehicleRef, 0);
+    SET_CAR_TRAFFIC_BEHAVIOUR(vehicleRef, DrivingMode::StopForCars);
     SET_CAR_TO_PSYCHO_DRIVER(vehicleRef);
     SET_CAR_MAX_SPEED(vehicleRef, 20.0f);
 }
@@ -161,6 +178,8 @@ void Ped::LeaveCar()
         previousSeat = PedSeat::PASSENGER;
     }
 
+    inVehicleState = PedInVehicleState::LEAVING;
+
     EXIT_CAR_AS_ACTOR(ref);
 }
 
@@ -179,6 +198,8 @@ void Ped::EnterVehicle(int vehicleRef, PedSeat seat, int seatId)
     }
 
     CLEAR_ACTOR_TASK(ref);
+
+    inVehicleState = PedInVehicleState::ENTERING;
 
     if(seat == PedSeat::DRIVER)
     {

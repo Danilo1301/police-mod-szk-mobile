@@ -16,7 +16,7 @@ void VehicleTask::DriveTo(CVector position, std::function<void()> onArrive)
     auto vehicleRef = vehicle->ref;
 
     SET_CAR_MAX_SPEED(vehicleRef, 20.0f);
-    SET_CAR_TRAFFIC_BEHAVIOUR(vehicleRef, 2);
+    SET_CAR_TRAFFIC_BEHAVIOUR(vehicleRef, DrivingMode::AvoidCars);
 
     CAR_DRIVE_TO(vehicleRef, position.x, position.y, position.z);
 
