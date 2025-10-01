@@ -17,6 +17,7 @@ extern IMenuSZK* menuSZK;
 #include "BackupUnits.h"
 #include "AIController.h"
 #include "Criminals.h"
+#include "MapIcons.h"
 
 bool hasLoadedAnimations = false;
 
@@ -50,6 +51,8 @@ void PoliceMod::OnModLoad()
 
 void PoliceMod::Initialize()
 {
+    Log::canLogDebug = menuSZK->debugMode;
+
     menuSZK->onUpdate->Add([this]() {
         Update();
 
@@ -97,26 +100,32 @@ void PoliceMod::Update()
         }
     }
 
-    logInternal("Peds::Update");
+    //logDebug("Peds::Update");
     Peds::Update();
-    logInternal("Vehicles::Update");
+    //logDebug("Vehicles::Update");
     Vehicles::Update();
-    logInternal("Pullover::Update");
+    //logDebug("Pullover::Update");
     Pullover::Update();
-    logInternal("Dialogs::Update");
+    //logDebug("Dialogs::Update");
     Dialogs::Update();
     DialogManager::Update();
     Objectives::Update();
-    logInternal("Chase::Update");
+    //logDebug("Chase::Update");
     Chase::Update();
-    logInternal("Criminals::Update");
+    //logDebug("Criminals::Update");
     Criminals::Update();
-    logInternal("BackupUnits::Update");
+    //logDebug("BackupUnits::Update");
     BackupUnits::Update();
-    logInternal("AIController::Update");
+    //logDebug("AIController::Update");
     AIController::Update();
 
     CleoFunctions::Update(menuSZK->deltaTime);
+}
+
+void PoliceMod::OnDrawRadar()
+{
+    MapIcons::OnDrawRadar();
+    BackupUnits::DrawRadar();
 }
 
 void PoliceMod::TestEquip()

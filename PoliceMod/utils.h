@@ -69,6 +69,14 @@ static double distanceBetweenPoints(CVector point1, CVector point2)
     return sqrt( dx * dx + dy * dy + dz * dz );
 }
 
+static double distanceBetweenPoints2D(CVector2D point1, CVector2D point2)
+{
+    double dx = point1.x - point2.x;
+    double dy = point1.y - point2.y;
+
+    return sqrt(dx * dx + dy * dy);
+}
+
 static std::string getPathFromMenuAssets(const std::string localPath)
 {
     std::ostringstream oss;

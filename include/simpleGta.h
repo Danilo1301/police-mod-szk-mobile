@@ -113,28 +113,46 @@ public:
     float x = 0.0f;
     float y = 0.0f;
 
-    CVector2D(float x, float y)
-    {
-        this->x = x;
-        this->y = y;
+    CVector2D() : x(0.0f), y(0.0f) {}
+    CVector2D(float x, float y) : x(x), y(y) {}
+
+    // soma
+    CVector2D operator+(const CVector2D& vec) const {
+        return CVector2D(x + vec.x, y + vec.y);
     }
 
-    CVector2D operator+(const CVector2D vec)
-    {
-        CVector2D result(this->x, this->y);
-        result.x += vec.x;
-        result.y += vec.y;
-        return result;
+    // subtração
+    CVector2D operator-(const CVector2D& vec) const {
+        return CVector2D(x - vec.x, y - vec.y);
     }
 
-    CVector2D operator-(const CVector2D vec)
-    {
-        CVector2D result(this->x, this->y);
-        result.x -= vec.x;
-        result.y -= vec.y;
-        return result;
+    // multiplicação por escalar
+    CVector2D operator*(float scalar) const {
+        return CVector2D(x * scalar, y * scalar);
+    }
+
+    // multiplicação-assignment por escalar
+    CVector2D& operator*=(float scalar) {
+        x *= scalar;
+        y *= scalar;
+        return *this;
+    }
+
+    // adição-assignment
+    CVector2D& operator+=(const CVector2D& vec) {
+        x += vec.x;
+        y += vec.y;
+        return *this;
+    }
+
+    // subtração-assignment
+    CVector2D& operator-=(const CVector2D& vec) {
+        x -= vec.x;
+        y -= vec.y;
+        return *this;
     }
 };
+
 
 class CSprite2d {
 public:
@@ -275,3 +293,13 @@ class CCamera : public CPlaceable {};
 class CPed : public CEntity {};
 class CVehicle : public CEntity {};
 class CObject : public CPlaceable {};
+
+typedef struct RsGlobalType RsGlobalType;
+struct RsGlobalType
+{
+    const RwChar *appName;
+    RwInt32 maximumWidth;
+    RwInt32 maximumHeight;
+    RwInt32 maxFPS;
+    RwBool  quit;
+};

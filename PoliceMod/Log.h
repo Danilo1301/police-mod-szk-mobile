@@ -94,6 +94,7 @@ class Log {
 public:
     static std::unique_ptr<LogFile> file;
     static std::unique_ptr<LogFile> internal;
+    static bool canLogDebug;
 
     static void Init(const std::string& basePath) {
         file  = std::make_unique<LogFile>(basePath + "/policeMod.log");
@@ -144,5 +145,13 @@ static void logInternal(const Args&... args) {
         std::ostringstream oss;
         appendToStream(oss, args...);
         *Log::internal << oss.str() << std::endl;
+    }
+}
+
+// Função helper para logar no log interno
+template<typename... Args>
+static void logDebug(const Args&... args) {
+    if (Log::canLogDebug) {
+        logInternal(args...);
     }
 }

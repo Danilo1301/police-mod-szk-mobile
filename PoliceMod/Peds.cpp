@@ -1,6 +1,7 @@
 #include "Peds.h"
 
 #include "menuSZK/IMenuSZK.h"
+#include "CleoFunctions.h"
 extern IMenuSZK* menuSZK;
 
 std::map<int, Ped*> Peds::peds;
@@ -12,8 +13,6 @@ void Peds::AddPed(int ref, void* ptr)
         // já existe
         return;
     }
-
-    debug->AddLine("Ped " + std::to_string(ref) + " added");
 
     auto ped = new Ped(ref, ptr);
     peds[ref] = ped;
@@ -59,7 +58,9 @@ bool Peds::IsValid(Ped* ped)
     for (const auto& pair : peds)
     {
         if (pair.second == ped) // encontrou o ponteiro
-            return true;
+        {
+            return ACTOR_DEFINED(ped->ref);;
+        }
     }
 
     return false; // não encontrado
@@ -74,6 +75,11 @@ Ped* Peds::GetPed(int ref)
         return nullptr;   // não existe
 
     return it->second;    // existe, retorna
+}
+
+std::map<int, Ped*> Peds::GetPedsMap()
+{
+    return peds;
 }
 
 void Peds::Update()

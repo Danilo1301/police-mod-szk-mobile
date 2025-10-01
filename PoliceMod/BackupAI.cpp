@@ -8,10 +8,16 @@ extern IMenuSZK* menuSZK;
 #include "Vehicles.h"
 #include "ScriptTask.h"
 #include "BackupUnits.h"
+#include "Pullover.h"
 
 void BackupAI::Update()
 {
-    logInternal("BackupAI::Update");
+    //logDebug("BackupAI::Update");
+
+    if(!vehicle)
+    {
+        logInternal("ERROR: vehicle is null");
+    }
 
     // contagem de donos e ocupantes
     const auto ownersCount    = vehicle->GetOwners().size();
@@ -35,7 +41,7 @@ void BackupAI::Update()
     ProcessPeds();
     ProcessFollow();
 
-    if (!followingPed)
+    if (followingPed == nullptr)
     {
         if(!isLeavingScene)
         {
@@ -51,22 +57,63 @@ void BackupAI::Update()
                                                : followingPed->GetPosition();
 
     // checa proximidade
-    carIsInRange = (distanceBetweenPoints(vehicle->GetPosition(), targetPosition) < 10.0f);
+    carIsInRange = false;
+    if(criminalVehicle)
+    {
+        carIsInRange = distanceBetweenPoints(vehicle->GetPosition(), targetPosition) < 10.0f;
+    } else {
+        carIsInRange = distanceBetweenPoints(vehicle->GetPosition(), targetPosition) < 20.0f;
+    }
 
     // checa velocidade do alvo
-    const bool vehicleIsTooSlow = (criminalVehicle && CAR_SPEED(criminalVehicle->ref) < 5.0f);
+    const bool vehicleIsTooSlow = criminalVehicle ? CAR_SPEED(criminalVehicle->ref) < 5.0f : false;
 
     // lógica de desembarque
-    if (carIsInRange && vehicleIsTooSlow && everyoneIsOnVehicle && !leavingVehicle)
+    if (carIsInRange && (vehicleIsTooSlow || criminalVehicle == nullptr) && everyoneIsOnVehicle && !leavingVehicle)
     {
         leavingVehicle = true;
         debug->AddLine("peds desembarcando...");
         logInternal("backup peds leaving...");
 
+        vehicle->SetOwners();
+
         for (auto ped : vehicle->GetCurrentOccupants())
         {
             ped->LeaveCar();
         }
+
+        if(!followingPed->hasSurrended)
+        {
+            if(calculateProbability(0.30))
+            {
+                debug->AddLine("~y~driver has surrended");
+
+                if(criminalVehicle)
+                {
+                    auto driver = criminalVehicle->GetCurrentDriver();
+                    driver->LeaveCar();
+                    Pullover::PulloverPed(driver, false);
+
+                    auto passengers = criminalVehicle->GetCurrentPassengers();
+                    for(auto ped : passengers)
+                    {
+                        ped->LeaveCar();
+                        
+                        if(calculateProbability(0.70))
+                        {
+                            Pullover::PulloverPed(ped, false);
+                        } else {
+                            FLEE_FROM_ACTOR(ped->ref, driver->ref, 40.0f, -1);
+
+                            debug->AddLine("~y~but the supid ahh passenger did not surrend");
+                        }
+                    }
+                } else {
+                    Pullover::PulloverPed(followingPed, false);
+                }
+            }
+        }
+
         return;
     }
 
@@ -92,6 +139,8 @@ void BackupAI::Update()
     {
         enteringVehicle = false;
         debug->AddLine("looks like everyone got in");
+
+        Follow();
     }
 }
 
@@ -99,7 +148,7 @@ void BackupAI::ProcessFollow()
 {
     if (!followingPed) return;
 
-    if (everyoneIsOnVehicle)
+    if (everyoneIsOnVehicle && !carIsInRange)
     {
         timeToFollow -= menuSZK->deltaTime;
         if (timeToFollow <= 0)
@@ -116,22 +165,26 @@ void BackupAI::ProcessFollow()
 
 void BackupAI::ProcessPeds()
 {
+    if(!vehicle) return;
+
     for (auto police : vehicle->GetOwners())
     {
         if (police->justLeftVehicle && followingPed)
         {
             debug->AddLine("~y~AIM at the mf");
+
+            AIM_AT_ACTOR(police->ref, followingPed->ref, 10000);
         }
     }
 }
 
 void BackupAI::Follow()
 {
+    debug->AddLine("backupAi: try follow criminal");
+    
     logInternal("following criminal");
 
     if (!followingPed) return;
-
-    debug->AddLine("backupAi: follow criminal");
 
     if (IS_CHAR_IN_ANY_CAR(followingPed->ref))
     {
@@ -153,37 +206,71 @@ void BackupAI::Follow()
 
 void BackupAI::LeaveAndDestroy()
 {
-    isLeavingScene = true;
+    logInternal("BackupAI::LeaveAndDestroy");
 
-    BackupUnits::RemoveVehicleFromBackup(vehicle);
+    if(!vehicle) return;
+
+    auto vehicle = this->vehicle;
+
+    isLeavingScene = true;
 
     debug->AddLine("backup leaving scene");
 
-    vehicle->RemoveBlip();
+    auto ownersCount = vehicle->GetOwners().size();
 
-    ENABLE_CAR_SIREN(vehicle->ref, false);
+    vehicle->MakeOwnersEnter();
 
-    ScriptTask* taskLeave = new ScriptTask();
-    taskLeave->onBegin = [this]() {
-        SET_CAR_TRAFFIC_BEHAVIOUR(vehicle->ref, DrivingMode::AvoidCars);
-        SET_CAR_TO_PSYCHO_DRIVER(vehicle->ref);
-        SET_CAR_MAX_SPEED(vehicle->ref, 20.0f);
-    };
-    taskLeave->onExecute = [this]() {
-
-        if(!Vehicles::IsValid(vehicle)) return true;
-
-        auto distance = DistanceFromPed(GetPlayerActor(), vehicle->GetPosition());
-
-        if(distance < 120.0f) return false;
-
-        return true;
-    };
-    taskLeave->onComplete = [this]() {
-        if(Vehicles::IsValid(vehicle))
+    CleoFunctions::AddWaitForFunction([vehicle, ownersCount] () {
+        
+        if(!Vehicles::IsValid(vehicle))
         {
-            vehicle->DestroyCarAndPeds();
+            debug->AddLine("vehicle is not valid");
+            return true;
         }
-    };
-    taskLeave->Start();
+
+        auto ocuppantsCount = vehicle->GetCurrentOccupants().size();
+
+        debug->AddLine("esperando passageiros " + std::to_string(ocuppantsCount) + "/" + std::to_string(ownersCount));
+
+        if(ocuppantsCount >= ownersCount)
+        {
+            return true;
+        }
+
+        return false;
+    }, [vehicle] () {
+
+        if(!Vehicles::IsValid(vehicle)) return;
+
+        // lembrar q essa porra deleta o BackupAI*
+        BackupUnits::RemoveVehicleFromBackup(vehicle);
+
+        //vehicle->RemoveBlip();
+
+        ENABLE_CAR_SIREN(vehicle->ref, false);
+
+        ScriptTask* taskLeave = new ScriptTask();
+        taskLeave->onBegin = [vehicle]() {
+            SET_CAR_TRAFFIC_BEHAVIOUR(vehicle->ref, DrivingMode::AvoidCars);
+            SET_CAR_TO_PSYCHO_DRIVER(vehicle->ref);
+            SET_CAR_MAX_SPEED(vehicle->ref, 20.0f);
+        };
+        taskLeave->onExecute = [vehicle]() {
+
+            if(!Vehicles::IsValid(vehicle)) return true;
+
+            auto distance = DistanceFromPed(GetPlayerActor(), vehicle->GetPosition());
+
+            if(distance < 120.0f) return false;
+
+            return true;
+        };
+        taskLeave->onComplete = [vehicle]() {
+            if(Vehicles::IsValid(vehicle))
+            {
+                vehicle->DestroyCarAndPeds();
+            }
+        };
+        taskLeave->Start();
+    });
 }

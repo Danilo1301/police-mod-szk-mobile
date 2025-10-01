@@ -19,6 +19,8 @@ extern IMenuSZK* menuSZK;
 #include "ScriptTask.h"
 #include "windows/CellphoneWindow.h"
 #include "Chase.h"
+#include "Criminals.h"
+#include "BackupUnits.h"
 
 int aimingPed = NO_PED_FOUND;
 std::vector<Ped*> pedsPulledOver;
@@ -79,13 +81,23 @@ int Pullover::GetCharPlayerIsAiming()
     return NO_PED_FOUND;
 }
 
-void Pullover::PulloverPed(Ped* ped)
+void Pullover::PulloverPed(Ped* ped, bool doAction)
 {
-    menuSZK->GetDebug()->AddLine("Pulling over a ped");
+    auto it = std::find(pedsPulledOver.begin(), pedsPulledOver.end(), ped);
+    if (it != pedsPulledOver.end())
+        return;
+
+    if(doAction)
+    {
+        menuSZK->GetDebug()->AddLine("Pulling over a ped");
+    }
     
     pedsPulledOver.push_back(ped);
+    ped->hasSurrended = true;
     ped->DoHandsup();
-    ped->AddBlip();
+    //ped->AddBlip();
+
+    Criminals::AddCriminal(ped);
 }
 
 void Pullover::FreePed(Ped* ped)
@@ -95,6 +107,8 @@ void Pullover::FreePed(Ped* ped)
     pedsPulledOver.erase(std::find(pedsPulledOver.begin(), pedsPulledOver.end(), ped));
     ped->StopHandsup();
     ped->RemoveBlip();
+
+    Criminals::RemoveCriminal(ped);
 }
 
 void Pullover::FreeVehicle(Vehicle* vehicle)
@@ -147,6 +161,7 @@ void Pullover::RemoveVehicleFromPullover(Vehicle* vehicle)
     for(auto owner : owners)
     {
         owner->RemoveBlip();
+        Criminals::RemoveCriminal(owner);
     }
 }
 
@@ -189,7 +204,7 @@ void Pullover::PulloverVehicle(Vehicle* vehicle)
 
     vehiclesPulledOver.push_back(vehicle);
 
-    vehicle->AddBlip();
+    //vehicle->AddBlip();
     vehicle->SetOwners();
 
     Audios::audioEncostaCarro->Play();
@@ -198,7 +213,7 @@ void Pullover::PulloverVehicle(Vehicle* vehicle)
 
     if(vehicle->GetCurrentDriver() != nullptr)
     {
-        bool startChase = true;
+        bool startChase = calculateProbability(0.50);
     
         if(startChase)
         {
@@ -525,7 +540,7 @@ void Pullover::AskSomeoneToGetVehicle(Vehicle* vehicle)
         auto pedPassenger = Peds::RegisterPed(friendRef);
 
         vehicle->SetOwners();
-        vehicle->AddBlip();
+        //vehicle->AddBlip();
 
         auto targetPosition = GET_CLOSEST_CAR_NODE(playerPosition.x, playerPosition.y, playerPosition.z);
 
@@ -612,7 +627,7 @@ void Pullover::CallTowTruck(Vehicle* vehicle)
         auto towRef = CREATE_CAR_AT(towModelId, spawnPosition.x, spawnPosition.y, spawnPosition.z);
         auto towTruck = Vehicles::RegisterVehicle(towRef);
 
-        towTruck->AddBlip();
+        //towTruck->AddBlip();
 
         debug->AddLine("create driver");
 

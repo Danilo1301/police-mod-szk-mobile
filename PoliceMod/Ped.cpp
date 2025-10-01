@@ -6,6 +6,7 @@ extern IMenuSZK* menuSZK;
 #include "CleoFunctions.h"
 #include "Pullover.h"
 #include "PoliceMod.h"
+#include "Criminals.h"
 
 Ped::Ped(int ref, void* ptr)
 {
@@ -45,17 +46,26 @@ Ped::~Ped()
 void Ped::Update()
 {
     justLeftVehicle = false;
+    justEnteredVehicle = false;
 
-    if (!IsInAnyCar() && inVehicleState != PedInVehicleState::NOT_ON_VEHICLE)
+    //problema: estava embarcando (PedInVehicleState::ENTERING) e chamou dnv
+    if (!IsInAnyCar() && inVehicleState != PedInVehicleState::NOT_ON_VEHICLE && inVehicleState != PedInVehicleState::ENTERING)
     {
+
+        debug->AddLine("inVehicleState was " + std::to_string(inVehicleState));
+
         inVehicleState = PedInVehicleState::NOT_ON_VEHICLE;
         justLeftVehicle = true;
+
         debug->AddLine("ped just left vehicle");
     }
-    else if (IsInAnyCar() && inVehicleState != PedInVehicleState::SITTING)
+    else if (IsInAnyCar() && inVehicleState != PedInVehicleState::SITTING && inVehicleState != PedInVehicleState::LEAVING)
     {
+        debug->AddLine("inVehicleState was " + std::to_string(inVehicleState));
+
         inVehicleState = PedInVehicleState::SITTING;
-        // justEnteredVehicle = true;
+        justEnteredVehicle = true;
+
         debug->AddLine("ped just entered vehicle");
     }
 
@@ -223,4 +233,9 @@ void Ped::RemoveBlip()
 
     DISABLE_MARKER(blip);
     blip = NO_BLIP;
+}
+
+bool Ped::IsCriminal()
+{
+    return Criminals::IsCriminal(this);
 }

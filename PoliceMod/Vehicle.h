@@ -10,6 +10,7 @@ private:
     bool isWidgetVisible = false;
     IWidgetButton* widgetOptions = nullptr;
     bool plateHidden = false;
+    bool isPoliceCar = false;
 public:
     int ref;
     void* ptr;
@@ -31,6 +32,8 @@ public:
     int lifeTime = 0;
 
     bool spawnedWithDriver = false;
+
+    int timeSinceLastRepair = 0;
 
     Vehicle(int ref, void* ptr);
     ~Vehicle();
@@ -63,4 +66,6 @@ public:
     void DestroyCarAndPeds();
 
     bool IsInChase();
+
+    bool IsPoliceCar() { return isPoliceCar; };
 };

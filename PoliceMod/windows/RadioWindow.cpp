@@ -3,6 +3,8 @@
 #include "menuSZK/IMenuSZK.h"
 extern IMenuSZK* menuSZK;
 
+#include "BackupUnits.h"
+
 bool initialized = false;
 IContainer* mainContainer;
 int currentPageIndex = 0;
@@ -58,10 +60,9 @@ void RadioWindow::Initialize()
         // main page
 
         auto page = new RadioPage("main");    
-        page->buttons.push_back(new RadioButton("main.1", "img1"));
-        page->buttons.push_back(new RadioButton("main.2", "img2"));
-        page->buttons.push_back(new RadioButton("main.3", "img1"));
-        page->buttons.push_back(new RadioButton("main.4", "img2"));
+        page->buttons.push_back(new RadioButton("main.close", "back"));
+        page->buttons.push_back(new RadioButton("main.qth", "qth"));
+        page->buttons.push_back(new RadioButton("main.test", "test"));
 
         pages[page->id] = page;
 
@@ -72,13 +73,13 @@ void RadioWindow::Initialize()
         // main page
 
         auto page = new RadioPage("test");    
-        page->buttons.push_back(new RadioButton("test.1", "img3"));
-        page->buttons.push_back(new RadioButton("test.2", "img4"));
-        page->buttons.push_back(new RadioButton("test.3", "img3"));
-        page->buttons.push_back(new RadioButton("test.4", "img4"));
-        page->buttons.push_back(new RadioButton("test.5", "img3"));
-        page->buttons.push_back(new RadioButton("test.6", "img4"));
-        page->buttons.push_back(new RadioButton("test.7", "img3"));
+        page->buttons.push_back(new RadioButton("test.back", "back"));
+        page->buttons.push_back(new RadioButton("test", "test"));
+        page->buttons.push_back(new RadioButton("test", "test"));
+        page->buttons.push_back(new RadioButton("test", "test"));
+        page->buttons.push_back(new RadioButton("test", "test"));
+        page->buttons.push_back(new RadioButton("test", "test"));
+        page->buttons.push_back(new RadioButton("test", "test"));
 
         pages[page->id] = page;
 
@@ -219,11 +220,20 @@ void RadioWindow::GotoPageId(std::string pageId)
 
 void RadioWindow::OnClickButton(std::string id)
 {
-    if(id == "main.4")
+    if(id == "main.test")
     {
         GotoPageId("test");
     }
-    if(id == "test.7")
+    if(id == "main.close")
+    {
+        Toggle();
+    }
+    if(id == "main.qth")
+    {
+        BackupUnits::SendQTH();
+        Toggle();
+    }
+    if(id == "test.back")
     {
         GotoPageId("main");
     }

@@ -11,6 +11,7 @@ public:
     void OnModLoad();
     void Initialize();
     void Update();
+    void OnDrawRadar();
 
     void TestEquip();
 };

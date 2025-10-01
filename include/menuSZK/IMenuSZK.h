@@ -10,6 +10,7 @@
 #include "IWidgetButton.h"
 #include "ILabel.h"
 #include "IAudio.h"
+#include "ISprite.h"
 
 class IMenuSZK {
 public:
@@ -41,4 +42,6 @@ public:
     virtual CVector2D ConvertWorldPositionToScreenPosition(CVector worldPosition) = 0;
     virtual IAudio* CreateAudio(std::string src) = 0;
     virtual void QueueContainerDestroy(IContainer* container) = 0;
+
+    virtual ISprite* LoadSprite(std::string src);
 };

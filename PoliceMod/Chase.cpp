@@ -7,12 +7,15 @@ extern IMenuSZK* menuSZK;
 #include "Vehicles.h"
 #include "Peds.h"
 #include "Criminals.h"
+#include "BackupUnits.h"
 
 bool Chase::InChase = false;
 
 void Chase::StartChaseWithVehicle(Vehicle* vehicle)
 {
     logToFile("Chase: StartChaseWithVehicle");
+
+    BackupUnits::ResetQTH();
 
     if(vehicle->IsInChase()) return;
 
@@ -68,6 +71,8 @@ void Chase::Update()
         if(criminals.size() == 0)
         {
             InChase = false;
+            BackupUnits::ResetQTH();
+            
             debug->AddLine("~y~not in chase anymore");
         }
     }

@@ -2,6 +2,8 @@
 
 #include "pch.h"
 
+#include "menuSZK/IMenuSZK.h"
+
 class Globals {
 public:
     static std::vector<int> policeVehicleIds;

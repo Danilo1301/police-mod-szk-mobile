@@ -12,15 +12,19 @@ extern IMenuSZK* menuSZK;
 #include "Globals.h"
 #include "ModelLoader.h"
 #include "Criminals.h"
+#include "Dialogs.h"
+#include "Globals.h"
+#include "MapIcons.h"
 
 std::vector<Vehicle*> backupVehicles;
 
 int timeToSpawnBackup = 10000;
+CVector lastQTHPosition = CVector(0, 0, 0);
 
 void BackupUnits::Update()
 {
     bool isInChase = Chase::InChase;
-    bool hasSentQTH = true;
+    bool isCloseToQTH = distanceBetweenPoints(lastQTHPosition, GetPlayerPosition()) < 270.0f;
 
     for (auto it = backupVehicles.begin(); it != backupVehicles.end(); )
     {
@@ -42,9 +46,11 @@ void BackupUnits::Update()
 
     if(isInChase)
     {
-        auto vehicles = Vehicles::GetVehicles();
-        for (auto* vehicle : vehicles)
+        auto vehicles = Vehicles::GetVehiclesMap();
+        for (auto pair : vehicles)
         {
+            auto vehicle = pair.second;
+
             if(!IsVehicleModelAPoliceCar(vehicle->GetModelId())) continue;
             if(!vehicle->spawnedWithDriver) continue;
             if(vehicle->IsPlayerInside()) continue;
@@ -58,13 +64,13 @@ void BackupUnits::Update()
         }
     }
 
-    if(isInChase && hasSentQTH && backupVehicles.size() < 10)
+    if(isInChase && isCloseToQTH && backupVehicles.size() < 8)
     {
         timeToSpawnBackup -= menuSZK->deltaTime;
 
         if(timeToSpawnBackup <= 0)
         {
-            timeToSpawnBackup = 10000;
+            timeToSpawnBackup = getRandomNumber(5000, 10000);
 
             debug->AddLine("spawning random backup unit");
 
@@ -87,8 +93,16 @@ void BackupUnits::Update()
             AddVehicleAsBackup(vehicle);
         }
     }
+}
 
+void BackupUnits::DrawRadar()
+{
+    if(!spriteBigCircle || !spriteBigCircle->loaded) return;
 
+    if(lastQTHPosition.x != 0 && lastQTHPosition.y != 0)
+    {
+        DrawSpriteInRadar(spriteBigCircle, lastQTHPosition, CRGBA(255, 0, 0, 100), 270.0f);
+    }
 }
 
 bool BackupUnits::IsBackupVehicle(Vehicle* vehicle)
@@ -115,11 +129,15 @@ void BackupUnits::AddVehicleAsBackup(Vehicle* vehicle)
 
     auto newDriverRef = CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(vehicle->ref, PedType::Special, driverModelId);
     auto driver = Peds::RegisterPed(newDriverRef);
-    
+
+    int pistolId = 22;
+
+    GIVE_ACTOR_WEAPON(driver->ref, pistolId, 5000);
+
     backupVehicles.push_back(vehicle);
 
     vehicle->SetOwners();
-    vehicle->AddBlip(2);
+    //vehicle->AddBlip(2);
 
     AIController::AddAIToVehicle(vehicle, new BackupAI());
 }
@@ -150,7 +168,7 @@ void BackupUnits::SpawnRandomBackupUnit()
     ModelLoader::LoadAll([vehicleModel, pedModel, spawnPosition]() {
         auto carRef = CREATE_CAR_AT(vehicleModel, spawnPosition.x, spawnPosition.y, spawnPosition.z);
         auto car = Vehicles::RegisterVehicle(carRef);
-        car->AddBlip(2);
+        //car->AddBlip(2);
 
         auto driverRef = CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(carRef, PedType::Special, pedModel);
         auto driver = Peds::RegisterPed(driverRef);
@@ -158,4 +176,16 @@ void BackupUnits::SpawnRandomBackupUnit()
         AddVehicleAsBackup(car);
     });
 
+}
+
+void BackupUnits::SendQTH()
+{
+    lastQTHPosition = GetPlayerPosition();
+
+    Dialogs::AddDialog("QTH atualizado", 3000);
+}
+
+void BackupUnits::ResetQTH()
+{
+    lastQTHPosition = CVector(0, 0, 0);
 }

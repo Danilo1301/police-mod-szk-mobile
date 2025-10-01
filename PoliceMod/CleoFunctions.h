@@ -326,6 +326,21 @@ static bool PLAYER_DEFINED(int player)
     return result;
 }
 
+static DEFOPCODE(056E, CAR_DEFINED, i); //056E: car 3@ defined
+static bool CAR_DEFINED(int car)
+{
+    bool result = sautils->ScriptCommand(&scm_CAR_DEFINED, car);
+    return result;
+}
+
+static DEFOPCODE(056D, ACTOR_DEFINED, i); //056D:   actor 0@ defined 
+static bool ACTOR_DEFINED(int actor)
+{
+    bool result = false;
+    result = sautils->ScriptCommand(&scm_ACTOR_DEFINED, actor);
+    return result;
+}
+
 // 0248: model %1d available
 static DEFOPCODE(0248, HAS_MODEL_LOADED, i);
 static bool HAS_MODEL_LOADED(int modelId)
@@ -554,6 +569,20 @@ static DEFOPCODE(0397, ENABLE_CAR_SIREN, ib);
 static void ENABLE_CAR_SIREN(int car, bool state)
 {
     sautils->ScriptCommand(&scm_ENABLE_CAR_SIREN, car, state);
+}
+
+//0635: AS_actor -1 aim_at_actor $PLAYER_ACTOR 2000 ms 
+static DEFOPCODE(0635, AIM_AT_ACTOR, iii);
+static void AIM_AT_ACTOR(int _char, int target, int time)
+{
+    sautils->ScriptCommand(&scm_AIM_AT_ACTOR, _char, target, time);
+}
+
+//05DD: AS_actor 7@ flee_from_actor 6@ from_origin_radius 1000.0 timelimit -1
+static DEFOPCODE(05DD, FLEE_FROM_ACTOR, iifi);
+static void FLEE_FROM_ACTOR(int _char, int threat, float radius, int time)
+{
+    sautils->ScriptCommand(&scm_FLEE_FROM_ACTOR, _char, threat, radius, time);
 }
 
 //00A8: set_car 52@ to_psycho_driver 

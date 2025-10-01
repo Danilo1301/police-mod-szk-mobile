@@ -80,7 +80,9 @@ bool Vehicles::IsValid(Vehicle* vehicle)
     for (const auto& pair : vehicles)
     {
         if (pair.second == vehicle) // encontrou o ponteiro
-            return true;
+        {
+            return CAR_DEFINED(vehicle->ref);
+        }
     }
 
     return false; // não encontrado
@@ -117,17 +119,9 @@ std::vector<Vehicle*> Vehicles::GetAllCarsInSphere(CVector position, float radiu
     return foundVehicles;
 }
 
-std::vector<Vehicle*> Vehicles::GetVehicles()
+std::map<int, Vehicle*> Vehicles::GetVehiclesMap()
 {
-    std::vector<Vehicle*> result;
-    result.reserve(vehicles.size());
-
-    for (auto& [id, vehicle] : vehicles)
-    {
-        result.push_back(vehicle);
-    }
-
-    return result;
+    return vehicles;
 }
 
 Vehicle* Vehicles::GetClosestVehicle(CVector sphereCenter, CVector targetPosition, float radius)

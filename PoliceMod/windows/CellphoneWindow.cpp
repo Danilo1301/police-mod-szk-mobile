@@ -30,7 +30,7 @@ CellphoneWindow::CellphoneWindow()
 
 void CellphoneWindow::MakeSINESP(Vehicle* vehicle)
 {
-    auto backgroundImage = getPathFromAssets("cellphone/sinesp_not_ok.png");
+    auto backgroundImage = getPathFromAssets("cellphone/sinesp_ok.png");
     auto closeImage = getPathFromAssets("cellphone/close.png");
 
     container->SetBackgroundTexture(backgroundImage);

@@ -11,11 +11,14 @@ extern IMenuSZK* menuSZK;
 #include "VehicleDummy.h"
 #include "Chase.h"
 #include "Criminals.h"
+#include "Globals.h"
 
 Vehicle::Vehicle(int ref, void* ptr)
 {
     this->ref = ref;
     this->ptr = ptr;
+
+    isPoliceCar = IsVehicleModelAPoliceCar(GET_CAR_MODEL(ref));
 
     plate = randomPlateLimited();
     chassis = gerarChassi();
@@ -26,7 +29,7 @@ Vehicle::Vehicle(int ref, void* ptr)
     manufactureYear = getRandomNumber(anoAtual - 20, anoAtual);
     modelYear = getRandomNumber(manufactureYear, manufactureYear + 1);
     
-    outdatedDoc = calculateProbability(0.50f);
+    outdatedDoc = calculateProbability(0.20f);
 
     // decide se está atrasado
     if (outdatedDoc)
@@ -54,6 +57,7 @@ Vehicle::~Vehicle()
 void Vehicle::Update()
 {
     lifeTime = std::min(lifeTime + (int)menuSZK->deltaTime, 100000);
+    timeSinceLastRepair = std::min(timeSinceLastRepair + (int)menuSZK->deltaTime, 100000);
 
     auto position = GetPosition();
     auto playerPosition = GetPlayerPosition();
@@ -93,10 +97,11 @@ void Vehicle::Update()
     }
 
     auto carHealth = GET_CAR_HEALTH(ref);
-    if(carHealth < 300)
+    if(carHealth < 300 && timeSinceLastRepair > 1000)
     {
-        SET_CAR_HEALTH(ref, 300);
-        debug->AddLine("~y~car health restored");
+        timeSinceLastRepair = 0;
+        SET_CAR_HEALTH(ref, 350);
+        debug->AddLine("car health restored");
     }
 }
 

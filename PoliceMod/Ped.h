@@ -48,6 +48,9 @@ public:
 
     PedInVehicleState inVehicleState = PedInVehicleState::NONE;
     bool justLeftVehicle = false;
+    bool justEnteredVehicle = false;
+
+    bool hasSurrended = false;
 
     Dialogue dialogue;
 
@@ -86,4 +89,6 @@ public:
     void RemoveBlip();
 
     bool HasCNH() { return catHab != ""; }
+
+    bool IsCriminal();
 };
