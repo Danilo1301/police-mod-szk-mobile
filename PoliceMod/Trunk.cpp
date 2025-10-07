@@ -30,7 +30,11 @@ void Trunk::RemoveAllPeds()
     for(auto pedRef : pedsInside)
     {
         REMOVE_ACTOR_FROM_TURRET_MODE(pedRef);
-        Peds::GetPed(pedRef)->StopCover();
+
+        auto ped = Peds::GetPed(pedRef);
+
+        ped->StopCover();
+        ped->HideMapIcon();
     }
     pedsInside.clear();
 

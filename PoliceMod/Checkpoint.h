@@ -8,12 +8,15 @@ class Checkpoint {
 private:
     int checkpoint = NO_CHECKPOINT;
     CVector lastPosition;
+    bool isInside = false;
 public:
     CVector position;
     float radius = 2.0f;
+    std::function<void()> onEnterCheckpoint;
 
     void Update();
     bool IsInRange(CVector point);
+    bool CheckEntered(CVector point);
     void DestroyCheckpoint();
 };
 

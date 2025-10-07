@@ -3,26 +3,44 @@
 #include "SpriteUtils.h"
 #include "CleoFunctions.h"
 #include "Vehicles.h"
+#include "BottomMessage.h"
+
+PoliceBase::PoliceBase()
+{
+    leaveCriminalCheckpoint = Checkpoints::CreateCheckpoint(CVector(0, 0, 0));
+
+    leaveCriminalCheckpoint->onEnterCheckpoint = []() {
+        auto playerActor = GetPlayerActor();
+
+        auto vehicleRef = GetVehiclePedIsUsing(playerActor);
+
+        if(vehicleRef <= 0)
+        {
+            BottomMessage::SetMessage("~r~Voce nao esta em um veiculo", 2000);
+            return;
+        }
+
+        auto vehicle = Vehicles::GetVehicle(vehicleRef);
+
+        if(vehicle->trunk->HasPedsInside())
+        {
+            vehicle->trunk->RemoveAllPeds();
+        } else {
+            BottomMessage::SetMessage("~r~Voce nao tem suspeitos no porta malas", 2000);
+        }
+    };
+}
 
 void PoliceBase::Update()
 {
     auto playerActor = GetPlayerActor();
-
     auto vehicleRef = GetVehiclePedIsUsing(playerActor);
 
     if(vehicleRef > 0)
     {   
-        auto vehicle = Vehicles::GetVehicle(vehicleRef);
-
-        auto carPosition = GetCarPosition(vehicleRef);
-
-        if(leaveCriminalCheckpoint->IsInRange(carPosition))
-        {
-            if(vehicle->trunk->HasPedsInside())
-            {
-                vehicle->trunk->RemoveAllPeds();
-            }
-        }
+        leaveCriminalCheckpoint->CheckEntered(GetCarPosition(vehicleRef));
+    } else {
+        leaveCriminalCheckpoint->CheckEntered(GetPlayerPosition());
     }
 }
 

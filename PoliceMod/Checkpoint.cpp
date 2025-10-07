@@ -45,6 +45,23 @@ bool Checkpoint::IsInRange(CVector point)
     return distanceBetweenPoints(lastPosition, point) <= (radius - 0.8f);
 }
 
+bool Checkpoint::CheckEntered(CVector point)
+{
+    if(IsInRange(point))
+    {
+        if(!isInside)
+        {
+            isInside = true;
+
+            if(onEnterCheckpoint) onEnterCheckpoint();
+        }
+    } else {
+        isInside = false;
+    }
+
+    return false;
+}
+
 void Checkpoint::DestroyCheckpoint()
 {
     if(checkpoint == NO_CHECKPOINT) return;

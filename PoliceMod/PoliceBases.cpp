@@ -7,7 +7,8 @@ void PoliceBases::Initialize()
     auto base = new PoliceBase();
     base->basePosition = CVector(2495.9983, -1744.7815, 13.4679);
     base->leaveCriminalPosition = CVector(2495.9983, -1744.7815, 13.4679);
-    base->leaveCriminalCheckpoint = Checkpoints::CreateCheckpoint(base->leaveCriminalPosition);
+
+    base->leaveCriminalCheckpoint->position = base->leaveCriminalPosition;
 
     Bases.push_back(base);
 }

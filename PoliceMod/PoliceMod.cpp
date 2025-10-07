@@ -62,11 +62,22 @@ void PoliceMod::Initialize()
         auto ped = Peds::GetPed(GetPlayerActor());
     });
 
+    logInternal("Initialize Pullover");
     Pullover::Initialize();
+
+    logInternal("Initialize BottomMessage");
     BottomMessage::Initialize();
+
+    logInternal("Initialize DialogManager");
     DialogManager::Initialize();
+
+    logInternal("Initialize Objectives");
     Objectives::Initialize();
+
+    logInternal("Initialize RadioWindow");
     RadioWindow::Initialize();
+
+    logInternal("Initialize PoliceBases");
     PoliceBases::Initialize();
 
     auto widgetTestMenu = menuSZK->CreateWidgetButton(600 + 150, 30, getPathFromMenuAssets("widget_background1.png"), getPathFromAssets("widget_vest.png"));
@@ -81,11 +92,14 @@ void PoliceMod::Initialize()
 
     });
 
+    logInternal("Create audios");
     Audios::CreateAudios();
 }
 
 void PoliceMod::Update()
 {
+    logDebug("PoliceMod::Update");
+
     if(!hasLoadedAnimations && PLAYER_DEFINED(0))
     {
         if(
@@ -104,7 +118,6 @@ void PoliceMod::Update()
         }
     }
 
-    //logDebug("Peds::Update");
     Peds::Update();
     //logDebug("Vehicles::Update");
     Vehicles::Update();
@@ -128,6 +141,8 @@ void PoliceMod::Update()
     Checkpoints::Update();
 
     CleoFunctions::Update(menuSZK->deltaTime);
+    
+    logDebug("PoliceMod::Update END");
 }
 
 void PoliceMod::OnDrawRadar()

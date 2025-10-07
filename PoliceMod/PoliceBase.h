@@ -11,6 +11,8 @@ public:
     CVector leaveCriminalPosition = CVector(0, 0, 0);
     Checkpoint* leaveCriminalCheckpoint = nullptr;
 
+    PoliceBase();
+    
     void Update();
     void OnRender();
     void OnDrawRadar();
