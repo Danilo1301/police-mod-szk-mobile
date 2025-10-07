@@ -12,6 +12,8 @@ extern IMenuSZK* menuSZK;
 #include "Chase.h"
 #include "Criminals.h"
 #include "Globals.h"
+#include "SpriteUtils.h"
+#include "Scorch.h"
 
 Vehicle::Vehicle(int ref, void* ptr)
 {
@@ -19,6 +21,11 @@ Vehicle::Vehicle(int ref, void* ptr)
     this->ptr = ptr;
 
     isPoliceCar = IsVehicleModelAPoliceCar(GET_CAR_MODEL(ref));
+
+    if(isPoliceCar)
+    {
+        SetMapIconColor(COLOR_POLICE);
+    }
 
     plate = randomPlateLimited();
     chassis = gerarChassi();
@@ -47,11 +54,17 @@ Vehicle::Vehicle(int ref, void* ptr)
         // em dia
         exerciseYear = anoAtual;
     }
+
+    trunk = new Trunk(ref);
 }
 
 Vehicle::~Vehicle()
 {
-
+    if(trunkCheckpoint)
+    {
+        Checkpoints::DestroyCheckpoint(trunkCheckpoint);
+        trunkCheckpoint = nullptr;
+    }
 }
 
 void Vehicle::Update()
@@ -103,6 +116,29 @@ void Vehicle::Update()
         SET_CAR_HEALTH(ref, 350);
         debug->AddLine("car health restored");
     }
+
+    if(isPoliceCar)
+    {
+        if(Scorch::IsCarrying())
+        {
+            auto trunkPosition = GetCarPositionWithOffset(ref, trunkOffset);
+
+            if(!trunkCheckpoint)
+            {
+                trunkCheckpoint = Checkpoints::CreateCheckpoint(trunkPosition);
+            }
+            
+            trunkCheckpoint->position = trunkPosition;
+            
+            Scorch::TestCheckpoint(trunkCheckpoint, this);
+        }
+
+        if(!Scorch::IsCarrying() && trunkCheckpoint != nullptr)
+        {
+            Checkpoints::DestroyCheckpoint(trunkCheckpoint);
+            trunkCheckpoint = nullptr;
+        }
+    }
 }
 
 void Vehicle::OnRenderBefore()
@@ -142,26 +178,14 @@ void Vehicle::OnRenderAfter()
 
 }
 
-int Vehicle::AddBlip()
+void Vehicle::SetMapIconColor(CRGBA color)
 {
-    if(blip != NO_BLIP) RemoveBlip();
-    blip = ADD_BLIP_FOR_CAR(ref);
-    return blip;
+    mapIconColor = color;
 }
 
-int Vehicle::AddBlip(int color)
+void Vehicle::HideMapIcon()
 {
-    int blip = AddBlip();
-    SET_MARKER_COLOR_TO(blip, color);
-    return blip;
-}
-
-void Vehicle::RemoveBlip()
-{
-    if(blip == NO_BLIP) return;
-
-    DISABLE_MARKER(blip);
-    blip = NO_BLIP;
+    mapIconColor.a = 0;
 }
 
 CVector Vehicle::GetPosition()

@@ -17,3 +17,7 @@ static bool IsVehicleModelAPoliceCar(int modelId)
         modelId
     ) != Globals::policeVehicleIds.end();
 }
+
+static CRGBA COLOR_YELLOW = CRGBA(255, 255, 0);
+static CRGBA COLOR_CRIMINAL = CRGBA(255, 60, 60);
+static CRGBA COLOR_POLICE = CRGBA(0, 150, 255);

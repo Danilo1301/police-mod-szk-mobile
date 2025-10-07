@@ -27,15 +27,15 @@ class Ped {
 private:
     bool isWidgetVisible = false;
     IWidgetButton* widgetOptions = nullptr;
+    bool doHandsup = false;
+    bool doCover = false;
 public:
     int ref;
     void* ptr;
-    
-    int blip = NO_BLIP;
+
+    CRGBA mapIconColor = CRGBA(255, 255, 255, 0);
 
     int pulledOverFromVehicle = 0;
-
-    bool doHandsup = false;
 
     std::string name = "Maria Sem Nome";
     std::string birthDate = "00/00/0000";
@@ -67,7 +67,6 @@ public:
 
         this->ref = oldRef;
         this->ptr = oldPtr;
-        this->blip = NO_BLIP;
         this->widgetOptions = nullptr;
     }
 
@@ -76,7 +75,14 @@ public:
     void DoHandsup();
     void StopHandsup();
     bool IsDoingHandsupAnim();
+
+    void DoCover();
+    void StopCover();
+    bool IsDoingCoverAnim();
+    
     bool IsInAnyCar();
+
+    
 
     CVector GetPosition();
 
@@ -85,8 +91,8 @@ public:
     void LeaveCar();
     void EnterVehicle(int vehicleRef, PedSeat seat, int seatId);
 
-    int AddBlip();
-    void RemoveBlip();
+    void SetMapIconColor(CRGBA color);
+    void HideMapIcon();
 
     bool HasCNH() { return catHab != ""; }
 

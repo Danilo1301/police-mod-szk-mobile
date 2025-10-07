@@ -3,7 +3,7 @@
 #include "PoliceMod.h"
 #include "Vehicles.h"
 #include "Peds.h"
-#include "MapIcons.h"
+#include "SpriteUtils.h"
 
 // CLEO 2.0.1.3
 #include "cleo.h"
@@ -60,42 +60,13 @@ DECL_HOOKv(PostRadarDraw, bool b)
     PostRadarDraw(b);
 
     policeMod->OnDrawRadar();
+}
 
-    // if(!spriteCircle->loaded) return;
+DECL_HOOK(void, PreRenderEnd, void* self)
+{
+    PreRenderEnd(self);
 
-    for(auto pair : Vehicles::GetVehiclesMap())
-    {
-        auto vehicle = pair.second;
-        if(!Vehicles::IsValid(vehicle)) continue;
-        auto position = vehicle->GetPosition();
-
-        if(vehicle->IsPoliceCar())
-        {
-            DrawSpriteInRadar(spriteCircle, position, CRGBA(0, 150, 255), 35.0f);
-        } else {
-            if(vehicle->IsInChase())
-            {
-                DrawSpriteInRadar(spriteCircle, position, CRGBA(255, 80, 80), 35.0f);
-            } else {
-                //DrawSpriteInRadar(spriteCircle, position, CRGBA(255, 255, 255), 30.0f);
-            }
-        }
-    }
-    
-    auto peds = Peds::GetPedsMap();
-    for(auto pair : peds)
-    {
-        auto ped = pair.second;
-
-        if(!Peds::IsValid(ped)) continue;
-
-        auto position = ped->GetPosition();
-
-        if(ped->IsCriminal())
-        {
-            DrawSpriteInRadar(spriteCircle, position, CRGBA(255, 80, 80), 18.0f);
-        }
-    }
+    policeMod->OnRender();
 }
 
 extern "C" void OnModPreLoad()
@@ -137,6 +108,7 @@ extern "C" void OnModLoad()
     HOOKPLT(InitRenderWare, pGTASA + 0x66F2D0);
     HOOK(RenderVehicle, aml->GetSym(hGTASA, "_ZN8CVehicle6RenderEv"));
     HOOK(PostRadarDraw, aml->GetSym(hGTASA, "_ZN6CRadar20DrawRadarGangOverlayEb"));
+    HOOKPLT(PreRenderEnd, gameAddr + 0x674188);
 
     SET_TO(RpClumpForAllAtomics, aml->GetSym(hGTASA, "_Z20RpClumpForAllAtomicsP7RpClumpPFP8RpAtomicS2_PvES3_"));
     SET_TO(RpGeometryForAllMaterials, aml->GetSym(hGTASA, "_Z25RpGeometryForAllMaterialsP10RpGeometryPFP10RpMaterialS2_PvES3_"));
@@ -149,8 +121,10 @@ extern "C" void OnModLoad()
     SET_TO(RsGlobal, aml->GetSym(hGTASA, "RsGlobal"));
     SET_TO(LimitRadarPoint, aml->GetSym(hGTASA, "_ZN6CRadar15LimitRadarPointER9CVector2D"));
 
-    spriteCircle = menuSZK->LoadSprite(getPathFromAssets("map/circle.png"));
-    spriteBigCircle = menuSZK->LoadSprite(getPathFromAssets("map/big_circle.png"));
+    SpriteUtils::spriteBigCircle = menuSZK->LoadSprite(getPathFromAssets("map/big_circle.png"));
+    SpriteUtils::spriteCircle = menuSZK->LoadSprite(getPathFromAssets("map/circle.png"));
+    SpriteUtils::spriteBlip = menuSZK->LoadSprite(getPathFromAssets("blip.png"));
+    SpriteUtils::spritePoliceDepartment = menuSZK->LoadSprite(getPathFromAssets("map/police_dep.png"));
 
     policeMod->OnModLoad();
 

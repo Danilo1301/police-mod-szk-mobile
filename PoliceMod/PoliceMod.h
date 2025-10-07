@@ -12,6 +12,7 @@ public:
     void Initialize();
     void Update();
     void OnDrawRadar();
+    void OnRender();
 
     void TestEquip();
 };

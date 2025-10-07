@@ -43,5 +43,6 @@ public:
     virtual IAudio* CreateAudio(std::string src) = 0;
     virtual void QueueContainerDestroy(IContainer* container) = 0;
 
-    virtual ISprite* LoadSprite(std::string src);
+    virtual ISprite* LoadSprite(std::string src) = 0;
+    virtual void DrawSprite(ISprite* sprite, CVector2D position, CVector2D size, CRGBA color) = 0;
 };

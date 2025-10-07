@@ -508,6 +508,20 @@ static void PERFORM_ANIMATION_AS_ACTOR(int _char, const char* animationName, con
     CallScriptCommand(&scm_PERFORM_ANIMATION_AS_ACTOR, _char, animationName, animationFile, frameDelta, loop, lockX, lockY, lockF, time);
 }
 
+//0464: put_actor $PED into_turret_on_car $CAR at_car_offset 0.0 0.0 0.0 position 0 shooting_angle_limit 0.0 with_weapon 0
+static DEFOPCODE(0464, PUT_ACTOR_INTO_TURRET_ON_CAR, iifffifi);
+static void PUT_ACTOR_INTO_TURRET_ON_CAR(int _char, int vehicle, float offsetX, float offsetY, float offsetZ, int position, float angleLimit, int weaponType)
+{
+    sautils->ScriptCommand(&scm_PUT_ACTOR_INTO_TURRET_ON_CAR, _char, vehicle, offsetX, offsetY, offsetZ, position, angleLimit, weaponType);
+}
+
+//0465: remove_actor $PED from_turret_mode
+static DEFOPCODE(0465, REMOVE_ACTOR_FROM_TURRET_MODE, i);
+static void REMOVE_ACTOR_FROM_TURRET_MODE(int _char)
+{
+    sautils->ScriptCommand(&scm_REMOVE_ACTOR_FROM_TURRET_MODE, _char);
+}
+
 //009A: 6@ = create_actor_pedtype 20 model #DNFYLC at 3@ 4@ 5@
 static DEFOPCODE(009A, CREATE_ACTOR_PEDTYPE, iifffv);
 static int CREATE_ACTOR_PEDTYPE(PedType pedType, int modelId, float x, float y, float z)
@@ -615,6 +629,22 @@ static int GET_DRIVER_OF_CAR(int car)
     return _char;
 }
 
+//03BC: 7@ = create_sphere_at 1536.1325 -1671.2093 13.3828 radius 3.0 
+static DEFOPCODE(03BC, CREATE_SPHERE, ffffv);
+static int CREATE_SPHERE(float x, float y, float z, float radius)
+{
+    int sphere = 0;
+    sautils->ScriptCommand(&scm_CREATE_SPHERE, x, y, z, radius, &sphere);
+    return sphere;
+}
+
+//03BD: destroy_sphere 7@
+static DEFOPCODE(03BD, DESTROY_SPHERE, i);
+static void DESTROY_SPHERE(int sphere)
+{
+    sautils->ScriptCommand(&scm_DESTROY_SPHERE, sphere);
+}
+
 //0633: AS_actor 4@ exit_car
 static DEFOPCODE(0633, EXIT_CAR_AS_ACTOR, i);
 static void EXIT_CAR_AS_ACTOR(int _actor)
@@ -689,6 +719,9 @@ static int GetVehiclePedIsUsing(int hPed)
 static void ClearPedAnimations(int hPed)
 {
     REMOVE_REFERENCES_TO_ACTOR(hPed);
+
+    if(IS_CHAR_IN_ANY_CAR(hPed)) return;
+
     PERFORM_ANIMATION_AS_ACTOR(hPed, "hndshkfa_swt", "gangs", 500.0f, 0, 0, 0, 0, 1);
 }
 

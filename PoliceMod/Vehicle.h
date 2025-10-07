@@ -4,6 +4,8 @@
 
 #include "menuSZK/IWidgetButton.h"
 #include "Ped.h"
+#include "Checkpoint.h"
+#include "Trunk.h"
 
 class Vehicle {
 private:
@@ -15,7 +17,7 @@ public:
     int ref;
     void* ptr;
     
-    int blip = NO_BLIP;
+    CRGBA mapIconColor = CRGBA(255, 255, 255, 0);
 
     int hDriver;
     std::vector<int> hPassengers;
@@ -35,6 +37,11 @@ public:
 
     int timeSinceLastRepair = 0;
 
+    CVector trunkOffset = CVector(0, -4.0f, 0);
+    Checkpoint* trunkCheckpoint = nullptr;
+
+    Trunk* trunk;
+
     Vehicle(int ref, void* ptr);
     ~Vehicle();
 
@@ -43,9 +50,8 @@ public:
     void OnRenderBefore();
     void OnRenderAfter();
 
-    int AddBlip();
-    int AddBlip(int color);
-    void RemoveBlip();
+    void SetMapIconColor(CRGBA color);
+    void HideMapIcon();
 
     CVector GetPosition();
 

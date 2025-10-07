@@ -6,7 +6,7 @@
 class BackupUnits {
 public:
     static void Update();
-    static void DrawRadar();
+    static void OnDrawRadar();
     static bool IsBackupVehicle(Vehicle* vehicle);
 
     static void AddVehicleAsBackup(Vehicle* vehicle);

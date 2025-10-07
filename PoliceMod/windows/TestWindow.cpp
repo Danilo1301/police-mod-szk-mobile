@@ -8,7 +8,7 @@ extern IMenuSZK* menuSZK;
 #include "ScriptTask.h"
 #include "ModelLoader.h"
 #include "CleoFunctions.h"
-#include "Dialogs.h"
+#include "BottomMessage.h"
 
 static void CreateTowTruck()
 {
@@ -26,7 +26,7 @@ static void CreateTowTruck()
 
         auto spawnPosition = GetPlayerPositionInForward(5.0f);
 
-        Dialogs::AddDialog("Criando veiculos", 3000);
+        BottomMessage::SetMessage("Criando veiculos", 3000);
 
         auto towRef = CREATE_CAR_AT(towModelId, spawnPosition.x, spawnPosition.y, spawnPosition.z);
         auto testCarRef = CREATE_CAR_AT(testCar, spawnPosition.x, spawnPosition.y, spawnPosition.z + 3);

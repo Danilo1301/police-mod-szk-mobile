@@ -13,6 +13,7 @@ public:
 
     static void PulloverPed(Ped* ped, bool doAction = true);
     static void FreePed(Ped* ped);
+    static void RemovePedFromPullover(Ped* ped);
     static void FreeVehicle(Vehicle* vehicle);
     static void RemoveVehicleFromPullover(Vehicle* vehicle);
 

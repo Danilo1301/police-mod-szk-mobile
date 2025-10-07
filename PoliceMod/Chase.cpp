@@ -15,8 +15,6 @@ void Chase::StartChaseWithVehicle(Vehicle* vehicle)
 {
     logToFile("Chase: StartChaseWithVehicle");
 
-    BackupUnits::ResetQTH();
-
     if(vehicle->IsInChase()) return;
 
     auto oldDriver = vehicle->GetCurrentDriver();
@@ -71,8 +69,7 @@ void Chase::Update()
         if(criminals.size() == 0)
         {
             InChase = false;
-            BackupUnits::ResetQTH();
-            
+
             debug->AddLine("~y~not in chase anymore");
         }
     }

@@ -13,7 +13,7 @@ extern IMenuSZK* menuSZK;
 #include "PoliceMod.h"
 #include "ModelLoader.h"
 #include "VehicleTask.h"
-#include "Dialogs.h"
+#include "BottomMessage.h"
 #include "Objectives.h"
 #include "dialog/DialogManager.h"
 #include "ScriptTask.h"
@@ -21,6 +21,8 @@ extern IMenuSZK* menuSZK;
 #include "Chase.h"
 #include "Criminals.h"
 #include "BackupUnits.h"
+#include "SpriteUtils.h"
+#include "Scorch.h"
 
 int aimingPed = NO_PED_FOUND;
 std::vector<Ped*> pedsPulledOver;
@@ -95,7 +97,7 @@ void Pullover::PulloverPed(Ped* ped, bool doAction)
     pedsPulledOver.push_back(ped);
     ped->hasSurrended = true;
     ped->DoHandsup();
-    //ped->AddBlip();
+    ped->SetMapIconColor(COLOR_CRIMINAL);
 
     Criminals::AddCriminal(ped);
 }
@@ -104,10 +106,15 @@ void Pullover::FreePed(Ped* ped)
 {
     menuSZK->GetDebug()->AddLine("~g~free ped");
 
-    pedsPulledOver.erase(std::find(pedsPulledOver.begin(), pedsPulledOver.end(), ped));
+    RemovePedFromPullover(ped);
+    
     ped->StopHandsup();
-    ped->RemoveBlip();
+    ped->HideMapIcon();
+}
 
+void Pullover::RemovePedFromPullover(Ped* ped)
+{
+    pedsPulledOver.erase(std::find(pedsPulledOver.begin(), pedsPulledOver.end(), ped));
     Criminals::RemoveCriminal(ped);
 }
 
@@ -155,12 +162,12 @@ void Pullover::RemoveVehicleFromPullover(Vehicle* vehicle)
 
     vehiclesPulledOver.erase(std::find(vehiclesPulledOver.begin(), vehiclesPulledOver.end(), vehicle));
     
-    vehicle->RemoveBlip();
+    vehicle->HideMapIcon();
 
     auto owners = vehicle->GetOwners();
     for(auto owner : owners)
     {
-        owner->RemoveBlip();
+        owner->HideMapIcon();
         Criminals::RemoveCriminal(owner);
     }
 }
@@ -185,7 +192,7 @@ void Pullover::TryPulloverVehicle()
     if(closestCar == NULL)
     {
         debug->AddLine("~r~no car found to pull over");
-        Dialogs::AddDialog("~r~Nenhum veiculo ou pedestre encontrado", 2000);
+        BottomMessage::SetMessage("~r~Nenhum veiculo ou pedestre encontrado", 2000);
         return;
     }
     
@@ -204,12 +211,12 @@ void Pullover::PulloverVehicle(Vehicle* vehicle)
 
     vehiclesPulledOver.push_back(vehicle);
 
-    //vehicle->AddBlip();
+    vehicle->SetMapIconColor(COLOR_CRIMINAL);
     vehicle->SetOwners();
 
     Audios::audioEncostaCarro->Play();
 
-    Dialogs::AddOfficerDialog("Encosta o carro", 2000);
+    BottomMessage::AddOfficerDialog("Encosta o carro", 2000);
 
     if(vehicle->GetCurrentDriver() != nullptr)
     {
@@ -227,7 +234,7 @@ void Pullover::PulloverVehicle(Vehicle* vehicle)
     });
 
     WAIT(2500, [vehicle]() {
-        Dialogs::AddDialog("~y~Aproxime-se do veiculo!", 3000);
+        BottomMessage::SetMessage("~y~Aproxime-se do veiculo!", 3000);
     });
 }
 
@@ -264,12 +271,14 @@ void Pullover::OpenPedMenu(Ped* ped)
         window->AddText("Pedestre " + std::to_string(ped->ref));
     }
 
-    auto button = window->AddButton("> Dialogos");
-    button->onClick->Add([ped, closeWindow](IContainer*) {
-        closeWindow();
+    {
+        auto button = window->AddButton("> Dialogos");
+        button->onClick->Add([ped, closeWindow](IContainer*) {
+            closeWindow();
 
-        DialogManager::BeginDialogue(&ped->dialogue);
-    });
+            DialogManager::BeginDialogue(&ped->dialogue);
+        });
+    }
 
     {
         auto button = window->AddButton("> Pedir RG");
@@ -314,7 +323,7 @@ void Pullover::OpenPedMenu(Ped* ped)
 
                 if(!ped->HasCNH())
                 {
-                    Dialogs::AddDialog("~y~[Suspeito] ", "Eu nao tenho habilitacao...", 3000);
+                    BottomMessage::AddMessage("~y~[Suspeito] ", "Eu nao tenho habilitacao...", 3000);
                     return;
                 }
 
@@ -335,7 +344,7 @@ void Pullover::OpenPedMenu(Ped* ped)
 
             if(!ped->HasCNH())
             {
-                Dialogs::AddDialog("~y~[Suspeito] ", "O veiculo nao e meu.. E nao tenho o documento", 3000);
+                BottomMessage::AddMessage("~y~[Suspeito] ", "O veiculo nao e meu.. E nao tenho o documento", 3000);
                 return;
             }
 
@@ -343,6 +352,16 @@ void Pullover::OpenPedMenu(Ped* ped)
             docWindow->onClose = [ped]() {
                 //OpenPedMenu(ped);
             };
+        });
+    }
+
+    {
+        auto button = window->AddButton("> Conduzir");
+        button->onClick->Add([ped, closeWindow](IContainer*) {
+            closeWindow();
+
+            ped->StopHandsup();
+            Scorch::StartCarry(ped);
         });
     }
 
@@ -469,8 +488,8 @@ void Pullover::OpenVehicleMenu(Vehicle* vehicle)
             vehicle->RemoveOwners();
             RemoveVehicleFromPullover(vehicle);
 
-            Dialogs::AddDialog("~b~[Policial] ", "Voce vai ter que chamar algum habilitado para buscar seu veiculo...", 3000);
-            Dialogs::AddDialog("~y~[Suspeito] ", "Ok, so um minuto... vou chamar aqui", 3000);
+            BottomMessage::AddMessage("~b~[Policial] ", "Voce vai ter que chamar algum habilitado para buscar seu veiculo...", 3000);
+            BottomMessage::AddMessage("~y~[Suspeito] ", "Ok, so um minuto... vou chamar aqui", 3000);
 
             WAIT(6000, [vehicle]() {
                 Objectives::SetObjective("Aguarde o habilitado chegar com o veiculo");
@@ -540,7 +559,7 @@ void Pullover::AskSomeoneToGetVehicle(Vehicle* vehicle)
         auto pedPassenger = Peds::RegisterPed(friendRef);
 
         vehicle->SetOwners();
-        //vehicle->AddBlip();
+        vehicle->SetMapIconColor(COLOR_YELLOW);
 
         auto targetPosition = GET_CLOSEST_CAR_NODE(playerPosition.x, playerPosition.y, playerPosition.z);
 
@@ -590,11 +609,11 @@ void Pullover::AskSomeoneToGetVehicle(Vehicle* vehicle)
 
                     vehicle->SetOwners();
                     vehicle->GetCurrentDriver()->StartDrivingRandomly();
-                    vehicle->RemoveBlip();
+                    vehicle->HideMapIcon();
 
                     pulledVehicle->SetOwners();
                     pulledVehicle->GetCurrentDriver()->StartDrivingRandomly();
-                    pulledVehicle->RemoveBlip();
+                    pulledVehicle->HideMapIcon();
                 });
             });
 
@@ -627,7 +646,7 @@ void Pullover::CallTowTruck(Vehicle* vehicle)
         auto towRef = CREATE_CAR_AT(towModelId, spawnPosition.x, spawnPosition.y, spawnPosition.z);
         auto towTruck = Vehicles::RegisterVehicle(towRef);
 
-        //towTruck->AddBlip();
+        towTruck->SetMapIconColor(COLOR_YELLOW);
 
         debug->AddLine("create driver");
 
@@ -640,7 +659,7 @@ void Pullover::CallTowTruck(Vehicle* vehicle)
         ScriptTask* taskDrive = new ScriptTask();
 
         taskDrive->onBegin = [towRef, targetPosition]() {
-            Dialogs::AddDialog("Rodando task", 1000);
+            BottomMessage::SetMessage("Rodando task", 1000);
             
             SET_CAR_MAX_SPEED(towRef, 20.0f);
             SET_CAR_TRAFFIC_BEHAVIOUR(towRef, DrivingMode::AvoidCars);
@@ -660,7 +679,7 @@ void Pullover::CallTowTruck(Vehicle* vehicle)
             
             Objectives::ClearObjective();
             
-            towTruck->RemoveBlip();
+            towTruck->HideMapIcon();
 
             //
 

@@ -7,6 +7,7 @@ extern IMenuSZK* menuSZK;
 #include "Pullover.h"
 #include "PoliceMod.h"
 #include "Criminals.h"
+#include "Scorch.h"
 
 Ped::Ped(int ref, void* ptr)
 {
@@ -77,10 +78,15 @@ void Ped::Update()
     {
         if (!IsDoingHandsupAnim() && !IsInAnyCar())
         {
-            CLEAR_ACTOR_TASK(ref);
-            PERFORM_ANIMATION_AS_ACTOR(
-                ref, "handsup", "PED", 4.0f, 0, 0, 0, 1, -1
-            );
+            DoHandsup();
+        }
+    }
+
+    if (doCover)
+    {
+        if (!IsDoingCoverAnim() && !IsInAnyCar())
+        {
+            DoCover();
         }
     }
 
@@ -96,6 +102,13 @@ void Ped::Update()
         isWidgetVisible = true;
 
         widgetOptions->onClickWidget->Add([this]() {
+
+            if(Scorch::IsCarrying())
+            {
+                Scorch::StopCarry();
+                return;
+            }
+
             Pullover::OpenPedMenu(this);
         });
     }
@@ -141,6 +154,28 @@ bool Ped::IsDoingHandsupAnim()
 {
     bool isDoingHandsup = ACTOR_PERFORMING_ANIMATION(ref, "handsup");
     return isDoingHandsup;
+}
+
+void Ped::DoCover()
+{
+    doCover = true;
+
+    CLEAR_ACTOR_TASK(ref);
+    PERFORM_ANIMATION_AS_ACTOR(ref, "cower", "PED", 4.0f, 0, 0, 0, 1, -1);
+}
+
+void Ped::StopCover()
+{
+    doCover = false;
+
+    CLEAR_ACTOR_TASK(ref);
+    ClearPedAnimations(ref);
+}
+
+bool Ped::IsDoingCoverAnim()
+{
+    bool doingAnim = ACTOR_PERFORMING_ANIMATION(ref, "cower");
+    return doingAnim;
 }
 
 bool Ped::IsInAnyCar()
@@ -220,19 +255,14 @@ void Ped::EnterVehicle(int vehicleRef, PedSeat seat, int seatId)
     }
 }
 
-int Ped::AddBlip()
+void Ped::SetMapIconColor(CRGBA color)
 {
-    if(blip != NO_BLIP) RemoveBlip();
-    blip = ADD_BLIP_FOR_CHAR(ref);
-    return blip;
+    mapIconColor = color;
 }
 
-void Ped::RemoveBlip()
+void Ped::HideMapIcon()
 {
-    if(blip == NO_BLIP) return;
-
-    DISABLE_MARKER(blip);
-    blip = NO_BLIP;
+    mapIconColor.a = 0;
 }
 
 bool Ped::IsCriminal()

@@ -10,14 +10,17 @@ extern IMenuSZK* menuSZK;
 #include "Audios.h"
 #include "windows/TestWindow.h"
 #include "windows/RadioWindow.h"
-#include "Dialogs.h"
+#include "BottomMessage.h"
 #include "Objectives.h"
 #include "dialog/DialogManager.h"
 #include "Chase.h"
 #include "BackupUnits.h"
 #include "AIController.h"
 #include "Criminals.h"
-#include "MapIcons.h"
+#include "SpriteUtils.h"
+#include "Scorch.h"
+#include "Checkpoint.h"
+#include "PoliceBases.h"
 
 bool hasLoadedAnimations = false;
 
@@ -60,10 +63,11 @@ void PoliceMod::Initialize()
     });
 
     Pullover::Initialize();
-    Dialogs::Initialize();
+    BottomMessage::Initialize();
     DialogManager::Initialize();
     Objectives::Initialize();
     RadioWindow::Initialize();
+    PoliceBases::Initialize();
 
     auto widgetTestMenu = menuSZK->CreateWidgetButton(600 + 150, 30, getPathFromMenuAssets("widget_background1.png"), getPathFromAssets("widget_vest.png"));
     widgetTestMenu->onClickWidget->Add([]() {
@@ -107,7 +111,7 @@ void PoliceMod::Update()
     //logDebug("Pullover::Update");
     Pullover::Update();
     //logDebug("Dialogs::Update");
-    Dialogs::Update();
+    BottomMessage::Update();
     DialogManager::Update();
     Objectives::Update();
     //logDebug("Chase::Update");
@@ -118,14 +122,56 @@ void PoliceMod::Update()
     BackupUnits::Update();
     //logDebug("AIController::Update");
     AIController::Update();
+    Scorch::Update();
+    PoliceBases::Update();
+
+    Checkpoints::Update();
 
     CleoFunctions::Update(menuSZK->deltaTime);
 }
 
 void PoliceMod::OnDrawRadar()
 {
-    MapIcons::OnDrawRadar();
-    BackupUnits::DrawRadar();
+    BackupUnits::OnDrawRadar();
+    PoliceBases::OnDrawRadar();
+}
+
+void PoliceMod::OnRender()
+{
+    SpriteUtils::OnRender();
+
+    for(auto pair : Vehicles::GetVehiclesMap())
+    {
+        auto vehicle = pair.second;
+        if(!Vehicles::IsValid(vehicle)) continue;
+        auto position = vehicle->GetPosition();
+
+        if(vehicle->mapIconColor.a == 0) continue;
+
+        if(vehicle->IsPlayerInside()) continue;
+
+        SpriteUtils::DrawSpriteInRadarWorld(SpriteUtils::spriteCircle, position, vehicle->mapIconColor, 35.0f);
+        SpriteUtils::DrawBlip(position + CVector(0, 0, 2.0f), vehicle->mapIconColor);
+    }
+    
+    auto peds = Peds::GetPedsMap();
+    for(auto pair : peds)
+    {
+        auto ped = pair.second;
+
+        if(!Peds::IsValid(ped)) continue;
+
+        if(IS_CHAR_IN_ANY_CAR(ped->ref)) continue;
+
+        auto position = ped->GetPosition();
+
+        if(ped->mapIconColor.a == 0) continue;
+
+        SpriteUtils::DrawSpriteInRadarWorld(SpriteUtils::spriteCircle, position, ped->mapIconColor, 20.0f);
+        SpriteUtils::DrawBlip(position + CVector(0, 0, 1.5f), ped->mapIconColor);
+    }
+
+    PoliceBases::OnRender();
 }
 
 void PoliceMod::TestEquip()

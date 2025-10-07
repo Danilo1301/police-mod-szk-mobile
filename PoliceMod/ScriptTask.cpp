@@ -3,7 +3,7 @@
 #include "ModelLoader.h"
 #include "CleoFunctions.h"
 #include "Peds.h"
-#include "Dialogs.h"
+#include "BottomMessage.h"
 #include "Objectives.h"
 
 #include "menuSZK/IMenuSZK.h"
@@ -91,7 +91,7 @@ void ScriptTask::CreateTest()
         taskWalkToAnotherPoint->SetStartAgainIfTimeout(8000);
 
         taskWalkToAnotherPoint->onBegin = [pedRef, targetPosition]() {
-            Dialogs::AddDialog("Rodando task", 1000);
+            BottomMessage::SetMessage("Rodando task", 1000);
             TASK_GO_TO_COORD_ANY_MEANS(pedRef, targetPosition.x, targetPosition.y, targetPosition.z, 6, false);
         };
         taskWalkToAnotherPoint->onExecute = [taskWalkToAnotherPoint, pedRef, targetPosition]() {
@@ -109,7 +109,7 @@ void ScriptTask::CreateTest()
         };
         taskWalkToAnotherPoint->onComplete = [ped]() {
             
-            Dialogs::AddDialog("Tarefa completada", 3000);
+            BottomMessage::SetMessage("Tarefa completada", 3000);
             Objectives::ClearObjective();
             
         };

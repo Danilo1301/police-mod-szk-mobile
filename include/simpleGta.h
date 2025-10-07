@@ -35,6 +35,8 @@ public:
     unsigned char b = 0;
     unsigned char a = 0;
 
+    CRGBA() {}
+
     CRGBA(unsigned char r, unsigned char g, unsigned char b)
     {
         this->r = r;

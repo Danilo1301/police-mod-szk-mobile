@@ -12,19 +12,20 @@ extern IMenuSZK* menuSZK;
 #include "Globals.h"
 #include "ModelLoader.h"
 #include "Criminals.h"
-#include "Dialogs.h"
+#include "BottomMessage.h"
 #include "Globals.h"
-#include "MapIcons.h"
+#include "SpriteUtils.h"
 
 std::vector<Vehicle*> backupVehicles;
 
 int timeToSpawnBackup = 10000;
 CVector lastQTHPosition = CVector(0, 0, 0);
+float maxDistanceToQTH = 300.0f;
 
 void BackupUnits::Update()
 {
     bool isInChase = Chase::InChase;
-    bool isCloseToQTH = distanceBetweenPoints(lastQTHPosition, GetPlayerPosition()) < 270.0f;
+    bool isCloseToQTH = distanceBetweenPoints(lastQTHPosition, GetPlayerPosition()) < maxDistanceToQTH;
 
     for (auto it = backupVehicles.begin(); it != backupVehicles.end(); )
     {
@@ -95,14 +96,49 @@ void BackupUnits::Update()
     }
 }
 
-void BackupUnits::DrawRadar()
+void BackupUnits::OnDrawRadar()
 {
-    if(!spriteBigCircle || !spriteBigCircle->loaded) return;
+    auto sprite = SpriteUtils::spriteBigCircle;
 
-    if(lastQTHPosition.x != 0 && lastQTHPosition.y != 0)
+    if (sprite == nullptr)
     {
-        DrawSpriteInRadar(spriteBigCircle, lastQTHPosition, CRGBA(255, 0, 0, 100), 270.0f);
+        debug->AddLine("~r~its fucking null");
+        return;
     }
+
+    if (!sprite->loaded)
+    {
+        debug->AddLine("~r~its not fucking loaded");
+        return;
+    }
+
+    auto playerPosition = GetPlayerPosition();
+    auto distance = distanceBetweenPoints(lastQTHPosition, playerPosition);
+
+    const float fadeStart = maxDistanceToQTH - 80.0f;
+    const float fadeEnd = maxDistanceToQTH;
+
+    unsigned char alpha = 0;
+
+    if (distance <= fadeStart)
+    {
+        alpha = 100; // totalmente visível até 200m
+    }
+    else if (distance >= fadeEnd)
+    {
+        alpha = 0; // invisível a partir de 300m
+    }
+    else
+    {
+        // interpolar suavemente entre 200 e 300
+        float t = (distance - fadeStart) / (fadeEnd - fadeStart);
+        alpha = static_cast<unsigned char>(100 * (1.0f - t));
+    }
+
+    auto color = COLOR_POLICE;
+    color.a = alpha;
+
+    SpriteUtils::DrawSpriteInRadarWorld(sprite, playerPosition, color, 150.0f);
 }
 
 bool BackupUnits::IsBackupVehicle(Vehicle* vehicle)
@@ -137,7 +173,6 @@ void BackupUnits::AddVehicleAsBackup(Vehicle* vehicle)
     backupVehicles.push_back(vehicle);
 
     vehicle->SetOwners();
-    //vehicle->AddBlip(2);
 
     AIController::AddAIToVehicle(vehicle, new BackupAI());
 }
@@ -168,7 +203,6 @@ void BackupUnits::SpawnRandomBackupUnit()
     ModelLoader::LoadAll([vehicleModel, pedModel, spawnPosition]() {
         auto carRef = CREATE_CAR_AT(vehicleModel, spawnPosition.x, spawnPosition.y, spawnPosition.z);
         auto car = Vehicles::RegisterVehicle(carRef);
-        //car->AddBlip(2);
 
         auto driverRef = CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(carRef, PedType::Special, pedModel);
         auto driver = Peds::RegisterPed(driverRef);
@@ -182,7 +216,7 @@ void BackupUnits::SendQTH()
 {
     lastQTHPosition = GetPlayerPosition();
 
-    Dialogs::AddDialog("QTH atualizado", 3000);
+    BottomMessage::SetMessage("QTH atualizado", 3000);
 }
 
 void BackupUnits::ResetQTH()
