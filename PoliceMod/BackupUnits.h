@@ -9,7 +9,7 @@ public:
     static void OnDrawRadar();
     static bool IsBackupVehicle(Vehicle* vehicle);
 
-    static void AddVehicleAsBackup(Vehicle* vehicle);
+    static void AddVehicleAsBackup(Vehicle* vehicle, bool recreatePeds = true);
     static void RemoveVehicleFromBackup(Vehicle* vehicle);
 
     static void SpawnRandomBackupUnit();

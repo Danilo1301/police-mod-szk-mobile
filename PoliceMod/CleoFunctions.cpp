@@ -8,6 +8,8 @@ void CleoFunctions::Update(int dt)
 {
     for(auto waitFunction : waitFunctions)
     {
+        logDebug("cleofunction : " + waitFunction->name);
+
         if(waitFunction->isConditionFunction)
         {
             waitFunction->conditionFn([waitFunction] () {
@@ -72,10 +74,11 @@ void CleoFunctions::RemoveWaitFunction(WaitFunction* waitFunction)
     delete waitFunction;
 }
 
-WaitFunction* CleoFunctions::AddWaitForFunction(std::function<bool()> testFn, std::function<void()> callback)
+WaitFunction* CleoFunctions::AddWaitForFunction(std::string name, std::function<bool()> testFn, std::function<void()> callback)
 {
     WaitFunction* waitFunction = new WaitFunction();
     waitFunction->time = 0;
+    waitFunction->name = name;
     waitFunction->onComplete = callback;
     waitFunction->isTestFunction = true;
     waitFunction->testFn = testFn;

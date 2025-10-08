@@ -32,6 +32,8 @@ void BackupUnits::Update()
         Vehicle* vehicle = *it;
         if (!Vehicles::IsValid(vehicle))
         {
+            logInternal("backupVehicle is not valid anymore. Erasing...");
+
             backupVehicles.erase(it); // retorna o próximo válido
 
             it = backupVehicles.begin();
@@ -51,6 +53,7 @@ void BackupUnits::Update()
         for (auto pair : vehicles)
         {
             auto vehicle = pair.second;
+            if (!Vehicles::IsValid(vehicle)) continue;
 
             if(!IsVehicleModelAPoliceCar(vehicle->GetModelId())) continue;
             if(!vehicle->spawnedWithDriver) continue;
@@ -72,8 +75,6 @@ void BackupUnits::Update()
         if(timeToSpawnBackup <= 0)
         {
             timeToSpawnBackup = getRandomNumber(5000, 10000);
-
-            debug->AddLine("spawning random backup unit");
 
             SpawnRandomBackupUnit();
         }
@@ -100,17 +101,8 @@ void BackupUnits::OnDrawRadar()
 {
     auto sprite = SpriteUtils::spriteBigCircle;
 
-    if (sprite == nullptr)
-    {
-        debug->AddLine("~r~its fucking null");
-        return;
-    }
-
-    if (!sprite->loaded)
-    {
-        debug->AddLine("~r~its not fucking loaded");
-        return;
-    }
+    if (sprite == nullptr) return;
+    if (!sprite->loaded) return;
 
     auto playerPosition = GetPlayerPosition();
     auto distance = distanceBetweenPoints(lastQTHPosition, playerPosition);
@@ -147,9 +139,17 @@ bool BackupUnits::IsBackupVehicle(Vehicle* vehicle)
                        [vehicle](Vehicle* v){ return v == vehicle; });
 }
 
-void BackupUnits::AddVehicleAsBackup(Vehicle* vehicle)
+void BackupUnits::AddVehicleAsBackup(Vehicle* vehicle, bool recreatePeds)
 {
     if(IsBackupVehicle(vehicle)) return;
+
+    logInternal("BackupUnits::AddVehicleAsBackup");
+
+    if(!Vehicles::IsValid(vehicle))
+    {
+        logToFile("ERROR: Vehicle is not valid");
+        return;
+    }
 
     REMOVE_REFERENCES_TO_CAR(vehicle->ref);
     // for(auto ped : vehicle->GetCurrentOccupants())
@@ -157,18 +157,28 @@ void BackupUnits::AddVehicleAsBackup(Vehicle* vehicle)
     //     REMOVE_REFERENCES_TO_ACTOR(ped->ref);
     // }
 
-    auto oldDriver = vehicle->GetCurrentDriver();
-    auto driverModelId = GET_ACTOR_MODEL(oldDriver->ref);
-    
-    DESTROY_ACTOR(oldDriver->ref);
-    Peds::RemovePed(oldDriver->ref);
+    if(recreatePeds)
+    {
+        auto oldDriver = vehicle->GetCurrentDriver();
 
-    auto newDriverRef = CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(vehicle->ref, PedType::Special, driverModelId);
-    auto driver = Peds::RegisterPed(newDriverRef);
+        if(oldDriver)
+        {
+            auto driverModelId = GET_ACTOR_MODEL(oldDriver->ref);
+            
+            DESTROY_ACTOR(oldDriver->ref);
+            Peds::RemovePed(oldDriver->ref);
 
-    int pistolId = 22;
+            auto newDriverRef = CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(vehicle->ref, PedType::Special, driverModelId);
+            auto driver = Peds::RegisterPed(newDriverRef);
+        }
+    }
 
-    GIVE_ACTOR_WEAPON(driver->ref, pistolId, 5000);
+    for(auto ped : vehicle->GetCurrentOccupants())
+    {
+        int pistolId = 22;
+
+        GIVE_ACTOR_WEAPON(ped->ref, pistolId, 5000);
+    }
 
     backupVehicles.push_back(vehicle);
 
@@ -191,6 +201,9 @@ void BackupUnits::RemoveVehicleFromBackup(Vehicle* vehicle)
 
 void BackupUnits::SpawnRandomBackupUnit()
 {
+    logInternal("BackupUnits::SpawnRandomBackupUnit");
+    debug->AddLine("spawning random ~b~backup unit");
+
     auto closePosition = GetPedPositionWithOffset(GetPlayerActor(), CVector(80, 50, 0));
 
     auto spawnPosition = GET_CLOSEST_CAR_NODE(closePosition.x, closePosition.y, closePosition.z);
@@ -207,7 +220,7 @@ void BackupUnits::SpawnRandomBackupUnit()
         auto driverRef = CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(carRef, PedType::Special, pedModel);
         auto driver = Peds::RegisterPed(driverRef);
 
-        AddVehicleAsBackup(car);
+        AddVehicleAsBackup(car, false);
     });
 
 }

@@ -15,4 +15,5 @@ public:
     void RemoveAllPeds();
 
     bool HasPedsInside() { return pedsInside.size() > 0; }
+    std::vector<int> GetPedsInTrunk() { return pedsInside; }
 };

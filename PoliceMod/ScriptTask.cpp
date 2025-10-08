@@ -9,25 +9,24 @@
 #include "menuSZK/IMenuSZK.h"
 extern IMenuSZK* menuSZK;
 
-ScriptTask::ScriptTask()
+ScriptTask::ScriptTask(std::string name)
 {
-
+    this->name = name;
 }
 
 void ScriptTask::Start()
 {
-    debug->AddLine("task: start");
+    debug->AddLine("task : " + name + " : start");
 
     if(onBegin) onBegin();
 
-    CleoFunctions::AddWaitForFunction([this]() {
+    CleoFunctions::AddWaitForFunction(name, [this]() {
         timePassedToTimeout += menuSZK->deltaTime;
         if(timeout > 0)
         {
             if(timePassedToTimeout >= timeout)
             {
                 timePassedToTimeout = 0;
-                debug->AddLine("task: re-do");
                 if(onBegin) onBegin();
             }
         }
@@ -43,7 +42,7 @@ void ScriptTask::Start()
     }, [this]() {
         auto fn = onComplete;
 
-        debug->AddLine("task: completed");
+        debug->AddLine("task : " + name + " : completed");
 
         if(deleteOnComplete)
             delete this;
@@ -87,7 +86,7 @@ void ScriptTask::CreateTest()
 
         //
 
-        ScriptTask* taskWalkToAnotherPoint = new ScriptTask();
+        ScriptTask* taskWalkToAnotherPoint = new ScriptTask("test_walk");
         taskWalkToAnotherPoint->SetStartAgainIfTimeout(8000);
 
         taskWalkToAnotherPoint->onBegin = [pedRef, targetPosition]() {

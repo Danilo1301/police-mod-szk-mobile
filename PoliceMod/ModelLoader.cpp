@@ -36,7 +36,7 @@ void ModelLoader::LoadNextModel()
         return;
     }
 
-    CleoFunctions::AddWaitForFunction(
+    CleoFunctions::AddWaitForFunction("modelloader_load",
         [modelId]() { return HAS_MODEL_LOADED(modelId); },
         [modelId]() { ModelLoaded(modelId); }
     );

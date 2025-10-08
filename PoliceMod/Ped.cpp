@@ -91,8 +91,14 @@ void Ped::Update()
     }
 
     auto isMenuOpen = PoliceMod::m_IsUsingMenu;
+    auto isBeeingCarried = Scorch::GetCarryingPed() == this;
 
-    if (!isWidgetVisible && doHandsup && distanceToPlayer < 3.0f && !isMenuOpen)
+    bool canShowWidget = distanceToPlayer < 5.0f && (doHandsup || isBeeingCarried);
+
+    if (isMenuOpen)
+        canShowWidget = false;
+
+    if (!isWidgetVisible && canShowWidget)
     {
         widgetOptions = menuSZK->CreateWidgetButton(
             500, 500,
@@ -112,7 +118,7 @@ void Ped::Update()
             Pullover::OpenPedMenu(this);
         });
     }
-    else if (isWidgetVisible && (!doHandsup || distanceToPlayer > 4.0f || isMenuOpen))
+    else if (isWidgetVisible && !canShowWidget)
     {
         if (widgetOptions)
         {
@@ -186,6 +192,14 @@ bool Ped::IsInAnyCar()
 CVector Ped::GetPosition()
 {
     return GetPedPosition(ref);
+}
+
+void Ped::SetPosition(CVector position)
+{
+    auto cped = (CPed*)ptr;
+    auto matrix = cped->GetMatrix();
+
+    matrix->pos = position;
 }
 
 void Ped::StartDrivingRandomly()

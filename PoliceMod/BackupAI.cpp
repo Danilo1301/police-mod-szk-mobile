@@ -220,7 +220,7 @@ void BackupAI::LeaveAndDestroy()
 
     vehicle->MakeOwnersEnter();
 
-    CleoFunctions::AddWaitForFunction([vehicle, ownersCount] () {
+    CleoFunctions::AddWaitForFunction("bu_wait_pass_toenter", [vehicle, ownersCount] () {
         
         if(!Vehicles::IsValid(vehicle))
         {
@@ -242,14 +242,17 @@ void BackupAI::LeaveAndDestroy()
 
         if(!Vehicles::IsValid(vehicle)) return;
 
+        logInternal("passengers entered");
+        
         // lembrar q essa porra deleta o BackupAI*
+        logInternal("remove from backup");
         BackupUnits::RemoveVehicleFromBackup(vehicle);
 
         //vehicle->RemoveBlip();
 
         ENABLE_CAR_SIREN(vehicle->ref, false);
 
-        ScriptTask* taskLeave = new ScriptTask();
+        ScriptTask* taskLeave = new ScriptTask("bu_taskleave");
         taskLeave->onBegin = [vehicle]() {
             SET_CAR_TRAFFIC_BEHAVIOUR(vehicle->ref, DrivingMode::AvoidCars);
             SET_CAR_TO_PSYCHO_DRIVER(vehicle->ref);

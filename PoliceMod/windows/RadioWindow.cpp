@@ -4,6 +4,7 @@
 extern IMenuSZK* menuSZK;
 
 #include "BackupUnits.h"
+#include "BottomMessage.h"
 
 bool initialized = false;
 IContainer* mainContainer;
@@ -62,6 +63,7 @@ void RadioWindow::Initialize()
         auto page = new RadioPage("main");    
         page->buttons.push_back(new RadioButton("main.close", "back"));
         page->buttons.push_back(new RadioButton("main.qth", "qth"));
+        page->buttons.push_back(new RadioButton("main.car_options", "car_options"));
         page->buttons.push_back(new RadioButton("main.test", "test"));
 
         pages[page->id] = page;
@@ -232,6 +234,18 @@ void RadioWindow::OnClickButton(std::string id)
     {
         BackupUnits::SendQTH();
         Toggle();
+    }
+    if(id == "main.car_options")
+    {
+        Toggle();
+
+        Vehicle::CanShowWidgetAnyTime = !Vehicle::CanShowWidgetAnyTime;
+        if(Vehicle::CanShowWidgetAnyTime)
+        {
+            BottomMessage::SetMessage("~g~Ativado ~w~botao de opcoes dos veiculos", 3000);
+        } else {
+            BottomMessage::SetMessage("~r~Desativado ~w~botao de opcoes dos veiculos", 3000);
+        }
     }
     if(id == "test.back")
     {

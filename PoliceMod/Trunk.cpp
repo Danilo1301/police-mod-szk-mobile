@@ -11,6 +11,8 @@ Trunk::Trunk(int vehicleRef)
 
 void Trunk::AddPedToTrunk(int pedRef)
 {
+    logInternal("Adding ped to trunk");
+
     pedsInside.push_back(pedRef);
 
     CLEAR_ACTOR_TASK(pedRef);
@@ -27,6 +29,8 @@ void Trunk::AddPedToTrunk(int pedRef)
 
 void Trunk::RemoveAllPeds()
 {
+    logInternal("Removing peds from trunk");
+
     for(auto pedRef : pedsInside)
     {
         REMOVE_ACTOR_FROM_TURRET_MODE(pedRef);
@@ -34,7 +38,11 @@ void Trunk::RemoveAllPeds()
         auto ped = Peds::GetPed(pedRef);
 
         ped->StopCover();
-        ped->HideMapIcon();
+        //ped->HideMapIcon();
+
+        auto newPosition = GetCarPositionWithOffset(vehicleRef, CVector(0, -4.0f, 0));
+
+        ped->SetPosition(newPosition);
     }
     pedsInside.clear();
 

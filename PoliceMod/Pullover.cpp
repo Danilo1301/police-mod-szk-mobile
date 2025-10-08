@@ -114,6 +114,8 @@ void Pullover::FreePed(Ped* ped)
 
 void Pullover::RemovePedFromPullover(Ped* ped)
 {
+    if(!IsPedBeeingPulledOver(ped)) return;
+
     pedsPulledOver.erase(std::find(pedsPulledOver.begin(), pedsPulledOver.end(), ped));
     Criminals::RemoveCriminal(ped);
 }
@@ -131,7 +133,7 @@ void Pullover::FreeVehicle(Vehicle* vehicle)
     auto ocuppantsCount = vehicle->GetCurrentOccupants().size();
     debug->AddLine("esperando passageiros " + std::to_string(ocuppantsCount) + "/" + std::to_string(ownersCount));
 
-    CleoFunctions::AddWaitForFunction([vehicle, ownersCount] () {
+    CleoFunctions::AddWaitForFunction("passengers_enter_vehicle_to_free", [vehicle, ownersCount] () {
 
         if(!Vehicles::IsValid(vehicle))
         {
@@ -287,7 +289,7 @@ void Pullover::OpenPedMenu(Ped* ped)
 
             Audios::audioPedirRG->Play();
 
-            CleoFunctions::AddWaitForFunction([]() {
+            CleoFunctions::AddWaitForFunction("ask_rg", []() {
 
                 if(Audios::audioPedirRG->HasEnded())
                 {
@@ -311,7 +313,7 @@ void Pullover::OpenPedMenu(Ped* ped)
 
             Audios::audioPedirRG->Play();
 
-            CleoFunctions::AddWaitForFunction([]() {
+            CleoFunctions::AddWaitForFunction("ask_cnh", []() {
 
                 if(Audios::audioPedirRG->HasEnded())
                 {
@@ -398,6 +400,8 @@ void Pullover::OpenVehicleMenu(Vehicle* vehicle)
 {
     PoliceMod::m_IsUsingMenu = true;
 
+    bool isPullover = IsVehicleBeeingPulledOver(vehicle);
+
     auto numOcuppants = vehicle->GetCurrentOccupants().size();
 
     auto window = menuSZK->CreateWindow(400, 200, 800, "Abordagem");
@@ -411,7 +415,6 @@ void Pullover::OpenVehicleMenu(Vehicle* vehicle)
         window->AddText("Veiculo " + std::to_string(vehicle->ref));
     }
 
-   
     if(numOcuppants > 0)
     {
         auto button = window->AddButton("> Descer com as maos na cabeca");
@@ -421,7 +424,7 @@ void Pullover::OpenVehicleMenu(Vehicle* vehicle)
 
             Audios::audioDesceMaoCabeca->Play();
 
-            WAIT(2500, [vehicle]() {
+            WAIT(2100, [vehicle]() {
                 auto peds = vehicle->GetCurrentOccupants();
 
                 for(auto ped : peds)
@@ -479,7 +482,7 @@ void Pullover::OpenVehicleMenu(Vehicle* vehicle)
         });
     }
 
-    if(numOcuppants == 0)
+    if(numOcuppants == 0 && isPullover)
     {
         auto button = window->AddButton("> Pedir para habilitado buscar");
         button->onClick->Add([closeWindow, vehicle](IContainer*) {
@@ -501,6 +504,27 @@ void Pullover::OpenVehicleMenu(Vehicle* vehicle)
         });
     }
 
+    auto numOfPedsInTrunk = vehicle->trunk->GetPedsInTrunk().size();
+
+    if(numOfPedsInTrunk > 0)
+    {
+        auto button = window->AddButton("> Tirar do porta malas");
+        button->onClick->Add([closeWindow, vehicle](IContainer*) {
+            closeWindow();
+
+            auto peds = vehicle->trunk->GetPedsInTrunk();
+
+            vehicle->trunk->RemoveAllPeds();
+
+            for(auto pedRef : peds)
+            {
+                auto ped = Peds::GetPed(pedRef);
+
+                ped->DoHandsup();
+            }
+        });
+    }
+
     if(numOcuppants == 0)
     {
         auto button = window->AddButton("> Chamar guincho");
@@ -516,10 +540,11 @@ void Pullover::OpenVehicleMenu(Vehicle* vehicle)
 
     {
         auto button = window->AddButton("> ~r~Liberar veiculo");
-        button->onClick->Add([closeWindow, vehicle](IContainer*) {
+        button->onClick->Add([closeWindow, vehicle, isPullover](IContainer*) {
             closeWindow();
 
-            FreeVehicle(vehicle);
+            if(isPullover)
+                FreeVehicle(vehicle);
         });
     }
 
@@ -586,7 +611,7 @@ void Pullover::AskSomeoneToGetVehicle(Vehicle* vehicle)
 
             passenger->LeaveCar();
 
-            CleoFunctions::AddWaitForFunction([passenger]() {
+            CleoFunctions::AddWaitForFunction("ped_leaving_car", [passenger]() {
 
                 if(passenger->IsInAnyCar()) return false;
 
@@ -598,7 +623,7 @@ void Pullover::AskSomeoneToGetVehicle(Vehicle* vehicle)
 
                 ENTER_CAR_AS_DRIVER_AS_ACTOR(passenger->ref, pulledVehicle->ref, 8000);
                 
-                CleoFunctions::AddWaitForFunction([passenger]() {
+                CleoFunctions::AddWaitForFunction("ped_entering_car", [passenger]() {
 
                     if(!passenger->IsInAnyCar()) return false;
 
@@ -625,6 +650,8 @@ void Pullover::AskSomeoneToGetVehicle(Vehicle* vehicle)
 
 void Pullover::CallTowTruck(Vehicle* vehicle)
 {
+    logInternal("call tow truck");
+
     int towModelId = 578;
     int driverId = 50;
 
@@ -635,6 +662,8 @@ void Pullover::CallTowTruck(Vehicle* vehicle)
 
     ModelLoader::LoadAll([towModelId, driverId, vehicle]() {
         
+        logInternal("spawning tow truck...");
+
         auto playerPosition = GetPlayerPosition();
 
         debug->AddLine("get car node");
@@ -656,7 +685,7 @@ void Pullover::CallTowTruck(Vehicle* vehicle)
 
         auto targetPosition = GET_CLOSEST_CAR_NODE(playerPosition.x, playerPosition.y, playerPosition.z);
 
-        ScriptTask* taskDrive = new ScriptTask();
+        ScriptTask* taskDrive = new ScriptTask("drive");
 
         taskDrive->onBegin = [towRef, targetPosition]() {
             BottomMessage::SetMessage("Rodando task", 1000);
@@ -668,8 +697,6 @@ void Pullover::CallTowTruck(Vehicle* vehicle)
         taskDrive->onExecute = [towRef, targetPosition]() {
             
             auto distance = DistanceFromVehicle(towRef, targetPosition);
-
-            debug->AddLine("distance to " + CVectorToString(targetPosition) + " is " + std::to_string(distance));
 
             if(distance > 10.0f) return false;
 
@@ -692,7 +719,7 @@ void Pullover::CallTowTruck(Vehicle* vehicle)
 
             //
 
-            ScriptTask* taskLeave = new ScriptTask();
+            ScriptTask* taskLeave = new ScriptTask("task_leave");
             taskLeave->onBegin = [towTruck]() {
                 ScriptTask::MakeVehicleLeave(towTruck->ref);
             };
@@ -700,7 +727,7 @@ void Pullover::CallTowTruck(Vehicle* vehicle)
                 auto towPosition = GetCarPosition(towTruck->ref);
                 auto distance = DistanceFromPed(GetPlayerActor(), towPosition);
 
-                debug->AddLine("leaving, distance is " + std::to_string(distance));
+                debug->AddLine("leave, " + std::to_string(distance));
 
                 if(distance < 120.0f) return false;
 

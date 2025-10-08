@@ -4,6 +4,7 @@
 #include "CleoFunctions.h"
 #include "Vehicles.h"
 #include "BottomMessage.h"
+#include "Peds.h"
 
 PoliceBase::PoliceBase()
 {
@@ -24,7 +25,18 @@ PoliceBase::PoliceBase()
 
         if(vehicle->trunk->HasPedsInside())
         {
+            auto peds = vehicle->trunk->GetPedsInTrunk();
+
             vehicle->trunk->RemoveAllPeds();
+
+            for(auto pedRef : peds)
+            {
+                //auto ped = Peds::GetPed(pedRef);
+                DESTROY_ACTOR(pedRef);
+                Peds::RemovePed(pedRef);
+            }
+
+            BottomMessage::SetMessage("Os " + std::to_string(peds.size()) + " suspeitos ficaram a ~y~disposicao da justica", 3000);
         } else {
             BottomMessage::SetMessage("~r~Voce nao tem suspeitos no porta malas", 2000);
         }
@@ -47,7 +59,7 @@ void PoliceBase::Update()
 void PoliceBase::OnRender()
 {
     // em cima do checkpoint
-    SpriteUtils::DrawSpriteInWorld(SpriteUtils::spritePoliceDepartment, basePosition, 100.0f, CRGBA(0, 0, 255));
+    SpriteUtils::DrawSpriteInWorld(SpriteUtils::spritePoliceDepartment, basePosition, 100.0f, CRGBA(150, 200, 200));
 }
 
 void PoliceBase::OnDrawRadar()
@@ -60,5 +72,5 @@ void PoliceBase::OnDrawRadar()
     }
 
     // icone no mapa
-    SpriteUtils::DrawSpriteInRadar(SpriteUtils::spritePoliceDepartment, basePosition, CRGBA(0, 0, 255), 50.0f);
+    SpriteUtils::DrawSpriteInRadar(SpriteUtils::spritePoliceDepartment, basePosition, CRGBA(150, 200, 200), 50.0f);
 }

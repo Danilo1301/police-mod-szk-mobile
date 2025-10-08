@@ -11,12 +11,8 @@ void Scorch::Update()
     if(carryingPed)
     {
         auto playerPosition = GetPedPositionWithOffset(GetPlayerActor(), CVector(0, 1.1f, 0));
-
-        auto cped = (CPed*)carryingPed->ptr;
-
-        auto matrix = cped->GetMatrix();
-
-        matrix->pos = playerPosition;
+        
+        carryingPed->SetPosition(playerPosition);
     }
 }
 
@@ -39,6 +35,8 @@ void Scorch::TestCheckpoint(Checkpoint* checkpoint, Vehicle* vehicle)
 
     if(checkpoint->IsInRange(pedPosition))
     {
+        logInternal("Entered checkpoint, now stop carry and put in trunk");
+
         Scorch::StopCarry();
 
         Pullover::RemovePedFromPullover(ped);

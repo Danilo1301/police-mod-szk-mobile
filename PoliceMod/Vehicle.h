@@ -8,6 +8,8 @@
 #include "Trunk.h"
 
 class Vehicle {
+public:
+    static bool CanShowWidgetAnyTime;
 private:
     bool isWidgetVisible = false;
     IWidgetButton* widgetOptions = nullptr;

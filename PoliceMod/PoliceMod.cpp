@@ -119,27 +119,28 @@ void PoliceMod::Update()
     }
 
     Peds::Update();
-    //logDebug("Vehicles::Update");
+    logDebug("Vehicles::Update");
     Vehicles::Update();
-    //logDebug("Pullover::Update");
+    logDebug("Pullover::Update");
     Pullover::Update();
-    //logDebug("Dialogs::Update");
+    logDebug("Dialogs::Update");
     BottomMessage::Update();
     DialogManager::Update();
     Objectives::Update();
-    //logDebug("Chase::Update");
+    logDebug("Chase::Update");
     Chase::Update();
-    //logDebug("Criminals::Update");
     Criminals::Update();
-    //logDebug("BackupUnits::Update");
+    logDebug("BackupUnits::Update");
     BackupUnits::Update();
-    //logDebug("AIController::Update");
+    logDebug("AIController::Update");
     AIController::Update();
     Scorch::Update();
-    PoliceBases::Update();
 
+    logDebug("etc ::Update");
+    PoliceBases::Update();
     Checkpoints::Update();
 
+    logDebug("CleoFunctions::Update");
     CleoFunctions::Update(menuSZK->deltaTime);
     
     logDebug("PoliceMod::Update END");
@@ -155,20 +156,6 @@ void PoliceMod::OnRender()
 {
     SpriteUtils::OnRender();
 
-    for(auto pair : Vehicles::GetVehiclesMap())
-    {
-        auto vehicle = pair.second;
-        if(!Vehicles::IsValid(vehicle)) continue;
-        auto position = vehicle->GetPosition();
-
-        if(vehicle->mapIconColor.a == 0) continue;
-
-        if(vehicle->IsPlayerInside()) continue;
-
-        SpriteUtils::DrawSpriteInRadarWorld(SpriteUtils::spriteCircle, position, vehicle->mapIconColor, 35.0f);
-        SpriteUtils::DrawBlip(position + CVector(0, 0, 2.0f), vehicle->mapIconColor);
-    }
-    
     auto peds = Peds::GetPedsMap();
     for(auto pair : peds)
     {
@@ -184,6 +171,20 @@ void PoliceMod::OnRender()
 
         SpriteUtils::DrawSpriteInRadarWorld(SpriteUtils::spriteCircle, position, ped->mapIconColor, 20.0f);
         SpriteUtils::DrawBlip(position + CVector(0, 0, 1.5f), ped->mapIconColor);
+    }
+
+    for(auto pair : Vehicles::GetVehiclesMap())
+    {
+        auto vehicle = pair.second;
+        if(!Vehicles::IsValid(vehicle)) continue;
+        auto position = vehicle->GetPosition();
+
+        if(vehicle->mapIconColor.a == 0) continue;
+
+        if(vehicle->IsPlayerInside()) continue;
+
+        SpriteUtils::DrawSpriteInRadarWorld(SpriteUtils::spriteCircle, position, vehicle->mapIconColor, 35.0f);
+        SpriteUtils::DrawBlip(position + CVector(0, 0, 2.0f), vehicle->mapIconColor);
     }
 
     PoliceBases::OnRender();

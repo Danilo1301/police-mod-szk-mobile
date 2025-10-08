@@ -20,7 +20,7 @@ void VehicleTask::DriveTo(CVector position, std::function<void()> onArrive)
 
     CAR_DRIVE_TO(vehicleRef, position.x, position.y, position.z);
 
-    CleoFunctions::AddWaitForFunction([this, position] () {
+    CleoFunctions::AddWaitForFunction("drive_to", [this, position] () {
 
         if(!Vehicles::IsValid(vehicle))
         {

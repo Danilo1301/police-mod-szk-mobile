@@ -85,6 +85,7 @@ public:
     
 
     CVector GetPosition();
+    void SetPosition(CVector position);
 
     void StartDrivingRandomly();
 

@@ -16,6 +16,7 @@ enum WAIT_FN_STATE {
 struct WaitFunction {
     int timePassed = 0;
     int time = 0;
+    std::string name = "function";
     WAIT_FN_STATE state = WAIT_FN_STATE::WAIT_FN_NONE;
     std::function<void()> onComplete;
     std::function<void()> onCancel;
@@ -70,7 +71,7 @@ public:
     static WaitFunction* AddWaitFunction(int time, std::function<void()> callback);
     static void RemoveWaitFunction(WaitFunction* waitFunction);
 
-    static WaitFunction* AddWaitForFunction(std::function<bool()> testFn, std::function<void()> callback);
+    static WaitFunction* AddWaitForFunction(std::string name, std::function<bool()> testFn, std::function<void()> callback);
     static WaitFunction* AddCondition(std::function<void(std::function<void()>, std::function<void()>)> fn, std::function<void()> onComplete, std::function<void()> onCancel);
 };
 

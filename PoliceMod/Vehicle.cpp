@@ -15,6 +15,8 @@ extern IMenuSZK* menuSZK;
 #include "SpriteUtils.h"
 #include "Scorch.h"
 
+bool Vehicle::CanShowWidgetAnyTime = false;
+
 Vehicle::Vehicle(int ref, void* ptr)
 {
     this->ref = ref;
@@ -76,23 +78,37 @@ void Vehicle::Update()
     auto playerPosition = GetPlayerPosition();
     float distanceToPlayer = distanceBetweenPoints(playerPosition, position);
 
-    auto isMenuOpen = PoliceMod::m_IsUsingMenu;
+    bool isMenuOpen = PoliceMod::m_IsUsingMenu;
 
-    if (!isWidgetVisible && Pullover::IsVehicleBeeingPulledOver(this) && distanceToPlayer < 5.0f && !isMenuOpen)
+    bool canShowWidget = distanceToPlayer < 5.0f && Pullover::IsVehicleBeeingPulledOver(this);
+
+    if(CanShowWidgetAnyTime)
+        canShowWidget = distanceToPlayer < 5.0f;
+
+    if (isMenuOpen)
+        canShowWidget = false;
+
+    if (!isWidgetVisible && canShowWidget)
     {
+        // Cria o widget
         widgetOptions = menuSZK->CreateWidgetButton(
             500, 500,
             getPathFromMenuAssets("widget_background1.png"),
             getPathFromAssets("widget_frisk_car.png")
         );
-        isWidgetVisible = true;
 
-        widgetOptions->onClickWidget->Add([this]() {
-            Pullover::OpenVehicleMenu(this);
-        });
+        if (widgetOptions)
+        {
+            isWidgetVisible = true;
+
+            widgetOptions->onClickWidget->Add([this]() {
+                Pullover::OpenVehicleMenu(this);
+            });
+        }
     }
-    else if (isWidgetVisible && (!Pullover::IsVehicleBeeingPulledOver(this) || distanceToPlayer > 6.0f || isMenuOpen))
+    else if (isWidgetVisible && !canShowWidget)
     {
+        // Fecha o widget se não puder ser mostrado
         if (widgetOptions)
         {
             widgetOptions->Close();
