@@ -5,6 +5,7 @@ extern IMenuSZK* menuSZK;
 
 #include "BackupUnits.h"
 #include "BottomMessage.h"
+#include "TestWindow.h"
 
 bool initialized = false;
 IContainer* mainContainer;
@@ -63,7 +64,9 @@ void RadioWindow::Initialize()
         auto page = new RadioPage("main");    
         page->buttons.push_back(new RadioButton("main.close", "back"));
         page->buttons.push_back(new RadioButton("main.qth", "qth"));
+        page->buttons.push_back(new RadioButton("main.request_heli", "request_heli"));
         page->buttons.push_back(new RadioButton("main.car_options", "car_options"));
+        page->buttons.push_back(new RadioButton("main.test_menu", "test_menu"));
         page->buttons.push_back(new RadioButton("main.test", "test"));
 
         pages[page->id] = page;
@@ -226,6 +229,11 @@ void RadioWindow::OnClickButton(std::string id)
     {
         GotoPageId("test");
     }
+    if(id == "main.test_menu")
+    {
+        Toggle();
+        TestWindow::ShowWindow();
+    }
     if(id == "main.close")
     {
         Toggle();
@@ -234,6 +242,11 @@ void RadioWindow::OnClickButton(std::string id)
     {
         BackupUnits::SendQTH();
         Toggle();
+    }
+    if(id == "main.request_heli")
+    {
+        Toggle();
+        BackupUnits::RequestHeli();
     }
     if(id == "main.car_options")
     {

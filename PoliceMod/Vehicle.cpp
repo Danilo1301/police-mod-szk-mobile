@@ -17,13 +17,19 @@ extern IMenuSZK* menuSZK;
 
 bool Vehicle::CanShowWidgetAnyTime = false;
 
+IFont chassisFont = {
+    0.6f,
+    eFontAlignment::ALIGN_CENTER,
+    eFontStyle::FONT_SUBTITLES
+};
+
 Vehicle::Vehicle(int ref, void* ptr)
 {
     this->ref = ref;
     this->ptr = ptr;
 
-    isPoliceCar = IsVehicleModelAPoliceCar(GET_CAR_MODEL(ref));
-
+    isPoliceCar = IsVehicleModelAPoliceCar(GET_CAR_MODEL(ref)) || IsVehicleModelAPoliceHeli(GET_CAR_MODEL(ref));
+    
     if(isPoliceCar)
     {
         SetMapIconColor(COLOR_POLICE);
@@ -58,6 +64,17 @@ Vehicle::Vehicle(int ref, void* ptr)
     }
 
     trunk = new Trunk(ref);
+
+    isStolen = calculateProbability(0.10f);
+    if(isStolen)
+    {
+        hasDifferentPlate = calculateProbability(0.30f);
+
+        if(calculateProbability(0.80))
+        {
+            chassis = "";
+        }
+    }
 }
 
 Vehicle::~Vehicle()
@@ -153,6 +170,27 @@ void Vehicle::Update()
         {
             Checkpoints::DestroyCheckpoint(trunkCheckpoint);
             trunkCheckpoint = nullptr;
+        }
+    }
+}
+
+void Vehicle::OnDraw()
+{
+    if(showChassis)
+    {
+        auto distanceFromPlayer = DistanceFromVehicle(ref, GetPlayerPosition());
+        if(distanceFromPlayer < 10)
+        {
+            auto screenPos = menuSZK->ConvertWorldPositionToScreenPosition(GetPosition() + CVector(0, 0, 1));
+
+            CRGBA white = CRGBA(255, 255, 255);
+
+            if(chassis.length() > 0)
+            {
+                menuSZK->DrawString("Chassis: " + chassis, screenPos, white, chassisFont);
+            } else {
+                menuSZK->DrawString("Chassis: SUPRIMIDO", screenPos, white, chassisFont);
+            }
         }
     }
 }

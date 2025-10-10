@@ -44,10 +44,16 @@ public:
 
     Trunk* trunk;
 
+    bool isStolen = false;
+    bool hasDifferentPlate = false;
+
+    bool showChassis = false;
+
     Vehicle(int ref, void* ptr);
     ~Vehicle();
 
     void Update();
+    void OnDraw();
 
     void OnRenderBefore();
     void OnRenderAfter();

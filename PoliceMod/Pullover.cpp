@@ -224,6 +224,8 @@ void Pullover::PulloverVehicle(Vehicle* vehicle)
     {
         bool startChase = calculateProbability(0.50);
     
+        if(vehicle->isStolen) startChase = true;
+
         if(startChase)
         {
             Chase::StartChaseWithVehicle(vehicle);
@@ -415,7 +417,7 @@ void Pullover::OpenVehicleMenu(Vehicle* vehicle)
         window->AddText("Veiculo " + std::to_string(vehicle->ref));
     }
 
-    if(numOcuppants > 0)
+    if(numOcuppants > 0 && isPullover)
     {
         auto button = window->AddButton("> Descer com as maos na cabeca");
         button->onClick->Add([closeWindow, vehicle](IContainer*) {
@@ -521,6 +523,27 @@ void Pullover::OpenVehicleMenu(Vehicle* vehicle)
                 auto ped = Peds::GetPed(pedRef);
 
                 ped->DoHandsup();
+            }
+        });
+    }
+
+    if(numOcuppants == 0)
+    {
+        std::string btnText = vehicle->showChassis ? "Parar de mostrar chassis" : "Mostrar chassis";
+
+        auto button = window->AddButton(btnText);
+        button->onClick->Add([closeWindow, vehicle](IContainer*) {
+            closeWindow();
+
+            if(vehicle->showChassis == false)
+            {
+                BottomMessage::SetMessage("Verificando chassis...", 3000);
+
+                WAIT(3000, [vehicle]() {
+                    vehicle->showChassis = true;
+                });
+            } else {
+                vehicle->showChassis = false;
             }
         });
     }

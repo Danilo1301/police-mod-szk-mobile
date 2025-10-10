@@ -7,6 +7,9 @@
 class Globals {
 public:
     static std::vector<int> policeVehicleIds;
+    static std::vector<int> policeHelicoptersIds;
+    static int lastPlayerVehicle;
+    static int lastPlayerPoliceVehicle;
 };
 
 static bool IsVehicleModelAPoliceCar(int modelId)
@@ -16,6 +19,15 @@ static bool IsVehicleModelAPoliceCar(int modelId)
         Globals::policeVehicleIds.end(),
         modelId
     ) != Globals::policeVehicleIds.end();
+}
+
+static bool IsVehicleModelAPoliceHeli(int modelId)
+{
+    return std::find(
+        Globals::policeHelicoptersIds.begin(),
+        Globals::policeHelicoptersIds.end(),
+        modelId
+    ) != Globals::policeHelicoptersIds.end();
 }
 
 static CRGBA COLOR_YELLOW = CRGBA(255, 255, 0);

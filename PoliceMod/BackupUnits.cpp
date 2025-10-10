@@ -8,6 +8,7 @@ extern IMenuSZK* menuSZK;
 #include "Chase.h"
 #include "AIController.h"
 #include "BackupAI.h"
+#include "HeliBackupAI.h"
 #include "Peds.h"
 #include "Globals.h"
 #include "ModelLoader.h"
@@ -184,7 +185,19 @@ void BackupUnits::AddVehicleAsBackup(Vehicle* vehicle, bool recreatePeds)
 
     vehicle->SetOwners();
 
-    AIController::AddAIToVehicle(vehicle, new BackupAI());
+    auto modelId = vehicle->GetModelId();
+
+    if(IsVehicleModelAPoliceHeli(modelId))
+    {
+        auto ai = new HeliBackupAI();
+
+        AIController::AddAIToVehicle(vehicle, ai);
+
+        ai->FindNewCriminal();
+        ai->FollowCriminal();
+    } else {
+        AIController::AddAIToVehicle(vehicle, new BackupAI());
+    }
 }
 
 void BackupUnits::RemoveVehicleFromBackup(Vehicle* vehicle)
@@ -235,4 +248,33 @@ void BackupUnits::SendQTH()
 void BackupUnits::ResetQTH()
 {
     lastQTHPosition = CVector(0, 0, 0);
+}
+
+void BackupUnits::RequestHeli()
+{
+    logInternal("BackupUnits::RequestHeli");
+
+    if(Globals::policeHelicoptersIds.size() == 0) return;
+
+    auto heliModel = Globals::policeHelicoptersIds[0];
+    auto pedModel = 280;
+
+    ModelLoader::AddModelToLoad(heliModel);
+    ModelLoader::AddModelToLoad(pedModel);
+    ModelLoader::LoadAll([heliModel, pedModel]() {
+
+        CVector spawnPosition;
+        STORE_COORDS_FROM_ACTOR_WITH_OFFSET(GetPlayerActor(), 100, 100, 100, &spawnPosition.x, &spawnPosition.y, &spawnPosition.z);
+
+        auto heliRef = CREATE_CAR_AT(heliModel, spawnPosition.x, spawnPosition.y, spawnPosition.z);
+        auto heli = Vehicles::RegisterVehicle(heliRef);
+
+        auto driverRef = CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(heliRef, PedType::Special, pedModel);
+        auto driver = Peds::RegisterPed(driverRef);
+
+        SET_HELICOPTER_INSTANT_ROTOR_START(heliRef);
+        SET_CAR_ENGINE_OPERATION(heliRef, true);
+
+        AddVehicleAsBackup(heli, false);
+    });
 }

@@ -16,4 +16,6 @@ public:
 
     static void SendQTH();
     static void ResetQTH();
+
+    static void RequestHeli();
 };

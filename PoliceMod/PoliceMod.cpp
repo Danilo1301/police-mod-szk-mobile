@@ -80,16 +80,14 @@ void PoliceMod::Initialize()
     logInternal("Initialize PoliceBases");
     PoliceBases::Initialize();
 
-    auto widgetTestMenu = menuSZK->CreateWidgetButton(600 + 150, 30, getPathFromMenuAssets("widget_background1.png"), getPathFromAssets("widget_vest.png"));
-    widgetTestMenu->onClickWidget->Add([]() {
-        TestWindow::ShowWindow();
-    });
+    // auto widgetTestMenu = menuSZK->CreateWidgetButton(600 + 150, 30, getPathFromMenuAssets("widget_background1.png"), getPathFromAssets("widget_vest.png"));
+    // widgetTestMenu->onClickWidget->Add([]() {
+    //     TestWindow::ShowWindow();
+    // });
 
-    auto widgetRadio = menuSZK->CreateWidgetButton(600 + 300, 30, getPathFromMenuAssets("widget_background1.png"), getPathFromAssets("widget_radio.png"));
+    auto widgetRadio = menuSZK->CreateWidgetButton(600 + 150, 30, getPathFromMenuAssets("widget_background1.png"), getPathFromAssets("widget_radio.png"));
     widgetRadio->onClickWidget->Add([]() {
-
         RadioWindow::Toggle();
-
     });
 
     logInternal("Create audios");
@@ -115,6 +113,22 @@ void PoliceMod::Update()
             LOAD_ANIMATION("GANGS");
             LOAD_ANIMATION("POLICE");
             LOAD_ANIMATION("MEDIC");
+        }
+    }
+
+    if(PLAYER_DEFINED(0))
+    {
+        auto carRef = GetVehiclePedIsUsing(GetPlayerActor());
+
+        if(carRef > 0)
+        {
+            if(Globals::lastPlayerVehicle != carRef)
+            {
+                Globals::lastPlayerVehicle = carRef;
+
+                if(Vehicles::GetVehicle(carRef)->IsPoliceCar())
+                    Globals::lastPlayerPoliceVehicle = carRef;
+            }
         }
     }
 
@@ -179,12 +193,21 @@ void PoliceMod::OnRender()
         if(!Vehicles::IsValid(vehicle)) continue;
         auto position = vehicle->GetPosition();
 
-        if(vehicle->mapIconColor.a == 0) continue;
+        vehicle->OnDraw();
+
+        auto iconColor = vehicle->mapIconColor;
+
+        if(vehicle->ref == Globals::lastPlayerPoliceVehicle)
+        {
+            iconColor = CRGBA(100, 200, 200);
+        }
+
+        if(iconColor.a == 0) continue;
 
         if(vehicle->IsPlayerInside()) continue;
 
-        SpriteUtils::DrawSpriteInRadarWorld(SpriteUtils::spriteCircle, position, vehicle->mapIconColor, 35.0f);
-        SpriteUtils::DrawBlip(position + CVector(0, 0, 2.0f), vehicle->mapIconColor);
+        SpriteUtils::DrawSpriteInRadarWorld(SpriteUtils::spriteCircle, position, iconColor, 35.0f);
+        SpriteUtils::DrawBlip(position + CVector(0, 0, 2.0f), iconColor);
     }
 
     PoliceBases::OnRender();

@@ -532,6 +532,20 @@ static int CREATE_ACTOR_PEDTYPE(PedType pedType, int modelId, float x, float y, 
     return _char;
 }
 
+//0726: heli 3@ follow_actor -1 follow_car 5@ radius 15.0
+static DEFOPCODE(0726, HELI_FOLLOW, iiif);
+static void HELI_FOLLOW(int heli, int _char, int vehicle, float radius)
+{
+    sautils->ScriptCommand(&scm_HELI_FOLLOW, heli, _char, vehicle, radius);
+}
+
+//0743: heli 45@ fly_to -2244.48 129.14 34.56 altitude 0.0 0.0 
+static DEFOPCODE(0743, HELI_FLY_TO, ifffff);
+static void HELI_FLY_TO(int heli, float x, float y, float z, float minAltitude, float maxAltitude)
+{
+    sautils->ScriptCommand(&scm_HELI_FLY_TO, heli, x, y, z, minAltitude, maxAltitude);
+}
+
 //0687: clear_actor $PLAYER_ACTOR task
 static DEFOPCODE(0687, CLEAR_ACTOR_TASK, i);
 static void CLEAR_ACTOR_TASK(int _char)
@@ -559,6 +573,13 @@ static DEFOPCODE(0918, SET_CAR_ENGINE_OPERATION, ib);
 static void SET_CAR_ENGINE_OPERATION(int car, bool state)
 {
     CallScriptCommand(&scm_SET_CAR_ENGINE_OPERATION, car, state);
+}
+
+//0825: set_helicopter 3@ instant_rotor_start
+static DEFOPCODE(0825, SET_HELICOPTER_INSTANT_ROTOR_START, i);
+static void SET_HELICOPTER_INSTANT_ROTOR_START(int heli)
+{
+    sautils->ScriptCommand(&scm_SET_HELICOPTER_INSTANT_ROTOR_START, heli);
 }
 
 enum DrivingMode

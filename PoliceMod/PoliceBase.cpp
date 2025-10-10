@@ -59,7 +59,7 @@ void PoliceBase::Update()
 void PoliceBase::OnRender()
 {
     // em cima do checkpoint
-    SpriteUtils::DrawSpriteInWorld(SpriteUtils::spritePoliceDepartment, basePosition, 100.0f, CRGBA(150, 200, 200));
+    SpriteUtils::DrawSpriteInWorld(SpriteUtils::spritePoliceDepartment, basePosition, 100.0f, CRGBA(255, 255, 255));
 }
 
 void PoliceBase::OnDrawRadar()
@@ -72,5 +72,5 @@ void PoliceBase::OnDrawRadar()
     }
 
     // icone no mapa
-    SpriteUtils::DrawSpriteInRadar(SpriteUtils::spritePoliceDepartment, basePosition, CRGBA(150, 200, 200), 50.0f);
+    SpriteUtils::DrawSpriteInRadar(SpriteUtils::spritePoliceDepartment, basePosition, CRGBA(255, 255, 255), 50.0f);
 }

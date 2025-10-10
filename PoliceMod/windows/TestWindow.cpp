@@ -9,6 +9,8 @@ extern IMenuSZK* menuSZK;
 #include "ModelLoader.h"
 #include "CleoFunctions.h"
 #include "BottomMessage.h"
+#include "Vehicles.h"
+#include "Peds.h"
 
 static void CreateTowTruck()
 {
@@ -80,7 +82,7 @@ TestWindow::TestWindow()
     }
 
     {
-        auto button = window->AddButton("> Test task");
+        auto button = window->AddButton("Test task");
         button->onClick->Add([window](IContainer*) {
             window->Close();
             
@@ -89,11 +91,43 @@ TestWindow::TestWindow()
     }
 
     {
-        auto button = window->AddButton("> Test tow truck");
+        auto button = window->AddButton("Test tow truck");
         button->onClick->Add([window](IContainer*) {
             window->Close();
             
             CreateTowTruck();
+        });
+    }
+
+    {
+        auto button = window->AddButton("Create chase car");
+        button->onClick->Add([window](IContainer*) {
+            window->Close();
+            
+            int vehicleModel = 560;
+            int pedModel = 19;
+
+            ModelLoader::AddModelToLoad(vehicleModel);
+            ModelLoader::AddModelToLoad(pedModel);
+            ModelLoader::LoadAll([vehicleModel, pedModel]() {
+
+                auto playerPosition = GetPlayerPosition();
+                auto spawnPosition = GET_CLOSEST_CAR_NODE(playerPosition.x, playerPosition.y, playerPosition.z);
+
+                auto carRef = CREATE_CAR_AT(vehicleModel, spawnPosition.x, spawnPosition.y, spawnPosition.z);
+                auto car = Vehicles::RegisterVehicle(carRef);
+                car->isStolen = true;
+                car->SetMapIconColor(CRGBA(178, 0, 255));
+
+                auto driverRef = CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(carRef, PedType::Special, pedModel);
+                auto driver = Peds::RegisterPed(driverRef);
+
+                for(int i = 0; i <= 2; i++)
+                {
+                    auto passengerRef = CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT(carRef, PedType::Special, pedModel, i);
+                    auto passenger = Peds::RegisterPed(passengerRef);
+                }
+            });
         });
     }
 

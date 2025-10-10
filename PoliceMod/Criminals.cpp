@@ -74,3 +74,40 @@ std::vector<Vehicle*> Criminals::GetCriminalsVehicles()
 
     return vehicles;
 }
+
+Ped* Criminals::GetClosestCriminal(CVector fromPosition)
+{
+    auto criminals = Criminals::GetCriminals();
+
+    if (criminals.empty())
+        return nullptr;
+
+    Ped* nearestNotHandsUp = nullptr;
+    float bestDistNot = std::numeric_limits<float>::infinity();
+
+    Ped* nearestAny = nullptr;
+    float bestDistAny = std::numeric_limits<float>::infinity();
+
+    for (Ped* ped : criminals)
+    {
+        if (!ped)
+            continue;
+
+        float dist = distanceBetweenPoints(fromPosition, ped->GetPosition());
+
+        if (dist < bestDistAny)
+        {
+            bestDistAny = dist;
+            nearestAny = ped;
+        }
+
+        if (!ped->IsDoingHandsupAnim() && dist < bestDistNot)
+        {
+            bestDistNot = dist;
+            nearestNotHandsUp = ped;
+        }
+    }
+
+    // Prioriza quem não está de handsup
+    return (nearestNotHandsUp != nullptr) ? nearestNotHandsUp : nearestAny;
+}

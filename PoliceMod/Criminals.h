@@ -13,4 +13,5 @@ public:
     static bool IsCriminal(Ped* ped);
     static std::vector<Ped*> GetCriminals();
     static std::vector<Vehicle*> GetCriminalsVehicles();
+    static Ped* GetClosestCriminal(CVector fromPosition);
 };

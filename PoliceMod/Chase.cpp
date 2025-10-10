@@ -57,6 +57,7 @@ void Chase::StartChaseWithVehicle(Vehicle* vehicle)
 
     for(auto ped : vehicle->GetCurrentOccupants())
     {
+        ped->SetMapIconColor(COLOR_CRIMINAL);
         Criminals::AddCriminal(ped);
     }
 }

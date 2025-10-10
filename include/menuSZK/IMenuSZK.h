@@ -11,6 +11,7 @@
 #include "ILabel.h"
 #include "IAudio.h"
 #include "ISprite.h"
+#include "IFont.h"
 
 class IMenuSZK {
 public:
@@ -42,7 +43,7 @@ public:
     virtual CVector2D ConvertWorldPositionToScreenPosition(CVector worldPosition) = 0;
     virtual IAudio* CreateAudio(std::string src) = 0;
     virtual void QueueContainerDestroy(IContainer* container) = 0;
-
     virtual ISprite* LoadSprite(std::string src) = 0;
     virtual void DrawSprite(ISprite* sprite, CVector2D position, CVector2D size, CRGBA color) = 0;
+    virtual void DrawString(const std::string text, CVector2D position, CRGBA color, IFont font) = 0;
 };

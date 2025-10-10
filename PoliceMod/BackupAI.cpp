@@ -23,16 +23,18 @@ void BackupAI::Update()
     const auto ownersCount    = vehicle->GetOwners().size();
     const auto occupantsCount = vehicle->GetCurrentOccupants().size();
 
-    // pega criminosos
-    auto criminals = Criminals::GetCriminals();
-    if (criminals.empty())
+    auto player = GetPlayerActor();
+    auto closestCriminal = Criminals::GetClosestCriminal(GetPedPosition(player));
+
+    if (closestCriminal)
     {
-        followingPed = nullptr;
-        debug->AddLine("no criminals");
+        followingPed = closestCriminal;
+        //debug->AddLine("following closest criminal");
     }
     else
     {
-        if (!followingPed) followingPed = criminals[0];
+        followingPed = nullptr;
+        debug->AddLine("no criminals");
     }
 
     everyoneIsOnVehicle = (occupantsCount == ownersCount) && ownersCount > 0;
@@ -148,18 +150,18 @@ void BackupAI::ProcessFollow()
 {
     if (!followingPed) return;
 
-    if (everyoneIsOnVehicle && !carIsInRange)
+    if (everyoneIsOnVehicle && !carIsInRange && !leavingVehicle)
     {
         timeToFollow -= menuSZK->deltaTime;
         if (timeToFollow <= 0)
         {
-            timeToFollow = 5000; // próximo follow em 5s
+            timeToFollow = 8000; // próximo follow em 5s
             Follow();
         }
     }
     else
     {
-        timeToFollow = 500; // aguarda menos tempo quando não estão no veículo
+        timeToFollow = 1000; // aguarda menos tempo quando não estão no veículo
     }
 }
 
@@ -180,12 +182,10 @@ void BackupAI::ProcessPeds()
 
 void BackupAI::Follow()
 {
-    debug->AddLine("backupAi: try follow criminal");
-    
-    logInternal("following criminal");
-
     if (!followingPed) return;
 
+    debug->AddLine("backupAi: try follow criminal");
+    
     if (IS_CHAR_IN_ANY_CAR(followingPed->ref))
     {
         auto chaseVehicle = Vehicles::GetVehicle(GetVehiclePedIsUsing(followingPed->ref));
@@ -208,11 +208,11 @@ void BackupAI::LeaveAndDestroy()
 {
     logInternal("BackupAI::LeaveAndDestroy");
 
+    isLeavingScene = true;
+
     if(!vehicle) return;
 
     auto vehicle = this->vehicle;
-
-    isLeavingScene = true;
 
     debug->AddLine("backup leaving scene");
 
