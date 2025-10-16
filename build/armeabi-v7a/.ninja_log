@@ -1,0 +1,19 @@
+# ninja log v7
+103	184	7818989026030001	CMakeFiles/MyLib.dir/src/test.cpp.o	75c4949d1a93b49
+55	330	7818989025539461	CMakeFiles/MyLib.dir/aml/mod/config.cpp.o	aa164941e4ca6d6a
+67	475	7818989025667685	CMakeFiles/MyLib.dir/aml/mod/logger.cpp.o	c68931b2e8d12ebf
+240	2873	7822826707113516	CMakeFiles/MyLib.dir/src/main.cpp.o	1a97649560971065
+2812	3020	7822836143088023	libPoliceModSZK.so	eab2a3028dfa6980
+63	664	7819390673260220	CMakeFiles/MyLib.dir/src/ModData.cpp.o	47813645d66a2c03
+115	2163	7821857838576485	CMakeFiles/MyLib.dir/src/Logger.cpp.o	46d2f4fbdcb1be9
+81	2811	7822836115800171	CMakeFiles/MyLib.dir/src/PoliceMod.cpp.o	80eff226773f988c
+422	1976	7822828779818652	CMakeFiles/MyLib.dir/src/globals.cpp.o	efdc807df7007ed2
+94	2346	7822836115921170	CMakeFiles/MyLib.dir/src/Pullover.cpp.o	fc6039a82d76666d
+83	186	7819383982544497	CMakeFiles/MyLib.dir/src/RadioWindow.cpp.o	f53b90f8f65cbbce
+65	2351	7822836115644847	CMakeFiles/MyLib.dir/src/Ped.cpp.o	718625f64518aee5
+92	2796	7822826705640524	CMakeFiles/MyLib.dir/src/Criminals.cpp.o	164d72ca9f8fa56f
+169	2948	7822826706405822	CMakeFiles/MyLib.dir/src/Peds.cpp.o	15f5064ba35750aa
+61	3194	7822826705332066	CMakeFiles/MyLib.dir/src/CleoFunctions.cpp.o	a318969662f2fdc9
+205	2157	7822782995192434	CMakeFiles/MyLib.dir/src/hooks.cpp.o	bb5cefc449c34675
+125	3060	7822826705968805	CMakeFiles/MyLib.dir/src/ModelLoader.cpp.o	73c7cbe480b41349
+213	3168	7822826706844769	CMakeFiles/MyLib.dir/src/TestWindow.cpp.o	c6548fb5383c7f89

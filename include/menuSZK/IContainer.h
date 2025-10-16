@@ -2,10 +2,10 @@
 
 #include "simpleGta.h"
 
+#include "IFont.h"
 #include "IEventListener.h"
 
-#include <iostream>
-#include <vector>
+#include <string>
 
 enum class HorizontalAlign {
     Left = 0,
@@ -25,44 +25,39 @@ public:
     std::vector<IContainer*> children;
     std::string tag = "container";
 
-    bool isVisible = true;
-    bool canClickThrough = false;
-
     CVector2D localOffset = CVector2D(0, 0);
     CVector2D size = CVector2D(200, 200);
     CRGBA backgroundColor = CRGBA(255, 255, 255, 50);
     bool drawBackground = true;
 
+    HorizontalAlign horizontalAlign = HorizontalAlign::Left;
     bool fillHorizontal = false;
-    bool fillVertical = false;
-
     float fillHorizontalPercentage = 1.0f;
 
-    HorizontalAlign horizontalAlign = HorizontalAlign::Left;
     VerticalAlign verticalAlign = VerticalAlign::Top;
+    bool fillVertical = false;
 
-    bool isDraggable = false;
+    bool isVisible = true;
+    bool canClickThrough = false;
+    bool canBeDragged = false;
+    bool hideWhenPauseGame = false;
 
-    bool isClickable = false;
-    bool drawClickableBackground = true;
+    bool isAnyPointerOver = false;
 
-    float backgroundImageScale = 1.0f;
-    CRGBA imageColor = CRGBA(255, 255, 255, 255);
+    CRGBA highlightColor = CRGBA(255, 255, 255, 0);
 
-    bool useWorldPosition = false;
-    CVector worldPosition = CVector(0, 0, 0);
+    std::string text = "";
+    IFont textFont;
 
-    bool fixPositionToCenter = false;
+    HorizontalAlign textHorizontalAlign = HorizontalAlign::Left;
+    VerticalAlign textVerticalAlign = VerticalAlign::Top;
+    float textMarginLeft = 0;
 
-    IEventListener<IContainer*>* onClick;
-    IEventListener<IContainer*>* onAfterDraw; 
+    IEventListener<>* onClick;
+    IEventListener<>* onAfterDraw;
 
-    virtual CVector2D GetPosition() = 0;
-    
+    virtual ~IContainer() = default;
+
     virtual IContainer* AddChild(IContainer* child) = 0;
     virtual void RemoveChild(IContainer* child, bool destroy = false) = 0;
-    virtual IContainer* CreateChildContainer() = 0;
-    virtual void SetBackgroundTexture(std::string src) = 0;
-    virtual bool IsContainerOverMouse() = 0;
-    virtual void SetToBeDestroyed() = 0;
 };

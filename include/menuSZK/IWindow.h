@@ -1,29 +1,23 @@
 #pragma once
 
-#include "IContainer.h"
+#include "simpleGta.h"
+
 #include "IWindowItem.h"
 #include "IWindowItemButton.h"
 
-#include <vector>
+#include <string>
 
 class IWindow {
 public:
-    IContainer* container = NULL;
+    std::string title = "Titulo";
+    std::string subTitle = "";
 
-    IContainer* subtitleContainer = NULL;
-
-    std::vector<IWindowItem*> items;
-
-    int maxItemsPerPage = 6;
+    virtual ~IWindow() {};
 
     virtual IWindowItem* AddText(std::string text) = 0;
+    virtual IWindowItem* AddCheckbox(std::string text, bool* pBool) = 0;
     virtual IWindowItemButton* AddButton(std::string text) = 0;
-    virtual IWindowItem* AddCustomItem() = 0;
     virtual IWindowItem* AddOptions(std::string text) = 0;
-    virtual IWindowItem* AddIntOptions(std::string text, int* ptr, int min, int max) = 0;
-    virtual IWindowItem* AddFloatOptions(std::string text, float* ptr, float min, float max) = 0;
-    virtual IWindowItem* AddCheckbox(std::string text, bool* ptr) = 0;
-    virtual IWindowItem* AddImage(std::string src, float height) = 0;
 
     virtual void Close() = 0;
 };

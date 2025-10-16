@@ -1,19 +1,12 @@
 {
     "configurations": [
         {
-            "name": "AndroidNDK",
+            "name": "CMake Intellicode",
             "intelliSenseMode": "clang-x64",
-            "compilerPath": "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe",
+            "configurationProvider": "ms-vscode.cmake-tools",
+            "compilerPath": "C:/android-ndk-r26d/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe",
             "cStandard": "c17",
-            "cppStandard": "c++17",
-            "includePath": [
-                "${workspaceFolder}/include",
-                "${workspaceFolder}/PoliceMod",
-                "D:/Program Files/Java/jdk-24/include",
-                "D:/Program Files/Java/jdk-24/include/win32",
-                "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/include",
-                "C:/android-ndk/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/c++/v1"
-            ]
+            "cppStandard": "c++17"
         }
     ],
     "version": 4

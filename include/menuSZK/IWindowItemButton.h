@@ -4,5 +4,5 @@
 
 class IWindowItemButton {
 public:
-    IEventListener<IContainer*>* onClick;
+    IEventListener<>* onClick;
 };

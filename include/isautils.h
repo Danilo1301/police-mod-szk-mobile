@@ -23,9 +23,9 @@ struct SCRIPT_COMMAND
 DEFOPCODE(FFFF, CRASH_GAME, ); // CALLSCM(CRASH_GAME); calls an unknown opcode FFFF and it crashes the game
 
 /* Just a class declarations */
-class CWidgetButton;
-class RpAtomic;
-class RwFrame;
+struct CWidgetButton;
+struct RpAtomic;
+struct RwFrame;
 class CPhysical;
 class CEntity;
 class CPed;

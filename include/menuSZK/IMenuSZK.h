@@ -1,49 +1,50 @@
 #pragma once
 
-#include <iostream>
-#include <vector>
-#include <map>
-
 #include "IDebug.h"
-#include "IContainer.h"
 #include "IWindow.h"
-#include "IWidgetButton.h"
-#include "ILabel.h"
-#include "IAudio.h"
-#include "ISprite.h"
-#include "IFont.h"
+#include "IWidget.h"
+
+#define RADAR_ICON_BIG 50.0f
+#define RADAR_ICON_MEDIUM 25.0f
+#define RADAR_ICON_SMALL 12.0f
 
 class IMenuSZK {
 public:
-    unsigned int deltaTime = 0;
-    bool debugMode = false;
+    int deltaTime = 0;
 
-    IEventListener<>* onUpdate;
-    IEventListener<>* onFirstUpdate;
+    IDebug* debug = 0;
+
+    IEventListener<>* onBeforeMenuUpdate;
+    IEventListener<>* onAfterMenuUpdate;
+    
+    IEventListener<>* onGameUpdate;
+
+    IEventListener<>* onDrawBeforeMenu;
+    IEventListener<>* onDrawAfterMenu;
+
+    IEventListener<>* onPostDrawRadar;
 
     IEventListener<int>* onPedAdded;
     IEventListener<int>* onPedRemoved;
-
     IEventListener<int>* onVehicleAdded;
     IEventListener<int>* onVehicleRemoved;
 
-    IEventListener<CVector2D>* onPointerDown;
-    IEventListener<CVector2D>* onPointerUp;
-
-    virtual IDebug* GetDebug() = 0;
-    virtual IContainer* CreateContainer() = 0;
-    virtual ILabel* CreateLabel() = 0;
-    virtual IContainer* GetScreenContainer() = 0;
-    virtual bool HasRenderedAtLeastOnce() = 0;
     virtual IWindow* CreateWindow(float x, float y, float width, std::string title) = 0;
-    virtual void CreateTestWindow() = 0;
-    virtual IWidgetButton* CreateWidgetButton(float x, float y, std::string backgroundTexture, std::string foregroundTexture) = 0;
-    virtual void* GetCPedFromRef(int ref) = 0;
-    virtual void* GetCVehicleFromRef(int ref) = 0;
+    virtual IWidget* CreateWidget(float x, float y, float size, std::string bgImage, std::string image) = 0;
+    
+    virtual IContainer* CreateContainer(std::string tag) = 0;
+    virtual IContainer* GetRootContainer() = 0;
+
+    virtual void SetGlobalIntVariable(const std::string& key, int value) = 0;
+    virtual int GetGlobalIntVariable(const std::string& key) = 0;
+
+    virtual void* GetCPedFromRef(int pedRef) = 0;
+    virtual void* GetCVehicleFromRef(int vehicleRef) = 0;
+
+    virtual void* LoadTexture(std::string src) = 0;
+    virtual void DrawTextureOnRadar(void* texture, CVector worldPosition, CRGBA color, float size) = 0;
+    virtual void DrawTextureOnWorld(void* texture, CVector worldPosition, CRGBA color, CVector2D size) = 0;
+
     virtual CVector2D ConvertWorldPositionToScreenPosition(CVector worldPosition) = 0;
-    virtual IAudio* CreateAudio(std::string src) = 0;
-    virtual void QueueContainerDestroy(IContainer* container) = 0;
-    virtual ISprite* LoadSprite(std::string src) = 0;
-    virtual void DrawSprite(ISprite* sprite, CVector2D position, CVector2D size, CRGBA color) = 0;
-    virtual void DrawString(const std::string text, CVector2D position, CRGBA color, IFont font) = 0;
+
 };
