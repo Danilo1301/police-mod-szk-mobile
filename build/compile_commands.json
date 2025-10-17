@@ -85,6 +85,24 @@
 },
 {
   "directory": "C:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/build",
+  "command": "C:\\android-ndk-r26d\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --sysroot=C:/android-ndk-r26d/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DMyLib_EXPORTS -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/aml -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -fno-limit-debug-info  -std=gnu++17 -fPIC -Wall -O2 -o CMakeFiles\\MyLib.dir\\src\\Vehicle.cpp.o -c C:\\PC\\Projetos\\GTA_Mobile\\police-mod-szk-mobile\\src\\Vehicle.cpp",
+  "file": "C:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/src/Vehicle.cpp",
+  "output": "C:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/build/CMakeFiles/MyLib.dir/src/Vehicle.cpp.o"
+},
+{
+  "directory": "C:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/build",
+  "command": "C:\\android-ndk-r26d\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --sysroot=C:/android-ndk-r26d/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DMyLib_EXPORTS -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/aml -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -fno-limit-debug-info  -std=gnu++17 -fPIC -Wall -O2 -o CMakeFiles\\MyLib.dir\\src\\Vehicles.cpp.o -c C:\\PC\\Projetos\\GTA_Mobile\\police-mod-szk-mobile\\src\\Vehicles.cpp",
+  "file": "C:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/src/Vehicles.cpp",
+  "output": "C:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/build/CMakeFiles/MyLib.dir/src/Vehicles.cpp.o"
+},
+{
+  "directory": "C:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/build",
+  "command": "C:\\android-ndk-r26d\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --sysroot=C:/android-ndk-r26d/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DMyLib_EXPORTS -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/aml -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -fno-limit-debug-info  -std=gnu++17 -fPIC -Wall -O2 -o CMakeFiles\\MyLib.dir\\src\\WorldWidgets.cpp.o -c C:\\PC\\Projetos\\GTA_Mobile\\police-mod-szk-mobile\\src\\WorldWidgets.cpp",
+  "file": "C:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/src/WorldWidgets.cpp",
+  "output": "C:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/build/CMakeFiles/MyLib.dir/src/WorldWidgets.cpp.o"
+},
+{
+  "directory": "C:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/build",
   "command": "C:\\android-ndk-r26d\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --sysroot=C:/android-ndk-r26d/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DMyLib_EXPORTS -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/aml -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -fno-limit-debug-info  -std=gnu++17 -fPIC -Wall -O2 -o CMakeFiles\\MyLib.dir\\src\\globals.cpp.o -c C:\\PC\\Projetos\\GTA_Mobile\\police-mod-szk-mobile\\src\\globals.cpp",
   "file": "C:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/src/globals.cpp",
   "output": "C:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/build/CMakeFiles/MyLib.dir/src/globals.cpp.o"

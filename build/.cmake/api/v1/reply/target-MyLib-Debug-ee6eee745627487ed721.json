@@ -111,7 +111,10 @@
 				13,
 				14,
 				15,
-				16
+				16,
+				17,
+				18,
+				19
 			],
 			"sysroot" : 
 			{
@@ -177,7 +180,10 @@
 				13,
 				14,
 				15,
-				16
+				16,
+				17,
+				18,
+				19
 			]
 		}
 	],
@@ -265,6 +271,24 @@
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
 			"path" : "src/TestWindow.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/Vehicle.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/Vehicles.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/WorldWidgets.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{

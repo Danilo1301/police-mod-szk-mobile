@@ -1,13 +1,14 @@
 #include "PoliceMod.h"
 
-#include "globals.h"
 #include "Pullover.h"
 #include "RadioWindow.h"
 #include "Peds.h"
+#include "Vehicles.h"
 #include "CleoFunctions.h"
 #include "Criminals.h"
 #include "TestWindow.h"
 #include "BottomMessage.h"
+#include "WorldWidgets.h"
 
 bool hasFirstUpdated = false;
 
@@ -23,6 +24,8 @@ void PoliceMod::OnModPreLoad()
 
 void PoliceMod::OnModLoad()
 {
+    menuSZK->RegisterLocalizationFolder(menuSZK->GetLocalizationsPath() + "/policeModSZK/");
+
     menuSZK->onPedAdded->Add([](int ref) {
         auto ptr = menuSZK->GetCPedFromRef(ref);
         Peds::AddPed(ref, ptr);
@@ -30,6 +33,15 @@ void PoliceMod::OnModLoad()
     
     menuSZK->onPedRemoved->Add([](int ref) {
         Peds::RemovePed(ref);
+    });
+
+    menuSZK->onVehicleAdded->Add([](int ref) {
+        auto ptr = menuSZK->GetCVehicleFromRef(ref);
+        Vehicles::AddVehicle(ref, ptr);
+    });
+    
+    menuSZK->onVehicleRemoved->Add([](int ref) {
+        Vehicles::RemoveVehicle(ref);
     });
 
     menuSZK->onGameUpdate->Add([this]() {
@@ -41,7 +53,6 @@ void PoliceMod::OnModLoad()
 
     menuSZK->onDrawBeforeMenu->Add([]() {
         auto peds = Peds::GetPedsMap();
-
         for(auto pair : peds)
         {
             auto ped = pair.second;
@@ -56,7 +67,20 @@ void PoliceMod::OnModLoad()
             menuSZK->DrawTextureOnWorld(textureBlip, position, ped->flags.blipColor, CVector2D(100, 100));
         }
 
-        BottomMessage::Draw();
+        auto vehicles = Vehicles::GetVehiclesMap();
+        for(auto pair : vehicles)
+        {
+            auto vehicle = pair.second;
+
+            if(vehicle->flags.showBlip == false) continue;
+
+            if(!Vehicles::IsValid(vehicle)) continue;
+
+            auto position = vehicle->GetPosition();
+            position.z += 2.2f;
+        
+            menuSZK->DrawTextureOnWorld(textureBlip, position, vehicle->flags.blipColor, CVector2D(100, 100));
+        }
     });
 
     menuSZK->onBeforeMenuUpdate->Add([]() {
@@ -65,7 +89,6 @@ void PoliceMod::OnModLoad()
 
     menuSZK->onPostDrawRadar->Add([]() {
         auto peds = Peds::GetPedsMap();
-
         for(auto pair : peds)
         {
             auto ped = pair.second;
@@ -77,6 +100,20 @@ void PoliceMod::OnModLoad()
             auto position = ped->GetPosition();
         
             menuSZK->DrawTextureOnRadar(textureCircle, position, ped->flags.blipColor, 16.0f);
+        }
+
+        auto vehicles = Vehicles::GetVehiclesMap();
+        for(auto pair : vehicles)
+        {
+            auto vehicle = pair.second;
+
+            if(vehicle->flags.showBlip == false) continue;
+
+            if(!Vehicles::IsValid(vehicle)) continue;
+
+            auto position = vehicle->GetPosition();
+        
+            menuSZK->DrawTextureOnRadar(textureCircle, position, vehicle->flags.blipColor, 16.0f);
         }
     });
 }
@@ -98,12 +135,20 @@ void PoliceMod::OnGameUpdate()
     Criminals::Update();
     Peds::Update();
     //Vehicles::Update();
+    BottomMessage::Update();
     CleoFunctions::Update(menuSZK->deltaTime);
 }
 
 void PoliceMod::OnFirstUpdate()
 {
     menuDebug->AddLine("mod polica: first update");
+
+    LOAD_ANIMATION("GANGS");
+    LOAD_ANIMATION("POLICE");
+    LOAD_ANIMATION("MEDIC");
+    LOAD_ANIMATION("CRACK");
+
+    BottomMessage::Initialize();
 
     {
         auto widget = menuSZK->CreateWidget(

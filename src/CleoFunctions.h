@@ -699,6 +699,23 @@ inline void DISABLE_MARKER(int blip)
     CallScriptCommand(&scm_DISABLE_MARKER, blip);
 }
 
+//05E2: AS_actor 6@ kill_actor 7@ 
+static DEFOPCODE(05E2, KILL_ACTOR, ii);
+inline void KILL_ACTOR(int killer, int target)
+{
+    sautils->ScriptCommand(&scm_KILL_ACTOR, killer, target);
+}
+
+//0226: $7826 = actor 173@ health
+static DEFOPCODE(0226, ACTOR_HEALTH, iv);
+inline int ACTOR_HEALTH(int _char)
+{
+    int health = 0;
+    sautils->ScriptCommand(&scm_ACTOR_HEALTH, _char, &health);
+    return health;
+}
+
+
 // --------------------------------------------
 
 inline void WAIT(int time, std::function<void()> callback)

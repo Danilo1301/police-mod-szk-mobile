@@ -12,5 +12,3 @@ struct WorldWidget
 inline std::vector<WorldWidget> WorldWidgets;
 
 void UpdateWorldWidgets();
-
-inline CVector* g_playerPosition = new CVector(0, 0, 0);

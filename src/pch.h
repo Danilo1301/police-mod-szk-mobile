@@ -34,6 +34,9 @@ inline bool blockInput = false;
 inline void* textureBlip = nullptr;
 inline void* textureCircle = nullptr;
 
+inline CVector* g_playerPosition = new CVector(0, 0, 0);
+inline CVector2D g_defaultMenuPosition = CVector2D(400, 200);
+
 #define COLOR_CRIMINAL CRGBA(255, 0, 0)
 
 template <typename T>

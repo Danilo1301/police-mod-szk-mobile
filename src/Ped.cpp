@@ -1,8 +1,11 @@
 #include "Ped.h"
 
-#include "globals.h"
 #include "CleoFunctions.h"
 #include "Pullover.h"
+#include "Peds.h"
+#include "WorldWidgets.h"
+
+#include "BottomMessage.h"
 
 Ped::Ped(int ref, void* ptr)
 {
@@ -30,6 +33,9 @@ Ped::Ped(int ref, void* ptr)
 
         widgetOptions = widget;
     }
+
+    
+    wasAlive = ACTOR_HEALTH(ref) > 0;
 }
 
 Ped::~Ped()
@@ -52,15 +58,45 @@ void Ped::Update()
     {
         bool widgetVisible = false;
 
-        if(distanceBetweenPoints(pedPosition, playerPosition) <= 5.0f)
+        if(distanceBetweenPoints(pedPosition, playerPosition) < 5.0f)
         {
-            widgetVisible = true;
-
-            if(!IsPerformingAnimation("handsup"))
-                widgetVisible = false;
+            widgetVisible = IsPerformingAnimation("handsup") || flags.canDoAnimHandsup;
         }
 
         widgetOptions->visible = widgetVisible;
+    }
+
+    auto health = ACTOR_HEALTH(ref);
+
+    if(health <= 0 && wasAlive)
+    {
+        wasAlive = false;
+
+        auto ref = this->ref;
+
+        WAIT(6000, [ref]() {
+
+            if(ref == GetPlayerActor()) return;
+
+            if(!ACTOR_DEFINED(ref)) return;
+
+            auto ped = Peds::GetPed(ref);
+            auto modelId = GET_ACTOR_MODEL(ref);
+            auto position = ped->GetPosition();
+
+            auto newPedRef = CREATE_ACTOR_PEDTYPE(PedType::CivMale, modelId, position.x, position.y, position.z);
+            auto newPed = Peds::RegisterPed(newPedRef);
+            newPed->flags.isInconcious = true;
+
+            //PERFORM_ANIMATION_AS_ACTOR(newPedRef, "FALL_back", "PED", 10.0f, 0, 0, 0, 1, -1);
+            PERFORM_ANIMATION_AS_ACTOR(newPedRef, "crckdeth2", "CRACK", 10.0f, 0, 0, 0, 1, -1);
+
+            DESTROY_ACTOR(ref);
+            Peds::RemovePed(ref);
+
+            auto cped = (CPed*)newPed->ptr;
+            cped->m_matrix->at = CVector(position.x, position.y, position.z - 0.3f);
+        });
     }
 }
 
@@ -69,6 +105,11 @@ void Ped::SetCanDoHandsup(bool state)
     flags.canDoAnimHandsup = state;
 
     PerformAnims();
+
+    if(state == false)
+    {
+        ClearPedAnimations(ref);
+    }
 }
 
 void Ped::PerformAnims()
@@ -77,8 +118,6 @@ void Ped::PerformAnims()
     {
         if(!IsPerformingAnimation("handsup"))
         {
-            menuDebug->AddLine("playing handsup");
-            
             CLEAR_ACTOR_TASK(ref);
             PERFORM_ANIMATION_AS_ACTOR(ref, "handsup", "PED", 4.0f, 0, 0, 0, 1, -1);
         }
@@ -88,8 +127,6 @@ void Ped::PerformAnims()
     {
         if(!IsPerformingAnimation("cower"))
         {
-            menuDebug->AddLine("playing cower");
-
             CLEAR_ACTOR_TASK(ref);
             PERFORM_ANIMATION_AS_ACTOR(ref, "cower", "PED", 4.0f, 0, 0, 0, 1, -1);
         }

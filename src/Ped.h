@@ -8,6 +8,7 @@ struct ePedFlags
     bool willSurrender = true;
     bool canDoAnimHandsup = false;
     bool canDoAnimCover = false;
+    bool isInconcious = false;
 
     CRGBA blipColor = CRGBA(255, 255, 255);
     bool showBlip = false;
@@ -15,7 +16,7 @@ struct ePedFlags
 
 class Ped {
 private:
-    
+    bool wasAlive = false;
 public:
     int ref;
     void* ptr;

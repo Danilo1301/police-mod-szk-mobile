@@ -3,6 +3,7 @@
 #include "CleoFunctions.h"
 #include "ModelLoader.h"
 #include "Peds.h"
+#include "BottomMessage.h"
 
 void TestWindow::OpenWindow()
 {
@@ -42,7 +43,10 @@ void TestWindow::OpenWindow()
 
     {
         auto button = window->AddButton("Pedestre que reage");
-        button->onClick->Add([]() {
+        button->onClick->Add([window]() {
+            window->Close();
+            
+            BottomMessage::SetMessage("Spawnando pedestre que reage a abordagem", 3000);
 
             ModelLoader::AddModelToLoad(80);
             ModelLoader::LoadAll([]() {
@@ -60,7 +64,7 @@ void TestWindow::OpenWindow()
     }
 
     {
-        auto button = window->AddButton("~r~Fechar");
+        auto button = window->AddButton("~r~" + GetTranslatedText("close"));
         button->onClick->Add([window]() {
             window->Close();
         });

@@ -8,6 +8,8 @@
 #define RADAR_ICON_MEDIUM 25.0f
 #define RADAR_ICON_SMALL 12.0f
 
+#define GetTranslatedText menuSZK->GetLocalizationText
+
 class IMenuSZK {
 public:
     int deltaTime = 0;
@@ -47,4 +49,7 @@ public:
 
     virtual CVector2D ConvertWorldPositionToScreenPosition(CVector worldPosition) = 0;
 
+    virtual std::string GetLocalizationsPath() = 0;
+    virtual void RegisterLocalizationFolder(std::string folderPath) = 0;
+    virtual std::string GetLocalizationText(std::string key) = 0;
 };

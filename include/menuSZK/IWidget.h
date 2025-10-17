@@ -14,5 +14,6 @@ public:
     virtual ~IWidget() {};
 
     virtual void SetPosition(float x, float y) = 0;
+    virtual CVector2D GetSize() = 0;
     virtual void Close() = 0;
 };

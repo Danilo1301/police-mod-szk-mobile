@@ -3,6 +3,7 @@
 #include "pch.h"
 
 #include "Ped.h"
+#include "Vehicle.h"
 
 class Pullover {
 public:
@@ -13,6 +14,8 @@ public:
 
     static void PulloverPed(Ped* ped);
     static void FreePed(Ped* ped);
+
+    static void PulloverVehicle(Vehicle* vehicle);
 
     static int FindAimingPed();
 
