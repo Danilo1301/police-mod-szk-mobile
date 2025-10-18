@@ -19,6 +19,13 @@ enum class VerticalAlign {
     Bottom
 };
 
+enum class ClickThroughMode
+{
+    CantClickThrough,
+    ClickThroughThisOnly,
+    ClickThroughThisAndChildren
+};
+
 class IContainer {
 public:
     IContainer* parent = NULL;
@@ -38,7 +45,7 @@ public:
     bool fillVertical = false;
 
     bool isVisible = true;
-    bool canClickThrough = false;
+    ClickThroughMode clickThroughMode = ClickThroughMode::CantClickThrough;
     bool canBeDragged = false;
     bool hideWhenPauseGame = false;
 
@@ -60,4 +67,7 @@ public:
 
     virtual IContainer* AddChild(IContainer* child) = 0;
     virtual void RemoveChild(IContainer* child, bool destroy = false) = 0;
+
+    virtual void SetBackgroundImage(std::string src) = 0;
+    virtual void SetBackgroundImage(void* texture) = 0;
 };

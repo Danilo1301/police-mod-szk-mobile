@@ -12,7 +12,8 @@ void BottomMessage::Initialize()
     container->horizontalAlign = HorizontalAlign::Middle;
     container->verticalAlign = VerticalAlign::Bottom;
     container->localOffset = CVector2D(0, -100);
-    container->canClickThrough = true;
+    container->clickThroughMode = ClickThroughMode::ClickThroughThisAndChildren;
+    container->drawBackground = false;
 
     container->text = "Aqui vai ficar a mensagme";
     container->textHorizontalAlign = HorizontalAlign::Middle;

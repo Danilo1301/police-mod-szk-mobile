@@ -518,6 +518,14 @@ inline void REMOVE_ACTOR_FROM_TURRET_MODE(int _char)
     sautils->ScriptCommand(&scm_REMOVE_ACTOR_FROM_TURRET_MODE, _char);
 }
 
+
+//0850: AS_actor 105@ follow_actor $PLAYER_ACTOR 
+static DEFOPCODE(0850, TASK_FOLLOW_FOOTSTEPS, ii);
+inline void TASK_FOLLOW_FOOTSTEPS(int handle, int target)
+{
+    sautils->ScriptCommand(&scm_TASK_FOLLOW_FOOTSTEPS, handle, target);
+}
+
 //009A: 6@ = create_actor_pedtype 20 model #DNFYLC at 3@ 4@ 5@
 static DEFOPCODE(009A, CREATE_ACTOR_PEDTYPE, iifffv);
 inline int CREATE_ACTOR_PEDTYPE(PedType pedType, int modelId, float x, float y, float z)

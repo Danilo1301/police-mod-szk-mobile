@@ -38,6 +38,7 @@ inline CVector* g_playerPosition = new CVector(0, 0, 0);
 inline CVector2D g_defaultMenuPosition = CVector2D(400, 200);
 
 #define COLOR_CRIMINAL CRGBA(255, 0, 0)
+#define COLOR_YELLOW CRGBA(255, 255, 0)
 
 template <typename T>
 inline T* loadInterface(T** out, std::string name, bool optional = false)
@@ -88,4 +89,21 @@ inline std::string VectorToString(const CVector& vec, int precision = 2)
     oss << std::fixed << std::setprecision(precision);
     oss << "(" << vec.x << ", " << vec.y << ", " << vec.z << ")";
     return oss.str();
+}
+
+inline int getRandomNumber(int min, int max)
+{
+    int n = max - min + 1;
+    int remainder = RAND_MAX % n;
+    int x;
+    do{
+        x = rand();
+    }while (x >= RAND_MAX - remainder);
+    return min + x % n;
+}
+
+inline bool calculateProbability(float chance)
+{
+    int i = getRandomNumber(0, 99);
+    return i < (int)(chance * 100.0f);
 }

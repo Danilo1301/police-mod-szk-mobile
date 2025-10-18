@@ -1,0 +1,46 @@
+#include "Chase.h"
+
+#include "CleoFunctions.h"
+#include "Vehicles.h"
+#include "Peds.h"
+#include "Criminals.h"
+
+void Chase::StartChaseWithVehicle(Vehicle* vehicle)
+{
+    fileLog->Log("Chase: StartChaseWithVehicle");
+
+    auto oldDriver = Peds::GetPed(vehicle->GetCurrentDriver());
+
+    if(oldDriver == nullptr) return;
+
+    auto driverModelId = GET_ACTOR_MODEL(oldDriver->ref);
+
+    REMOVE_CHAR_FROM_CAR_MAINTAIN_POSITION(oldDriver->ref, vehicle->ref);
+    
+    auto newDriverRef = CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(vehicle->ref, PedType::CivMale, driverModelId);
+    auto driver = Peds::RegisterPed(newDriverRef);
+
+    driver->CopyFrom(*oldDriver);
+    
+    DESTROY_ACTOR(oldDriver->ref);
+    Peds::RemovePed(oldDriver->ref);
+
+    SET_CAR_TRAFFIC_BEHAVIOUR(vehicle->ref, DrivingMode::AvoidCars);
+    SET_CAR_TO_PSYCHO_DRIVER(vehicle->ref);
+    SET_CAR_MAX_SPEED(vehicle->ref, CHASE_MAX_VEHICLE_SPEED);
+
+    vehicle->SetOwners();
+
+    for(auto pedRef : vehicle->GetCurrentOccupants())
+    {
+        auto ped = Peds::GetPed(pedRef);
+
+        ped->ShowBlip(COLOR_CRIMINAL);
+        Criminals::AddCriminal(ped);
+    }
+}
+
+void Chase::Update()
+{
+    
+}

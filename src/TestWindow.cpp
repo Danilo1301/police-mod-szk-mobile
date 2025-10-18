@@ -8,10 +8,9 @@
 void TestWindow::OpenWindow()
 {
     auto window = menuSZK->CreateWindow(200, 200, 800, "Mod Policia - tests");
-    window->AddText("- Selecione uma opcao abaixo");
 
     {
-        auto button = window->AddButton("Equipar");
+        auto button = window->AddButton("Equip");
         button->onClick->Add([window]() {
             window->Close();
 
@@ -35,14 +34,7 @@ void TestWindow::OpenWindow()
     }
 
     {
-        auto button = window->AddButton("Log delta time");
-        button->onClick->Add([]() {
-            menuDebug->AddLine("Delta time: " + std::to_string(menuSZK->deltaTime));
-        });
-    }
-
-    {
-        auto button = window->AddButton("Pedestre que reage");
+        auto button = window->AddButton("Spawn dangerous ped");
         button->onClick->Add([window]() {
             window->Close();
             

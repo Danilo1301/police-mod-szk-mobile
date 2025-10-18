@@ -3,6 +3,7 @@
 #include "CleoFunctions.h"
 #include "Pullover.h"
 #include "Peds.h"
+#include "Vehicles.h"
 #include "WorldWidgets.h"
 
 #include "BottomMessage.h"
@@ -34,8 +35,9 @@ Ped::Ped(int ref, void* ptr)
         widgetOptions = widget;
     }
 
-    
     wasAlive = ACTOR_HEALTH(ref) > 0;
+
+    UpdateSeatPosition();
 }
 
 Ped::~Ped()
@@ -60,7 +62,7 @@ void Ped::Update()
 
         if(distanceBetweenPoints(pedPosition, playerPosition) < 5.0f)
         {
-            widgetVisible = IsPerformingAnimation("handsup") || flags.canDoAnimHandsup;
+            widgetVisible = flags.showWidget;
         }
 
         widgetOptions->visible = widgetVisible;
@@ -86,9 +88,11 @@ void Ped::Update()
 
             auto newPedRef = CREATE_ACTOR_PEDTYPE(PedType::CivMale, modelId, position.x, position.y, position.z);
             auto newPed = Peds::RegisterPed(newPedRef);
+
+            newPed->CopyFrom(*ped);
+
             newPed->flags.isInconcious = true;
 
-            //PERFORM_ANIMATION_AS_ACTOR(newPedRef, "FALL_back", "PED", 10.0f, 0, 0, 0, 1, -1);
             PERFORM_ANIMATION_AS_ACTOR(newPedRef, "crckdeth2", "CRACK", 10.0f, 0, 0, 0, 1, -1);
 
             DESTROY_ACTOR(ref);
@@ -98,38 +102,49 @@ void Ped::Update()
             cped->m_matrix->at = CVector(position.x, position.y, position.z - 0.3f);
         });
     }
+
+    if(isLeavingCar)
+    {
+        bool isIn = IsInAnyCar();
+
+        if(!isIn)
+        {
+            isLeavingCar = false;
+            menuDebug->AddLine("~y~Ped left the vehicle");
+        }
+    }
+
+    if(flags.isInconcious)
+    {
+        auto distanceFromPlayer = distanceBetweenPoints(pedPosition, playerPosition);
+
+        if(distanceFromPlayer > 200.0f)
+        {
+            DESTROY_ACTOR(ref);
+            Peds::RemovePed(ref);
+            return;
+        }
+    }
 }
 
-void Ped::SetCanDoHandsup(bool state)
+void Ped::SetCanDoHandsup()
 {
-    flags.canDoAnimHandsup = state;
+    SetAnim("handsup", "PED");
 
     PerformAnims();
-
-    if(state == false)
-    {
-        ClearPedAnimations(ref);
-    }
 }
 
 void Ped::PerformAnims()
 {
-    if(flags.canDoAnimHandsup)
-    {
-        if(!IsPerformingAnimation("handsup"))
-        {
-            CLEAR_ACTOR_TASK(ref);
-            PERFORM_ANIMATION_AS_ACTOR(ref, "handsup", "PED", 4.0f, 0, 0, 0, 1, -1);
-        }
-    }
+    if(isLeavingCar) return;
+    if(isEnteringCar) return;
 
-    if(flags.canDoAnimCover)
+    if(currentAnim.length() == 0) return;
+
+    if(!IsPerformingAnimation(currentAnim))
     {
-        if(!IsPerformingAnimation("cower"))
-        {
-            CLEAR_ACTOR_TASK(ref);
-            PERFORM_ANIMATION_AS_ACTOR(ref, "cower", "PED", 4.0f, 0, 0, 0, 1, -1);
-        }
+        CLEAR_ACTOR_TASK(ref);
+        PERFORM_ANIMATION_AS_ACTOR(ref, currentAnim.c_str(), currentAnimGroup.c_str(), 4.0f, 0, 0, 0, 1, -1);
     }
 }
 
@@ -152,4 +167,119 @@ void Ped::HideBlip()
 CVector Ped::GetPosition()
 {
     return GetPedPosition(ref);
+}
+
+bool Ped::IsInAnyCar()
+{
+    return IS_CHAR_IN_ANY_CAR(ref);
+}
+
+int Ped::GetCurrentCar()
+{
+    return GetVehiclePedIsUsing(ref);
+}
+
+bool Ped::IsDriver()
+{
+    auto car = GetCurrentCar();
+
+    if(car < 0) return false;
+
+    return GET_DRIVER_OF_CAR(car) == ref;
+}
+
+void Ped::LeaveCar()
+{
+    if(!IsInAnyCar()) return;
+
+    UpdateSeatPosition();
+    isLeavingCar = true;
+
+    EXIT_CAR_AS_ACTOR(ref);
+}
+
+void Ped::UpdateSeatPosition()
+{
+    previousVehicle = -1;
+
+    if(!IsInAnyCar())
+    {
+        prevSeatPosition = SeatPosition::NONE;
+        return;
+    } 
+
+    previousVehicle = GetCurrentCar();
+    prevSeatPosition = IsDriver() ? SeatPosition::DRIVER : SeatPosition::PASSENGER;
+}
+
+void Ped::EnterVehicle(int vehicleRef, SeatPosition seat, int seatId)
+{
+    if(IsInAnyCar())
+    {
+        menuDebug->AddLine("~r~cant enter vehicle: already in one");
+        return;
+    }
+
+    if(seat == SeatPosition::NONE)
+    {
+        menuDebug->AddLine("~r~cant enter vehicle: seat is NONE");
+        return;
+    }
+
+    ClearAnim();
+    CLEAR_ACTOR_TASK(ref);
+
+    isEnteringCar = true;
+
+    if(seat == SeatPosition::DRIVER)
+    {
+        ENTER_CAR_AS_DRIVER_AS_ACTOR(ref, vehicleRef, 10000);
+    } else if(seat == SeatPosition::PASSENGER)
+    {
+        ACTOR_ENTER_CAR_PASSENGER_SEAT(ref, vehicleRef, 10000, seatId);
+    }
+}
+
+void Ped::StartDrivingRandomly()
+{
+    if(!IsInAnyCar()) return;
+    if(!IsDriver()) return;
+
+    auto car = GetCurrentCar();
+
+    REMOVE_REFERENCES_TO_CAR(car);
+    SET_CAR_ENGINE_OPERATION(car, true);
+    SET_CAR_TRAFFIC_BEHAVIOUR(car, DrivingMode::StopForCars);
+    SET_CAR_TO_PSYCHO_DRIVER(car);
+    SET_CAR_MAX_SPEED(car, 20.0f);
+}
+
+void Ped::SetAnim(std::string anim, std::string animGroup)
+{
+    currentAnim = anim;
+    currentAnimGroup = animGroup;
+}
+
+void Ped::ClearAnim()
+{
+    currentAnim = "";
+    currentAnimGroup = "";
+    ClearPedAnimations(ref);
+}
+
+void Ped::InitializeOnVehicle(int vehicleRef)
+{
+    auto vehicle = Vehicles::GetVehicle(vehicleRef);
+
+    if(vehicle->flags.isStolen)
+    {
+        auto occupants = vehicle->GetCurrentOccupants();
+
+        for(auto pedRef : occupants)
+        {
+            auto ped = Peds::GetPed(pedRef);
+
+            ped->flags.willSurrender = false;
+        }
+    }
 }

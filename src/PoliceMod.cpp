@@ -8,7 +8,9 @@
 #include "Criminals.h"
 #include "TestWindow.h"
 #include "BottomMessage.h"
+#include "TopMessage.h"
 #include "WorldWidgets.h"
+#include "Chase.h"
 
 bool hasFirstUpdated = false;
 
@@ -134,8 +136,10 @@ void PoliceMod::OnGameUpdate()
 
     Criminals::Update();
     Peds::Update();
-    //Vehicles::Update();
+    Vehicles::Update();
     BottomMessage::Update();
+    TopMessage::Update();
+    Chase::Update();
     CleoFunctions::Update(menuSZK->deltaTime);
 }
 
@@ -149,6 +153,8 @@ void PoliceMod::OnFirstUpdate()
     LOAD_ANIMATION("CRACK");
 
     BottomMessage::Initialize();
+    TopMessage::Initialize();
+    RadioWindow::Initialize();
 
     {
         auto widget = menuSZK->CreateWidget(
