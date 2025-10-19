@@ -2,17 +2,22 @@
 
 #include "pch.h"
 
+#define SCRIPT_KEEP_GOING 0
+#define SCRIPT_SUCCESS 1
+#define SCRIPT_CANCEL 2
+
 class ScriptTask {
 private:
     int timePassedToTimeout = 0;
     int timeout = -1;
 public:
     std::string name;
-    bool completed = false;
+    int scriptStatus = SCRIPT_KEEP_GOING;
     bool deleteOnComplete = true;
     std::function<void()> onBegin;
-    std::function<bool()> onExecute;
+    std::function<int()> onExecute;
     std::function<void()> onComplete;
+    std::function<void()> onCancel;
 
     ScriptTask(std::string name);
 

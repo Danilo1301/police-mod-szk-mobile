@@ -14,6 +14,7 @@ struct eVehicleFlags
 class Vehicle {
 private:
     bool hasInitializedPeds = false;
+    int modelId = 0;
 public:
     int ref;
     void* ptr;
@@ -26,6 +27,7 @@ public:
     std::vector<int> ownerPassengers;
 
     int timeAlive = 0;
+    int timeSinceLastRepair = 0;
 
     Vehicle(int ref, void* ptr);
     ~Vehicle();
@@ -34,6 +36,8 @@ public:
 
     void ShowBlip(CRGBA color);
     void HideBlip();
+
+    void RemoveBlips();
 
     CVector GetPosition();
 
@@ -45,7 +49,7 @@ public:
     std::vector<int> GetCurrentOccupants();
 
     void MakeOccupantsLeave();
-    void MakeOccupantsEnter();
+    void MakeOwnersEnter();
 
     void SetOwners();
     std::vector<int> GetOwners();
@@ -53,4 +57,10 @@ public:
     void DestroySelfAndPeds();
 
     void TryInitializePedsInside();
+
+    int GetModelId();
+
+    bool IsAllOwnersInside();
+
+    float GetSpeed();
 };

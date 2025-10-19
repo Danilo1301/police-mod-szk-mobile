@@ -82,8 +82,10 @@ std::map<int, Vehicle*> Vehicles::GetVehiclesMap()
 
 void Vehicles::Update()
 {
+    auto vehiclesCopy = vehicles;
+
     // percorre todos os peds no map
-    for (auto& pair : vehicles)
+    for (auto& pair : vehiclesCopy)
     {
         Vehicle* veh = pair.second;
         if (!veh) continue;

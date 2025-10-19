@@ -18,6 +18,8 @@ public:
     static IContainer* MainContainer;
     static IContainer* ScreenContainer;
 
+    static bool m_cancelServices;
+
     // Todos os grupos de telas
     static std::map<std::string, RadioScreenGroup> groups;
 

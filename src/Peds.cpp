@@ -84,8 +84,10 @@ std::map<int, Ped*> Peds::GetPedsMap()
 
 void Peds::Update()
 {
+    auto pedsCopy = peds;
+
     // percorre todos os peds no map
-    for (auto& pair : peds)
+    for (auto& pair : pedsCopy)
     {
         Ped* ped = pair.second;
         if (!ped) continue;

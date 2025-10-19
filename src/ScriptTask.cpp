@@ -30,21 +30,28 @@ void ScriptTask::Start()
 
         if(onExecute)
         {
-            completed = onExecute();
+            int result = onExecute();
+            scriptStatus = result;
         } else {
-            completed = true;
+            scriptStatus = SCRIPT_SUCCESS;
         }
 
-        return this->completed;
+        return scriptStatus != SCRIPT_KEEP_GOING;
     }, [this]() {
-        auto fn = onComplete;
+        auto fn_onComplete = onComplete;
+        auto fn_onCancel = onCancel;
 
         menuDebug->AddLine("task : " + name + " : completed");
 
         if(deleteOnComplete)
             delete this;
 
-        if(fn) fn();
+        if(scriptStatus == SCRIPT_SUCCESS)
+        {
+            if(fn_onComplete) fn_onComplete();
+        } else {
+            if(fn_onCancel) fn_onCancel();
+        }
     });
 }
 

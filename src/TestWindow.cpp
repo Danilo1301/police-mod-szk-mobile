@@ -4,6 +4,9 @@
 #include "ModelLoader.h"
 #include "Peds.h"
 #include "BottomMessage.h"
+#include "Chase.h"
+
+bool freezingCriminals = false;
 
 void TestWindow::OpenWindow()
 {
@@ -30,6 +33,31 @@ void TestWindow::OpenWindow()
                 GIVE_ACTOR_WEAPON(playerActor, 22, 200);
                 CHANGE_PLAYER_MODEL_TO(0, 280);
             });
+        });
+    }
+
+    {
+        std::string text = freezingCriminals ? "Unfreeze criminals" : "Freeze criminals";
+
+        auto button = window->AddButton(text);
+        button->onClick->Add([window]() {
+            window->Close();
+
+            freezingCriminals = !freezingCriminals;
+
+            if(freezingCriminals)
+            {
+                auto vehicles = Chase::vehiclesInChase;
+
+                float vel = freezingCriminals ? 0.1f : CHASE_MAX_VEHICLE_SPEED;
+
+                for(auto vehicle : vehicles)
+                {
+                    SET_CAR_MAX_SPEED(vehicle->ref, vel);
+                }
+
+                BottomMessage::SetMessage("Velocity limited to " + std::to_string(vel), 2000);
+            }
         });
     }
 

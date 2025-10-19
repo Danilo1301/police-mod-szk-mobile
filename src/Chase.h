@@ -4,11 +4,13 @@
 
 #include "Vehicle.h"
 
-#define CHASE_MAX_VEHICLE_SPEED 40.0f
-
 class Chase {
 public:
-    static void StartChaseWithVehicle(Vehicle* vehicle);
+    static std::vector<Vehicle*> vehiclesInChase;
 
     static void Update();
+
+    static void StartChaseWithVehicle(Vehicle* vehicle);
+    static void AbortChase();
+    static bool IsVehicleRunningFromCops(Vehicle* vehicle);
 };

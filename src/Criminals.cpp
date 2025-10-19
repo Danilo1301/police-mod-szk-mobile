@@ -7,7 +7,14 @@ std::vector<Ped*> criminals;
 
 void Criminals::Update()
 {
-    
+    // Remove todos os criminosos que não existem mais
+    criminals.erase(
+        std::remove_if(criminals.begin(), criminals.end(),
+            [](Ped* criminal) {
+                return (criminal == nullptr || !ACTOR_DEFINED(criminal->ref));
+            }),
+        criminals.end()
+    );
 }
 
 void Criminals::AddCriminal(Ped* ped)
@@ -33,4 +40,9 @@ bool Criminals::IsCriminal(Ped* ped)
     auto it = std::find(criminals.begin(), criminals.end(), ped);
 
     return it != criminals.end();
+}
+
+std::vector<Ped*>* Criminals::GetCriminals()
+{
+    return &criminals;
 }

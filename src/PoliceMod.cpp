@@ -11,6 +11,7 @@
 #include "TopMessage.h"
 #include "WorldWidgets.h"
 #include "Chase.h"
+#include "AIController.h"
 
 bool hasFirstUpdated = false;
 
@@ -101,7 +102,7 @@ void PoliceMod::OnModLoad()
 
             auto position = ped->GetPosition();
         
-            menuSZK->DrawTextureOnRadar(textureCircle, position, ped->flags.blipColor, 16.0f);
+            menuSZK->DrawTextureOnRadar(textureCircle, position, ped->flags.blipColor, 14.0f);
         }
 
         auto vehicles = Vehicles::GetVehiclesMap();
@@ -115,7 +116,7 @@ void PoliceMod::OnModLoad()
 
             auto position = vehicle->GetPosition();
         
-            menuSZK->DrawTextureOnRadar(textureCircle, position, vehicle->flags.blipColor, 16.0f);
+            menuSZK->DrawTextureOnRadar(textureCircle, position, vehicle->flags.blipColor, 20.0f);
         }
     });
 }
@@ -140,6 +141,7 @@ void PoliceMod::OnGameUpdate()
     BottomMessage::Update();
     TopMessage::Update();
     Chase::Update();
+    AIController::Update();
     CleoFunctions::Update(menuSZK->deltaTime);
 }
 

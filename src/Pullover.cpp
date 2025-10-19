@@ -9,6 +9,7 @@
 #include "TopMessage.h"
 #include "ScriptTask.h"
 #include "Chase.h"
+#include "RadioWindow.h"
 
 int aimingPed = NO_PED_FOUND;
 
@@ -111,6 +112,7 @@ void Pullover::FreePed(Ped* ped)
 {
     menuDebug->AddLine("~g~free ped");
 
+    ped->flags.showWidget = false;
     ped->flags.hasSurrended = false;
     ped->ClearAnim();
     ped->HideBlip();
@@ -128,7 +130,7 @@ void Pullover::PulloverVehicle(Vehicle* vehicle)
         if(driver->flags.willSurrender == false)
         {
             BottomMessage::SetMessage("~r~O suspeito fugiu!", 3000);
-
+            
             Chase::StartChaseWithVehicle(vehicle);
 
             return;
@@ -152,7 +154,7 @@ void Pullover::FreeVehicle(Vehicle* vehicle)
     vehicle->HideBlip();
     vehicle->flags.showWidget = false;
 
-    vehicle->MakeOccupantsEnter();
+    vehicle->MakeOwnersEnter();
 
     CleoFunctions::AddWaitForFunction("passengers_enter_vehicle_to_free", [vehicle] () {
         if(!Vehicles::IsValid(vehicle)) return true;
@@ -293,6 +295,7 @@ void Pullover::OpenVehicleMenu(Vehicle* vehicle)
             
             auto ocuppants = vehicle->GetCurrentOccupants();
             
+            vehicle->SetOwners();
             vehicle->MakeOccupantsLeave();
 
             for(auto pedRef : ocuppants)
@@ -358,13 +361,29 @@ void Pullover::CallTowTruck(Vehicle* vehicle)
             SET_CAR_TRAFFIC_BEHAVIOUR(towRef, DrivingMode::AvoidCars);
             CAR_DRIVE_TO(towRef, targetPosition.x, targetPosition.y, targetPosition.z);
         };
-        taskDrive->onExecute = [towRef, targetPosition]() {
+        taskDrive->onExecute = [towTruck, targetPosition]() {
             
-            auto distance = DistanceFromVehicle(towRef, targetPosition);
+            if(!Vehicles::IsValid(towTruck)) return SCRIPT_CANCEL;
 
-            if(distance > 10.0f) return false;
+            if(RadioWindow::m_cancelServices) return SCRIPT_CANCEL;
 
-            return true;
+            auto distance = DistanceFromVehicle(towTruck->ref, targetPosition);
+
+            if(distance < 10.0f) return SCRIPT_SUCCESS;
+
+            return SCRIPT_KEEP_GOING;
+        };
+        taskDrive->onCancel = [towTruck]() {
+            TopMessage::ClearMessage();
+
+            if(!Vehicles::IsValid(towTruck)) return;
+
+            BottomMessage::SetMessage("Guincho cancelado!", 3000);
+
+            if(Vehicles::IsValid(towTruck))
+            {
+                towTruck->DestroySelfAndPeds();
+            }
         };
         taskDrive->onComplete = [vehicle, towTruck]() {
             
@@ -388,14 +407,16 @@ void Pullover::CallTowTruck(Vehicle* vehicle)
                 ScriptTask::MakeVehicleLeave(towTruck->ref);
             };
             taskLeave->onExecute = [towTruck]() {
+                if(!Vehicles::IsValid(towTruck)) return SCRIPT_CANCEL;
+
                 auto towPosition = GetCarPosition(towTruck->ref);
                 auto distance = DistanceFromPed(GetPlayerActor(), towPosition);
 
                 menuDebug->AddLine("leave, " + std::to_string(distance));
 
-                if(distance < 120.0f) return false;
+                if(distance > 120.0f) return SCRIPT_SUCCESS;
 
-                return true;
+                return SCRIPT_KEEP_GOING;
             };
             taskLeave->onComplete = [vehicle, towTruck]() {
                 //on complete

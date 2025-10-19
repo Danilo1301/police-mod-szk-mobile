@@ -5,6 +5,7 @@
 #include "Peds.h"
 #include "Vehicles.h"
 #include "WorldWidgets.h"
+#include "Criminals.h"
 
 #include "BottomMessage.h"
 
@@ -86,12 +87,22 @@ void Ped::Update()
             auto modelId = GET_ACTOR_MODEL(ref);
             auto position = ped->GetPosition();
 
+            
+    
             auto newPedRef = CREATE_ACTOR_PEDTYPE(PedType::CivMale, modelId, position.x, position.y, position.z);
             auto newPed = Peds::RegisterPed(newPedRef);
 
             newPed->CopyFrom(*ped);
 
+            if(Criminals::IsCriminal(ped))
+            {
+                Criminals::AddCriminal(newPed);
+                Criminals::RemoveCriminal(ped);
+            }
+
             newPed->flags.isInconcious = true;
+            newPed->flags.hasSurrended = true;
+            newPed->flags.willSurrender = true;
 
             PERFORM_ANIMATION_AS_ACTOR(newPedRef, "crckdeth2", "CRACK", 10.0f, 0, 0, 0, 1, -1);
 
@@ -111,6 +122,17 @@ void Ped::Update()
         {
             isLeavingCar = false;
             menuDebug->AddLine("~y~Ped left the vehicle");
+        }
+    }
+
+    if(isEnteringCar)
+    {
+        bool isIn = IsInAnyCar();
+
+        if(isIn)
+        {
+            isEnteringCar = false;
+            menuDebug->AddLine("~y~Ped entered the vehicle");
         }
     }
 
@@ -138,6 +160,8 @@ void Ped::PerformAnims()
 {
     if(isLeavingCar) return;
     if(isEnteringCar) return;
+
+    if(flags.isInconcious) return;
 
     if(currentAnim.length() == 0) return;
 

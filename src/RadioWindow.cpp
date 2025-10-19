@@ -1,9 +1,14 @@
 #include "RadioWindow.h"
 
 #include "BottomMessage.h"
+#include "Chase.h"
+#include "CleoFunctions.h"
+#include "BackupUnits.h"
 
 IContainer* RadioWindow::MainContainer = nullptr;
 IContainer* RadioWindow::ScreenContainer = nullptr;
+
+bool RadioWindow::m_cancelServices = false;
 
 std::map<std::string, RadioScreenGroup> RadioWindow::groups;
 
@@ -101,7 +106,9 @@ void RadioWindow::Initialize()
     currentGroupId = "main";
     currentScreenIndex = 0;
 
+    AddScreen("main", "send_qth", "send_qth.png");
     AddScreen("main", "cancel_chase", "cancel_chase.png");
+    AddScreen("main", "cancel_services", "cancel_services.png");
     AddScreen("main", "test_menu", "test_menu.png");
 
     AddGroup("test", "main");
@@ -120,9 +127,29 @@ void RadioWindow::Toggle()
 
 void RadioWindow::OnSelect(std::string id)
 {
+    if(id == "send_qth")
+    {
+        Toggle();
+        BackupUnits::SendQTH();
+        return;
+    }
+
     if(id == "cancel_chase")
     {
         Toggle();
+        Chase::AbortChase();
+        return;
+    }
+
+    if(id == "cancel_services")
+    {
+        m_cancelServices = true;
+        Toggle();
+
+        WAIT(1000, []() {
+            m_cancelServices = false;
+        });
+
         return;
     }
 

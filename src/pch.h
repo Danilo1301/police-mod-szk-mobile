@@ -18,6 +18,8 @@ extern IMenuSZK* menuSZK;
 #define menuDebug menuSZK->debug
 
 #define NO_PED_FOUND -1
+#define CHASE_MAX_VEHICLE_SPEED 10.0f
+#define CHASE_MAX_POLICE_SPEED 30.0f
 
 #include "hooks.h"
 
@@ -39,6 +41,7 @@ inline CVector2D g_defaultMenuPosition = CVector2D(400, 200);
 
 #define COLOR_CRIMINAL CRGBA(255, 0, 0)
 #define COLOR_YELLOW CRGBA(255, 255, 0)
+#define COLOR_POLICE CRGBA(0, 150, 255)
 
 template <typename T>
 inline T* loadInterface(T** out, std::string name, bool optional = false)

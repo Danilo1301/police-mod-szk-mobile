@@ -8,6 +8,7 @@ struct ePedFlags
     bool willSurrender = true;
     bool isInconcious = false;
     bool showWidget = false;
+    int copActingOnPed = 0;
 
     CRGBA blipColor = CRGBA(255, 255, 255);
     bool showBlip = false;

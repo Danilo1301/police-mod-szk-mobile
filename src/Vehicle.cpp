@@ -5,6 +5,9 @@
 #include "WorldWidgets.h"
 #include "Peds.h"
 #include "Vehicles.h"
+#include "Chase.h"
+
+extern bool freezingCriminals;
 
 Vehicle::Vehicle(int ref, void* ptr)
 {
@@ -35,9 +38,9 @@ Vehicle::Vehicle(int ref, void* ptr)
 
     flags.isStolen = calculateProbability(0.2f);
 
-    if(flags.isStolen)
+    if(flags.isStolen && HasDriver())
     {
-        ShowBlip(CRGBA(50, 50, 50, 100));
+        ShowBlip(CRGBA(100, 0, 0));
     }
 }
 
@@ -52,7 +55,8 @@ Vehicle::~Vehicle()
 
 void Vehicle::Update()
 {
-    timeAlive += menuSZK->deltaTime;
+    timeAlive = std::min(timeAlive + (int)menuSZK->deltaTime, 100000);
+    timeSinceLastRepair = std::min(timeSinceLastRepair + (int)menuSZK->deltaTime, 100000);
 
     auto carPosition = GetPosition();
     auto playerPosition = *g_playerPosition;
@@ -73,6 +77,14 @@ void Vehicle::Update()
     {
         TryInitializePedsInside();
     }
+
+    auto carHealth = GET_CAR_HEALTH(ref);
+    if(carHealth < 300 && timeSinceLastRepair > 1000)
+    {
+        timeSinceLastRepair = 0;
+        SET_CAR_HEALTH(ref, 350);
+        menuDebug->AddLine("~r~car health restored");
+    }
 }
 
 void Vehicle::ShowBlip(CRGBA color)
@@ -84,6 +96,19 @@ void Vehicle::ShowBlip(CRGBA color)
 void Vehicle::HideBlip()
 {
     flags.showBlip = false;
+}
+
+void Vehicle::RemoveBlips()
+{
+    HideBlip();
+
+    auto occupants = GetCurrentOccupants();
+
+    for(auto pedRef : occupants)
+    {
+        auto ped = Peds::GetPed(pedRef);
+        ped->HideBlip();
+    }
 }
 
 CVector Vehicle::GetPosition()
@@ -144,8 +169,6 @@ std::vector<int> Vehicle::GetCurrentOccupants()
 
 void Vehicle::MakeOccupantsLeave()
 {
-    SetOwners();
-
     auto ocuppants = GetCurrentOccupants();
 
     for(auto pedRef : ocuppants)
@@ -155,7 +178,7 @@ void Vehicle::MakeOccupantsLeave()
     }
 }
 
-void Vehicle::MakeOccupantsEnter()
+void Vehicle::MakeOwnersEnter()
 {
     auto owners = GetOwners();
 
@@ -245,4 +268,35 @@ void Vehicle::TryInitializePedsInside()
             ped->InitializeOnVehicle(ref);
         }
     }
+}
+
+int Vehicle::GetModelId()
+{
+    if(modelId <= 0)
+    {
+        modelId = GET_CAR_MODEL(ref);
+    }
+
+    return modelId;
+}
+
+bool Vehicle::IsAllOwnersInside()
+{
+    auto owners = GetOwners();
+
+    if(owners.size() == 0) return false;
+
+    for(auto ownerRef : owners)
+    {
+        auto owner = Peds::GetPed(ownerRef);
+
+        if(!owner->IsInAnyCar()) return false;
+    }
+    
+    return true;
+}
+
+float Vehicle::GetSpeed()
+{
+    return CAR_SPEED(ref);
 }
