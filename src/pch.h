@@ -18,8 +18,8 @@ extern IMenuSZK* menuSZK;
 #define menuDebug menuSZK->debug
 
 #define NO_PED_FOUND -1
-#define CHASE_MAX_VEHICLE_SPEED 10.0f
-#define CHASE_MAX_POLICE_SPEED 30.0f
+#define CHASE_MAX_VEHICLE_SPEED 40.0f
+#define CHASE_MAX_POLICE_SPEED 40.0f
 
 #include "hooks.h"
 
@@ -35,6 +35,7 @@ inline bool blockInput = false;
 
 inline void* textureBlip = nullptr;
 inline void* textureCircle = nullptr;
+inline void* texturePoliceDP = nullptr;
 
 inline CVector* g_playerPosition = new CVector(0, 0, 0);
 inline CVector2D g_defaultMenuPosition = CVector2D(400, 200);

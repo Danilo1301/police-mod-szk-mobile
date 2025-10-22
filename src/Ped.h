@@ -8,6 +8,7 @@ struct ePedFlags
     bool willSurrender = true;
     bool isInconcious = false;
     bool showWidget = false;
+    bool beeingEscorted = false;
     int copActingOnPed = 0;
 
     CRGBA blipColor = CRGBA(255, 255, 255);
@@ -24,8 +25,6 @@ enum SeatPosition
 class Ped {
 private:
     bool wasAlive = false;
-    bool isLeavingCar = false;
-    bool isEnteringCar = false;
 
     std::string currentAnim = "";
     std::string currentAnimGroup = "";
@@ -33,6 +32,9 @@ public:
     int ref;
     void* ptr;
 
+    bool isLeavingCar = false;
+    bool isEnteringCar = false;
+    
     ePedFlags flags;
 
     IWidget* widgetOptions = nullptr;
@@ -72,14 +74,9 @@ public:
 
     void InitializeOnVehicle(int vehicleRef);
 
-    void CopyFrom(const Ped& other) {
-        int oldRef = ref;
-        void* oldPtr = ptr;
+    void CopyFrom(const Ped& other);
 
-        *this = other; // reutiliza o operador=
+    void Reanimate();
 
-        this->ref = oldRef;
-        this->ptr = oldPtr;
-        this->widgetOptions = nullptr;
-    }
+    void DestroySelf();
 };

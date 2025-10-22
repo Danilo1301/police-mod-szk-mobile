@@ -19,6 +19,8 @@ void ScriptTask::Start()
 
     CleoFunctions::AddWaitForFunction(name, [this]() {
         timePassedToTimeout += menuSZK->deltaTime;
+        totalTimeElapsed += menuSZK->deltaTime;
+        
         if(timeout > 0)
         {
             if(timePassedToTimeout >= timeout)

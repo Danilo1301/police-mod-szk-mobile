@@ -1,7 +1,7 @@
 #include <mod/amlmod.h>
 #include <mod/config.h>
 
-MYMODCFG(com.daniloszk.policemod, PoliceMod, 0.5.0, DaniloSZK)
+MYMODCFG(com.daniloszk.policemod, PoliceMod, 0.6.0, DaniloSZK)
 
 #include "pch.h"
 
@@ -33,8 +33,8 @@ extern "C" void OnModLoad()
     loadInterface(&menuSZK, "MenuSZK");
     if(!menuSZK) return;
 
-    loadInterface(&sautils, "SAUtils", true);
-    //if(!sautils) return;
+    loadInterface(&sautils, "SAUtils");
+    if(!sautils) return;
 
     fileLog->Log("Finding addresses...");
 

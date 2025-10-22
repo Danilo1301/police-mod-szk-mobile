@@ -700,6 +700,27 @@ inline int ADD_BLIP_FOR_CHAR(int _char)
     return blip;
 }
 
+//01F0: set_max_wanted_level_to 0 
+static DEFOPCODE(01F0, SET_MAX_WANTED_LEVEL_TO, i);
+inline void SET_MAX_WANTED_LEVEL_TO(int wantedLevel)
+{
+    sautils->ScriptCommand(&scm_SET_MAX_WANTED_LEVEL_TO, wantedLevel);
+}
+
+//010D: set_player $PLAYER_CHAR wanted_level_to 0
+static DEFOPCODE(010D, SET_PLAYER_WANTED_LEVEL, ii);
+inline void SET_PLAYER_WANTED_LEVEL(int player, int wantedLevel)
+{
+    sautils->ScriptCommand(&scm_SET_PLAYER_WANTED_LEVEL, player, wantedLevel);
+}
+
+// 0526
+static DEFOPCODE(0526, SET_CHAR_STAY_IN_CAR_WHEN_JACKED, ib);
+inline void SET_CHAR_STAY_IN_CAR_WHEN_JACKED(int ped, bool state)
+{
+    sautils->ScriptCommand(&scm_SET_CHAR_STAY_IN_CAR_WHEN_JACKED, ped, state);
+}
+
 //0164: disable_marker $482
 static DEFOPCODE(0164, DISABLE_MARKER, i);
 inline void DISABLE_MARKER(int blip)

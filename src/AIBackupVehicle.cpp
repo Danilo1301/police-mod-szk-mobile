@@ -4,6 +4,7 @@
 #include "CleoFunctions.h"
 #include "Peds.h"
 #include "Vehicles.h"
+#include "ScriptTask.h"
 
 AIBackupVehicle::~AIBackupVehicle()
 {
@@ -12,7 +13,7 @@ AIBackupVehicle::~AIBackupVehicle()
 
 void AIBackupVehicle::Start()
 {
-    menuDebug->AddLine("so, AI started");
+    fileLog->Log("AIBackupVehicle: Start");
    
     FindCriminal();
     GotoCriminal();
@@ -24,10 +25,9 @@ void AIBackupVehicle::Update()
 
     //criminal
 
-    if(criminalRef > 0 && !ACTOR_DEFINED(criminalRef))
+    if(!ACTOR_DEFINED(criminalRef))
     {
         criminalRef = 0;
-        return;
     }
     
     auto criminal = criminalRef > 0 ? Peds::GetPed(criminalRef) : nullptr;
@@ -36,8 +36,9 @@ void AIBackupVehicle::Update()
 
     bool canDestroy = false;
     
+    float maxDistance = criminal ? 500.0f : 200.0f;
     auto distance = DistanceFromVehicle(vehicleRef, GetPlayerPosition());
-    if(distance > 500.0f) canDestroy = true;
+    if(distance > maxDistance) canDestroy = true;
 
     if(canDestroy)
     {
@@ -55,13 +56,39 @@ void AIBackupVehicle::Update()
     auto vehiclePosition = GetCarPosition(vehicleRef);
     auto vehicle = Vehicles::GetVehicle(vehicleRef);
 
+    if(Criminals::GetCriminals()->size() == 0)
+    {
+        if(!vehicleIsLeavingArea)
+        {
+            vehicleIsLeavingArea = true;
+
+            vehicle->MakeOwnersEnter();
+            
+            CleoFunctions::AddWaitForFunction("wait_cops_enter", [vehicle]() {
+
+                if(vehicle->IsAllOwnersInside()) return true;
+
+                return false;
+                
+            }, [vehicle]() {
+
+                ScriptTask::MakeVehicleLeave(vehicle->ref);
+
+            });
+        }
+    }
+
+    if(vehicleIsLeavingArea) return;
+
     if(criminal)
     {
         auto distance = distanceBetweenPoints(criminal->GetPosition(), vehiclePosition);
 
         bool isSlowOrStopped = vehicle->GetSpeed() < 2.0f;
 
-        if(distance < 10 && vehicle->GetCurrentOccupants().size() > 0 && isSlowOrStopped)
+        float distanceToExit = criminal->IsInAnyCar() ? 20.0f : 10.0f;
+
+        if(distance < distanceToExit && vehicle->GetCurrentOccupants().size() > 0 && isSlowOrStopped)
         {
             if(!copsAreLeaving)
             {
@@ -70,7 +97,7 @@ void AIBackupVehicle::Update()
             }
         }
 
-        if(distance > 15 && vehicle->GetCurrentOccupants().size() == 0)
+        if(distance > distanceToExit + 5 && vehicle->GetCurrentOccupants().size() == 0)
         {
             if(!copsAreEntering)
             {
@@ -93,6 +120,9 @@ void AIBackupVehicle::Update()
         if(vehicle->IsAllOwnersInside())
         {
             copsAreEntering = false;
+
+            FindCriminal();
+            GotoCriminal();
         }
     }
 
@@ -132,6 +162,8 @@ void AIBackupVehicle::Update()
 
 void AIBackupVehicle::FindCriminal()
 {
+    fileLog->Log("AIBackupVehicle: FindCriminal");
+
     auto criminals = Criminals::GetCriminals();
 
     menuDebug->AddLine("found ~r~" + std::to_string(criminals->size()) + " criminals");
@@ -153,10 +185,11 @@ void AIBackupVehicle::FindCriminal()
 
 void AIBackupVehicle::GotoCriminal()
 {
-    if(copsAreLeaving) return;
-    if(criminalRef <= 0) return;
-    if(!ACTOR_DEFINED(criminalRef)) return;
     if(!CAR_DEFINED(vehicleRef)) return;
+    if(copsAreLeaving || copsAreEntering) return;
+    if(criminalRef <= 0 || !ACTOR_DEFINED(criminalRef)) return;
+
+    fileLog->Log("AIBackupVehicle: GotoCriminal");
 
     auto vehicle = Vehicles::GetVehicle(vehicleRef);
     auto criminal = Peds::GetPed(criminalRef);
@@ -167,8 +200,6 @@ void AIBackupVehicle::GotoCriminal()
 
     if(!vehicle->IsAllOwnersInside())
     {
-        menuDebug->AddLine("~r~but they are not inside");
-
         // if(distance > 10)
         // {
         //     vehicle->MakeOwnersEnter();
@@ -246,16 +277,9 @@ int AIBackupVehicle::FindBestCriminal(CVector position)
 
 void AIBackupVehicle::ProcessFindCriminalTimer()
 {
-    if(Criminals::GetCriminals()->size() == 0) return;
+    findCriminalTimer += menuSZK->deltaTime;
 
-    int dt = menuSZK->deltaTime; // tempo entre frames
-
-    findCriminalTimer += dt;
-
-    auto vehicle = Vehicles::GetVehicle(vehicleRef);
-
-    auto isOwnersInside = vehicle->IsAllOwnersInside();
-    auto time = isOwnersInside ? 8000 : 3000;
+    int time = 10000;
 
     if (findCriminalTimer >= time)
     {

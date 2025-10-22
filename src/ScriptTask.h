@@ -13,6 +13,7 @@ private:
 public:
     std::string name;
     int scriptStatus = SCRIPT_KEEP_GOING;
+    int totalTimeElapsed = 0;
     bool deleteOnComplete = true;
     std::function<void()> onBegin;
     std::function<int()> onExecute;

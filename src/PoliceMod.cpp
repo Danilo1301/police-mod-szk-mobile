@@ -12,6 +12,8 @@
 #include "WorldWidgets.h"
 #include "Chase.h"
 #include "AIController.h"
+#include "Escort.h"
+#include "PoliceBases.h"
 
 bool hasFirstUpdated = false;
 
@@ -53,6 +55,7 @@ void PoliceMod::OnModLoad()
 
     textureBlip = menuSZK->LoadTexture(modData->GetFileFromMenuSZK("assets/blip.png"));
     textureCircle = menuSZK->LoadTexture(modData->GetFileFromMenuSZK("assets/map/circle.png"));
+    texturePoliceDP = menuSZK->LoadTexture(modData->GetFileFromAssets("map/police_dep.png"));
 
     menuSZK->onDrawBeforeMenu->Add([]() {
         auto peds = Peds::GetPedsMap();
@@ -84,6 +87,8 @@ void PoliceMod::OnModLoad()
         
             menuSZK->DrawTextureOnWorld(textureBlip, position, vehicle->flags.blipColor, CVector2D(100, 100));
         }
+
+        PoliceBases::OnDraw();
     });
 
     menuSZK->onBeforeMenuUpdate->Add([]() {
@@ -118,6 +123,8 @@ void PoliceMod::OnModLoad()
         
             menuSZK->DrawTextureOnRadar(textureCircle, position, vehicle->flags.blipColor, 20.0f);
         }
+
+        PoliceBases::OnPostDrawRadar();
     });
 }
 
@@ -142,6 +149,9 @@ void PoliceMod::OnGameUpdate()
     TopMessage::Update();
     Chase::Update();
     AIController::Update();
+    Escort::Update();
+    PoliceBases::Update();
+    Checkpoints::Update();
     CleoFunctions::Update(menuSZK->deltaTime);
 }
 
@@ -157,6 +167,7 @@ void PoliceMod::OnFirstUpdate()
     BottomMessage::Initialize();
     TopMessage::Initialize();
     RadioWindow::Initialize();
+    PoliceBases::Initialize();
 
     {
         auto widget = menuSZK->CreateWidget(

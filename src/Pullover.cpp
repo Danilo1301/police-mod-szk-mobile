@@ -10,6 +10,7 @@
 #include "ScriptTask.h"
 #include "Chase.h"
 #include "RadioWindow.h"
+#include "Escort.h"
 
 int aimingPed = NO_PED_FOUND;
 
@@ -82,9 +83,15 @@ void Pullover::TryPulloverClosestVehicle()
 
 void Pullover::PulloverPed(Ped* ped)
 {
-    menuDebug->AddLine("~g~pull over ped");
+    if(ped->flags.isInconcious)
+    {
+        menuDebug->AddLine("~g~pull over ped incounsious");
 
-    if(ped->flags.isInconcious) return;
+        ped->flags.showWidget = true;
+        return;
+    }
+
+    menuDebug->AddLine("~g~pull over ped");
 
     if(ped->flags.willSurrender == false)
     {
@@ -206,22 +213,52 @@ void Pullover::OpenPedMenu(Ped* ped)
 {
     auto window = menuSZK->CreateWindow(g_defaultMenuPosition.x, g_defaultMenuPosition.y, 800, GetTranslatedText("pullover_title"));
     
+    if(ped->flags.isInconcious)
     {
-        auto button = window->AddButton(GetTranslatedText("hands_on_head"));
-        button->onClick->Add([window, ped]() {
-            window->Close();
+        {
+            auto button = window->AddButton(GetTranslatedText("reanimate_ped"));
+            button->onClick->Add([window, ped]() {
+                window->Close();
 
-            ped->SetAnim("handscower", "PED");
-        });
+                ped->Reanimate();
+            });
+        }
     }
 
+    if(ped->flags.isInconcious == false)
     {
-        auto button = window->AddButton(GetTranslatedText("hands_behind"));
-        button->onClick->Add([window, ped]() {
-            window->Close();
+        {
+            auto button = window->AddButton(GetTranslatedText("hands_on_head"));
+            button->onClick->Add([window, ped]() {
+                window->Close();
 
-            ped->SetAnim("bomber", "PED");
-        });
+                ped->SetAnim("handscower", "PED");
+            });
+        }
+
+        {
+            auto button = window->AddButton(GetTranslatedText("hands_behind"));
+            button->onClick->Add([window, ped]() {
+                window->Close();
+
+                ped->SetAnim("bomber", "PED");
+            });
+        }
+
+        {
+            auto button = window->AddButton(GetTranslatedText("escort_ped"));
+            button->onClick->Add([window, ped]() {
+                window->Close();
+
+                if(Escort::IsEscortingSomeone())
+                {
+                    BottomMessage::SetMessage("~r~Voce ja esta escoltando", 3000);
+                    return;
+                }
+
+                Escort::EscortPed(ped);
+            });
+        }
     }
 
     if(ped->flags.isInconcious == false)

@@ -6,8 +6,6 @@
 #include "BottomMessage.h"
 #include "Chase.h"
 
-bool freezingCriminals = false;
-
 void TestWindow::OpenWindow()
 {
     auto window = menuSZK->CreateWindow(200, 200, 800, "Mod Policia - tests");
@@ -17,6 +15,8 @@ void TestWindow::OpenWindow()
         button->onClick->Add([window]() {
             window->Close();
 
+            SET_MAX_WANTED_LEVEL_TO(0);
+            SET_PLAYER_WANTED_LEVEL(0, 0);
             
             // if(!Ped::PedHasWeaponId(playerActor, 10))
             // {
@@ -37,27 +37,18 @@ void TestWindow::OpenWindow()
     }
 
     {
-        std::string text = freezingCriminals ? "Unfreeze criminals" : "Freeze criminals";
-
-        auto button = window->AddButton(text);
+        auto button = window->AddButton("Freeze criminals");
         button->onClick->Add([window]() {
             window->Close();
 
-            freezingCriminals = !freezingCriminals;
+            auto vehicles = Chase::vehiclesInChase;
 
-            if(freezingCriminals)
+            for(auto vehicle : vehicles)
             {
-                auto vehicles = Chase::vehiclesInChase;
-
-                float vel = freezingCriminals ? 0.1f : CHASE_MAX_VEHICLE_SPEED;
-
-                for(auto vehicle : vehicles)
-                {
-                    SET_CAR_MAX_SPEED(vehicle->ref, vel);
-                }
-
-                BottomMessage::SetMessage("Velocity limited to " + std::to_string(vel), 2000);
+                SET_CAR_MAX_SPEED(vehicle->ref, 0);
             }
+
+            BottomMessage::SetMessage("Velocity limited to 0", 2000);
         });
     }
 

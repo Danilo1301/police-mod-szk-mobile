@@ -14,6 +14,30 @@ Ped::Ped(int ref, void* ptr)
     this->ref = ref;
     this->ptr = ptr;
 
+    wasAlive = ACTOR_HEALTH(ref) > 0;
+
+    UpdateSeatPosition();
+
+    if(calculateProbability(0.20))
+    {
+        flags.willSurrender = false;
+    }
+}
+
+Ped::~Ped()
+{
+    if(widgetOptions)
+    {
+        widgetOptions->Close();
+        widgetOptions = nullptr;
+    }
+}
+
+void Ped::Update()
+{
+    PerformAnims();
+
+    if(widgetOptions == nullptr)
     {
         auto widget = menuSZK->CreateWidget(
             200,
@@ -35,25 +59,7 @@ Ped::Ped(int ref, void* ptr)
 
         widgetOptions = widget;
     }
-
-    wasAlive = ACTOR_HEALTH(ref) > 0;
-
-    UpdateSeatPosition();
-}
-
-Ped::~Ped()
-{
-    if(widgetOptions)
-    {
-        widgetOptions->Close();
-        widgetOptions = nullptr;
-    }
-}
-
-void Ped::Update()
-{
-    PerformAnims();
-
+    
     auto pedPosition = GetPosition();
     auto playerPosition = *g_playerPosition;
 
@@ -87,8 +93,6 @@ void Ped::Update()
             auto modelId = GET_ACTOR_MODEL(ref);
             auto position = ped->GetPosition();
 
-            
-    
             auto newPedRef = CREATE_ACTOR_PEDTYPE(PedType::CivMale, modelId, position.x, position.y, position.z);
             auto newPed = Peds::RegisterPed(newPedRef);
 
@@ -101,7 +105,8 @@ void Ped::Update()
             }
 
             newPed->flags.isInconcious = true;
-            newPed->flags.hasSurrended = true;
+            newPed->flags.hasSurrended = false;
+            newPed->flags.showWidget = false;
             newPed->flags.willSurrender = true;
 
             PERFORM_ANIMATION_AS_ACTOR(newPedRef, "crckdeth2", "CRACK", 10.0f, 0, 0, 0, 1, -1);
@@ -306,4 +311,64 @@ void Ped::InitializeOnVehicle(int vehicleRef)
             ped->flags.willSurrender = false;
         }
     }
+}
+
+void Ped::CopyFrom(const Ped& other)
+{
+    int oldRef = ref;
+    void* oldPtr = ptr;
+
+    *this = other; // reutiliza o operador=
+
+    ref = oldRef;
+    ptr = oldPtr;
+    widgetOptions = nullptr;
+
+    if (vehicleOwned > 0)
+    {
+        auto vehicle = Vehicles::GetVehicle(vehicleOwned);
+
+        if (!vehicle)
+            return;
+
+        // 🚮 Remove o ped antigo da lista de passageiros (se existir)
+        auto& passengers = vehicle->ownerPassengers;
+        passengers.erase(
+            std::remove(passengers.begin(), passengers.end(), oldRef),
+            passengers.end()
+        );
+
+        // 🚗 Atualiza o novo dono conforme a posição no veículo
+        if (prevSeatPosition == SeatPosition::DRIVER)
+        {
+            vehicle->ownerDriver = ref;
+        }
+        else if (prevSeatPosition == SeatPosition::PASSENGER)
+        {
+            passengers.push_back(ref);
+        }
+    }
+}
+
+void Ped::Reanimate()
+{
+    ClearAnim();
+    flags.isInconcious = false;
+    
+    if(Criminals::IsCriminal(this))
+    {
+        flags.hasSurrended = true;
+        SetCanDoHandsup();
+    } else {
+        HideBlip();
+        flags.showWidget = false;
+    }
+}
+
+void Ped::DestroySelf()
+{
+    if(!ACTOR_DEFINED(ref)) return;
+
+    DESTROY_ACTOR(ref);
+    Peds::RemovePed(ref);
 }

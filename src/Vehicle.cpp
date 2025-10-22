@@ -46,6 +46,8 @@ Vehicle::Vehicle(int ref, void* ptr)
 
 Vehicle::~Vehicle()
 {
+    fileLog->Log("Vehicle: ~Vehicle");
+
     if(widgetOptions)
     {
         widgetOptions->Close();
@@ -169,6 +171,8 @@ std::vector<int> Vehicle::GetCurrentOccupants()
 
 void Vehicle::MakeOccupantsLeave()
 {
+    fileLog->Log("Vehicle: MakeOccupantsLeave");
+    
     auto ocuppants = GetCurrentOccupants();
 
     for(auto pedRef : ocuppants)
@@ -180,6 +184,8 @@ void Vehicle::MakeOccupantsLeave()
 
 void Vehicle::MakeOwnersEnter()
 {
+    fileLog->Log("Vehicle: MakeOwnersEnter");
+
     auto owners = GetOwners();
 
     int passengerSeatId = 0;
@@ -199,6 +205,8 @@ void Vehicle::MakeOwnersEnter()
 
 void Vehicle::SetOwners()
 {
+    fileLog->Log("Vehicle: SetOwners");
+
     ownerPassengers.clear();
     ownerDriver = -1;
 
@@ -241,6 +249,8 @@ std::vector<int> Vehicle::GetOwners()
 
 void Vehicle::DestroySelfAndPeds()
 {
+    fileLog->Log("Vehicle: DestroySelfAndPeds");
+
     auto occupants = GetCurrentOccupants();
 
     for(auto pedRef : occupants)
@@ -257,6 +267,8 @@ void Vehicle::TryInitializePedsInside()
 {
     if(hasInitializedPeds) return;
     hasInitializedPeds = true;
+
+    fileLog->Log("Vehicle: TryInitializePedsInside");
 
     auto ocuppants = GetCurrentOccupants();
 
@@ -285,6 +297,7 @@ bool Vehicle::IsAllOwnersInside()
     auto owners = GetOwners();
 
     if(owners.size() == 0) return false;
+    if(GetCurrentOccupants().size() == 0) return false;
 
     for(auto ownerRef : owners)
     {

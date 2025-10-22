@@ -9,7 +9,15 @@ std::vector<Vehicle*> Chase::vehiclesInChase;
 
 void Chase::Update()
 {
-    
+    // Remove veículos inválidos
+    vehiclesInChase.erase(
+        std::remove_if(
+            vehiclesInChase.begin(),
+            vehiclesInChase.end(),
+            [](Vehicle* vehicle) { return !CAR_DEFINED(vehicle->ref); }
+        ),
+        vehiclesInChase.end()
+    );
 }
 
 void Chase::StartChaseWithVehicle(Vehicle* vehicle)

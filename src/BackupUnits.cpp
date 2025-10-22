@@ -12,6 +12,8 @@ std::vector<Vehicle*> BackupUnits::backupVehicles;
 
 void BackupUnits::SendQTH()
 {
+    fileLog->Log("BackupUnits: SendQTH");
+    
     BottomMessage::SetMessage("Apoio solicitado", 3000);
 
     SpawnBackupUnit();
@@ -19,6 +21,8 @@ void BackupUnits::SendQTH()
 
 void BackupUnits::SpawnBackupUnit()
 {
+    fileLog->Log("BackupUnits: SpawnBackupUnit");
+
     auto closePosition = GetPedPositionWithOffset(GetPlayerActor(), CVector(80, 50, 0));
 
     auto spawnPosition = GET_CLOSEST_CAR_NODE(closePosition.x, closePosition.y, closePosition.z);
@@ -63,6 +67,8 @@ void BackupUnits::AddVehicleAsBackup(Vehicle* vehicle, bool recreatePeds)
         }
     }
 
+    fileLog->Log("Setup occupants");
+
     auto occupants = vehicle->GetCurrentOccupants();
     for(auto pedRef : occupants)
     {
@@ -71,13 +77,13 @@ void BackupUnits::AddVehicleAsBackup(Vehicle* vehicle, bool recreatePeds)
         int pistolId = 22;
 
         GIVE_ACTOR_WEAPON(pedRef, pistolId, 5000);
-        REMOVE_REFERENCES_TO_ACTOR(pedRef);
+        //REMOVE_REFERENCES_TO_ACTOR(pedRef);
 
         cop->ShowBlip(COLOR_POLICE);
     }
 
     backupVehicles.push_back(vehicle);
-
+    
     vehicle->SetOwners();
     vehicle->ShowBlip(COLOR_POLICE);
 

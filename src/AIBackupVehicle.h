@@ -9,6 +9,7 @@ protected:
     bool copsAreLeaving = false;
     bool copsAreEntering = false;
     int findCriminalTimer = 0;
+    bool vehicleIsLeavingArea = false;
 public:
 
     ~AIBackupVehicle() override;
