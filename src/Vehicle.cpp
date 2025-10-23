@@ -36,7 +36,10 @@ Vehicle::Vehicle(int ref, void* ptr)
         widgetOptions = widget;
     }
 
-    flags.isStolen = calculateProbability(0.2f);
+    plate = randomPlate();
+
+    flags.isStolen = calculateProbability(0.10);
+    flags.hasExpiredDocument = calculateProbability(0.10);
 
     if(flags.isStolen && HasDriver())
     {
@@ -312,4 +315,26 @@ bool Vehicle::IsAllOwnersInside()
 float Vehicle::GetSpeed()
 {
     return CAR_SPEED(ref);
+}
+
+CRGBA Vehicle::GetBlipColor()
+{
+    if(ownerDriver > 0 && ACTOR_DEFINED(ownerDriver))
+    {
+        auto driver = Peds::GetPed(ownerDriver);
+
+        if(driver->flags.showBlip) return driver->flags.blipColor;
+    }
+
+    for(auto occupantRef : GetCurrentOccupants())
+    {
+        auto ped = Peds::GetPed(occupantRef);
+
+        if(ped->flags.showBlip)
+        {
+            return ped->flags.blipColor;
+        }
+    }
+
+    return flags.blipColor;
 }

@@ -5,6 +5,7 @@
 #include "Peds.h"
 #include "BottomMessage.h"
 #include "Chase.h"
+#include "Callouts.h"
 
 void TestWindow::OpenWindow()
 {
@@ -71,6 +72,15 @@ void TestWindow::OpenWindow()
 
                 ped->ShowBlip(CRGBA(0, 255, 255));
             });
+        });
+    }
+
+    {
+        auto button = window->AddButton("Accept callout");
+        button->onClick->Add([window]() {
+            window->Close();
+            
+            Callouts::AcceptCallout();
         });
     }
 

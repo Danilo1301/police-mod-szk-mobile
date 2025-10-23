@@ -2,6 +2,8 @@
 
 #include "Peds.h"
 #include "CleoFunctions.h"
+#include "AIController.h"
+#include "AICriminal.h"
 
 std::vector<Ped*> criminals;
 
@@ -22,6 +24,12 @@ void Criminals::AddCriminal(Ped* ped)
     if(IsCriminal(ped)) return;
 
     criminals.push_back(ped);
+
+    auto ai = new AICriminal();
+
+    AIController::AddAIToPed(ped, ai);
+
+    ai->Start();
 }
 
 void Criminals::RemoveCriminal(Ped* ped)
@@ -31,6 +39,8 @@ void Criminals::RemoveCriminal(Ped* ped)
     auto it = std::find(criminals.begin(), criminals.end(), ped);
 
     criminals.erase(it);
+    
+    AIController::RemoveAIsFromPed(ped);
 }
 
 bool Criminals::IsCriminal(Ped* ped)

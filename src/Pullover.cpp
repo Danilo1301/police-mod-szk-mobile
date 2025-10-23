@@ -11,6 +11,7 @@
 #include "Chase.h"
 #include "RadioWindow.h"
 #include "Escort.h"
+#include "DocsWindow.h"
 
 int aimingPed = NO_PED_FOUND;
 
@@ -211,7 +212,7 @@ int Pullover::FindAimingPed()
 
 void Pullover::OpenPedMenu(Ped* ped)
 {
-    auto window = menuSZK->CreateWindow(g_defaultMenuPosition.x, g_defaultMenuPosition.y, 800, GetTranslatedText("pullover_title"));
+    auto window = menuSZK->CreateWindow(g_defaultMenuPosition.x, g_defaultMenuPosition.y, 800, GetTranslatedText("window_pullover_title"));
     
     if(ped->flags.isInconcious)
     {
@@ -223,6 +224,64 @@ void Pullover::OpenPedMenu(Ped* ped)
                 ped->Reanimate();
             });
         }
+    }
+
+    if(ped->flags.isInconcious == false)
+    {
+        auto button = window->AddButton(GetTranslatedText("ask_for_rg"));
+        button->onClick->Add([window, ped]() {
+            window->Close();
+
+            BottomMessage::SetMessage(GetTranslatedText("dialog_ask_for_rg"), 3000);
+
+            WAIT(3000, [ped]() {
+                ped->flags.shownRG = true;
+
+                DocsWindow::ShowRG(ped);
+            });
+        });
+    }
+
+    if(ped->flags.isInconcious == false)
+    {
+        auto button = window->AddButton(GetTranslatedText("ask_for_cnh"));
+        button->onClick->Add([window, ped]() {
+            window->Close();
+
+            BottomMessage::SetMessage(GetTranslatedText("dialog_ask_for_cnh"), 3000);
+
+            WAIT(3000, [ped]() {
+                DocsWindow::ShowCNH(ped);
+            });
+        });
+    }
+
+    if(ped->flags.isInconcious == false)
+    {
+        auto button = window->AddButton(GetTranslatedText("escort_ped"));
+        button->onClick->Add([window, ped]() {
+            window->Close();
+
+            if(Escort::IsEscortingSomeone())
+            {
+                BottomMessage::SetMessage(GetTranslatedText("error_already_escorting"), 3000);
+                return;
+            }
+
+            Escort::EscortPed(ped);
+        });
+    }
+
+    if(ped->flags.isInconcious == false)
+    {
+        auto button = window->AddButton("Teleport to prision");
+        button->onClick->Add([window, ped]() {
+            window->Close();
+
+            Criminals::RemoveCriminal(ped);
+
+            ped->DestroySelf();
+        });
     }
 
     if(ped->flags.isInconcious == false)
@@ -242,21 +301,6 @@ void Pullover::OpenPedMenu(Ped* ped)
                 window->Close();
 
                 ped->SetAnim("bomber", "PED");
-            });
-        }
-
-        {
-            auto button = window->AddButton(GetTranslatedText("escort_ped"));
-            button->onClick->Add([window, ped]() {
-                window->Close();
-
-                if(Escort::IsEscortingSomeone())
-                {
-                    BottomMessage::SetMessage("~r~Voce ja esta escoltando", 3000);
-                    return;
-                }
-
-                Escort::EscortPed(ped);
             });
         }
     }
@@ -345,6 +389,15 @@ void Pullover::OpenVehicleMenu(Vehicle* vehicle)
                 ped->flags.showWidget = true;
                 ped->SetCanDoHandsup();
             }
+        });
+    }
+
+    {
+        auto button = window->AddButton(GetTranslatedText("check_vehicle"));
+        button->onClick->Add([window, vehicle]() {
+            window->Close();
+
+            DocsWindow::ShowVehicleDocs(vehicle);
         });
     }
 

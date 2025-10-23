@@ -721,6 +721,22 @@ inline void SET_CHAR_STAY_IN_CAR_WHEN_JACKED(int ped, bool state)
     sautils->ScriptCommand(&scm_SET_CHAR_STAY_IN_CAR_WHEN_JACKED, ped, state);
 }
 
+//0107: $OBJ1 = create_object 1459 at 4@ 5@ 6@
+static DEFOPCODE(0107, CREATE_OBJECT, ifffv);
+inline int CREATE_OBJECT(int modelId, float x, float y, float z)
+{
+    int object = 0;
+    sautils->ScriptCommand(&scm_CREATE_OBJECT, modelId, x, y, z, &object);
+    return object;
+}
+
+//0177: set_object $OBJ1 Z_angle_to $ANGLE
+static DEFOPCODE(0177, SET_OBJECT_Z_ANGLE, if);
+inline void SET_OBJECT_Z_ANGLE(int object, float heading)
+{
+    sautils->ScriptCommand(&scm_SET_OBJECT_Z_ANGLE, object, heading);
+}
+
 //0164: disable_marker $482
 static DEFOPCODE(0164, DISABLE_MARKER, i);
 inline void DISABLE_MARKER(int blip)
@@ -744,6 +760,51 @@ inline int ACTOR_HEALTH(int _char)
     return health;
 }
 
+//0118: actor 0@ dead 
+static DEFOPCODE(0118, ACTOR_DEAD, i);
+inline bool ACTOR_DEAD(int actor)
+{
+    bool result = false;
+    result = sautils->ScriptCommand(&scm_ACTOR_DEAD, actor);
+    return result;
+}
+
+//0223: set_actor 2@ health_to 500 
+static DEFOPCODE(0223, SET_ACTOR_HEALTH, ii);
+inline void SET_ACTOR_HEALTH(int _char, int health)
+{
+    sautils->ScriptCommand(&scm_SET_ACTOR_HEALTH, _char, health);
+}
+
+//020C
+static DEFOPCODE(020C, ADD_EXPLOSION, fffi);
+inline void ADD_EXPLOSION(float x, float y, float z, int explosionType)
+{
+    sautils->ScriptCommand(&scm_ADD_EXPLOSION, x, y, z, explosionType);
+}
+
+//09CA
+static DEFOPCODE(09CA, SET_OBJECT_PROOFS, ibbbbb);
+inline void SET_OBJECT_PROOFS(int objectId, bool bulletProof, bool fireProof, bool explosionProof, bool collisionProof, bool meleeProof)
+{
+    sautils->ScriptCommand(&scm_SET_OBJECT_PROOFS, objectId, bulletProof, fireProof, explosionProof, collisionProof, meleeProof);
+}
+
+//0167: 7@ = create_marker_at 0@ 1@ 2@ color 0 flag 3
+static DEFOPCODE(0167, CREATE_MARKER_AT, fffiiv);
+inline int CREATE_MARKER_AT(float x, float y, float z, int color, int display)
+{
+    int blip = 0;
+    sautils->ScriptCommand(&scm_CREATE_MARKER_AT, x, y, z, color, display, &blip);
+    return blip;
+}
+
+//0168: set_marker 9@ size 3
+static DEFOPCODE(0168, SET_MARKER_SIZE, ii);
+inline void SET_MARKER_SIZE(int blip, int size)
+{
+    sautils->ScriptCommand(&scm_SET_MARKER_SIZE, blip, size);
+}
 
 // --------------------------------------------
 
@@ -823,4 +884,28 @@ inline double DistanceFromVehicle(int hCar, CVector position)
     auto carPosition = GetCarPosition(hCar);
     auto distance = distanceBetweenPoints(carPosition, position);
     return distance;
+}
+
+inline int CreateMarker(float x, float y, float z, int color, int display, int size)
+{
+    int blip = CREATE_MARKER_AT(x, y, z, color, display);
+    SET_MARKER_SIZE(blip, size);
+    return blip;
+}
+
+inline int SpawnPedRandomlyAtPosition_PedNode(CVector position, PedType pedType, int modelId, float radius)
+{
+    CVector offset = CVector(
+      radius/2 + (float)(getRandomNumber(0, (int)radius)),
+      radius/2 + (float)(getRandomNumber(0, (int)radius)),
+      0
+    );
+
+    position += offset;
+
+    auto nodePosition = STORE_PED_PATH_COORDS_CLOSEST_TO(position.x, position.y, position.z);
+
+    int pedRef = CREATE_ACTOR_PEDTYPE(pedType, modelId, nodePosition.x, nodePosition.y, nodePosition.z);
+
+    return pedRef;
 }

@@ -66,13 +66,18 @@ void AIBackupVehicle::Update()
             
             CleoFunctions::AddWaitForFunction("wait_cops_enter", [vehicle]() {
 
+                if(!Vehicles::IsValid(vehicle)) return true;
+
                 if(vehicle->IsAllOwnersInside()) return true;
 
                 return false;
                 
             }, [vehicle]() {
 
+                if(!Vehicles::IsValid(vehicle)) return;
+
                 ScriptTask::MakeVehicleLeave(vehicle->ref);
+                ENABLE_CAR_SIREN(vehicle->ref, false);
 
             });
         }
@@ -187,14 +192,15 @@ void AIBackupVehicle::GotoCriminal()
 {
     if(!CAR_DEFINED(vehicleRef)) return;
     if(copsAreLeaving || copsAreEntering) return;
-    if(criminalRef <= 0 || !ACTOR_DEFINED(criminalRef)) return;
+    if(criminalRef <= 0) return;
+    if(!ACTOR_DEFINED(criminalRef)) return;
 
     fileLog->Log("AIBackupVehicle: GotoCriminal");
 
     auto vehicle = Vehicles::GetVehicle(vehicleRef);
     auto criminal = Peds::GetPed(criminalRef);
 
-    menuDebug->AddLine("ai: goto criminal");
+    fileLog->Log("1");
 
     //auto distance = distanceBetweenPoints(criminal->GetPosition(), vehicle->GetPosition());
 
@@ -208,8 +214,12 @@ void AIBackupVehicle::GotoCriminal()
         return;
     }
     
+    fileLog->Log("2");
+
     if (IS_CHAR_IN_ANY_CAR(criminal->ref))
     {
+        fileLog->Log("3");
+
         auto chaseVehicle = Vehicles::GetVehicle(GetVehiclePedIsUsing(criminal->ref));
         if (!chaseVehicle || !chaseVehicle->ref) return;
 
@@ -217,9 +227,13 @@ void AIBackupVehicle::GotoCriminal()
     }
     else
     {
+        fileLog->Log("4");
+
         auto pedPosition = criminal->GetPosition();
         CAR_DRIVE_TO(vehicle->ref, pedPosition.x, pedPosition.y, pedPosition.z);
     }
+
+    fileLog->Log("5");
     
     ENABLE_CAR_SIREN(vehicle->ref, true);
     SET_CAR_TRAFFIC_BEHAVIOUR(vehicle->ref, DrivingMode::AvoidCars);
@@ -247,6 +261,7 @@ int AIBackupVehicle::FindBestCriminal(CVector position)
         if (!criminal) continue;
         //if (criminal->flags.willSurrender) continue;
         if (criminal->flags.hasSurrended) continue;
+        if(criminal->flags.isInconcious) continue;
 
         float dist = distanceBetweenPoints(position, criminal->GetPosition());
         if (dist < bestDist)

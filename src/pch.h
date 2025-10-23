@@ -28,6 +28,7 @@ extern IMenuSZK* menuSZK;
 #include <string>
 #include <sstream>
 #include <iomanip>
+#include <random>
 
 inline bool HasCleo() { return cleo != nullptr; }
 
@@ -55,7 +56,7 @@ inline T* loadInterface(T** out, std::string name, bool optional = false)
 
     if (*out)
     {
-        fileLog->Log(name + "loaded");
+        fileLog->Log(name + " loaded");
     } else {
 
         if(optional)

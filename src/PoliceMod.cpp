@@ -14,6 +14,8 @@
 #include "AIController.h"
 #include "Escort.h"
 #include "PoliceBases.h"
+#include "ATMSystem.h"
+#include "Callouts.h"
 
 bool hasFirstUpdated = false;
 
@@ -63,9 +65,10 @@ void PoliceMod::OnModLoad()
         {
             auto ped = pair.second;
 
-            if(ped->flags.showBlip == false) continue;
-
             if(!Peds::IsValid(ped)) continue;
+
+            if(ped->flags.showBlip == false) continue;
+            if(ped->IsInAnyCar()) continue;
 
             auto position = ped->GetPosition();
             position.z += 1.8f;
@@ -78,14 +81,14 @@ void PoliceMod::OnModLoad()
         {
             auto vehicle = pair.second;
 
-            if(vehicle->flags.showBlip == false) continue;
-
             if(!Vehicles::IsValid(vehicle)) continue;
+            
+            if(vehicle->flags.showBlip == false) continue;
 
             auto position = vehicle->GetPosition();
             position.z += 2.2f;
         
-            menuSZK->DrawTextureOnWorld(textureBlip, position, vehicle->flags.blipColor, CVector2D(100, 100));
+            menuSZK->DrawTextureOnWorld(textureBlip, position, vehicle->GetBlipColor(), CVector2D(100, 100));
         }
 
         PoliceBases::OnDraw();
@@ -101,9 +104,10 @@ void PoliceMod::OnModLoad()
         {
             auto ped = pair.second;
 
-            if(ped->flags.showBlip == false) continue;
-
             if(!Peds::IsValid(ped)) continue;
+
+            if(ped->flags.showBlip == false) continue;
+            if(ped->IsInAnyCar()) continue;
 
             auto position = ped->GetPosition();
         
@@ -115,13 +119,13 @@ void PoliceMod::OnModLoad()
         {
             auto vehicle = pair.second;
 
-            if(vehicle->flags.showBlip == false) continue;
-
             if(!Vehicles::IsValid(vehicle)) continue;
+
+            if(vehicle->flags.showBlip == false) continue;
 
             auto position = vehicle->GetPosition();
         
-            menuSZK->DrawTextureOnRadar(textureCircle, position, vehicle->flags.blipColor, 20.0f);
+            menuSZK->DrawTextureOnRadar(textureCircle, position, vehicle->GetBlipColor(), 20.0f);
         }
 
         PoliceBases::OnPostDrawRadar();
@@ -142,6 +146,7 @@ void PoliceMod::OnGameUpdate()
         OnFirstUpdate();
     }
 
+    fileLog->Debug("Update systems...");
     Criminals::Update();
     Peds::Update();
     Vehicles::Update();
@@ -152,7 +157,10 @@ void PoliceMod::OnGameUpdate()
     Escort::Update();
     PoliceBases::Update();
     Checkpoints::Update();
+    Callouts::Update();
+    fileLog->Debug("Finished updating systems");
     CleoFunctions::Update(menuSZK->deltaTime);
+    fileLog->Debug("Finished updating cleo functions");
 }
 
 void PoliceMod::OnFirstUpdate()
@@ -168,6 +176,7 @@ void PoliceMod::OnFirstUpdate()
     TopMessage::Initialize();
     RadioWindow::Initialize();
     PoliceBases::Initialize();
+    ATMSystem::Initialize();
 
     {
         auto widget = menuSZK->CreateWidget(
@@ -198,17 +207,17 @@ void PoliceMod::OnFirstUpdate()
     }
 
     {
-        auto widget = menuSZK->CreateWidget(
-            500 + 170 + 170,
-            30,
-            150,
-            modData->GetFileFromMenuSZK("assets/widget_background1.png"),
-            modData->GetFileFromMenuSZK("assets/widget_menu.png")
-        );
+        // auto widget = menuSZK->CreateWidget(
+        //     500 + 170 + 170,
+        //     30,
+        //     150,
+        //     modData->GetFileFromMenuSZK("assets/widget_background1.png"),
+        //     modData->GetFileFromMenuSZK("assets/widget_menu.png")
+        // );
 
-        widget->onClick->Add([]() {
-            TestWindow::OpenWindow();
-        });
+        // widget->onClick->Add([]() {
+        //     TestWindow::OpenWindow();
+        // });
     }
 }
 

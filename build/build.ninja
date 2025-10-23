@@ -85,10 +85,46 @@ build CMakeFiles/MyLib.dir/src/AIController.cpp.o: CXX_COMPILER__MyLib_unscanned
   OBJECT_DIR = CMakeFiles\MyLib.dir
   OBJECT_FILE_DIR = CMakeFiles\MyLib.dir\src
 
+build CMakeFiles/MyLib.dir/src/AICop.cpp.o: CXX_COMPILER__MyLib_unscanned_Debug C$:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/src/AICop.cpp || cmake_object_order_depends_target_MyLib
+  CONFIG = Debug
+  DEFINES = -DMyLib_EXPORTS
+  DEP_FILE = CMakeFiles\MyLib.dir\src\AICop.cpp.o.d
+  FLAGS = -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -fno-limit-debug-info  -std=gnu++17 -fPIC -Wall -O2
+  INCLUDES = -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/aml -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/include
+  OBJECT_DIR = CMakeFiles\MyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\MyLib.dir\src
+
+build CMakeFiles/MyLib.dir/src/AICriminal.cpp.o: CXX_COMPILER__MyLib_unscanned_Debug C$:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/src/AICriminal.cpp || cmake_object_order_depends_target_MyLib
+  CONFIG = Debug
+  DEFINES = -DMyLib_EXPORTS
+  DEP_FILE = CMakeFiles\MyLib.dir\src\AICriminal.cpp.o.d
+  FLAGS = -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -fno-limit-debug-info  -std=gnu++17 -fPIC -Wall -O2
+  INCLUDES = -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/aml -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/include
+  OBJECT_DIR = CMakeFiles\MyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\MyLib.dir\src
+
+build CMakeFiles/MyLib.dir/src/AIPed.cpp.o: CXX_COMPILER__MyLib_unscanned_Debug C$:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/src/AIPed.cpp || cmake_object_order_depends_target_MyLib
+  CONFIG = Debug
+  DEFINES = -DMyLib_EXPORTS
+  DEP_FILE = CMakeFiles\MyLib.dir\src\AIPed.cpp.o.d
+  FLAGS = -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -fno-limit-debug-info  -std=gnu++17 -fPIC -Wall -O2
+  INCLUDES = -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/aml -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/include
+  OBJECT_DIR = CMakeFiles\MyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\MyLib.dir\src
+
 build CMakeFiles/MyLib.dir/src/AIVehicle.cpp.o: CXX_COMPILER__MyLib_unscanned_Debug C$:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/src/AIVehicle.cpp || cmake_object_order_depends_target_MyLib
   CONFIG = Debug
   DEFINES = -DMyLib_EXPORTS
   DEP_FILE = CMakeFiles\MyLib.dir\src\AIVehicle.cpp.o.d
+  FLAGS = -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -fno-limit-debug-info  -std=gnu++17 -fPIC -Wall -O2
+  INCLUDES = -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/aml -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/include
+  OBJECT_DIR = CMakeFiles\MyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\MyLib.dir\src
+
+build CMakeFiles/MyLib.dir/src/ATMSystem.cpp.o: CXX_COMPILER__MyLib_unscanned_Debug C$:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/src/ATMSystem.cpp || cmake_object_order_depends_target_MyLib
+  CONFIG = Debug
+  DEFINES = -DMyLib_EXPORTS
+  DEP_FILE = CMakeFiles\MyLib.dir\src\ATMSystem.cpp.o.d
   FLAGS = -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -fno-limit-debug-info  -std=gnu++17 -fPIC -Wall -O2
   INCLUDES = -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/aml -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/include
   OBJECT_DIR = CMakeFiles\MyLib.dir
@@ -107,6 +143,15 @@ build CMakeFiles/MyLib.dir/src/BottomMessage.cpp.o: CXX_COMPILER__MyLib_unscanne
   CONFIG = Debug
   DEFINES = -DMyLib_EXPORTS
   DEP_FILE = CMakeFiles\MyLib.dir\src\BottomMessage.cpp.o.d
+  FLAGS = -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -fno-limit-debug-info  -std=gnu++17 -fPIC -Wall -O2
+  INCLUDES = -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/aml -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/include
+  OBJECT_DIR = CMakeFiles\MyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\MyLib.dir\src
+
+build CMakeFiles/MyLib.dir/src/Callouts.cpp.o: CXX_COMPILER__MyLib_unscanned_Debug C$:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/src/Callouts.cpp || cmake_object_order_depends_target_MyLib
+  CONFIG = Debug
+  DEFINES = -DMyLib_EXPORTS
+  DEP_FILE = CMakeFiles\MyLib.dir\src\Callouts.cpp.o.d
   FLAGS = -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -fno-limit-debug-info  -std=gnu++17 -fPIC -Wall -O2
   INCLUDES = -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/aml -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/include
   OBJECT_DIR = CMakeFiles\MyLib.dir
@@ -143,6 +188,15 @@ build CMakeFiles/MyLib.dir/src/Criminals.cpp.o: CXX_COMPILER__MyLib_unscanned_De
   CONFIG = Debug
   DEFINES = -DMyLib_EXPORTS
   DEP_FILE = CMakeFiles\MyLib.dir\src\Criminals.cpp.o.d
+  FLAGS = -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -fno-limit-debug-info  -std=gnu++17 -fPIC -Wall -O2
+  INCLUDES = -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/aml -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/include
+  OBJECT_DIR = CMakeFiles\MyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\MyLib.dir\src
+
+build CMakeFiles/MyLib.dir/src/DocsWindow.cpp.o: CXX_COMPILER__MyLib_unscanned_Debug C$:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/src/DocsWindow.cpp || cmake_object_order_depends_target_MyLib
+  CONFIG = Debug
+  DEFINES = -DMyLib_EXPORTS
+  DEP_FILE = CMakeFiles\MyLib.dir\src\DocsWindow.cpp.o.d
   FLAGS = -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -fno-limit-debug-info  -std=gnu++17 -fPIC -Wall -O2
   INCLUDES = -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/aml -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/include
   OBJECT_DIR = CMakeFiles\MyLib.dir
@@ -327,7 +381,7 @@ build CMakeFiles/MyLib.dir/src/main.cpp.o: CXX_COMPILER__MyLib_unscanned_Debug C
 #############################################
 # Link the shared library libPoliceModSZK.so
 
-build libPoliceModSZK.so: CXX_SHARED_LIBRARY_LINKER__MyLib_Debug CMakeFiles/MyLib.dir/aml/mod/config.cpp.o CMakeFiles/MyLib.dir/aml/mod/logger.cpp.o CMakeFiles/MyLib.dir/src/AIBackupVehicle.cpp.o CMakeFiles/MyLib.dir/src/AIController.cpp.o CMakeFiles/MyLib.dir/src/AIVehicle.cpp.o CMakeFiles/MyLib.dir/src/BackupUnits.cpp.o CMakeFiles/MyLib.dir/src/BottomMessage.cpp.o CMakeFiles/MyLib.dir/src/Chase.cpp.o CMakeFiles/MyLib.dir/src/Checkpoint.cpp.o CMakeFiles/MyLib.dir/src/CleoFunctions.cpp.o CMakeFiles/MyLib.dir/src/Criminals.cpp.o CMakeFiles/MyLib.dir/src/Escort.cpp.o CMakeFiles/MyLib.dir/src/Logger.cpp.o CMakeFiles/MyLib.dir/src/ModData.cpp.o CMakeFiles/MyLib.dir/src/ModelLoader.cpp.o CMakeFiles/MyLib.dir/src/Ped.cpp.o CMakeFiles/MyLib.dir/src/Peds.cpp.o CMakeFiles/MyLib.dir/src/PoliceBase.cpp.o CMakeFiles/MyLib.dir/src/PoliceBases.cpp.o CMakeFiles/MyLib.dir/src/PoliceMod.cpp.o CMakeFiles/MyLib.dir/src/Pullover.cpp.o CMakeFiles/MyLib.dir/src/RadioWindow.cpp.o CMakeFiles/MyLib.dir/src/ScriptTask.cpp.o CMakeFiles/MyLib.dir/src/TestWindow.cpp.o CMakeFiles/MyLib.dir/src/TopMessage.cpp.o CMakeFiles/MyLib.dir/src/Vehicle.cpp.o CMakeFiles/MyLib.dir/src/Vehicles.cpp.o CMakeFiles/MyLib.dir/src/WorldWidgets.cpp.o CMakeFiles/MyLib.dir/src/hooks.cpp.o CMakeFiles/MyLib.dir/src/main.cpp.o | C$:/android-ndk-r26d/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/arm-linux-androideabi/21/liblog.so
+build libPoliceModSZK.so: CXX_SHARED_LIBRARY_LINKER__MyLib_Debug CMakeFiles/MyLib.dir/aml/mod/config.cpp.o CMakeFiles/MyLib.dir/aml/mod/logger.cpp.o CMakeFiles/MyLib.dir/src/AIBackupVehicle.cpp.o CMakeFiles/MyLib.dir/src/AIController.cpp.o CMakeFiles/MyLib.dir/src/AICop.cpp.o CMakeFiles/MyLib.dir/src/AICriminal.cpp.o CMakeFiles/MyLib.dir/src/AIPed.cpp.o CMakeFiles/MyLib.dir/src/AIVehicle.cpp.o CMakeFiles/MyLib.dir/src/ATMSystem.cpp.o CMakeFiles/MyLib.dir/src/BackupUnits.cpp.o CMakeFiles/MyLib.dir/src/BottomMessage.cpp.o CMakeFiles/MyLib.dir/src/Callouts.cpp.o CMakeFiles/MyLib.dir/src/Chase.cpp.o CMakeFiles/MyLib.dir/src/Checkpoint.cpp.o CMakeFiles/MyLib.dir/src/CleoFunctions.cpp.o CMakeFiles/MyLib.dir/src/Criminals.cpp.o CMakeFiles/MyLib.dir/src/DocsWindow.cpp.o CMakeFiles/MyLib.dir/src/Escort.cpp.o CMakeFiles/MyLib.dir/src/Logger.cpp.o CMakeFiles/MyLib.dir/src/ModData.cpp.o CMakeFiles/MyLib.dir/src/ModelLoader.cpp.o CMakeFiles/MyLib.dir/src/Ped.cpp.o CMakeFiles/MyLib.dir/src/Peds.cpp.o CMakeFiles/MyLib.dir/src/PoliceBase.cpp.o CMakeFiles/MyLib.dir/src/PoliceBases.cpp.o CMakeFiles/MyLib.dir/src/PoliceMod.cpp.o CMakeFiles/MyLib.dir/src/Pullover.cpp.o CMakeFiles/MyLib.dir/src/RadioWindow.cpp.o CMakeFiles/MyLib.dir/src/ScriptTask.cpp.o CMakeFiles/MyLib.dir/src/TestWindow.cpp.o CMakeFiles/MyLib.dir/src/TopMessage.cpp.o CMakeFiles/MyLib.dir/src/Vehicle.cpp.o CMakeFiles/MyLib.dir/src/Vehicles.cpp.o CMakeFiles/MyLib.dir/src/WorldWidgets.cpp.o CMakeFiles/MyLib.dir/src/hooks.cpp.o CMakeFiles/MyLib.dir/src/main.cpp.o | C$:/android-ndk-r26d/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/arm-linux-androideabi/21/liblog.so
   CONFIG = Debug
   DEP_FILE = CMakeFiles\MyLib.dir\link.d
   LANGUAGE_COMPILE_FLAGS = -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -fno-limit-debug-info

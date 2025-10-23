@@ -49,7 +49,7 @@ void Escort::EscortPed(Ped* ped)
 
     g_escortingPed = ped;
 
-    TopMessage::SetMessage("~y~Leve o suspeito ate seu veiculo policial");
+    TopMessage::SetMessage(GetTranslatedText("escort_to_cop_vehicle"));
     
     //
 
@@ -135,7 +135,7 @@ void Escort::OnPlayerEnterVehicle()
                 ped->flags.beeingEscorted = true;
 
                 TopMessage::ClearMessage();
-                BottomMessage::SetMessage("~y~Leve o ~r~suspeito ~y~para uma base da policia", 5000);
+                BottomMessage::SetMessage(GetTranslatedText("escort_to_police_base"), 5000);
             });
         });
     }

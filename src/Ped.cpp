@@ -18,9 +18,25 @@ Ped::Ped(int ref, void* ptr)
 
     UpdateSeatPosition();
 
-    if(calculateProbability(0.20))
+    cpf = randomCPF();
+    rg = randomRG();
+    catHab = randomCatHab();
+
+    if(calculateProbability(0.10))
+    {
+        catHab = "";
+    }
+
+    if(catHab.length() > 0)
+        flags.expiredDriversLicense = calculateProbability(0.20);
+
+    flags.wantedByJustice = calculateProbability(0.15);
+
+    if(flags.wantedByJustice)
     {
         flags.willSurrender = false;
+    } else {
+        flags.willSurrender = calculateProbability(0.40);
     }
 }
 
@@ -300,15 +316,17 @@ void Ped::InitializeOnVehicle(int vehicleRef)
 {
     auto vehicle = Vehicles::GetVehicle(vehicleRef);
 
-    if(vehicle->flags.isStolen)
+    if(vehicle->flags.isStolen || vehicle->flags.hasExpiredDocument)
     {
         auto occupants = vehicle->GetCurrentOccupants();
+
+        bool willSurrender = calculateProbability(0.40);
 
         for(auto pedRef : occupants)
         {
             auto ped = Peds::GetPed(pedRef);
 
-            ped->flags.willSurrender = false;
+            ped->flags.willSurrender = willSurrender;
         }
     }
 }

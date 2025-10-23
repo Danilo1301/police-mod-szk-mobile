@@ -7,6 +7,8 @@
 #include "Peds.h"
 #include "AIController.h"
 #include "AIBackupVehicle.h"
+#include "Criminals.h"
+#include "AICop.h"
 
 std::vector<Vehicle*> BackupUnits::backupVehicles;
 
@@ -16,6 +18,12 @@ void BackupUnits::SendQTH()
     
     BottomMessage::SetMessage("Apoio solicitado", 3000);
 
+    if(Criminals::GetCriminals()->size() == 0)
+    {
+        BottomMessage::SetMessage("~r~Nao foi possivel encontrar nenhum suspeito", 3000);
+        return;
+    }
+    
     SpawnBackupUnit();
 }
 
@@ -23,7 +31,7 @@ void BackupUnits::SpawnBackupUnit()
 {
     fileLog->Log("BackupUnits: SpawnBackupUnit");
 
-    auto closePosition = GetPedPositionWithOffset(GetPlayerActor(), CVector(80, 50, 0));
+    auto closePosition = GetPedPositionWithOffset(GetPlayerActor(), CVector(0, 80, 0));
 
     auto spawnPosition = GET_CLOSEST_CAR_NODE(closePosition.x, closePosition.y, closePosition.z);
 
@@ -77,9 +85,12 @@ void BackupUnits::AddVehicleAsBackup(Vehicle* vehicle, bool recreatePeds)
         int pistolId = 22;
 
         GIVE_ACTOR_WEAPON(pedRef, pistolId, 5000);
-        //REMOVE_REFERENCES_TO_ACTOR(pedRef);
 
         cop->ShowBlip(COLOR_POLICE);
+
+        auto ai = new AICop();
+        AIController::AddAIToPed(cop, ai);
+        ai->Start();
     }
 
     backupVehicles.push_back(vehicle);
@@ -100,10 +111,10 @@ void BackupUnits::AddVehicleAsBackup(Vehicle* vehicle, bool recreatePeds)
         // ai->FindNewCriminal();
         // ai->FollowCriminal();
     } else {
-        auto ai = new AIBackupVehicle();
+        //auto ai = new AIBackupVehicle();
         
-        AIController::AddAIToVehicle(vehicle, ai);
+        //AIController::AddAIToVehicle(vehicle, ai);
 
-        ai->Start();
+        //ai->Start();
     }
 }

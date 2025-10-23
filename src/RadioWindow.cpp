@@ -4,6 +4,8 @@
 #include "Chase.h"
 #include "CleoFunctions.h"
 #include "BackupUnits.h"
+#include "Callouts.h"
+#include "TestWindow.h"
 
 IContainer* RadioWindow::MainContainer = nullptr;
 IContainer* RadioWindow::ScreenContainer = nullptr;
@@ -107,17 +109,24 @@ void RadioWindow::Initialize()
     currentScreenIndex = 0;
 
     AddScreen("main", "send_qth", "send_qth.png");
+    AddScreen("main", "callout_menu", "callout_menu.png");
     AddScreen("main", "cancel_chase", "cancel_chase.png");
     AddScreen("main", "cancel_services", "cancel_services.png");
     AddScreen("main", "test_menu", "test_menu.png");
 
-    AddGroup("test", "main");
+    // AddGroup("test", "main");
 
-    AddScreen("test", "test1", "test.png");
-    AddScreen("test", "test2", "test.png");
-    AddScreen("test", "test3", "test.png");
+    // AddScreen("test", "test1", "test.png");
+    // AddScreen("test", "test2", "test.png");
+    // AddScreen("test", "test3", "test.png");
+
+    AddGroup("callout", "main");
+
+    AddScreen("callout", "callout_accept", "callout_accept.png");
 
     UpdateScreenContainer();
+    
+    MainContainer->isVisible = false;
 }
 
 void RadioWindow::Toggle()
@@ -155,7 +164,22 @@ void RadioWindow::OnSelect(std::string id)
 
     if(id == "test_menu")
     {
-        SwitchToGroup("test");
+        Toggle();
+        TestWindow::OpenWindow();
+        return;
+    }
+
+    if(id == "callout_accept")
+    {
+        if(Callouts::HasCalloutToAccept())
+        {
+            Toggle();
+            Callouts::AcceptCallout();
+            return;
+        }
+
+        BottomMessage::SetMessage("~r~There are no active callouts", 3000);
+
         return;
     }
 

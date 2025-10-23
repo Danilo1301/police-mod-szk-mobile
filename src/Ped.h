@@ -10,6 +10,9 @@ struct ePedFlags
     bool showWidget = false;
     bool beeingEscorted = false;
     int copActingOnPed = 0;
+    bool shownRG = false;
+    bool wantedByJustice = false;
+    bool expiredDriversLicense = false;
 
     CRGBA blipColor = CRGBA(255, 255, 255);
     bool showBlip = false;
@@ -43,6 +46,11 @@ public:
     int previousVehicle = -1;
 
     int vehicleOwned = -1;
+
+    std::string rg;
+    std::string cpf;
+
+    std::string catHab;
 
     Ped(int ref, void* ptr);
     ~Ped();
@@ -80,3 +88,69 @@ public:
 
     void DestroySelf();
 };
+
+inline std::string randomRG() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(0, 9);
+
+    std::stringstream ss;
+    ss << dist(gen) << dist(gen) << "-";
+    for (int i = 0; i < 3; ++i) ss << dist(gen);
+    ss << "-";
+    for (int i = 0; i < 3; ++i) ss << dist(gen);
+    ss << "-" << dist(gen);
+
+    return ss.str();
+}
+
+inline std::string randomCPF() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(0, 9);
+
+    std::stringstream ss;
+    for (int i = 0; i < 3; ++i) ss << dist(gen);
+    ss << "-";
+    for (int i = 0; i < 3; ++i) ss << dist(gen);
+    ss << "-";
+    for (int i = 0; i < 3; ++i) ss << dist(gen);
+    ss << "-";
+    for (int i = 0; i < 2; ++i) ss << dist(gen);
+
+    return ss.str();
+}
+
+inline std::string randomCatHab()
+{
+    std::string cat;
+
+    // 50% chance de ter A
+    if (calculateProbability(0.50f))
+        cat += "A";
+
+    // 90% chance de ter B
+    if (calculateProbability(0.90f))
+    {
+        cat += "B";
+
+        // 8% chance de ter C
+        if (calculateProbability(0.08f))
+            cat += "C";
+
+        // 3% chance de ter D
+        if (calculateProbability(0.03f))
+            cat += "D";
+
+        // 3% chance de ter E
+        if (calculateProbability(0.03f))
+        {
+            cat += "E";
+        }
+    }
+        
+    if (cat.empty())
+        cat = "B"; // fallback, sempre tem pelo menos B
+
+    return cat;
+}
