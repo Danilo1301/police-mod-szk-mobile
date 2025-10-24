@@ -250,6 +250,78 @@ std::vector<int> Vehicle::GetOwners()
     return owners;
 }
 
+void Vehicle::ValidateOwners()
+{
+    // caso não tenha referência válida do veículo
+    if (!CAR_DEFINED(ref))
+        return;
+
+    // checa se o motorista atual ainda é válido
+    bool hasValidDriver = ACTOR_DEFINED(ownerDriver);
+    if (hasValidDriver)
+    {
+        auto driver = Peds::GetPed(ownerDriver);
+        if (!driver || driver->IsDeadOrInconcious())
+            hasValidDriver = false;
+    }
+
+    // se não tem motorista válido, tenta promover um passageiro
+    if (!hasValidDriver)
+    {
+        int newDriverRef = -1;
+
+        // percorre os passageiros procurando um válido
+        for (auto it = ownerPassengers.begin(); it != ownerPassengers.end(); ++it)
+        {
+            auto pedRef = *it;
+
+            if (!ACTOR_DEFINED(pedRef))
+                continue;
+
+            auto ped = Peds::GetPed(pedRef);
+            if (!ped) continue;
+            if (ped->IsDeadOrInconcious()) continue;
+
+            // achou um bom candidato
+            newDriverRef = pedRef;
+            ownerDriver = pedRef;
+            ped->vehicleOwned = ref;
+
+            // remove dos passageiros, já que agora é o motorista
+            ownerPassengers.erase(it);
+            break;
+        }
+
+        // se achou um novo motorista, pode logar ou atualizar algo
+        if (newDriverRef > 0)
+        {
+            fileLog->Log("Vehicle: Promoted passenger to driver");
+        }
+        else
+        {
+            // nenhum passageiro válido -> veículo fica sem motorista
+            ownerDriver = -1;
+            fileLog->Log("Vehicle: Driver dead and no passengers to promote");
+        }
+    }
+
+    // remove passageiros mortos/inválidos
+    std::vector<int> validPassengers;
+    for (auto pedRef : ownerPassengers)
+    {
+        if (!ACTOR_DEFINED(pedRef))
+            continue;
+
+        auto ped = Peds::GetPed(pedRef);
+        if (!ped || ped->IsDeadOrInconcious())
+            continue;
+
+        validPassengers.push_back(pedRef);
+    }
+
+    ownerPassengers = validPassengers;
+}
+
 void Vehicle::DestroySelfAndPeds()
 {
     fileLog->Log("Vehicle: DestroySelfAndPeds");
@@ -310,6 +382,23 @@ bool Vehicle::IsAllOwnersInside()
     }
     
     return true;
+}
+
+bool Vehicle::IsAnyOwnersLeavingOrEnteringCar()
+{
+    auto owners = GetOwners();
+
+    if(owners.size() == 0) return false;
+
+    for(auto ownerRef : owners)
+    {
+        auto owner = Peds::GetPed(ownerRef);
+
+        if(owner->isLeavingCar) return true;
+        if(owner->isEnteringCar) return true;
+    }
+
+    return false;
 }
 
 float Vehicle::GetSpeed()

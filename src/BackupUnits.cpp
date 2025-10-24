@@ -47,6 +47,9 @@ void BackupUnits::SpawnBackupUnit()
         auto driverRef = CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(carRef, PedType::Special, pedModel);
         Peds::RegisterPed(driverRef);
 
+        auto passengerRef = CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT(carRef, PedType::Special, pedModel, 0);
+        Peds::RegisterPed(passengerRef);
+
         AddVehicleAsBackup(car, false);
     });
 }

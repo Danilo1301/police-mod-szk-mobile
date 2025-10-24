@@ -8,6 +8,7 @@ struct eVehicleFlags
     bool showBlip = false;
     bool isStolen = false;
     bool hasExpiredDocument = false;
+    int drivingToPed = -1;
 
     bool showWidget = false;
 };
@@ -56,6 +57,7 @@ public:
 
     void SetOwners();
     std::vector<int> GetOwners();
+    void ValidateOwners();
 
     void DestroySelfAndPeds();
 
@@ -64,6 +66,7 @@ public:
     int GetModelId();
 
     bool IsAllOwnersInside();
+    bool IsAnyOwnersLeavingOrEnteringCar();
 
     float GetSpeed();
 

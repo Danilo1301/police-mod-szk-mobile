@@ -30,6 +30,8 @@ extern IMenuSZK* menuSZK;
 #include <iomanip>
 #include <random>
 
+#include "EventListener.h"
+
 inline bool HasCleo() { return cleo != nullptr; }
 
 inline bool blockInput = false;
@@ -40,6 +42,8 @@ inline void* texturePoliceDP = nullptr;
 
 inline CVector* g_playerPosition = new CVector(0, 0, 0);
 inline CVector2D g_defaultMenuPosition = CVector2D(400, 200);
+
+inline EventListener<int>* g_onPedLeaveVehicle = new EventListener<int>();
 
 #define COLOR_CRIMINAL CRGBA(255, 0, 0)
 #define COLOR_YELLOW CRGBA(255, 255, 0)

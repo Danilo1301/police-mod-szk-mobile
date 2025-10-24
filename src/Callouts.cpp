@@ -7,11 +7,14 @@
 #include "ModelLoader.h"
 #include "Peds.h"
 #include "Criminals.h"
+#include "AIController.h"
+#include "AICriminal.h"
 
 bool g_onACallout = false;
-int g_timeToGetCallout = 30000;
+int g_timeToGetCallout = 37000;
 int g_broadcastingCalloutId = NO_CALLOUT;
 int g_previousCalloutId = NO_CALLOUT;
+int g_timeWithNoCriminals = 0;
 
 void TryCreateExplosion(CVector position)
 {
@@ -42,6 +45,23 @@ void Callouts::Update()
         if(g_timeToGetCallout >= 40000)
         {
             BroadcastRandomCallout();
+        }
+    }
+
+    if(!g_onACallout)
+    {
+        g_timeWithNoCriminals = 0;
+    } else {
+
+        if(Criminals::GetCriminals()->size() == 0)
+        {
+            g_timeWithNoCriminals += menuSZK->deltaTime;
+        }
+
+        if(g_timeWithNoCriminals >= 1000)
+        {
+            g_onACallout = false;
+            BottomMessage::AddMessage("Ocorrencia encerrada", 3000);
         }
     }
 
@@ -129,7 +149,7 @@ void Callouts::OnBeginCallout(int id)
             ModelLoader::AddModelToLoad(skinModel);
             ModelLoader::AddModelToLoad(coltModel);
             ModelLoader::LoadAll([location, skinModel, coltId]() {
-                for(int i = 0; i < 4; i++)
+                for(int i = 1; i <= 2; i++)
                 {
                     auto pedRef = SpawnPedRandomlyAtPosition_PedNode(location->position, PedType::CivMale, skinModel, 10.0f);
                     auto criminal = Peds::RegisterPed(pedRef);
@@ -141,7 +161,19 @@ void Callouts::OnBeginCallout(int id)
                     GIVE_ACTOR_WEAPON(pedRef, coltId, 1000);
                     SET_ACTOR_HEALTH(criminal->ref, 500);
 
-                    KILL_ACTOR(criminal->ref, GetPlayerActor());
+                    if(i == 1)
+                    {
+                        criminal->flags.willSurrender = false;
+                        criminal->flags.willKillCops = true;
+                    }
+
+                    if(i == 2)
+                    {
+                        criminal->flags.willSurrender = false;
+                        criminal->flags.willKillCops = false;
+                    }
+
+                    //auto ai = Criminals::GetAIOfPed(criminal);
                 }
             });
         };

@@ -91,11 +91,20 @@ void Ped::Update()
         widgetOptions->visible = widgetVisible;
     }
 
-    auto health = ACTOR_HEALTH(ref);
-
-    if(health <= 0 && wasAlive)
+    if(ACTOR_DEAD(ref) && wasAlive)
     {
         wasAlive = false;
+        flags.isInconcious = true;
+
+        if(CAR_DEFINED(vehicleOwned))
+        {
+            Vehicles::GetVehicle(vehicleOwned)->ValidateOwners();
+        }
+
+        if(CAR_DEFINED(previousVehicle))
+        {
+            Vehicles::GetVehicle(previousVehicle)->ValidateOwners();
+        }
 
         auto ref = this->ref;
 
@@ -143,6 +152,8 @@ void Ped::Update()
         {
             isLeavingCar = false;
             menuDebug->AddLine("~y~Ped left the vehicle");
+
+            g_onPedLeaveVehicle->Emit(ref);
         }
     }
 
@@ -259,6 +270,8 @@ void Ped::UpdateSeatPosition()
 
 void Ped::EnterVehicle(int vehicleRef, SeatPosition seat, int seatId)
 {
+    if(!CAR_DEFINED(vehicleRef)) return;
+
     if(IsInAnyCar())
     {
         menuDebug->AddLine("~r~cant enter vehicle: already in one");
@@ -276,13 +289,35 @@ void Ped::EnterVehicle(int vehicleRef, SeatPosition seat, int seatId)
 
     isEnteringCar = true;
 
-    if(seat == SeatPosition::DRIVER)
-    {
-        ENTER_CAR_AS_DRIVER_AS_ACTOR(ref, vehicleRef, 10000);
-    } else if(seat == SeatPosition::PASSENGER)
-    {
-        ACTOR_ENTER_CAR_PASSENGER_SEAT(ref, vehicleRef, 10000, seatId);
-    }
+    auto ped = this;
+    auto vehicle = Vehicles::GetVehicle(vehicleRef);
+    auto vehiclePos = vehicle->GetPosition();
+
+    TASK_GO_STRAIGHT_TO_COORD(ref, vehiclePos.x, vehiclePos.y, vehiclePos.z, 6, -1);
+
+    CleoFunctions::AddWaitForFunction("fn", [ped, vehicle]() {
+        if(!Peds::IsValid(ped)) return true;
+        if(!Vehicles::IsValid(vehicle)) return true;
+
+        auto distance = distanceBetweenPoints(ped->GetPosition(), vehicle->GetPosition());
+
+        if(distance < 10) return true;
+
+        return false;
+    }, [ped, vehicle, seat, seatId]() {
+        if(!Peds::IsValid(ped)) return;
+        if(!Vehicles::IsValid(vehicle)) return;
+
+        SET_CHAR_STAY_IN_CAR_WHEN_JACKED(ped->ref, true);
+        
+        if(seat == SeatPosition::DRIVER)
+        {
+            ENTER_CAR_AS_DRIVER_AS_ACTOR(ped->ref, vehicle->ref, 10000);
+        } else if(seat == SeatPosition::PASSENGER)
+        {
+            ACTOR_ENTER_CAR_PASSENGER_SEAT(ped->ref, vehicle->ref, 10000, seatId);
+        }
+    });
 }
 
 void Ped::StartDrivingRandomly()
@@ -389,4 +424,12 @@ void Ped::DestroySelf()
 
     DESTROY_ACTOR(ref);
     Peds::RemovePed(ref);
+}
+
+bool Ped::IsDeadOrInconcious()
+{
+    if(!ACTOR_DEFINED(ref)) return true;
+    if(ACTOR_DEAD(ref)) return true;
+    if(flags.isInconcious) return true;
+    return false;
 }

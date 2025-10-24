@@ -146,17 +146,33 @@ void PoliceMod::OnGameUpdate()
         OnFirstUpdate();
     }
 
-    fileLog->Debug("Update systems...");
+    fileLog->Debug("Update systems [1]");
+
+    if(PLAYER_DEFINED(0))
+    {
+        auto playerActor = GetPlayerActor();
+
+        if(ACTOR_HEALTH(playerActor) < 20)
+        {
+            SET_ACTOR_HEALTH(playerActor, 100);
+        }
+    }
+    
     Criminals::Update();
     Peds::Update();
     Vehicles::Update();
+    fileLog->Debug("Update systems [2]");
     BottomMessage::Update();
     TopMessage::Update();
+    fileLog->Debug("Update systems [3]");
     Chase::Update();
+    fileLog->Debug("Update systems [4]");
     AIController::Update();
     Escort::Update();
+    fileLog->Debug("Update systems [5]");
     PoliceBases::Update();
     Checkpoints::Update();
+    fileLog->Debug("Update systems [6]");
     Callouts::Update();
     fileLog->Debug("Finished updating systems");
     CleoFunctions::Update(menuSZK->deltaTime);

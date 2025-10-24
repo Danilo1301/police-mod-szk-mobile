@@ -776,6 +776,13 @@ inline void SET_ACTOR_HEALTH(int _char, int health)
     sautils->ScriptCommand(&scm_SET_ACTOR_HEALTH, _char, health);
 }
 
+//05D3
+static DEFOPCODE(05D3, TASK_GO_STRAIGHT_TO_COORD, ifffii);
+inline void TASK_GO_STRAIGHT_TO_COORD(int handle, float x, float y, float z, int speed, int time)
+{
+    sautils->ScriptCommand(&scm_TASK_GO_STRAIGHT_TO_COORD, handle, x, y, z, speed, time);
+}
+
 //020C
 static DEFOPCODE(020C, ADD_EXPLOSION, fffi);
 inline void ADD_EXPLOSION(float x, float y, float z, int explosionType)

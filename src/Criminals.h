@@ -3,6 +3,7 @@
 #include "pch.h"
 
 #include "Ped.h"
+#include "AICriminal.h"
 
 class Criminals {
 public:
@@ -11,4 +12,5 @@ public:
     static void RemoveCriminal(Ped* ped);
     static bool IsCriminal(Ped* ped);
     static std::vector<Ped*>* GetCriminals();
+    static AICriminal* GetAIOfPed(Ped* ped);
 };

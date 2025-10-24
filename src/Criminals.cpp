@@ -56,3 +56,12 @@ std::vector<Ped*>* Criminals::GetCriminals()
 {
     return &criminals;
 }
+
+AICriminal* Criminals::GetAIOfPed(Ped* ped)
+{
+    auto it = AIController::pedsAI.find(ped);
+    if (it == AIController::pedsAI.end() || it->second == nullptr)
+        return nullptr;
+
+    return static_cast<AICriminal*>(it->second);
+}

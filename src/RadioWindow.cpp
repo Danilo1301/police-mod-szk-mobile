@@ -143,6 +143,12 @@ void RadioWindow::OnSelect(std::string id)
         return;
     }
 
+    if(id == "callout_menu")
+    {
+        SwitchToGroup("callout");
+        return;
+    }
+
     if(id == "cancel_chase")
     {
         Toggle();

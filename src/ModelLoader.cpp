@@ -28,7 +28,6 @@ void ModelLoader::LoadNextModel()
         return;
     }
 
-
     LOAD_MODEL(modelId);
     LOAD_REQUESTED_MODELS();
 

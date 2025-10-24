@@ -6,6 +6,8 @@ struct ePedFlags
 {
     bool hasSurrended = false;
     bool willSurrender = true;
+    bool willKillCops = false;
+
     bool isInconcious = false;
     bool showWidget = false;
     bool beeingEscorted = false;
@@ -13,6 +15,7 @@ struct ePedFlags
     bool shownRG = false;
     bool wantedByJustice = false;
     bool expiredDriversLicense = false;
+    int targetPed = -1;
 
     CRGBA blipColor = CRGBA(255, 255, 255);
     bool showBlip = false;
@@ -87,6 +90,8 @@ public:
     void Reanimate();
 
     void DestroySelf();
+
+    bool IsDeadOrInconcious();
 };
 
 inline std::string randomRG() {
