@@ -849,10 +849,9 @@ inline int GetVehiclePedIsUsing(int hPed)
 
 inline void ClearPedAnimations(int hPed)
 {
-    REMOVE_REFERENCES_TO_ACTOR(hPed);
-
     if(IS_CHAR_IN_ANY_CAR(hPed)) return;
 
+    CLEAR_ACTOR_TASK(hPed);
     PERFORM_ANIMATION_AS_ACTOR(hPed, "hndshkfa_swt", "gangs", 500.0f, 0, 0, 0, 0, 1);
 }
 

@@ -9,6 +9,7 @@ public:
     int driveToTimer = 0;
     int targetPed = -1;
     int prevTargetPed = -1;
+    bool leavingScene = false;
 
     ~AICop() override;
 

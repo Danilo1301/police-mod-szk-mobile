@@ -14,7 +14,8 @@ bool g_onACallout = false;
 int g_timeToGetCallout = 37000;
 int g_broadcastingCalloutId = NO_CALLOUT;
 int g_previousCalloutId = NO_CALLOUT;
-int g_timeWithNoCriminals = 0;
+
+bool g_spawnedCriminals = false;
 
 void TryCreateExplosion(CVector position)
 {
@@ -50,15 +51,17 @@ void Callouts::Update()
 
     if(!g_onACallout)
     {
-        g_timeWithNoCriminals = 0;
+        g_spawnedCriminals = false;
     } else {
 
-        if(Criminals::GetCriminals()->size() == 0)
+        auto criminalsCount = Criminals::GetCriminals()->size();
+
+        if(criminalsCount > 0)
         {
-            g_timeWithNoCriminals += menuSZK->deltaTime;
+            g_spawnedCriminals = true;
         }
 
-        if(g_timeWithNoCriminals >= 1000)
+        if(g_spawnedCriminals && criminalsCount == 0)
         {
             g_onACallout = false;
             BottomMessage::AddMessage("Ocorrencia encerrada", 3000);

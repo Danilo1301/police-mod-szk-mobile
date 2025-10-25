@@ -356,12 +356,19 @@ void Ped::InitializeOnVehicle(int vehicleRef)
         auto occupants = vehicle->GetCurrentOccupants();
 
         bool willSurrender = calculateProbability(0.40);
+        bool willKillCops = false;
+
+        if(willSurrender == false)
+        {
+            willKillCops = calculateProbability(0.50);
+        }
 
         for(auto pedRef : occupants)
         {
             auto ped = Peds::GetPed(pedRef);
 
             ped->flags.willSurrender = willSurrender;
+            ped->flags.willKillCops = willKillCops;
         }
     }
 }

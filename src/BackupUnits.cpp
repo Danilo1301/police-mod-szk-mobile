@@ -12,6 +12,18 @@
 
 std::vector<Vehicle*> BackupUnits::backupVehicles;
 
+void BackupUnits::Initialize()
+{
+    g_onVehicleDestroy->Add([](int vehicleRef) {
+        auto vehicle = Vehicles::GetVehicle(vehicleRef);
+        if (!vehicle) return;
+
+        auto it = std::find(backupVehicles.begin(), backupVehicles.end(), vehicle);
+        if (it != backupVehicles.end())
+            backupVehicles.erase(it);
+    });
+}
+
 void BackupUnits::SendQTH()
 {
     fileLog->Log("BackupUnits: SendQTH");

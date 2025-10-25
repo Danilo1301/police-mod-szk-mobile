@@ -8,6 +8,7 @@ class BackupUnits {
 public:
     static std::vector<Vehicle*> backupVehicles;
 
+    static void Initialize();
     static void SendQTH();
     static void SpawnBackupUnit();
     static void AddVehicleAsBackup(Vehicle* vehicle, bool recreatePeds);

@@ -16,6 +16,7 @@
 #include "PoliceBases.h"
 #include "ATMSystem.h"
 #include "Callouts.h"
+#include "BackupUnits.h"
 
 bool hasFirstUpdated = false;
 
@@ -48,6 +49,9 @@ void PoliceMod::OnModLoad()
     });
     
     menuSZK->onVehicleRemoved->Add([](int ref) {
+
+        g_onVehicleDestroy->Emit(ref);
+
         Vehicles::RemoveVehicle(ref);
     });
 
@@ -192,6 +196,7 @@ void PoliceMod::OnFirstUpdate()
     TopMessage::Initialize();
     RadioWindow::Initialize();
     PoliceBases::Initialize();
+    BackupUnits::Initialize();
     ATMSystem::Initialize();
 
     {

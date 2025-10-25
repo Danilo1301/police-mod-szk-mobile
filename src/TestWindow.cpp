@@ -6,6 +6,7 @@
 #include "BottomMessage.h"
 #include "Chase.h"
 #include "Callouts.h"
+#include "Vehicles.h"
 
 void TestWindow::OpenWindow()
 {
@@ -81,6 +82,37 @@ void TestWindow::OpenWindow()
             window->Close();
             
             Callouts::AcceptCallout();
+        });
+    }
+
+    {
+        auto button = window->AddButton("Create chase car");
+        button->onClick->Add([window]() {
+            window->Close();
+            
+            ModelLoader::AddModelToLoad(404);
+            ModelLoader::AddModelToLoad(15);
+            ModelLoader::LoadAll([]() {
+
+                auto playerPosition = GetPlayerPosition();
+                auto spawnPosition = GET_CLOSEST_CAR_NODE(playerPosition.x, playerPosition.y, playerPosition.z);
+
+                auto carRef = CREATE_CAR_AT(404, spawnPosition.x, spawnPosition.y, spawnPosition.z);
+                auto car = Vehicles::RegisterVehicle(carRef);
+
+                auto driverRef = CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(carRef, PedType::Special, 15);
+                auto driver = Peds::RegisterPed(driverRef);
+
+                auto passengerRef = CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT(carRef, PedType::Special, 15, 0);
+                auto passenger = Peds::RegisterPed(passengerRef);
+
+                car->flags.isStolen = true;
+                car->TryInitializePedsInside();
+                car->ShowBlip(CRGBA(0, 255, 255));
+
+                driver->flags.willSurrender = false;
+                passenger->flags.willSurrender = false;
+            });
         });
     }
 

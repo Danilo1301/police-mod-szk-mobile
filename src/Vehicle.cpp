@@ -322,9 +322,9 @@ void Vehicle::ValidateOwners()
     ownerPassengers = validPassengers;
 }
 
-void Vehicle::DestroySelfAndPeds()
+void Vehicle::DestroySelfAndOccupants()
 {
-    fileLog->Log("Vehicle: DestroySelfAndPeds");
+    fileLog->Log("Vehicle: DestroySelfAndOccupants");
 
     auto occupants = GetCurrentOccupants();
 
@@ -336,6 +336,17 @@ void Vehicle::DestroySelfAndPeds()
 
     DESTROY_CAR(ref);
     Vehicles::RemoveVehicle(ref);
+}
+
+void Vehicle::DestroyOwners()
+{
+    auto owners = GetOwners();
+
+    for(auto ownerRef : owners)
+    {
+        DESTROY_ACTOR(ownerRef);
+        Peds::RemovePed(ownerRef);
+    }
 }
 
 void Vehicle::TryInitializePedsInside()

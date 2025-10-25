@@ -33,6 +33,15 @@ void AICop::Update()
     auto cop = Peds::GetPed(pedRef);
     auto copVehicle = Vehicles::GetVehicle(cop->previousVehicle);
 
+    auto distanceToPlayer = distanceBetweenPoints(copVehicle->GetPosition(), GetPlayerPosition());
+
+    if(distanceToPlayer > 300)
+    {
+        copVehicle->DestroyOwners();
+        copVehicle->DestroySelfAndOccupants();
+        return;
+    }
+
     int dt = menuSZK->deltaTime;
 
     findTargetTimer += dt;
@@ -56,14 +65,21 @@ void AICop::Update()
 
     if(copVehicle)
     {
-        if(copVehicle->flags.drivingToPed != -1)
+        auto drivingToPed = copVehicle->flags.drivingToPed;
+
+        if(drivingToPed != -1 && ACTOR_DEFINED(drivingToPed))
         {
             driveToTimer += menuSZK->deltaTime;
             
-            if(driveToTimer > 2000)
+            if(driveToTimer > 3000)
             {
                 driveToTimer = 0;
-                copVehicle->flags.drivingToPed = -1;
+
+                // it only resets the flag if the ped is on foot
+                if(IS_CHAR_IN_ANY_CAR(drivingToPed) == false)
+                {
+                    copVehicle->flags.drivingToPed = -1;
+                }
             }
         }
     }
@@ -109,7 +125,10 @@ void AICop::Update()
 
                         if(criminal->IsInAnyCar())
                         {
-                            menuDebug->AddLine("~r~suspect is on foot");
+                            auto criminalCarRef = criminal->GetCurrentCar();
+
+                            CAR_FOLLOW_CAR(copVehicle->ref, criminalCarRef, 7.0f);
+
                         } else {                            
                             CAR_DRIVE_TO(copVehicle->ref, criminalPosition.x, criminalPosition.y, criminalPosition.z);
                         }
@@ -118,19 +137,71 @@ void AICop::Update()
             }
         }
 
-        if(distanceToCriminal < 30.0f - 2)
+        if(distanceToCriminal < 20.0f)
         {
-            copVehicle->ValidateOwners();
-            if(copVehicle && copVehicle->GetCurrentOccupants().size() > 0 && !copVehicle->IsAnyOwnersLeavingOrEnteringCar())
+            bool criminalCarIsSlow = false;
+            if(criminal->IsInAnyCar())
             {
-                if(cop->IsDriver())
+                criminalCarIsSlow = CAR_SPEED(criminal->GetCurrentCar()) < 2.0f;
+            }
+
+            bool canLeave = !criminal->IsInAnyCar() || criminalCarIsSlow;
+
+            if(canLeave)
+            {
+                copVehicle->ValidateOwners();
+                
+                if(copVehicle && copVehicle->GetCurrentOccupants().size() > 0 && !copVehicle->IsAnyOwnersLeavingOrEnteringCar())
                 {
-                    fileLog->Log("cops leaving car");
+                    if(cop->IsDriver())
+                    {
+                        fileLog->Log("cops leaving car");
 
-                    menuDebug->AddLine("~b~saindo do carro");
+                        menuDebug->AddLine("~b~saindo do carro");
 
-                    copVehicle->MakeOccupantsLeave();
+                        copVehicle->MakeOccupantsLeave();
+                    }
                 }
+            }
+        }
+    }
+
+    if(copVehicle)
+    {
+        auto criminalsCount = Criminals::GetCriminals()->size();
+
+        // if(criminalsCount > 0)
+        // {
+        //     leavingScene = false;
+        // }
+        if(criminalsCount == 0)
+        {
+            if(!leavingScene)
+            {
+                leavingScene = true;
+
+                copVehicle->MakeOwnersEnter();
+                copVehicle->HideBlip();
+
+                CleoFunctions::AddWaitForFunction("cops_entercar_to_leave", [copVehicle] () {
+                    if(!Vehicles::IsValid(copVehicle)) return true;
+
+                    if(copVehicle->IsAllOwnersInside()) return true;
+
+                    return false;
+                }, [copVehicle] () {
+                    if(!Vehicles::IsValid(copVehicle)) return;
+
+                    ENABLE_CAR_SIREN(copVehicle->ref, false);
+
+                    auto driverRef = copVehicle->GetCurrentDriver();
+
+                    if(driverRef > 0)
+                    {
+                        auto driver = Peds::GetPed(driverRef);
+                        driver->StartDrivingRandomly();
+                    }
+                });
             }
         }
     }
@@ -204,28 +275,49 @@ void AICop::DoAction()
 
     fileLog->Log("Cop do action");
 
-    
-
     if(targetPed != -1)
     {
         auto criminal = Peds::GetPed(targetPed);
 
-        if(!cop->IsInAnyCar())
+        // on foot
+        if(!criminal->IsInAnyCar())
         {
-            if(criminal->flags.willSurrender)
+            if(!cop->IsInAnyCar())
             {
-                TASK_FOLLOW_FOOTSTEPS(pedRef, targetPed);
-                AIM_AT_ACTOR(pedRef, targetPed, 8000);
-            } else {
-
-                if(criminal->flags.willKillCops)
+                if(criminal->flags.willSurrender)
                 {
-                    KILL_ACTOR(pedRef, targetPed);
-                } else {
                     TASK_FOLLOW_FOOTSTEPS(pedRef, targetPed);
+                    AIM_AT_ACTOR(pedRef, targetPed, 8000);
+                } else {
 
-                    menuDebug->AddLine("~r~criminal is running likea coward");
-                    FLEE_FROM_ACTOR(targetPed, pedRef, 200.0f, -1);
+                    if(criminal->flags.willKillCops)
+                    {
+                        KILL_ACTOR(pedRef, targetPed);
+                    } else {
+                        TASK_FOLLOW_FOOTSTEPS(pedRef, targetPed);
+                    }
+                }
+            }
+        }
+
+        // on vehicle
+        if(criminal->IsInAnyCar())
+        {
+            if(!cop->IsInAnyCar())
+            {
+                if(criminal->flags.willSurrender)
+                {
+                    TASK_FOLLOW_FOOTSTEPS(pedRef, targetPed);
+                    AIM_AT_ACTOR(pedRef, targetPed, 8000);
+                } else {
+
+                    if(criminal->flags.willKillCops)
+                    {
+                        KILL_ACTOR(pedRef, targetPed);
+                    } else {
+                        TASK_FOLLOW_FOOTSTEPS(pedRef, targetPed);
+                        AIM_AT_ACTOR(pedRef, targetPed, 8000);
+                    }
                 }
             }
         }

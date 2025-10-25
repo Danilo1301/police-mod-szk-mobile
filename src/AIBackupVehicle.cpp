@@ -43,7 +43,7 @@ void AIBackupVehicle::Update()
     if(canDestroy)
     {
         auto vehicle = Vehicles::GetVehicle(vehicleRef);
-        vehicle->DestroySelfAndPeds();
+        vehicle->DestroySelfAndOccupants();
         return;
     }
 

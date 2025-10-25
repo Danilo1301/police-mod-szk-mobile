@@ -94,7 +94,7 @@ void Pullover::PulloverPed(Ped* ped)
 
     menuDebug->AddLine("~g~pull over ped");
 
-    if(ped->flags.willSurrender == false)
+    if(ped->flags.willSurrender == false && ped->flags.willKillCops == true)
     {
         ped->ShowBlip(COLOR_CRIMINAL);
         Criminals::AddCriminal(ped);
@@ -472,7 +472,7 @@ void Pullover::CallTowTruck(Vehicle* vehicle)
 
             if(Vehicles::IsValid(towTruck))
             {
-                towTruck->DestroySelfAndPeds();
+                towTruck->DestroySelfAndOccupants();
             }
         };
         taskDrive->onComplete = [vehicle, towTruck]() {
@@ -513,12 +513,12 @@ void Pullover::CallTowTruck(Vehicle* vehicle)
 
                 if(Vehicles::IsValid(vehicle))
                 {
-                    vehicle->DestroySelfAndPeds();
+                    vehicle->DestroySelfAndOccupants();
                 }
                 
                 if(Vehicles::IsValid(towTruck))
                 {
-                    towTruck->DestroySelfAndPeds();
+                    towTruck->DestroySelfAndOccupants();
                 }
             };
             taskLeave->Start();
