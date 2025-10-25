@@ -40,6 +40,8 @@ void PoliceMod::OnModLoad()
     });
     
     menuSZK->onPedRemoved->Add([](int ref) {
+        fileLog->Log("onPedRemoved()");
+
         Peds::RemovePed(ref);
     });
 
@@ -49,7 +51,8 @@ void PoliceMod::OnModLoad()
     });
     
     menuSZK->onVehicleRemoved->Add([](int ref) {
-
+        fileLog->Log("onVehicleRemoved()");
+    
         g_onVehicleDestroy->Emit(ref);
 
         Vehicles::RemoveVehicle(ref);
@@ -61,6 +64,7 @@ void PoliceMod::OnModLoad()
 
     textureBlip = menuSZK->LoadTexture(modData->GetFileFromMenuSZK("assets/blip.png"));
     textureCircle = menuSZK->LoadTexture(modData->GetFileFromMenuSZK("assets/map/circle.png"));
+    textureBigCircle = menuSZK->LoadTexture(modData->GetFileFromAssets("map/big_circle.png"));
     texturePoliceDP = menuSZK->LoadTexture(modData->GetFileFromAssets("map/police_dep.png"));
 
     menuSZK->onDrawBeforeMenu->Add([]() {
@@ -133,6 +137,7 @@ void PoliceMod::OnModLoad()
         }
 
         PoliceBases::OnPostDrawRadar();
+        BackupUnits::OnPostDrawRadar();
     });
 }
 
@@ -140,8 +145,14 @@ void PoliceMod::OnGameUpdate()
 {
     fileLog->debugEnabled = menuSZK->debug->enabled;
     
-    auto ppos = GetPlayerPosition();
+    // check
 
+    BackupUnits::CheckIfVehiclesAreValid();
+    Criminals::CheckIfCriminalsAreValid();
+
+    //
+
+    auto ppos = GetPlayerPosition();
     g_playerPosition = new CVector(ppos);
 
     if(!hasFirstUpdated)
@@ -152,13 +163,16 @@ void PoliceMod::OnGameUpdate()
 
     fileLog->Debug("Update systems [1]");
 
-    if(PLAYER_DEFINED(0))
+    if(menuSZK->debug->enabled)
     {
-        auto playerActor = GetPlayerActor();
-
-        if(ACTOR_HEALTH(playerActor) < 20)
+        if(PLAYER_DEFINED(0))
         {
-            SET_ACTOR_HEALTH(playerActor, 100);
+            auto playerActor = GetPlayerActor();
+
+            if(ACTOR_HEALTH(playerActor) < 20)
+            {
+                SET_ACTOR_HEALTH(playerActor, 100);
+            }
         }
     }
     
@@ -170,6 +184,7 @@ void PoliceMod::OnGameUpdate()
     TopMessage::Update();
     fileLog->Debug("Update systems [3]");
     Chase::Update();
+    BackupUnits::Update();
     fileLog->Debug("Update systems [4]");
     AIController::Update();
     Escort::Update();
@@ -178,6 +193,26 @@ void PoliceMod::OnGameUpdate()
     Checkpoints::Update();
     fileLog->Debug("Update systems [6]");
     Callouts::Update();
+    fileLog->Debug("Update systems [7]");
+
+    for(auto pedRef : g_pedsToDestroy)
+    {
+        if(!ACTOR_DEFINED(pedRef)) continue;
+
+        DESTROY_ACTOR(pedRef);
+        Peds::RemovePed(pedRef);
+    }
+    g_pedsToDestroy.clear();
+
+    for(auto carRef : g_vehiclesToDestroy)
+    {
+        if(!CAR_DEFINED(carRef)) continue;
+
+        DESTROY_CAR(carRef);
+        Vehicles::RemoveVehicle(carRef);
+    }
+    g_vehiclesToDestroy.clear();
+
     fileLog->Debug("Finished updating systems");
     CleoFunctions::Update(menuSZK->deltaTime);
     fileLog->Debug("Finished updating cleo functions");

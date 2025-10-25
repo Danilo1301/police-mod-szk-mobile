@@ -1,27 +1,27 @@
-#pragma once
+// #pragma once
 
-#include "pch.h"
-#include "AIVehicle.h"
+// #include "pch.h"
+// #include "AIVehicle.h"
 
-class AIBackupVehicle : public AIVehicle {
-protected:
-    int criminalRef = 0;
-    bool copsAreLeaving = false;
-    bool copsAreEntering = false;
-    int findCriminalTimer = 0;
-    bool vehicleIsLeavingArea = false;
-public:
+// class AIBackupVehicle : public AIVehicle {
+// protected:
+//     int criminalRef = 0;
+//     bool copsAreLeaving = false;
+//     bool copsAreEntering = false;
+//     int findCriminalTimer = 0;
+//     bool vehicleIsLeavingArea = false;
+// public:
 
-    ~AIBackupVehicle() override;
+//     ~AIBackupVehicle() override;
 
-    void Start() override;
-    void Update() override;
+//     void Start() override;
+//     void Update() override;
 
-    void FindCriminal();
-    void GotoCriminal();
-    bool CriminalExists();
+//     void FindCriminal();
+//     void GotoCriminal();
+//     bool CriminalExists();
     
-    int FindBestCriminal(CVector position);
+//     int FindBestCriminal(CVector position);
 
-    void ProcessFindCriminalTimer();
-};
+//     void ProcessFindCriminalTimer();
+// };

@@ -28,19 +28,34 @@ void AICop::Start()
 
 void AICop::Update()
 {
+    //fileLog->Log("AICop: Update");
+
     if(!ACTOR_DEFINED(pedRef)) return;
 
     auto cop = Peds::GetPed(pedRef);
+    
     auto copVehicle = Vehicles::GetVehicle(cop->previousVehicle);
 
-    auto distanceToPlayer = distanceBetweenPoints(copVehicle->GetPosition(), GetPlayerPosition());
-
-    if(distanceToPlayer > 300)
+    if(copVehicle)
     {
-        copVehicle->DestroyOwners();
-        copVehicle->DestroySelfAndOccupants();
-        return;
+        auto distanceToPlayer = distanceBetweenPoints(copVehicle->GetPosition(), GetPlayerPosition());
+
+        if(distanceToPlayer > 300)
+        {
+            fileLog->Log("AICop: Destroy vehicle (too far)");
+
+            for(auto owner : copVehicle->GetOwners())
+            {
+                QueueDestroyPed(owner);
+            }
+
+            QueueDestroyVehicle(copVehicle->ref);
+          
+            return;
+        }
     }
+
+    if(leavingScene) return;
 
     int dt = menuSZK->deltaTime;
 
@@ -103,6 +118,8 @@ void AICop::Update()
 
                     if(!copVehicle->IsAnyOwnersLeavingOrEnteringCar())
                     {
+                        fileLog->Log("AICop: Entering vehicle");
+
                         menuDebug->AddLine("~b~entrando no carro");
 
                         copVehicle->MakeOwnersEnter();
@@ -145,21 +162,24 @@ void AICop::Update()
                 criminalCarIsSlow = CAR_SPEED(criminal->GetCurrentCar()) < 2.0f;
             }
 
-            bool canLeave = !criminal->IsInAnyCar() || criminalCarIsSlow;
-
-            if(canLeave)
+            if(copVehicle)
             {
-                copVehicle->ValidateOwners();
-                
-                if(copVehicle && copVehicle->GetCurrentOccupants().size() > 0 && !copVehicle->IsAnyOwnersLeavingOrEnteringCar())
+                bool canLeave = !criminal->IsInAnyCar() || criminalCarIsSlow;
+
+                if(canLeave)
                 {
-                    if(cop->IsDriver())
+                    copVehicle->ValidateOwners();
+                    
+                    if(copVehicle->GetCurrentOccupants().size() > 0 && !copVehicle->IsAnyOwnersLeavingOrEnteringCar())
                     {
-                        fileLog->Log("cops leaving car");
+                        if(cop->IsDriver())
+                        {
+                            fileLog->Log("AICop: Cops leaving vehicle");
 
-                        menuDebug->AddLine("~b~saindo do carro");
+                            menuDebug->AddLine("~b~saindo do carro");
 
-                        copVehicle->MakeOccupantsLeave();
+                            copVehicle->MakeOccupantsLeave();
+                        }
                     }
                 }
             }
@@ -179,6 +199,8 @@ void AICop::Update()
             if(!leavingScene)
             {
                 leavingScene = true;
+
+                fileLog->Log("AICop: Cops leaving scene");
 
                 copVehicle->MakeOwnersEnter();
                 copVehicle->HideBlip();
@@ -209,6 +231,8 @@ void AICop::Update()
 
 void AICop::FindTarget()
 {
+    fileLog->Log("AICop: FindTarget");
+
     targetPed = -1;
     findTargetTimer = 0;
 
@@ -265,61 +289,64 @@ void AICop::FindTarget()
 
 void AICop::DoAction()
 {
+    fileLog->Log("AICop: DoAction");
+    
     auto cop = Peds::GetPed(pedRef);
-
+    
     if(cop->isEnteringCar || cop->isLeavingCar) return;
     
-    FindTarget();
-
     menuDebug->AddLine("~b~cop do action");
-
-    fileLog->Log("Cop do action");
-
+    
     if(targetPed != -1)
     {
         auto criminal = Peds::GetPed(targetPed);
 
-        // on foot
-        if(!criminal->IsInAnyCar())
+        if(criminal)
         {
-            if(!cop->IsInAnyCar())
+            // on foot
+            if(!criminal->IsInAnyCar())
             {
-                if(criminal->flags.willSurrender)
+                if(!cop->IsInAnyCar())
                 {
-                    TASK_FOLLOW_FOOTSTEPS(pedRef, targetPed);
-                    AIM_AT_ACTOR(pedRef, targetPed, 8000);
-                } else {
-
-                    if(criminal->flags.willKillCops)
+                    if(criminal->flags.willSurrender)
                     {
-                        KILL_ACTOR(pedRef, targetPed);
-                    } else {
                         TASK_FOLLOW_FOOTSTEPS(pedRef, targetPed);
+                        AIM_AT_ACTOR(pedRef, targetPed, 8000);
+                    } else {
+
+                        if(criminal->flags.willKillCops)
+                        {
+                            KILL_ACTOR(pedRef, targetPed);
+                        } else {
+                            TASK_FOLLOW_FOOTSTEPS(pedRef, targetPed);
+                        }
                     }
                 }
             }
-        }
 
-        // on vehicle
-        if(criminal->IsInAnyCar())
-        {
-            if(!cop->IsInAnyCar())
+            // on vehicle
+            if(criminal->IsInAnyCar())
             {
-                if(criminal->flags.willSurrender)
+                if(!cop->IsInAnyCar())
                 {
-                    TASK_FOLLOW_FOOTSTEPS(pedRef, targetPed);
-                    AIM_AT_ACTOR(pedRef, targetPed, 8000);
-                } else {
-
-                    if(criminal->flags.willKillCops)
+                    if(criminal->flags.willSurrender)
                     {
-                        KILL_ACTOR(pedRef, targetPed);
-                    } else {
                         TASK_FOLLOW_FOOTSTEPS(pedRef, targetPed);
                         AIM_AT_ACTOR(pedRef, targetPed, 8000);
+                    } else {
+
+                        if(criminal->flags.willKillCops)
+                        {
+                            KILL_ACTOR(pedRef, targetPed);
+                        } else {
+                            TASK_FOLLOW_FOOTSTEPS(pedRef, targetPed);
+                            AIM_AT_ACTOR(pedRef, targetPed, 8000);
+                        }
                     }
                 }
             }
         }
     }
+
+    fileLog->Log("AICop: DoAction DONE");
 }

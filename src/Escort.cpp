@@ -27,43 +27,46 @@ void Escort::Update()
     }
 }
 
-void Escort::EscortPed(Ped* ped)
+void Escort::EscortPed(Ped* _ped)
 {
-    // re create
+    auto oldPed = _ped;
 
-    ped->ClearAnim();
+    //
 
-    auto oldPed = ped;
     auto modelId = GET_ACTOR_MODEL(oldPed->ref);
-    auto position = ped->GetPosition();
+    auto position = oldPed->GetPosition();
 
-    auto newPedRef = CREATE_ACTOR_PEDTYPE(PedType::CivMale, modelId, position.x, position.y, position.z);
-    ped = Peds::RegisterPed(newPedRef);
+    auto newPedRef = CREATE_ACTOR_PEDTYPE(PedType::Special, modelId, position.x, position.y, position.z);
+    auto newPed = Peds::RegisterPed(newPedRef);
 
-    ped->CopyFrom(*oldPed);
+    newPed->CopyFrom(*oldPed);
+    newPed->ClearAnim();
+    REMOVE_REFERENCES_TO_ACTOR(newPed->ref);
 
-    DESTROY_ACTOR(oldPed->ref);
-    Peds::RemovePed(oldPed->ref);
+    oldPed->DestroyImmediate();
     
     //
 
-    g_escortingPed = ped;
+    g_escortingPed = newPed;
 
     TopMessage::SetMessage(GetTranslatedText("escort_to_cop_vehicle"));
     
     //
 
     ScriptTask* taskEnter = new ScriptTask("enter");
-    taskEnter->SetStartAgainIfTimeout(5000);
-    taskEnter->onBegin = [ped]() {
-        if(ped->isEnteringCar) return;
+    taskEnter->SetStartAgainIfTimeout(3000);
+    taskEnter->onBegin = [newPed]() {
+        if(newPed->isEnteringCar) return;
 
-        TASK_FOLLOW_FOOTSTEPS(ped->ref, GetPlayerActor());
+        BottomMessage::SetMessage("make it follow", 1000);
+
+        CLEAR_ACTOR_TASK(newPed->ref);
+        TASK_FOLLOW_FOOTSTEPS(newPed->ref, GetPlayerActor());
     };
-    taskEnter->onExecute = [ped, taskEnter]() {        
-        if(!Peds::IsValid(ped)) return SCRIPT_CANCEL;
+    taskEnter->onExecute = [newPed, taskEnter]() {        
+        if(!Peds::IsValid(newPed)) return SCRIPT_CANCEL;
 
-        if(ped->IsInAnyCar()) return SCRIPT_SUCCESS;
+        if(newPed->IsInAnyCar()) return SCRIPT_SUCCESS;
 
         if(taskEnter->totalTimeElapsed > 30000)
         {

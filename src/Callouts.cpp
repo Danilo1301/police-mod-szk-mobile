@@ -11,7 +11,7 @@
 #include "AICriminal.h"
 
 bool g_onACallout = false;
-int g_timeToGetCallout = 37000;
+int g_receiveCalloutTimer = 0;
 int g_broadcastingCalloutId = NO_CALLOUT;
 int g_previousCalloutId = NO_CALLOUT;
 
@@ -27,7 +27,7 @@ void TryCreateExplosion(CVector position)
         auto distance = distanceBetweenPoints(playerPosition, position);
         
         if(!g_onACallout) return SCRIPT_CANCEL;
-        if(distance > 60.0f) return SCRIPT_KEEP_GOING;
+        if(distance > 50.0f) return SCRIPT_KEEP_GOING;
 
         return SCRIPT_SUCCESS;
     };
@@ -41,9 +41,9 @@ void Callouts::Update()
 {
     if(g_broadcastingCalloutId == NO_CALLOUT && !g_onACallout)
     {
-        g_timeToGetCallout += menuSZK->deltaTime;
+        g_receiveCalloutTimer += menuSZK->deltaTime;
 
-        if(g_timeToGetCallout >= 40000)
+        if(g_receiveCalloutTimer >= 40000)
         {
             BroadcastRandomCallout();
         }
@@ -76,26 +76,28 @@ void Callouts::Update()
 
             BottomMessage::SetMessage("~r~Parece q o player morreu...", 2000);
 
-            auto criminals = *Criminals::GetCriminals();
+            WAIT(500, []() {
+                auto criminals = *Criminals::GetCriminals();
 
-            for(auto criminal : criminals)
-            {
-                Criminals::RemoveCriminal(criminal);
-                criminal->DestroySelf();
-            }
+                for(auto criminal : criminals)
+                {
+                    Criminals::RemoveCriminal(criminal);
+                    criminal->QueueDestroy();
+                }
+            });
         }
     }
 }
 
 void Callouts::BroadcastRandomCallout()
 {
-    g_timeToGetCallout = 0;
+    g_receiveCalloutTimer = 0;
     g_broadcastingCalloutId = CALLOUT_ATM;
     g_previousCalloutId = g_broadcastingCalloutId;
 
-    int time = 3000;
+    int time = 6000;
 
-    BottomMessage::SetMessage("~g~[COPOM] ~w~Ocorrencia de roubo de caixa eletronico", time);
+    BottomMessage::SetMessage("~y~[COPOM] ~w~Ocorrencia de roubo de caixa eletronico em andamento", time);
     
     WAIT(time, []() {
         g_broadcastingCalloutId = NO_CALLOUT;
@@ -141,7 +143,7 @@ void Callouts::OnBeginCallout(int id)
             
             DISABLE_MARKER(marker);
 
-            BottomMessage::SetMessage("~r~Elimine os suspeitos", 4000);
+            BottomMessage::SetMessage("~r~Detenha os suspeitos", 4000);
 
             TryCreateExplosion(location->position);
 
@@ -152,7 +154,7 @@ void Callouts::OnBeginCallout(int id)
             ModelLoader::AddModelToLoad(skinModel);
             ModelLoader::AddModelToLoad(coltModel);
             ModelLoader::LoadAll([location, skinModel, coltId]() {
-                for(int i = 1; i <= 2; i++)
+                for(int i = 1; i <= 4; i++)
                 {
                     auto pedRef = SpawnPedRandomlyAtPosition_PedNode(location->position, PedType::CivMale, skinModel, 10.0f);
                     auto criminal = Peds::RegisterPed(pedRef);
@@ -164,19 +166,14 @@ void Callouts::OnBeginCallout(int id)
                     GIVE_ACTOR_WEAPON(pedRef, coltId, 1000);
                     SET_ACTOR_HEALTH(criminal->ref, 500);
 
-                    if(i == 1)
-                    {
-                        criminal->flags.willSurrender = false;
-                        criminal->flags.willKillCops = true;
-                    }
+                    criminal->flags.willSurrender = false;
 
-                    if(i == 2)
+                    if(i >= 2)
                     {
-                        criminal->flags.willSurrender = false;
+                        criminal->flags.willKillCops = true;
+                    } else {
                         criminal->flags.willKillCops = false;
                     }
-
-                    //auto ai = Criminals::GetAIOfPed(criminal);
                 }
             });
         };

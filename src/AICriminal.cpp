@@ -4,6 +4,7 @@
 #include "BackupUnits.h"
 #include "Peds.h"
 #include "Vehicles.h"
+#include "BottomMessage.h"
 
 const float MAX_FIND_TARGET_DISTANCE = 30.0f; // limite em metros
 
@@ -29,6 +30,8 @@ void AICriminal::Start()
 
 void AICriminal::Update()
 {
+    //fileLog->Log("AICriminal: Update");
+
     if (!ACTOR_DEFINED(pedRef))
         return;
     
@@ -117,6 +120,8 @@ void AICriminal::Update()
 
 void AICriminal::FindTarget()
 {
+    fileLog->Log("AICriminal: FindTarget");
+
     targetPed = -1;
     findTargetTimer = 0;
 
@@ -173,6 +178,8 @@ void AICriminal::FindTarget()
 
 void AICriminal::DoAction()
 {
+    fileLog->Log("AICriminal: DoAction");
+
     auto criminal = Peds::GetPed(pedRef);
     
     if(criminal->IsDeadOrInconcious()) return;
@@ -199,8 +206,13 @@ void AICriminal::DoAction()
             }
         }
     } else {
-        FLEE_FROM_ACTOR(pedRef, GetPlayerActor(), 30.0f, -1);
+        if(!criminal->IsInAnyCar())
+        {
+            FLEE_FROM_ACTOR(pedRef, GetPlayerActor(), 30.0f, -1);
+        }
     }
+
+    fileLog->Log("AICriminal: DoAction DONE");
 }
 
 int AICriminal::GetClosestCop(float range)
@@ -222,7 +234,11 @@ int AICriminal::GetClosestCop(float range)
     // recolhe todos os policiais dos veículos de backup
     for (auto vehicle : vehicles)
     {
-        if (!vehicle) continue;
+        if(!Vehicles::IsValid(vehicle))
+        {
+            BottomMessage::AddMessage("~r~Invalid vehicle 1", 5000);
+            continue;
+        }
 
         auto owners = vehicle->GetOwners();
         for (auto ownerRef : owners)

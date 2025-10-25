@@ -9,6 +9,11 @@ std::vector<Ped*> criminals;
 
 void Criminals::Update()
 {
+
+}
+
+void Criminals::CheckIfCriminalsAreValid()
+{
     // Remove todos os criminosos que não existem mais
     criminals.erase(
         std::remove_if(criminals.begin(), criminals.end(),

@@ -39,8 +39,7 @@ void Chase::StartChaseWithVehicle(Vehicle* vehicle)
 
     driver->CopyFrom(*oldDriver);
     
-    DESTROY_ACTOR(oldDriver->ref);
-    Peds::RemovePed(oldDriver->ref);
+    oldDriver->DestroyImmediate();
 
     SET_CAR_TRAFFIC_BEHAVIOUR(vehicle->ref, DrivingMode::AvoidCars);
     SET_CAR_TO_PSYCHO_DRIVER(vehicle->ref);

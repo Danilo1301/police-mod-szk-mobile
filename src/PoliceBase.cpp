@@ -46,7 +46,7 @@ PoliceBase::PoliceBase()
             ped->LeaveCar();
 
             WAIT(3000, [ped]() {
-                ped->DestroySelf();
+                ped->QueueDestroy();
             });
         }
 
@@ -57,7 +57,7 @@ PoliceBase::PoliceBase()
             BottomMessage::SetMessage("Os " + std::to_string(pedsEscorted.size()) + " suspeitos ficaram a ~y~disposicao da justica", 3000);
         }
 
-        BottomMessage::AddMessage("Recompensa: ~g~R$ 0", 3000);
+        //BottomMessage::AddMessage("Recompensa: ~g~R$ 0", 3000);
     };
 }
 

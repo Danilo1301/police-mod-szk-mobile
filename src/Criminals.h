@@ -8,6 +8,7 @@
 class Criminals {
 public:
     static void Update();
+    static void CheckIfCriminalsAreValid();
     static void AddCriminal(Ped* ped);
     static void RemoveCriminal(Ped* ped);
     static bool IsCriminal(Ped* ped);

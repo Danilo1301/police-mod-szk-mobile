@@ -59,8 +59,8 @@ public:
     std::vector<int> GetOwners();
     void ValidateOwners();
 
-    void DestroySelfAndOccupants();
-    void DestroyOwners();
+    void DestroyImmediate();
+    void QueueDestroy(bool destroyOccupants = false);
 
     void TryInitializePedsInside();
 

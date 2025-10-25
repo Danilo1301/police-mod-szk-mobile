@@ -174,8 +174,7 @@ void Ped::Update()
 
         if(distanceFromPlayer > 200.0f)
         {
-            DESTROY_ACTOR(ref);
-            Peds::RemovePed(ref);
+            QueueDestroy();
             return;
         }
     }
@@ -371,6 +370,14 @@ void Ped::InitializeOnVehicle(int vehicleRef)
             ped->flags.willKillCops = willKillCops;
         }
     }
+
+    // if(menuSZK->debug->enabled)
+    // {
+    //     if(flags.willSurrender == false && flags.showBlip == false)
+    //     {
+    //         ShowBlip(CRGBA(80, 0, 0));
+    //     }
+    // }
 }
 
 void Ped::CopyFrom(const Ped& other)
@@ -425,12 +432,17 @@ void Ped::Reanimate()
     }
 }
 
-void Ped::DestroySelf()
+void Ped::DestroyImmediate()
 {
     if(!ACTOR_DEFINED(ref)) return;
 
     DESTROY_ACTOR(ref);
     Peds::RemovePed(ref);
+}
+
+void Ped::QueueDestroy()
+{
+    QueueDestroyPed(ref);
 }
 
 bool Ped::IsDeadOrInconcious()

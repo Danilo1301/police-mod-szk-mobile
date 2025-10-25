@@ -1,7 +1,7 @@
 #include <mod/amlmod.h>
 #include <mod/config.h>
 
-MYMODCFG(com.daniloszk.policemod, PoliceMod, 0.6.0, DaniloSZK)
+MYMODCFG(com.daniloszk.policemod, PoliceMod, 0.7.0, DaniloSZK)
 
 #include "pch.h"
 
@@ -26,6 +26,11 @@ extern "C" void OnModPreLoad()
 extern "C" void OnModLoad()
 {
     fileLog->Log("OnModLoad");
+
+    {
+        std::string path = aml->GetDataPath();
+        fileLog->Log("GetDataPath: " + path);
+    }
 
     loadInterface(&cleo, "CLEO", true);
     //if(!cleo) return;

@@ -89,7 +89,8 @@ public:
 
     void Reanimate();
 
-    void DestroySelf();
+    void DestroyImmediate();
+    void QueueDestroy();
 
     bool IsDeadOrInconcious();
 };

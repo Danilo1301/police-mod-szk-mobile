@@ -280,7 +280,7 @@ void Pullover::OpenPedMenu(Ped* ped)
 
             Criminals::RemoveCriminal(ped);
 
-            ped->DestroySelf();
+            ped->QueueDestroy();
         });
     }
 
@@ -440,7 +440,8 @@ void Pullover::CallTowTruck(Vehicle* vehicle)
 
         towTruck->ShowBlip(COLOR_YELLOW);
 
-        CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(towRef, PedType::CivFemale, driverId);
+        auto driverRef = CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(towRef, PedType::CivFemale, driverId);
+        Peds::RegisterPed(driverRef);
 
         auto targetPosition = GET_CLOSEST_CAR_NODE(playerPosition.x, playerPosition.y, playerPosition.z);
 
@@ -472,7 +473,7 @@ void Pullover::CallTowTruck(Vehicle* vehicle)
 
             if(Vehicles::IsValid(towTruck))
             {
-                towTruck->DestroySelfAndOccupants();
+                towTruck->QueueDestroy(true);
             }
         };
         taskDrive->onComplete = [vehicle, towTruck]() {
@@ -513,12 +514,12 @@ void Pullover::CallTowTruck(Vehicle* vehicle)
 
                 if(Vehicles::IsValid(vehicle))
                 {
-                    vehicle->DestroySelfAndOccupants();
+                    vehicle->QueueDestroy(true);
                 }
                 
                 if(Vehicles::IsValid(towTruck))
                 {
-                    towTruck->DestroySelfAndOccupants();
+                    towTruck->QueueDestroy(true);
                 }
             };
             taskLeave->Start();

@@ -38,6 +38,7 @@ inline bool blockInput = false;
 
 inline void* textureBlip = nullptr;
 inline void* textureCircle = nullptr;
+inline void* textureBigCircle = nullptr;
 inline void* texturePoliceDP = nullptr;
 
 inline CVector* g_playerPosition = new CVector(0, 0, 0);
@@ -45,6 +46,19 @@ inline CVector2D g_defaultMenuPosition = CVector2D(400, 200);
 
 inline EventListener<int>* g_onPedLeaveVehicle = new EventListener<int>();
 inline EventListener<int>* g_onVehicleDestroy = new EventListener<int>();
+
+inline std::vector<int> g_vehiclesToDestroy;
+inline std::vector<int> g_pedsToDestroy;
+
+inline void QueueDestroyPed(int ref)
+{
+    g_pedsToDestroy.push_back(ref);
+}
+
+inline void QueueDestroyVehicle(int ref)
+{
+    g_vehiclesToDestroy.push_back(ref);
+}
 
 #define COLOR_CRIMINAL CRGBA(255, 0, 0)
 #define COLOR_YELLOW CRGBA(255, 255, 0)

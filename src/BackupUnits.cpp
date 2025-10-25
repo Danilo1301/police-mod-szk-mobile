@@ -10,57 +10,166 @@
 #include "Criminals.h"
 #include "AICop.h"
 
+const float MAX_DISTANCE_TO_QTH = 300.0f;
+
+CVector g_lastQTHPosition = CVector(0, 0, 0);
+int g_spawnUnitTimer = 0;
+
+std::vector<BackupUnit> BackupUnits::defaultBackupUnits;
+
 std::vector<Vehicle*> BackupUnits::backupVehicles;
 
 void BackupUnits::Initialize()
 {
-    g_onVehicleDestroy->Add([](int vehicleRef) {
-        auto vehicle = Vehicles::GetVehicle(vehicleRef);
-        if (!vehicle) return;
+    {
+        BackupUnit unit;
+        unit.skinModelId = 280;
+        unit.vehicleModelId = 596;
+        unit.occupants = 2;
+        unit.chance = 1.00;
 
-        auto it = std::find(backupVehicles.begin(), backupVehicles.end(), vehicle);
-        if (it != backupVehicles.end())
-            backupVehicles.erase(it);
-    });
+        defaultBackupUnits.push_back(unit);
+    }
+
+    {
+        BackupUnit unit;
+        unit.skinModelId = 284;
+        unit.vehicleModelId = 523;
+        unit.occupants = 1;
+        unit.chance = 1.00;
+
+        defaultBackupUnits.push_back(unit);
+    }
+
+    {
+        BackupUnit unit;
+        unit.skinModelId = 283;
+        unit.vehicleModelId = 599;
+        unit.occupants = 2;
+        unit.chance = 0.30;
+
+        defaultBackupUnits.push_back(unit);
+    }
+}
+
+void BackupUnits::Update()
+{
+    CheckIfVehiclesAreValid();
+
+    auto distanceFromQTH = distanceBetweenPoints(GetPlayerPosition(), g_lastQTHPosition);
+
+    if(distanceFromQTH < MAX_DISTANCE_TO_QTH)
+    {
+        auto criminalsCount = Criminals::GetCriminals()->size();
+
+        if(criminalsCount == 0)
+        {
+            g_lastQTHPosition = CVector(0, 0, 0);
+        }
+
+        if(criminalsCount > 0 && backupVehicles.size() < 5)
+        {
+            g_spawnUnitTimer += menuSZK->deltaTime;
+
+            if(g_spawnUnitTimer >= 8000)
+            {
+                g_spawnUnitTimer = 0;
+
+                SpawnBackupUnit();
+            }
+        }
+    }
+}
+
+void BackupUnits::OnPostDrawRadar()
+{
+    if (textureBigCircle == nullptr) return;
+
+    auto playerPosition = GetPlayerPosition();
+    auto distance = distanceBetweenPoints(g_lastQTHPosition, playerPosition);
+
+    const float fadeStart = MAX_DISTANCE_TO_QTH - 80.0f;
+    const float fadeEnd = MAX_DISTANCE_TO_QTH;
+
+    unsigned char alpha = 0;
+
+    if (distance <= fadeStart)
+    {
+        alpha = 100; // totalmente visível até 200m
+    }
+    else if (distance >= fadeEnd)
+    {
+        alpha = 0; // invisível a partir de 300m
+    }
+    else
+    {
+        // interpolar suavemente entre 200 e 300
+        float t = (distance - fadeStart) / (fadeEnd - fadeStart);
+        alpha = static_cast<unsigned char>(100 * (1.0f - t));
+    }
+
+    auto color = COLOR_POLICE;
+    color.a = alpha;
+
+    menuSZK->DrawTextureOnRadar(textureBigCircle, playerPosition, color, 150.0f);
+}
+
+void BackupUnits::CheckIfVehiclesAreValid()
+{
+    backupVehicles.erase(
+        std::remove_if(
+            backupVehicles.begin(),
+            backupVehicles.end(),
+            [](Vehicle* vehicle) {
+                // Remove se não for válido
+                return !Vehicles::IsValid(vehicle);
+            }
+        ),
+        backupVehicles.end()
+    );
 }
 
 void BackupUnits::SendQTH()
 {
     fileLog->Log("BackupUnits: SendQTH");
     
-    BottomMessage::SetMessage("Apoio solicitado", 3000);
-
     if(Criminals::GetCriminals()->size() == 0)
     {
         BottomMessage::SetMessage("~r~Nao foi possivel encontrar nenhum suspeito", 3000);
         return;
     }
+
+    g_lastQTHPosition = GetPlayerPosition();
+
+    BottomMessage::SetMessage("QTH enviado ao COPOM", 3000);
     
-    SpawnBackupUnit();
+    //SpawnBackupUnit();
 }
 
 void BackupUnits::SpawnBackupUnit()
 {
     fileLog->Log("BackupUnits: SpawnBackupUnit");
 
-    auto closePosition = GetPedPositionWithOffset(GetPlayerActor(), CVector(0, 80, 0));
+    auto unit = GetRandomUnitByChance(defaultBackupUnits);
+
+    auto closePosition = GetPedPositionWithOffset(GetPlayerActor(), CVector(0, 120, 0));
 
     auto spawnPosition = GET_CLOSEST_CAR_NODE(closePosition.x, closePosition.y, closePosition.z);
 
-    int vehicleModel = 596;
-    int pedModel = 280;
-
-    ModelLoader::AddModelToLoad(vehicleModel);
-    ModelLoader::AddModelToLoad(pedModel);
-    ModelLoader::LoadAll([vehicleModel, pedModel, spawnPosition]() {
-        auto carRef = CREATE_CAR_AT(vehicleModel, spawnPosition.x, spawnPosition.y, spawnPosition.z);
+    ModelLoader::AddModelToLoad(unit->vehicleModelId);
+    ModelLoader::AddModelToLoad(unit->skinModelId);
+    ModelLoader::LoadAll([unit, spawnPosition]() {
+        auto carRef = CREATE_CAR_AT(unit->vehicleModelId, spawnPosition.x, spawnPosition.y, spawnPosition.z);
         auto car = Vehicles::RegisterVehicle(carRef);
 
-        auto driverRef = CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(carRef, PedType::Special, pedModel);
+        auto driverRef = CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(carRef, PedType::Special, unit->skinModelId);
         Peds::RegisterPed(driverRef);
 
-        auto passengerRef = CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT(carRef, PedType::Special, pedModel, 0);
-        Peds::RegisterPed(passengerRef);
+        if(unit->occupants > 1)
+        {
+            auto passengerRef = CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT(carRef, PedType::Special, unit->skinModelId, 0);
+            Peds::RegisterPed(passengerRef);
+        }
 
         AddVehicleAsBackup(car, false);
     });
@@ -82,8 +191,7 @@ void BackupUnits::AddVehicleAsBackup(Vehicle* vehicle, bool recreatePeds)
 
             auto driverModelId = GET_ACTOR_MODEL(oldDriver->ref);
             
-            DESTROY_ACTOR(oldDriver->ref);
-            Peds::RemovePed(oldDriver->ref);
+            oldDriver->DestroyImmediate();
 
             auto newDriverRef = CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(vehicle->ref, PedType::Special, driverModelId);
             Peds::RegisterPed(newDriverRef);
@@ -101,35 +209,48 @@ void BackupUnits::AddVehicleAsBackup(Vehicle* vehicle, bool recreatePeds)
 
         GIVE_ACTOR_WEAPON(pedRef, pistolId, 5000);
 
-        cop->ShowBlip(COLOR_POLICE);
+        //cop->ShowBlip(COLOR_POLICE);
 
         auto ai = new AICop();
         AIController::AddAIToPed(cop, ai);
         ai->Start();
     }
 
-    backupVehicles.push_back(vehicle);
-    
     vehicle->SetOwners();
     vehicle->ShowBlip(COLOR_POLICE);
 
-    //auto modelId = vehicle->GetModelId();
+    backupVehicles.push_back(vehicle);
+}
 
-    bool isPoliceHelicopter = false;
+BackupUnit* BackupUnits::GetRandomUnitByChance(std::vector<BackupUnit>& units)
+{
+    if (units.empty())
+        return nullptr;
 
-    if(isPoliceHelicopter)
+    // Calcula o total de chances (somatório)
+    float totalChance = 0.0f;
+    for (auto& unit : units)
+        totalChance += unit.chance; // supondo que BackupUnit tenha 'float chance'
+
+    if (totalChance <= 0.0f)
+        return nullptr;
+
+    // Gera um número aleatório entre 0 e totalChance
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_real_distribution<float> dist(0.0f, totalChance);
+
+    float randomValue = dist(gen);
+
+    // Escolhe a unit com base nas chances acumuladas
+    float cumulative = 0.0f;
+    for (auto& unit : units)
     {
-        // auto ai = new HeliBackupAI();
-
-        // AIController::AddAIToVehicle(vehicle, ai);
-
-        // ai->FindNewCriminal();
-        // ai->FollowCriminal();
-    } else {
-        //auto ai = new AIBackupVehicle();
-        
-        //AIController::AddAIToVehicle(vehicle, ai);
-
-        //ai->Start();
+        cumulative += unit.chance;
+        if (randomValue <= cumulative)
+            return &unit;
     }
+
+    // fallback (em teoria nunca chega aqui)
+    return &units.back();
 }

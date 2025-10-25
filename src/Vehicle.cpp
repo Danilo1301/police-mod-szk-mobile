@@ -22,7 +22,7 @@ Vehicle::Vehicle(int ref, void* ptr)
             modData->GetFileFromMenuSZK("assets/widget_background1.png"),
             modData->GetFile("assets/widgets/widget_pullover.png")
         );
-        //widget->visible = false;
+        widget->visible = false;
 
         WorldWidget w;
         w.widget = widget;
@@ -40,11 +40,6 @@ Vehicle::Vehicle(int ref, void* ptr)
 
     flags.isStolen = calculateProbability(0.10);
     flags.hasExpiredDocument = calculateProbability(0.10);
-
-    if(flags.isStolen && HasDriver())
-    {
-        ShowBlip(CRGBA(100, 0, 0));
-    }
 }
 
 Vehicle::~Vehicle()
@@ -235,18 +230,24 @@ std::vector<int> Vehicle::GetOwners()
 {
     std::vector<int> owners;
 
-    if(ACTOR_DEFINED(ownerDriver))
+    if(ownerDriver > 0)
     {
-        owners.push_back(ownerDriver);
+        if(ACTOR_DEFINED(ownerDriver))
+        {
+            owners.push_back(ownerDriver);
+        }
     }
 
-    for(auto passengerRef : ownerPassengers)
+    if(ownerPassengers.size() > 0)
     {
-        if(!ACTOR_DEFINED(passengerRef)) continue;
+        for(auto passengerRef : ownerPassengers)
+        {
+            if(passengerRef <= 0) continue;
+            if(!ACTOR_DEFINED(passengerRef)) continue;
 
-        owners.push_back(passengerRef);
+            owners.push_back(passengerRef);
+        }
     }
-
     return owners;
 }
 
@@ -322,30 +323,25 @@ void Vehicle::ValidateOwners()
     ownerPassengers = validPassengers;
 }
 
-void Vehicle::DestroySelfAndOccupants()
+void Vehicle::DestroyImmediate()
 {
-    fileLog->Log("Vehicle: DestroySelfAndOccupants");
-
-    auto occupants = GetCurrentOccupants();
-
-    for(auto pedRef : occupants)
-    {
-        DESTROY_ACTOR(pedRef);
-        Peds::RemovePed(pedRef);
-    }
+    if(!CAR_DEFINED(ref)) return;
 
     DESTROY_CAR(ref);
     Vehicles::RemoveVehicle(ref);
 }
 
-void Vehicle::DestroyOwners()
+void Vehicle::QueueDestroy(bool destroyOccupants)
 {
-    auto owners = GetOwners();
+    QueueDestroyVehicle(ref);
 
-    for(auto ownerRef : owners)
+    if(destroyOccupants)
     {
-        DESTROY_ACTOR(ownerRef);
-        Peds::RemovePed(ownerRef);
+        for(auto ref : GetCurrentOccupants())
+        {
+            auto ped = Peds::GetPed(ref);
+            ped->QueueDestroy();
+        }
     }
 }
 
@@ -423,16 +419,22 @@ CRGBA Vehicle::GetBlipColor()
     {
         auto driver = Peds::GetPed(ownerDriver);
 
-        if(driver->flags.showBlip) return driver->flags.blipColor;
+        if(driver)
+        {
+            if(driver->flags.showBlip) return driver->flags.blipColor;
+        }
     }
 
     for(auto occupantRef : GetCurrentOccupants())
     {
         auto ped = Peds::GetPed(occupantRef);
 
-        if(ped->flags.showBlip)
+        if(ped)
         {
-            return ped->flags.blipColor;
+            if(ped->flags.showBlip)
+            {
+                return ped->flags.blipColor;
+            }
         }
     }
 
