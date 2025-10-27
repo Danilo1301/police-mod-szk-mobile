@@ -17,6 +17,7 @@
 #include "ATMSystem.h"
 #include "Callouts.h"
 #include "BackupUnits.h"
+#include "AudioCollection.h"
 
 bool hasFirstUpdated = false;
 
@@ -227,6 +228,7 @@ void PoliceMod::OnFirstUpdate()
     LOAD_ANIMATION("MEDIC");
     LOAD_ANIMATION("CRACK");
 
+    AudioCollection::Initialize();
     BottomMessage::Initialize();
     TopMessage::Initialize();
     RadioWindow::Initialize();

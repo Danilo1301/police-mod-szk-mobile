@@ -79,7 +79,7 @@ void AICriminal::Update()
 
         bool isSlow = CAR_SPEED(car->ref) < 2.0f;
 
-        bool isPlayerClose = DistanceFromPed(GetPlayerActor(), criminal->GetPosition()) < 50.0f;
+        bool isPlayerClose = DistanceFromPed(GetPlayerActor(), criminal->GetPosition()) < 40.0f;
 
         if(carWasSlow != isSlow)
         {
@@ -87,7 +87,7 @@ void AICriminal::Update()
 
             if(isSlow && isPlayerClose)
             {
-                if(calculateProbability(0.50))
+                if(calculateProbability(0.20))
                 {
                     car->MakeOccupantsLeave();
                 }

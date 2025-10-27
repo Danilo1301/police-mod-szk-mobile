@@ -12,6 +12,7 @@
 #include "RadioWindow.h"
 #include "Escort.h"
 #include "DocsWindow.h"
+#include "AudioCollection.h"
 
 int aimingPed = NO_PED_FOUND;
 
@@ -120,6 +121,8 @@ void Pullover::FreePed(Ped* ped)
 {
     menuDebug->AddLine("~g~free ped");
 
+    AudioCollection::PlayAsVoice(audioFreePed);
+
     ped->flags.showWidget = false;
     ped->flags.hasSurrended = false;
     ped->ClearAnim();
@@ -130,6 +133,11 @@ void Pullover::FreePed(Ped* ped)
 void Pullover::PulloverVehicle(Vehicle* vehicle)
 {
     BottomMessage::SetMessage(GetTranslatedText("officer_pullover_vehicle"), 3000);
+
+    if(vehicle->HasDriver())
+    {
+        AudioCollection::PlayAsVoice(audioPulloverCar);
+    }
 
     if(vehicle->HasDriver())
     {
@@ -163,6 +171,8 @@ void Pullover::FreeVehicle(Vehicle* vehicle)
     vehicle->flags.showWidget = false;
 
     vehicle->MakeOwnersEnter();
+
+    AudioCollection::PlayAsVoice(audioFreePed);
 
     CleoFunctions::AddWaitForFunction("passengers_enter_vehicle_to_free", [vehicle] () {
         if(!Vehicles::IsValid(vehicle)) return true;
@@ -234,7 +244,8 @@ void Pullover::OpenPedMenu(Ped* ped)
 
             BottomMessage::SetMessage(GetTranslatedText("dialog_ask_for_rg"), 3000);
 
-            WAIT(3000, [ped]() {
+            AudioCollection::PlayAsVoice(audioAskRG, [ped]() {
+
                 ped->flags.shownRG = true;
 
                 DocsWindow::ShowRG(ped);
@@ -374,21 +385,25 @@ void Pullover::OpenVehicleMenu(Vehicle* vehicle)
         button->onClick->Add([window, vehicle]() {
             window->Close();
             
-            auto ocuppants = vehicle->GetCurrentOccupants();
+            AudioCollection::PlayAsVoice(audioExitVehicleHandsUp, [vehicle]() {
+
+                auto ocuppants = vehicle->GetCurrentOccupants();
             
-            vehicle->SetOwners();
-            vehicle->MakeOccupantsLeave();
+                vehicle->SetOwners();
+                vehicle->MakeOccupantsLeave();
 
-            for(auto pedRef : ocuppants)
-            {
-                auto ped = Peds::GetPed(pedRef);
+                for(auto pedRef : ocuppants)
+                {
+                    auto ped = Peds::GetPed(pedRef);
 
-                Criminals::AddCriminal(ped);
-                ped->ShowBlip(COLOR_CRIMINAL);
-                ped->flags.hasSurrended = true;
-                ped->flags.showWidget = true;
-                ped->SetCanDoHandsup();
-            }
+                    Criminals::AddCriminal(ped);
+                    ped->ShowBlip(COLOR_CRIMINAL);
+                    ped->flags.hasSurrended = true;
+                    ped->flags.showWidget = true;
+                    ped->SetCanDoHandsup();
+                }
+
+            });
         });
     }
 

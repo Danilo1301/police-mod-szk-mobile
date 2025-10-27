@@ -11,7 +11,7 @@ std::vector<Location*> g_atmPositions;
 void ATMSystem::Initialize()
 {
     g_atmPositions.push_back(new Location{ CVector(1192.14, -1782.2, 13.2984), CVector(0, 0, 180) });
-    //g_atmPositions.push_back(new Location{ CVector(1729.3, -1745.94, 13.1297), CVector(0, 0, -90) });
+    g_atmPositions.push_back(new Location{ CVector(1729.3, -1745.94, 13.1297), CVector(0, 0, -90) });
 
     ModelLoader::AddModelToLoad(ATM_ID);
     ModelLoader::LoadAll([]() {

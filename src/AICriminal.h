@@ -8,7 +8,7 @@ public:
     int targetPed = -1;
     int prevTargetPed = -1;
     int findTargetTimer = 0;
-    bool carWasSlow = false;
+    bool carWasSlow = true;
 
     int timeToSurrender = 3000;
     int surrenderTimer = 0;

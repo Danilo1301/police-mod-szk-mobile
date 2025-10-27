@@ -29,6 +29,8 @@ extern IMenuSZK* menuSZK;
 #include <sstream>
 #include <iomanip>
 #include <random>
+#include <fstream>
+#include <iostream>
 
 #include "EventListener.h"
 

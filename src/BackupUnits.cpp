@@ -9,11 +9,16 @@
 #include "AIBackupVehicle.h"
 #include "Criminals.h"
 #include "AICop.h"
+#include "AudioCollection.h"
 
 const float MAX_DISTANCE_TO_QTH = 300.0f;
 
+bool g_hasInformedRadio = false;
+
 CVector g_lastQTHPosition = CVector(0, 0, 0);
 int g_spawnUnitTimer = 0;
+
+std::vector<RoadName> g_roads;
 
 std::vector<BackupUnit> BackupUnits::defaultBackupUnits;
 
@@ -50,23 +55,89 @@ void BackupUnits::Initialize()
 
         defaultBackupUnits.push_back(unit);
     }
+
+    InitializeRoads();
+}
+
+void BackupUnits::InitializeRoads()
+{
+    std::string roadDataPath = modData->GetFileFromAssets("roads/roads.dat");
+
+    std::ifstream file(roadDataPath);
+    if (!file.is_open())
+    {
+        return;
+    }
+
+    std::string line;
+    while (std::getline(file, line))
+    {
+        // Ignora linhas vazias ou comentários
+        if (line.empty() || line[0] == '#')
+            continue;
+
+        std::istringstream ss(line);
+        std::string audioFile;
+        float x, y;
+
+        // Faz o parsing: audioFile, posX, posY
+        if (!(std::getline(ss, audioFile, ',') >> x))
+        {
+            // Se não conseguir ler corretamente, tenta com parsing mais robusto
+            char comma;
+            ss.clear();
+            ss.str(line);
+            if (!(std::getline(ss, audioFile, ',') && ss >> x >> comma >> y))
+            {
+                continue;
+            }
+        }
+        else
+        {
+            // quando o primeiro getline dá certo, precisa ler os outros 2 valores
+            char comma;
+            ss >> comma >> y;
+        }
+
+        // Remove espaços em branco do nome do arquivo
+        audioFile.erase(0, audioFile.find_first_not_of(" \t"));
+        audioFile.erase(audioFile.find_last_not_of(" \t") + 1);
+
+        // Cria o grupo de áudio
+        auto group = AudioCollection::CreateGroup(audioFile);
+
+        std::string fullAudioPath = modData->GetFileFromAssets("roads/audios/" + audioFile);
+        group->LoadNewAudio(fullAudioPath);
+
+        // Cria o objeto da rua
+        RoadName road;
+        road.audioGroup = group;
+        road.position = CVector(x, y, 0.0f);
+
+        g_roads.push_back(road);
+
+        menuDebug->AddLine("Road loaded: " + audioFile);
+    }
+
+    file.close();
 }
 
 void BackupUnits::Update()
 {
     CheckIfVehiclesAreValid();
 
+    auto criminalsCount = Criminals::GetCriminals()->size();
+    
+    if(criminalsCount == 0)
+    {
+        g_lastQTHPosition = CVector(0, 0, 0);
+        g_hasInformedRadio = false;
+    }
+
     auto distanceFromQTH = distanceBetweenPoints(GetPlayerPosition(), g_lastQTHPosition);
 
     if(distanceFromQTH < MAX_DISTANCE_TO_QTH)
     {
-        auto criminalsCount = Criminals::GetCriminals()->size();
-
-        if(criminalsCount == 0)
-        {
-            g_lastQTHPosition = CVector(0, 0, 0);
-        }
-
         if(criminalsCount > 0 && backupVehicles.size() < 5)
         {
             g_spawnUnitTimer += menuSZK->deltaTime;
@@ -143,7 +214,49 @@ void BackupUnits::SendQTH()
 
     BottomMessage::SetMessage("QTH enviado ao COPOM", 3000);
     
+    if(g_hasInformedRadio == false)
+    {
+        AudioCollection::PlayAsVoice(audioInformSuspectRunning, []() {
+            PlayRoadName();
+        });
+    } else {
+        PlayRoadName();
+    }
+
+    g_hasInformedRadio = true;
+
     //SpawnBackupUnit();
+}
+
+void BackupUnits::PlayRoadName()
+{
+    if (g_roads.empty())
+        return;
+
+    CVector myPosition = GetPlayerPosition();
+
+    RoadName* nearestRoad = nullptr;
+    float nearestDistance = FLT_MAX;
+
+    for (auto& road : g_roads)
+    {
+        float dx = road.position.x - myPosition.x;
+        float dy = road.position.y - myPosition.y;
+        float dz = road.position.z - myPosition.z;
+
+        float distance = std::sqrt(dx * dx + dy * dy + dz * dz);
+
+        if (distance < nearestDistance)
+        {
+            nearestDistance = distance;
+            nearestRoad = &road;
+        }
+    }
+
+    if (nearestRoad && nearestRoad->audioGroup)
+    {
+        nearestRoad->audioGroup->PlayRandom();
+    }
 }
 
 void BackupUnits::SpawnBackupUnit()

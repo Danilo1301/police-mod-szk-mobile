@@ -3,6 +3,7 @@
 #include "IDebug.h"
 #include "IWindow.h"
 #include "IWidget.h"
+#include "IAudio.h"
 
 #define RADAR_ICON_BIG 50.0f
 #define RADAR_ICON_MEDIUM 25.0f
@@ -52,4 +53,7 @@ public:
     virtual std::string GetLocalizationsPath() = 0;
     virtual void RegisterLocalizationFolder(std::string folderPath) = 0;
     virtual std::string GetLocalizationText(std::string key) = 0;
+
+    virtual IAudio* LoadAudio(std::string src) = 0;
+    virtual void UnloadAudio(IAudio* audio) = 0;
 };

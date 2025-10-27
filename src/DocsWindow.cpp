@@ -3,6 +3,7 @@
 #include "BottomMessage.h"
 #include "CleoFunctions.h"
 #include "Vehicles.h"
+#include "AudioCollection.h"
 
 void DocsWindow::ShowRG(Ped* ped)
 {
@@ -78,8 +79,11 @@ void DocsWindow::ShowVehicleDocs(Vehicle* vehicle)
 
             BottomMessage::SetMessage("Consultando emplacamento via COPOM...", 5000);
 
-            WAIT(5000, [vehicle]() {
-                ShowVehicleResults(vehicle);
+            AudioCollection::PlayAsVoice(audioPlateCheck, [vehicle]() {
+
+                WAIT(2000, [vehicle]() {
+                    ShowVehicleResults(vehicle);
+                });
             });
         });
     }
