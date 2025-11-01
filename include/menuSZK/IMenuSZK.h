@@ -55,5 +55,6 @@ public:
     virtual std::string GetLocalizationText(std::string key) = 0;
 
     virtual IAudio* LoadAudio(std::string src) = 0;
+    virtual IAudio* Load3DAudio(std::string src) = 0;
     virtual void UnloadAudio(IAudio* audio) = 0;
 };

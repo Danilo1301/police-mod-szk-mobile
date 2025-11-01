@@ -9,8 +9,11 @@
 #include "Criminals.h"
 #include "AIController.h"
 #include "AICriminal.h"
+#include "AudioCollection.h"
+#include "RadioSounds.h"
 
 bool g_onACallout = false;
+bool g_calloutReached = false;
 int g_receiveCalloutTimer = 0;
 int g_broadcastingCalloutId = NO_CALLOUT;
 int g_previousCalloutId = NO_CALLOUT;
@@ -42,26 +45,22 @@ void Callouts::Update()
     if(g_broadcastingCalloutId == NO_CALLOUT && !g_onACallout)
     {
         g_receiveCalloutTimer += menuSZK->deltaTime;
-
-        if(g_receiveCalloutTimer >= 40000)
-        {
-            BroadcastRandomCallout();
-        }
     }
 
     if(!g_onACallout)
     {
         g_spawnedCriminals = false;
+        g_calloutReached = false;
     } else {
 
         auto criminalsCount = Criminals::GetCriminals()->size();
 
-        if(criminalsCount > 0)
+        if(criminalsCount > 0 && g_calloutReached)
         {
             g_spawnedCriminals = true;
         }
 
-        if(g_spawnedCriminals && criminalsCount == 0)
+        if(g_spawnedCriminals && criminalsCount == 0 && g_calloutReached)
         {
             g_onACallout = false;
             BottomMessage::AddMessage("Ocorrencia encerrada", 3000);
@@ -89,19 +88,32 @@ void Callouts::Update()
     }
 }
 
+void Callouts::TryBroadcastCallout()
+{
+    if(g_receiveCalloutTimer >= 60000)
+    {
+        BroadcastRandomCallout();
+    }
+}
+
 void Callouts::BroadcastRandomCallout()
 {
     g_receiveCalloutTimer = 0;
     g_broadcastingCalloutId = CALLOUT_ATM;
     g_previousCalloutId = g_broadcastingCalloutId;
 
-    int time = 6000;
+    BottomMessage::SetMessage("~y~[COPOM] ~w~Acabamos de receber uma denuncia de um assalto a caixa eletronico em andamento", 8000);
 
-    BottomMessage::SetMessage("~y~[COPOM] ~w~Ocorrencia de roubo de caixa eletronico em andamento", time);
+    auto audio = audioCalloutATM->GetRandomAudio();
+
+    RadioSounds::PlayAudioNow(audio);
     
-    WAIT(time, []() {
-        g_broadcastingCalloutId = NO_CALLOUT;
+    WaitForAudioFinish(audio, []() {
+        WAIT(1000, []() {
+            g_broadcastingCalloutId = NO_CALLOUT;
+        });
     });
+
 }
 
 void Callouts::AcceptCallout()
@@ -119,7 +131,7 @@ void Callouts::OnBeginCallout(int id)
 {
     if(id == CALLOUT_ATM)
     {
-        BottomMessage::SetMessage("~w~Desloque-se ate o ~r~local ~w~no mapa", 3000);
+        BottomMessage::SetMessage("~w~Desloque-se ate o ~y~local ~w~no mapa", 3000);
 
         auto location = ATMSystem::GetRandomLocation();
         auto position = location->position;
@@ -141,21 +153,32 @@ void Callouts::OnBeginCallout(int id)
         };
         taskAproach->onComplete = [marker, location]() {
             
+            g_calloutReached = true;
+
             DISABLE_MARKER(marker);
 
             BottomMessage::SetMessage("~r~Detenha os suspeitos", 4000);
 
             TryCreateExplosion(location->position);
 
-            int skinModel = 29;
+            std::vector<int> criminalSkins;
+            for(int i = 0; i < 4; i++)
+            {
+                auto skin = GetRandomCriminalSkin();
+
+                criminalSkins.push_back(skin);
+                ModelLoader::AddModelToLoad(skin);
+            }
+
             int coltId = 22;
             int coltModel = 346;
 
-            ModelLoader::AddModelToLoad(skinModel);
             ModelLoader::AddModelToLoad(coltModel);
-            ModelLoader::LoadAll([location, skinModel, coltId]() {
-                for(int i = 1; i <= 4; i++)
+            ModelLoader::LoadAll([location, criminalSkins, coltId]() {
+                for(int i = 0; i < 4; i++)
                 {
+                    auto skinModel = criminalSkins[i];
+
                     auto pedRef = SpawnPedRandomlyAtPosition_PedNode(location->position, PedType::CivMale, skinModel, 10.0f);
                     auto criminal = Peds::RegisterPed(pedRef);
 
@@ -168,7 +191,7 @@ void Callouts::OnBeginCallout(int id)
 
                     criminal->flags.willSurrender = false;
 
-                    if(i >= 2)
+                    if(i >= 1)
                     {
                         criminal->flags.willKillCops = true;
                     } else {
@@ -184,4 +207,14 @@ void Callouts::OnBeginCallout(int id)
 bool Callouts::HasCalloutToAccept()
 {
     return g_previousCalloutId != NO_CALLOUT;
+}
+
+bool Callouts::IsBroacastingCallout()
+{
+    return g_broadcastingCalloutId != NO_CALLOUT;
+}
+
+bool Callouts::IsInCallout()
+{
+    return g_onACallout;
 }

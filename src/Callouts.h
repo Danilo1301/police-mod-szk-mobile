@@ -13,6 +13,7 @@ class Callouts {
 public:
     static void Update();
 
+    static void TryBroadcastCallout();
     static void BroadcastRandomCallout();
 
     static void AcceptCallout();
@@ -20,4 +21,6 @@ public:
     static void OnBeginCallout(int id);
 
     static bool HasCalloutToAccept();
+    static bool IsBroacastingCallout();
+    static bool IsInCallout();
 };

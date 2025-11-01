@@ -6,42 +6,12 @@ std::map<std::string, AudioVariationGroup*> g_audioGroups;
 
 IAudio* g_currentVoiceAudio = nullptr;
 
-IAudio* AudioVariationGroup::PlayRandom()
-{
-    if (audios.empty())
-        return nullptr;
-
-    // Gera um índice aleatório válido
-    int index = getRandomNumber(0, static_cast<int>(audios.size()) - 1);
-
-    auto audio = audios[index];
-    if (audio)
-        audio->Play();
-
-    return audio;
-}
-
-void AudioVariationGroup::LoadNewAudio(std::string src)
-{
-    auto audio = menuSZK->LoadAudio(src);
-
-    if (!audio)
-    {
-        fileLog->Error("[AudioVariationGroup] Error loading audio: " + src);
-        return;
-    }
-
-
-    audios.push_back(audio);
-    fileLog->Error("[AudioVariationGroup] Registered audio: ");
-}
-
 void AudioCollection::Initialize()
 {
     {
         auto group = audioPulloverCar = CreateGroup("pull_over_car");
         group->LoadNewAudio(modData->GetFileFromAssets("audios/officer/pull_over_car.wav"));
-        group->LoadNewAudio(modData->GetFileFromAssets("audios/officer2/pull_over_car.wav"));
+        //group->LoadNewAudio(modData->GetFileFromAssets("audios/officer2/pull_over_car.wav"));
     }
 
     {
@@ -55,6 +25,11 @@ void AudioCollection::Initialize()
     }
     
     {
+        auto group = audioAskCNH = CreateGroup("ask_cnh");
+        group->LoadNewAudio(modData->GetFileFromAssets("audios/officer/ask_cnh.wav"));
+    }
+
+    {
         auto group = audioExitVehicleHandsUp = CreateGroup("exit_vehicle_hands_up");
         group->LoadNewAudio(modData->GetFileFromAssets("audios/officer/exit_vehicle_hands_up.wav"));
     }
@@ -65,10 +40,19 @@ void AudioCollection::Initialize()
     }
 
     {
-        auto group = audioInformSuspectRunning = CreateGroup("inform_suspect_running");
-        group->LoadNewAudio(modData->GetFileFromAssets("audios/ai_officer/inform_suspect_running.mp3"));
+        auto group = audioRequestBackup = CreateGroup("request_backup");
+        group->LoadNewAudio(modData->GetFileFromAssets("audios/officer/request_backup.wav"));
     }
-    
+
+    {
+        auto group = audioCalloutATM = CreateGroup("callout_atm");
+        group->LoadNewAudio(modData->GetFileFromAssets("audios/callouts/atm.wav"));
+    }
+
+    {
+        auto group = audioRequestTowTruck = CreateGroup("request_tow_truck");
+        group->LoadNewAudio(modData->GetFileFromAssets("audios/officer/request_tow_truck.wav"));
+    }
 }
 
 AudioVariationGroup* AudioCollection::CreateGroup(std::string key)

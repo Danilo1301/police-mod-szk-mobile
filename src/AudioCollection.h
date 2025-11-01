@@ -4,21 +4,18 @@
 
 #include "menuSZK/IAudio.h"
 
-class AudioVariationGroup {
-public:
-    std::vector<IAudio*> audios;
-
-    IAudio* PlayRandom();
-
-    void LoadNewAudio(std::string src);
-};
+#include "AudioVariationGroup.h"
 
 inline AudioVariationGroup* audioPulloverCar = nullptr;
 inline AudioVariationGroup* audioFreePed = nullptr;
 inline AudioVariationGroup* audioAskRG = nullptr;
+inline AudioVariationGroup* audioAskCNH = nullptr;
 inline AudioVariationGroup* audioExitVehicleHandsUp = nullptr;
 inline AudioVariationGroup* audioPlateCheck = nullptr;
-inline AudioVariationGroup* audioInformSuspectRunning = nullptr;
+inline AudioVariationGroup* audioRequestBackup = nullptr;
+inline AudioVariationGroup* audioCalloutATM = nullptr;
+inline AudioVariationGroup* audioRequestTowTruck = nullptr;
+
 
 class AudioCollection {
 public:

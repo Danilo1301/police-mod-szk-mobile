@@ -17,24 +17,7 @@ void TestWindow::OpenWindow()
         button->onClick->Add([window]() {
             window->Close();
 
-            SET_MAX_WANTED_LEVEL_TO(0);
-            SET_PLAYER_WANTED_LEVEL(0, 0);
-            
-            // if(!Ped::PedHasWeaponId(playerActor, 10))
-            // {
-            //     CleoFunctions::GIVE_ACTOR_WEAPON(playerActor, 10, 1);
-            // }
-            
-            ModelLoader::AddModelToLoad(356);
-            ModelLoader::AddModelToLoad(346);
-            ModelLoader::AddModelToLoad(280);
-            ModelLoader::LoadAll([]() {
-                int playerActor = GET_PLAYER_ACTOR(0);
-
-                GIVE_ACTOR_WEAPON(playerActor, 31, 800);
-                GIVE_ACTOR_WEAPON(playerActor, 22, 200);
-                CHANGE_PLAYER_MODEL_TO(0, 280);
-            });
+            TestEquip();
         });
     }
 
@@ -122,4 +105,28 @@ void TestWindow::OpenWindow()
             window->Close();
         });
     }
+}
+
+void TestWindow::TestEquip()
+{
+    SET_MAX_WANTED_LEVEL_TO(0);
+    SET_PLAYER_WANTED_LEVEL(0, 0);
+    
+    // if(!Ped::PedHasWeaponId(playerActor, 10))
+    // {
+    //     CleoFunctions::GIVE_ACTOR_WEAPON(playerActor, 10, 1);
+    // }
+    
+    ModelLoader::AddModelToLoad(356);
+    ModelLoader::AddModelToLoad(346);
+    ModelLoader::AddModelToLoad(280);
+    ModelLoader::LoadAll([]() {
+        int playerActor = GET_PLAYER_ACTOR(0);
+
+        GIVE_ACTOR_WEAPON(playerActor, 31, 800);
+        GIVE_ACTOR_WEAPON(playerActor, 22, 200);
+        CHANGE_PLAYER_MODEL_TO(0, 280);
+    });
+
+    BottomMessage::SetMessage("Equipado", 3000);
 }

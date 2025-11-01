@@ -13,6 +13,7 @@
 #include "Escort.h"
 #include "DocsWindow.h"
 #include "AudioCollection.h"
+#include "RadioSounds.h"
 
 int aimingPed = NO_PED_FOUND;
 
@@ -145,7 +146,7 @@ void Pullover::PulloverVehicle(Vehicle* vehicle)
 
         if(driver->flags.willSurrender == false)
         {
-            BottomMessage::SetMessage("~r~O suspeito fugiu!", 3000);
+            BottomMessage::SetMessage(GetTranslatedText("suspect_ran_away"), 3000);
             
             Chase::StartChaseWithVehicle(vehicle);
 
@@ -234,6 +235,17 @@ void Pullover::OpenPedMenu(Ped* ped)
                 ped->Reanimate();
             });
         }
+
+        {
+            auto button = window->AddButton("Teleport to hospital");
+            button->onClick->Add([window, ped]() {
+                window->Close();
+
+                Criminals::RemoveCriminal(ped);
+
+                ped->QueueDestroy();
+            });
+        }
     }
 
     if(ped->flags.isInconcious == false)
@@ -261,7 +273,7 @@ void Pullover::OpenPedMenu(Ped* ped)
 
             BottomMessage::SetMessage(GetTranslatedText("dialog_ask_for_cnh"), 3000);
 
-            WAIT(3000, [ped]() {
+            AudioCollection::PlayAsVoice(audioAskCNH, [ped]() {
                 DocsWindow::ShowCNH(ped);
             });
         });
@@ -354,7 +366,7 @@ void Pullover::OpenPedMenu(Ped* ped)
 
 void Pullover::OpenVehicleMenu(Vehicle* vehicle)
 {
-    auto window = menuSZK->CreateWindow(g_defaultMenuPosition.x, g_defaultMenuPosition.y, 800, GetTranslatedText("pullover_title"));
+    auto window = menuSZK->CreateWindow(g_defaultMenuPosition.x, g_defaultMenuPosition.y, 800, GetTranslatedText("window_pullover_title"));
     
     bool vehicleIsEmpty = vehicle->GetCurrentOccupants().size() == 0;
 
@@ -375,7 +387,13 @@ void Pullover::OpenVehicleMenu(Vehicle* vehicle)
 
             vehicle->flags.showWidget = false;
 
-            CallTowTruck(vehicle);
+            auto audio = audioRequestTowTruck->GetRandomAudio();
+
+            RadioSounds::PlayAudioNowDontAttach(audio);
+            
+            WaitForAudioFinish(audio, [vehicle]() {
+                CallTowTruck(vehicle);
+            });
         });
     }
 

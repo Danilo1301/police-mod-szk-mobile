@@ -45,12 +45,21 @@ inline void* texturePoliceDP = nullptr;
 
 inline CVector* g_playerPosition = new CVector(0, 0, 0);
 inline CVector2D g_defaultMenuPosition = CVector2D(400, 200);
+inline int g_lastPlayerVehicle = -1;
 
 inline EventListener<int>* g_onPedLeaveVehicle = new EventListener<int>();
 inline EventListener<int>* g_onVehicleDestroy = new EventListener<int>();
 
 inline std::vector<int> g_vehiclesToDestroy;
 inline std::vector<int> g_pedsToDestroy;
+
+inline std::vector<int> g_policeSkins = {71, 73, 265, 266, 267, 280, 281, 282, 283, 284, 285, 286, 287, 288};
+inline std::vector<int> g_criminalSkins = {20, 18, 28, 66, 108};
+
+inline bool IsPoliceSkin(int modelId)
+{
+    return std::find(g_policeSkins.begin(), g_policeSkins.end(), modelId) != g_policeSkins.end();
+}
 
 inline void QueueDestroyPed(int ref)
 {
@@ -132,4 +141,13 @@ inline bool calculateProbability(float chance)
 {
     int i = getRandomNumber(0, 99);
     return i < (int)(chance * 100.0f);
+}
+
+inline int GetRandomCriminalSkin()
+{
+    if (g_criminalSkins.empty())
+        return -1;
+
+    int index = getRandomNumber(0, static_cast<int>(g_criminalSkins.size()) - 1);
+    return g_criminalSkins[index];
 }

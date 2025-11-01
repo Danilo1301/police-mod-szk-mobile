@@ -4,6 +4,8 @@
 #include "CleoFunctions.h"
 #include "Vehicles.h"
 #include "AudioCollection.h"
+#include "AudioSequence.h"
+#include "RadioSounds.h"
 
 void DocsWindow::ShowRG(Ped* ped)
 {
@@ -23,7 +25,7 @@ void DocsWindow::ShowRG(Ped* ped)
         button->onClick->Add([window, ped]() {
             window->Close();
 
-            BottomMessage::SetMessage("Consultando RG via COPOM...", 5000);
+            BottomMessage::SetMessage(GetTranslatedText("checking_rg"), 5000);
 
             WAIT(5000, [ped]() {
                 ShowRGResults(ped);
@@ -73,17 +75,18 @@ void DocsWindow::ShowVehicleDocs(Vehicle* vehicle)
     }
 
     {
-        auto button = window->AddButton("Consultar Placa");
+        auto button = window->AddButton(GetTranslatedText("check_vehicle_plate"));
         button->onClick->Add([window, vehicle]() {
             window->Close();
 
-            BottomMessage::SetMessage("Consultando emplacamento via COPOM...", 5000);
+            BottomMessage::SetMessage(GetTranslatedText("checking_plate"), 5000);
 
-            AudioCollection::PlayAsVoice(audioPlateCheck, [vehicle]() {
+            auto audio = audioPlateCheck->GetRandomAudio();
 
-                WAIT(2000, [vehicle]() {
-                    ShowVehicleResults(vehicle);
-                });
+            RadioSounds::PlayAudioNowDontAttach(audio);
+
+            WaitForAudioFinish(audio, [vehicle]() {
+                ShowVehicleResults(vehicle);
             });
         });
     }
@@ -110,7 +113,7 @@ void DocsWindow::ShowVehicleResults(Vehicle* vehicle)
         window->AddText(GetTranslatedText("vehicle_doc_expired"));
     } else {
         window->AddText(GetTranslatedText("vehicle_doc_ok"));
-    }   
+    }
     
     {
         auto button = window->AddButton("~y~" + GetTranslatedText("close"));
@@ -126,17 +129,17 @@ void DocsWindow::ShowCNH(Ped* ped)
     
     if(ped->catHab.length() > 0)
     {
-        window->AddText("- Categoria: ~r~" + ped->catHab);
+        window->AddText(GetTranslatedText("cnh_category") + ped->catHab);
 
         if(ped->flags.expiredDriversLicense)
         {
-            window->AddText("- Habilitacao ~r~vencida");
+            window->AddText(GetTranslatedText("vehicle_cnh_expired"));
         } else {
-            window->AddText("- Habilitacao em dia");
+            window->AddText(GetTranslatedText("vehicle_cnh_ok"));
         }
         
     } else {
-        window->AddText("- Individuo ~r~nao possui CNH");
+        window->AddText(GetTranslatedText("with_no_cnh"));
     }
 
     {

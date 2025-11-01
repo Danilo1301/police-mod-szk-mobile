@@ -18,6 +18,8 @@
 #include "Callouts.h"
 #include "BackupUnits.h"
 #include "AudioCollection.h"
+#include "AudioSequence.h"
+#include "RadioSounds.h"
 
 bool hasFirstUpdated = false;
 
@@ -156,6 +158,17 @@ void PoliceMod::OnGameUpdate()
     auto ppos = GetPlayerPosition();
     g_playerPosition = new CVector(ppos);
 
+    //
+
+    auto vehicleUsing = GetVehiclePedIsUsing(GetPlayerActor());
+    if(vehicleUsing > 0)
+        g_lastPlayerVehicle = vehicleUsing;
+        
+    if(!CAR_DEFINED(g_lastPlayerVehicle))
+        g_lastPlayerVehicle = -1;
+
+    //
+
     if(!hasFirstUpdated)
     {
         hasFirstUpdated = true;
@@ -177,6 +190,10 @@ void PoliceMod::OnGameUpdate()
         }
     }
     
+    AudioSequence::ProcessAudios();
+
+    RadioSounds::Update();
+
     Criminals::Update();
     Peds::Update();
     Vehicles::Update();
@@ -228,6 +245,7 @@ void PoliceMod::OnFirstUpdate()
     LOAD_ANIMATION("MEDIC");
     LOAD_ANIMATION("CRACK");
 
+    RadioSounds::Initialize();
     AudioCollection::Initialize();
     BottomMessage::Initialize();
     TopMessage::Initialize();
@@ -265,17 +283,19 @@ void PoliceMod::OnFirstUpdate()
     }
 
     {
-        // auto widget = menuSZK->CreateWidget(
-        //     500 + 170 + 170,
-        //     30,
-        //     150,
-        //     modData->GetFileFromMenuSZK("assets/widget_background1.png"),
-        //     modData->GetFileFromMenuSZK("assets/widget_menu.png")
-        // );
+        auto widget = menuSZK->CreateWidget(
+            500 + 170 + 170,
+            30,
+            150,
+            modData->GetFileFromMenuSZK("assets/widget_background1.png"),
+            modData->GetFile("assets/widgets/widget_vest.png")
+        );
 
-        // widget->onClick->Add([]() {
-        //     TestWindow::OpenWindow();
-        // });
+        widget->onClick->Add([widget]() {
+            widget->Close();
+            
+            TestWindow::TestEquip();
+        });
     }
 }
 

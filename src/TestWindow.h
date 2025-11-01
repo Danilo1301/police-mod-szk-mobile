@@ -5,4 +5,6 @@
 class TestWindow {
 public:
     static void OpenWindow();
+
+    static void TestEquip();
 };

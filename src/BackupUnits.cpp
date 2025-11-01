@@ -10,6 +10,7 @@
 #include "Criminals.h"
 #include "AICop.h"
 #include "AudioCollection.h"
+#include "RadioSounds.h"
 
 const float MAX_DISTANCE_TO_QTH = 300.0f;
 
@@ -206,19 +207,23 @@ void BackupUnits::SendQTH()
     
     if(Criminals::GetCriminals()->size() == 0)
     {
-        BottomMessage::SetMessage("~r~Nao foi possivel encontrar nenhum suspeito", 3000);
+        BottomMessage::SetMessage(GetTranslatedText("error_no_suspects_found"), 3000);
         return;
     }
 
     g_lastQTHPosition = GetPlayerPosition();
 
-    BottomMessage::SetMessage("QTH enviado ao COPOM", 3000);
+    BottomMessage::SetMessage(GetTranslatedText("qth_updated"), 3000);
     
     if(g_hasInformedRadio == false)
     {
-        AudioCollection::PlayAsVoice(audioInformSuspectRunning, []() {
-            PlayRoadName();
-        });
+        auto audio = audioRequestBackup->GetRandomAudio();
+
+        RadioSounds::PlayAudioNow(audio);
+
+        // WaitForAudioFinish(audio, []() {
+        //     PlayRoadName();
+        // });
     } else {
         PlayRoadName();
     }
@@ -255,7 +260,9 @@ void BackupUnits::PlayRoadName()
 
     if (nearestRoad && nearestRoad->audioGroup)
     {
-        nearestRoad->audioGroup->PlayRandom();
+        auto audio = nearestRoad->audioGroup->GetRandomAudio();
+
+        RadioSounds::PlayAudioNow(audio);
     }
 }
 
