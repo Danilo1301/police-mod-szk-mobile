@@ -20,6 +20,8 @@ extern "C" void OnModPreLoad()
     fileLog->Log("Log initialized");
     fileLog->Log("OnModPreLoad");
 
+    modData->LoadSettings();
+    
     policeMod->OnModPreLoad();
 }
 
@@ -27,13 +29,8 @@ extern "C" void OnModLoad()
 {
     fileLog->Log("OnModLoad");
 
-    {
-        std::string path = aml->GetDataPath();
-        fileLog->Log("GetDataPath: " + path);
-    }
-
     loadInterface(&cleo, "CLEO", true);
-    //if(!cleo) return;
+    if(!cleo) return;
 
     loadInterface(&menuSZK, "MenuSZK");
     if(!menuSZK) return;

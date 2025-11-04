@@ -18,8 +18,6 @@ extern IMenuSZK* menuSZK;
 #define menuDebug menuSZK->debug
 
 #define NO_PED_FOUND -1
-#define CHASE_MAX_VEHICLE_SPEED 40.0f
-#define CHASE_MAX_POLICE_SPEED 40.0f
 
 #include "hooks.h"
 
@@ -55,6 +53,9 @@ inline std::vector<int> g_pedsToDestroy;
 
 inline std::vector<int> g_policeSkins = {71, 73, 265, 266, 267, 280, 281, 282, 283, 284, 285, 286, 287, 288};
 inline std::vector<int> g_criminalSkins = {20, 18, 28, 66, 108};
+
+inline int CHASE_VEHICLE_MAX_SPEED = 50.0f;
+inline int CHASE_POLICE_MAX_SPEED = 50.0f;
 
 inline bool IsPoliceSkin(int modelId)
 {
@@ -150,4 +151,10 @@ inline int GetRandomCriminalSkin()
 
     int index = getRandomNumber(0, static_cast<int>(g_criminalSkins.size()) - 1);
     return g_criminalSkins[index];
+}
+
+inline bool file_exists(const std::string& path)
+{
+    std::ifstream f(path.c_str());
+    return f.good();
 }

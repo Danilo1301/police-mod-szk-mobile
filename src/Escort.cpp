@@ -58,7 +58,7 @@ void Escort::EscortPed(Ped* _ped)
     taskEnter->onBegin = [newPed]() {
         if(newPed->isEnteringCar) return;
 
-        BottomMessage::SetMessage("make it follow", 1000);
+        //BottomMessage::SetMessage("make it follow", 1000);
 
         CLEAR_ACTOR_TASK(newPed->ref);
         TASK_FOLLOW_FOOTSTEPS(newPed->ref, GetPlayerActor());
@@ -68,7 +68,7 @@ void Escort::EscortPed(Ped* _ped)
 
         if(newPed->IsInAnyCar()) return SCRIPT_SUCCESS;
 
-        if(taskEnter->totalTimeElapsed > 30000)
+        if(taskEnter->totalTimeElapsed > 70000)
         {
             return SCRIPT_CANCEL;
         }
@@ -95,7 +95,7 @@ void Escort::OnPlayerEnterVehicle()
 
     auto ped = g_escortingPed;
 
-    auto window = menuSZK->CreateWindow(g_defaultMenuPosition.x, g_defaultMenuPosition.y, 800, GetTranslatedText("escort_to_seat_title"));
+    auto window = menuSZK->CreateWindow(g_defaultMenuPosition.x, g_defaultMenuPosition.y, 800, GetTranslatedText("window_escort_to_seat"));
 
     {
         auto button = window->AddButton("Banco de tras");

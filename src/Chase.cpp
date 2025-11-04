@@ -43,7 +43,7 @@ void Chase::StartChaseWithVehicle(Vehicle* vehicle)
 
     SET_CAR_TRAFFIC_BEHAVIOUR(vehicle->ref, DrivingMode::AvoidCars);
     SET_CAR_TO_PSYCHO_DRIVER(vehicle->ref);
-    SET_CAR_MAX_SPEED(vehicle->ref, CHASE_MAX_VEHICLE_SPEED);
+    SET_CAR_MAX_SPEED(vehicle->ref, CHASE_VEHICLE_MAX_SPEED);
 
     vehicle->SetOwners();
     vehicle->ShowBlip(COLOR_CRIMINAL);

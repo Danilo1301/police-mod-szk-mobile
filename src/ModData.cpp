@@ -1,7 +1,10 @@
 #include "ModData.h"
 
+#include "pch.h"
+
 #include <mod/amlmod.h>
 #include <sys/stat.h>
+#include "IniReaderWriter.hpp"
 
 ModData::ModData(std::string folderName)
 {
@@ -35,6 +38,19 @@ std::string ModData::GetFileFromMenuSZK(const std::string& localPath)
     std::string menuSZKPath = dataRootPath + "/mods/mods_data/" + "menuSZK" + "/";
 
     return menuSZKPath + localPath;
+}
+
+void ModData::LoadSettings()
+{
+    auto pathSettings = GetFile("settings.ini");
+
+    if(!file_exists(pathSettings)) return;
+
+    IniReaderWriter ini;
+    ini.LoadFromFile(pathSettings);
+
+    CHASE_VEHICLE_MAX_SPEED = ini.GetInt("settings", "chase_vehicle_max_speed", CHASE_VEHICLE_MAX_SPEED);
+    CHASE_POLICE_MAX_SPEED = ini.GetInt("settings", "chase_police_max_speed", CHASE_POLICE_MAX_SPEED);
 }
 
 void ModData::CreateFolder(const std::string& path)

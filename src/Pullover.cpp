@@ -14,6 +14,7 @@
 #include "DocsWindow.h"
 #include "AudioCollection.h"
 #include "RadioSounds.h"
+#include "FriskWindow.h"
 
 int aimingPed = NO_PED_FOUND;
 
@@ -276,6 +277,16 @@ void Pullover::OpenPedMenu(Ped* ped)
             AudioCollection::PlayAsVoice(audioAskCNH, [ped]() {
                 DocsWindow::ShowCNH(ped);
             });
+        });
+    }
+
+    if(ped->flags.isInconcious == false)
+    {
+        auto button = window->AddButton(GetTranslatedText("frisk_ped"));
+        button->onClick->Add([window, ped]() {
+            window->Close();
+
+            FriskWindow::OpenForPed(ped);
         });
     }
 

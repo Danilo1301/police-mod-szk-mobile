@@ -2,6 +2,8 @@
 
 #include "pch.h"
 
+#include "Inventory.h"
+
 struct ePedFlags
 {
     bool hasSurrended = false;
@@ -55,6 +57,8 @@ public:
 
     std::string catHab;
 
+    Inventory inventory;
+
     Ped(int ref, void* ptr);
     ~Ped();
 
@@ -93,6 +97,8 @@ public:
     void QueueDestroy();
 
     bool IsDeadOrInconcious();
+
+    void TryInitializeInventory();
 };
 
 inline std::string randomRG() {

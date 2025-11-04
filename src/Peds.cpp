@@ -90,7 +90,9 @@ void Peds::Update()
     for (auto& pair : pedsCopy)
     {
         Ped* ped = pair.second;
+        
         if (!ped) continue;
+        if (!ACTOR_DEFINED(ped->ref)) continue;
 
         // chama o update individual do ped
         ped->Update();  

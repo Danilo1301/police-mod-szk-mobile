@@ -6,8 +6,8 @@
 #include "Vehicles.h"
 #include "WorldWidgets.h"
 #include "Criminals.h"
-
 #include "BottomMessage.h"
+#include "InventoryItemManager.h"
 
 Ped::Ped(int ref, void* ptr)
 {
@@ -27,16 +27,23 @@ Ped::Ped(int ref, void* ptr)
         catHab = "";
     }
 
+    TryInitializeInventory();
+
     if(catHab.length() > 0)
         flags.expiredDriversLicense = calculateProbability(0.20);
 
-    flags.wantedByJustice = calculateProbability(0.15);
+    flags.wantedByJustice = calculateProbability(0.10);
 
     if(flags.wantedByJustice)
     {
-        flags.willSurrender = false;
-    } else {
         flags.willSurrender = calculateProbability(0.40);
+    } else {
+        flags.willSurrender = true;
+    }
+
+    if(flags.willSurrender == false)
+    {
+        flags.willKillCops = calculateProbability(0.40);
     }
 }
 
@@ -451,4 +458,24 @@ bool Ped::IsDeadOrInconcious()
     if(ACTOR_DEAD(ref)) return true;
     if(flags.isInconcious) return true;
     return false;
+}
+
+void Ped::TryInitializeInventory()
+{
+    if(inventory.HasInitialized()) return;
+
+    inventory.MarkAsInitialized();
+
+    for(const auto& pair : InventoryItemManager::itemDefinitions)
+    {
+        auto id = pair.first;
+        auto def = pair.second;
+
+        if(calculateProbability(def->chance))
+        {
+            auto amount = getRandomNumber(1, def->maxStack);
+
+            inventory.AddItem(id, amount);
+        }
+    }
 }

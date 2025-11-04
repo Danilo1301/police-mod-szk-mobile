@@ -12,6 +12,8 @@ public:
     std::string GetFile(const std::string& localPath);
     std::string GetFileFromMenuSZK(const std::string& localPath);
     
+    void LoadSettings();
+
     static void CreateFolder(const std::string& path);
 };
 

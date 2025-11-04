@@ -138,7 +138,7 @@ void AICop::Update()
 
                         ENABLE_CAR_SIREN(copVehicle->ref, true);
                         SET_CAR_TRAFFIC_BEHAVIOUR(copVehicle->ref, DrivingMode::AvoidCars);
-                        SET_CAR_MAX_SPEED(copVehicle->ref, CHASE_MAX_POLICE_SPEED);
+                        SET_CAR_MAX_SPEED(copVehicle->ref, CHASE_POLICE_MAX_SPEED);
 
                         if(criminal->IsInAnyCar())
                         {

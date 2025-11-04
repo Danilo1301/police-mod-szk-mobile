@@ -20,6 +20,7 @@
 #include "AudioCollection.h"
 #include "AudioSequence.h"
 #include "RadioSounds.h"
+#include "InventoryItemManager.h"
 
 bool hasFirstUpdated = false;
 
@@ -175,8 +176,6 @@ void PoliceMod::OnGameUpdate()
         OnFirstUpdate();
     }
 
-    fileLog->Debug("Update systems [1]");
-
     if(menuSZK->debug->enabled)
     {
         if(PLAYER_DEFINED(0))
@@ -190,13 +189,11 @@ void PoliceMod::OnGameUpdate()
         }
     }
     
-    AudioSequence::ProcessAudios();
-
-    RadioSounds::Update();
-
-    Criminals::Update();
+    fileLog->Debug("Update systems [1]");
+    
     Peds::Update();
     Vehicles::Update();
+    Criminals::Update();
     fileLog->Debug("Update systems [2]");
     BottomMessage::Update();
     TopMessage::Update();
@@ -211,7 +208,8 @@ void PoliceMod::OnGameUpdate()
     Checkpoints::Update();
     fileLog->Debug("Update systems [6]");
     Callouts::Update();
-    fileLog->Debug("Update systems [7]");
+    AudioSequence::ProcessAudios();
+    RadioSounds::Update();
 
     for(auto pedRef : g_pedsToDestroy)
     {
@@ -245,6 +243,7 @@ void PoliceMod::OnFirstUpdate()
     LOAD_ANIMATION("MEDIC");
     LOAD_ANIMATION("CRACK");
 
+    InventoryItemManager::Initialize();
     RadioSounds::Initialize();
     AudioCollection::Initialize();
     BottomMessage::Initialize();

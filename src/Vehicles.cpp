@@ -88,7 +88,9 @@ void Vehicles::Update()
     for (auto& pair : vehiclesCopy)
     {
         Vehicle* veh = pair.second;
+
         if (!veh) continue;
+        if (!CAR_DEFINED(veh->ref)) continue;
 
         // chama o update individual do ped
         veh->Update();  
