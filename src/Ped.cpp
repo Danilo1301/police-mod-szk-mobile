@@ -8,6 +8,8 @@
 #include "Criminals.h"
 #include "BottomMessage.h"
 #include "InventoryItemManager.h"
+#include "Checkpoint.h"
+#include "FriskWindow.h"
 
 Ped::Ped(int ref, void* ptr)
 {
@@ -58,7 +60,35 @@ Ped::~Ped()
 
 void Ped::Update()
 {
+    auto pedPosition = GetPosition();
+    auto playerPosition = *g_playerPosition;
+
     PerformAnims();
+
+    if(flags.showBackCheckpoint)
+    {
+        auto checkpointPosition = GetPedPositionWithOffset(ref, CVector(0, -2, 0));;
+
+        if(backCheckpoint == nullptr)
+        {
+            backCheckpoint = Checkpoints::CreateCheckpoint(checkpointPosition);
+            backCheckpoint->onEnterCheckpoint = [this]() {
+                OnEnterBackCheckpoint();
+            };
+        }
+
+        if(backCheckpoint)
+        {
+            backCheckpoint->position = checkpointPosition;
+            backCheckpoint->CheckEntered(playerPosition);
+        }
+    } else {
+        if(backCheckpoint != nullptr)
+        {
+            Checkpoints::DestroyCheckpoint(backCheckpoint);
+            backCheckpoint = nullptr;
+        }
+    }
 
     if(widgetOptions == nullptr)
     {
@@ -82,9 +112,6 @@ void Ped::Update()
 
         widgetOptions = widget;
     }
-    
-    auto pedPosition = GetPosition();
-    auto playerPosition = *g_playerPosition;
 
     if(widgetOptions)
     {
@@ -93,6 +120,11 @@ void Ped::Update()
         if(distanceBetweenPoints(pedPosition, playerPosition) < 5.0f)
         {
             widgetVisible = flags.showWidget;
+        }
+
+        if(g_isAnyMenuVisible)
+        {
+            widgetVisible = false;
         }
 
         widgetOptions->visible = widgetVisible;
@@ -477,5 +509,18 @@ void Ped::TryInitializeInventory()
 
             inventory.AddItem(id, amount);
         }
+    }
+}
+
+void Ped::OnEnterBackCheckpoint()
+{
+    menuDebug->AddLine("entrou no checkpoint");
+
+    flags.showBackCheckpoint = false;
+
+    if(flags.canShowFriskMenu)
+    {
+        FriskWindow::OpenForPed(this);
+        return;
     }
 }

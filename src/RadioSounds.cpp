@@ -124,8 +124,6 @@ void RadioSounds::PlayNext()
 
     g_currentIndex = nextIndex;
     g_currentAudio = g_radioAudios[g_currentIndex];
-
-    g_currentAudio->SetVolume(0.6f);
     
     AttachAudio();
 
@@ -151,9 +149,9 @@ void RadioSounds::AttachAudio()
         }
     }
 
-    //Se tiver veículo próximo, anexa nele, senão no ped
     if (vehicle)
     {
+        g_currentAudio->SetVolume(1.0f);
         g_currentAudio->AttachToCPlaceable(vehicle);
     }
     else
@@ -183,10 +181,11 @@ void RadioSounds::PlayAudioNowDontAttach(IAudio* audio)
     {
         g_currentAudio->Stop();
     }
-
+    
     g_currentAudio = audio;
 
     //AttachAudio();
     
+    g_currentAudio->SetVolume(1.0f);
     g_currentAudio->Play();
 }

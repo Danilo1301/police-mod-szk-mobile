@@ -50,6 +50,11 @@ void AudioCollection::Initialize()
     }
 
     {
+        auto group = audioCalloutStolenCar = CreateGroup("callout_stolen_car");
+        group->LoadNewAudio(modData->GetFileFromAssets("audios/callouts/stolen_car.wav"));
+    }
+
+    {
         auto group = audioRequestTowTruck = CreateGroup("request_tow_truck");
         group->LoadNewAudio(modData->GetFileFromAssets("audios/officer/request_tow_truck.wav"));
     }

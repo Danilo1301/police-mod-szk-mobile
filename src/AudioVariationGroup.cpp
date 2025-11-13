@@ -33,7 +33,6 @@ void AudioVariationGroup::LoadNewAudio(std::string src)
         return;
     }
 
-
     audios.push_back(audio);
     fileLog->Error("[AudioVariationGroup] Registered audio: ");
 }

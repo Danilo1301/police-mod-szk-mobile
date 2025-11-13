@@ -2,6 +2,8 @@
 
 void FriskWindow::OpenForPed(Ped* ped)
 {
+    g_isAnyMenuVisible = true;
+
     auto window = menuSZK->CreateWindow(g_defaultMenuPosition.x, g_defaultMenuPosition.y, 800, GetTranslatedText("window_frisk"));
     
     {
@@ -27,6 +29,8 @@ void FriskWindow::OpenForPed(Ped* ped)
         auto button = window->AddButton("~y~" + GetTranslatedText("close"));
         button->onClick->Add([window]() {
             window->Close();
+
+            g_isAnyMenuVisible = false;
         });
     }
 }

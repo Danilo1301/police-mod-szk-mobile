@@ -252,6 +252,7 @@ void PoliceMod::OnFirstUpdate()
     PoliceBases::Initialize();
     BackupUnits::Initialize();
     ATMSystem::Initialize();
+    Callouts::Initialize();
 
     {
         auto widget = menuSZK->CreateWidget(

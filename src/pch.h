@@ -54,6 +54,8 @@ inline std::vector<int> g_pedsToDestroy;
 inline std::vector<int> g_policeSkins = {71, 73, 265, 266, 267, 280, 281, 282, 283, 284, 285, 286, 287, 288};
 inline std::vector<int> g_criminalSkins = {20, 18, 28, 66, 108};
 
+inline bool g_isAnyMenuVisible = false;
+
 inline int CHASE_VEHICLE_MAX_SPEED = 50.0f;
 inline int CHASE_POLICE_MAX_SPEED = 50.0f;
 

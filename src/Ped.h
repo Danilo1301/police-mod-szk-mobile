@@ -3,6 +3,7 @@
 #include "pch.h"
 
 #include "Inventory.h"
+#include "Checkpoint.h"
 
 struct ePedFlags
 {
@@ -21,6 +22,10 @@ struct ePedFlags
 
     CRGBA blipColor = CRGBA(255, 255, 255);
     bool showBlip = false;
+
+    bool showBackCheckpoint = false;
+
+    bool canShowFriskMenu = false;
 };
 
 enum SeatPosition
@@ -58,6 +63,8 @@ public:
     std::string catHab;
 
     Inventory inventory;
+
+    Checkpoint* backCheckpoint = nullptr;
 
     Ped(int ref, void* ptr);
     ~Ped();
@@ -99,6 +106,8 @@ public:
     bool IsDeadOrInconcious();
 
     void TryInitializeInventory();
+
+    void OnEnterBackCheckpoint();
 };
 
 inline std::string randomRG() {

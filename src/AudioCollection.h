@@ -14,6 +14,7 @@ inline AudioVariationGroup* audioExitVehicleHandsUp = nullptr;
 inline AudioVariationGroup* audioPlateCheck = nullptr;
 inline AudioVariationGroup* audioRequestBackup = nullptr;
 inline AudioVariationGroup* audioCalloutATM = nullptr;
+inline AudioVariationGroup* audioCalloutStolenCar = nullptr;
 inline AudioVariationGroup* audioRequestTowTruck = nullptr;
 
 

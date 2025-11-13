@@ -286,7 +286,10 @@ void Pullover::OpenPedMenu(Ped* ped)
         button->onClick->Add([window, ped]() {
             window->Close();
 
-            FriskWindow::OpenForPed(ped);
+            ped->flags.showBackCheckpoint = true;
+            ped->flags.canShowFriskMenu = true;
+            
+            //FriskWindow::OpenForPed(ped);
         });
     }
 
