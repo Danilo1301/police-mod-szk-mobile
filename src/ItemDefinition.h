@@ -8,6 +8,8 @@ struct ItemDefinition {
     int maxStack = 1;
     bool isIllegal = false;
     double chance = 1.00;
+    std::string specialRole = "";
+    bool isStolen = false;
 
     ItemDefinition() {};
     ItemDefinition(const std::string& name, const std::string& description, int maxStack = 1)

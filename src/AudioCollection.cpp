@@ -8,6 +8,8 @@ IAudio* g_currentVoiceAudio = nullptr;
 
 void AudioCollection::Initialize()
 {
+    const bool IN_3D = true;
+
     {
         auto group = audioPulloverCar = CreateGroup("pull_over_car");
         group->LoadNewAudio(modData->GetFileFromAssets("audios/officer/pull_over_car.wav"));
@@ -46,12 +48,12 @@ void AudioCollection::Initialize()
 
     {
         auto group = audioCalloutATM = CreateGroup("callout_atm");
-        group->LoadNewAudio(modData->GetFileFromAssets("audios/callouts/atm.wav"));
+        group->LoadNewAudio(modData->GetFileFromAssets("audios/callouts/atm.wav"), IN_3D);
     }
 
     {
         auto group = audioCalloutStolenCar = CreateGroup("callout_stolen_car");
-        group->LoadNewAudio(modData->GetFileFromAssets("audios/callouts/stolen_car.wav"));
+        group->LoadNewAudio(modData->GetFileFromAssets("audios/callouts/stolen_car.wav"), IN_3D);
     }
 
     {

@@ -23,9 +23,9 @@ IAudio* AudioVariationGroup::PlayRandom()
     return audio;
 }
 
-void AudioVariationGroup::LoadNewAudio(std::string src)
+void AudioVariationGroup::LoadNewAudio(std::string src, bool in3d)
 {
-    auto audio = menuSZK->LoadAudio(src);
+    auto audio = in3d ? menuSZK->Load3DAudio(src) : menuSZK->LoadAudio(src);
 
     if (!audio)
     {

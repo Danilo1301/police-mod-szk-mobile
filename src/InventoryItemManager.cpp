@@ -31,6 +31,8 @@ void InventoryItemManager::LoadItems()
         double chance = ini.GetDouble("item", "chance", 1.00);
         int maxAmount = ini.GetInt("item", "max_amount", 1);
         bool isIllegal = ini.GetBool("item", "is_illegal", false);
+        std::string specialRole = ini.Get("item", "special_role", "");
+        bool isStolen = ini.GetBool("item", "is_stolen", false);
 
         // Cria shared_ptr e adiciona ao map
         auto itemDef = std::make_shared<ItemDefinition>();
@@ -39,6 +41,8 @@ void InventoryItemManager::LoadItems()
         itemDef->chance = chance;
         itemDef->maxStack = maxAmount;
         itemDef->isIllegal = isIllegal;
+        itemDef->specialRole = specialRole;
+        itemDef->isStolen = isStolen;
 
         itemDefinitions[id] = itemDef;
     }

@@ -13,6 +13,8 @@
 #include "RadioSounds.h"
 
 #include "callouts/ATMCallout.h"
+#include "callouts/TestCallout.h"
+#include "callouts/StolenCarCallout.h"
 
 bool g_onACallout = false;
 bool g_calloutReached = false;
@@ -20,12 +22,15 @@ int g_receiveCalloutTimer = 0;
 
 static CalloutBase* g_broadcastingCallout = nullptr;
 static CalloutBase* g_currentCallout = nullptr;
+static CalloutBase* g_lastBroadcastedCallout = nullptr;
 
 bool g_spawnedCriminals = false;
 
 void Callouts::Initialize()
 {
     CalloutRegistry::Register(new ATMCallout());
+    CalloutRegistry::Register(new StolenCarCallout());
+    //CalloutRegistry::Register(new TestCallout());
 }
 
 void Callouts::Update()
@@ -88,6 +93,7 @@ void Callouts::BroadcastRandomCallout()
 {
     g_receiveCalloutTimer = 0;
     g_broadcastingCallout = CalloutRegistry::GetRandom();
+    g_lastBroadcastedCallout = g_broadcastingCallout;
 
     if (!g_broadcastingCallout) return;
 
@@ -107,97 +113,23 @@ void Callouts::BroadcastRandomCallout()
 
 void Callouts::AcceptCallout()
 {
-    if(g_broadcastingCallout == nullptr) return;
+    auto callout = g_lastBroadcastedCallout;
+
+    if(callout == nullptr) return;
    
     g_onACallout = true;
 
     g_onACallout = true;
-    g_currentCallout = g_broadcastingCallout;
+    g_currentCallout = callout;
+    g_lastBroadcastedCallout = nullptr;
     g_broadcastingCallout = nullptr;
 
     g_currentCallout->OnAccept();
 }
 
-// void Callouts::OnBeginCallout(int id)
-// {
-//     if(id == CALLOUT_ATM)
-//     {
-//         BottomMessage::SetMessage("~w~Desloque-se ate o ~y~local ~w~no mapa", 3000);
-
-//         auto location = ATMSystem::GetRandomLocation();
-//         auto position = location->position;
-
-//         int marker = CreateMarker(position.x, position.y, position.z, 0, 3, 3);
-
-//         ScriptTask* taskAproach = new ScriptTask("aproach_callout");
-//         taskAproach->onBegin = []() {
-
-//         };
-//         taskAproach->onExecute = [location]() {
-
-//             auto playerPosition = GetPlayerPosition();
-//             auto distance = distanceBetweenPoints(playerPosition, location->position);
-         
-//             if(distance > 150.0f) return SCRIPT_KEEP_GOING;
-
-//             return SCRIPT_SUCCESS;
-//         };
-//         taskAproach->onComplete = [marker, location]() {
-            
-//             g_calloutReached = true;
-
-//             DISABLE_MARKER(marker);
-
-//             BottomMessage::SetMessage("~r~Detenha os suspeitos", 4000);
-
-//             TryCreateExplosion(location->position);
-
-//             std::vector<int> criminalSkins;
-//             for(int i = 0; i < 4; i++)
-//             {
-//                 auto skin = GetRandomCriminalSkin();
-
-//                 criminalSkins.push_back(skin);
-//                 ModelLoader::AddModelToLoad(skin);
-//             }
-
-//             int coltId = 22;
-//             int coltModel = 346;
-
-//             ModelLoader::AddModelToLoad(coltModel);
-//             ModelLoader::LoadAll([location, criminalSkins, coltId]() {
-//                 for(int i = 0; i < 4; i++)
-//                 {
-//                     auto skinModel = criminalSkins[i];
-
-//                     auto pedRef = SpawnPedRandomlyAtPosition_PedNode(location->position, PedType::CivMale, skinModel, 10.0f);
-//                     auto criminal = Peds::RegisterPed(pedRef);
-
-//                     Criminals::AddCriminal(criminal);
-
-//                     criminal->ShowBlip(COLOR_CRIMINAL);
-
-//                     GIVE_ACTOR_WEAPON(pedRef, coltId, 1000);
-//                     SET_ACTOR_HEALTH(criminal->ref, 500);
-
-//                     criminal->flags.willSurrender = false;
-
-//                     if(i >= 1)
-//                     {
-//                         criminal->flags.willKillCops = true;
-//                     } else {
-//                         criminal->flags.willKillCops = false;
-//                     }
-//                 }
-//             });
-//         };
-//         taskAproach->Start();
-//     }
-// }
-
 bool Callouts::HasCalloutToAccept()
 {
-    return g_broadcastingCallout != nullptr;
+    return g_lastBroadcastedCallout != nullptr;
 }
 
 bool Callouts::IsBroacastingCallout()

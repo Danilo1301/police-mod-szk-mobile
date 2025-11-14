@@ -520,7 +520,12 @@ void Ped::OnEnterBackCheckpoint()
 
     if(flags.canShowFriskMenu)
     {
-        FriskWindow::OpenForPed(this);
+        PERFORM_ANIMATION_AS_ACTOR(GetPlayerActor(), "hndshkfa_swt", "gangs", 2.0f, 0, 0, 0, 0, -1);
+
+        WAIT(3000, [this]() {
+            FriskWindow::OpenForPed(this);
+        });
+
         return;
     }
 }
