@@ -83,7 +83,7 @@ void Callouts::Update()
 
 void Callouts::TryBroadcastCallout()
 {
-    if(g_receiveCalloutTimer >= 10000)
+    if(g_receiveCalloutTimer >= (g_secondsBetweenCallouts * 1000))
     {
         BroadcastRandomCallout();
     }

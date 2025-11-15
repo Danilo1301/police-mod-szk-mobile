@@ -6,11 +6,12 @@
 #include "Vehicles.h"
 #include "Peds.h"
 #include "AIController.h"
-#include "AIBackupVehicle.h"
 #include "Criminals.h"
 #include "AICop.h"
+#include "AIMedic.h"
 #include "AudioCollection.h"
 #include "RadioSounds.h"
+#include "IniReaderWriter.hpp"
 
 const float MAX_DISTANCE_TO_QTH = 300.0f;
 
@@ -27,37 +28,47 @@ std::vector<Vehicle*> BackupUnits::backupVehicles;
 
 void BackupUnits::Initialize()
 {
-    {
-        BackupUnit unit;
-        unit.skinModelId = 280;
-        unit.vehicleModelId = 596;
-        unit.occupants = 2;
-        unit.chance = 1.00;
-
-        defaultBackupUnits.push_back(unit);
-    }
-
-    {
-        BackupUnit unit;
-        unit.skinModelId = 284;
-        unit.vehicleModelId = 523;
-        unit.occupants = 1;
-        unit.chance = 1.00;
-
-        defaultBackupUnits.push_back(unit);
-    }
-
-    {
-        BackupUnit unit;
-        unit.skinModelId = 283;
-        unit.vehicleModelId = 599;
-        unit.occupants = 2;
-        unit.chance = 0.30;
-
-        defaultBackupUnits.push_back(unit);
-    }
+    LoadBackups();
 
     InitializeRoads();
+}
+
+void BackupUnits::LoadBackups()
+{
+    defaultBackupUnits.clear();
+
+    std::string backupFolder = modData->GetFile("data/backup");
+
+    // listar todas as pastas dentro de data/backup
+    for (auto &entry : std::filesystem::directory_iterator(backupFolder))
+    {
+        if (!entry.is_directory())
+            continue;
+
+        std::string folderPath = entry.path().string();
+        std::string iniPath = folderPath + "/backup.ini";
+
+        if (!std::filesystem::exists(iniPath))
+            continue;
+
+        IniReaderWriter ini;
+        ini.LoadFromFile(iniPath);
+
+        BackupUnit unit;
+
+        unit.name = ini.Get("backup", "name", "Unidade sem nome");
+        unit.vehicleModelId = ini.GetInt("backup", "vehicle_model_id", -1);
+        unit.skinModelId    = ini.GetInt("backup", "ped_skin_id", -1);
+        unit.occupants      = ini.GetInt("backup", "occupants", 1);
+        unit.chance         = (float)ini.GetDouble("backup", "chance", 1.00);
+
+        if (unit.vehicleModelId == -1 || unit.skinModelId == -1)
+        {
+            continue;
+        }
+
+        defaultBackupUnits.push_back(unit);
+    }
 }
 
 void BackupUnits::InitializeRoads()
@@ -147,7 +158,7 @@ void BackupUnits::Update()
             {
                 g_spawnUnitTimer = 0;
 
-                SpawnBackupUnit();
+                SpawnRandomBackupUnit();
             }
         }
     }
@@ -266,11 +277,15 @@ void BackupUnits::PlayRoadName()
     }
 }
 
-void BackupUnits::SpawnBackupUnit()
+void BackupUnits::SpawnBackupUnit(BackupUnit* unit)
 {
     fileLog->Log("BackupUnits: SpawnBackupUnit");
 
-    auto unit = GetRandomUnitByChance(defaultBackupUnits);
+    if(Criminals::GetCriminals()->size() == 0)
+    {
+        BottomMessage::SetMessage(GetTranslatedText("error_no_suspects_found"), 3000);
+        return;
+    }
 
     auto closePosition = GetPedPositionWithOffset(GetPlayerActor(), CVector(0, 120, 0));
 
@@ -293,6 +308,15 @@ void BackupUnits::SpawnBackupUnit()
 
         AddVehicleAsBackup(car, false);
     });
+}
+
+void BackupUnits::SpawnRandomBackupUnit()
+{
+    fileLog->Log("BackupUnits: SpawnRandomBackupUnit");
+    
+    auto unit = GetRandomUnitByChance(defaultBackupUnits);
+
+    SpawnBackupUnit(unit);
 }
 
 void BackupUnits::AddVehicleAsBackup(Vehicle* vehicle, bool recreatePeds)
@@ -373,4 +397,65 @@ BackupUnit* BackupUnits::GetRandomUnitByChance(std::vector<BackupUnit>& units)
 
     // fallback (em teoria nunca chega aqui)
     return &units.back();
+}
+
+void BackupUnits::OpenSpawnBackupMenu()
+{
+    auto window = menuSZK->CreateWindow(g_defaultMenuPosition.x, g_defaultMenuPosition.y, 800, GetTranslatedText("window_spawn_backup"));
+    
+    for (auto& unit : defaultBackupUnits)
+    {
+        BackupUnit unitCopy = unit;
+
+        auto button = window->AddButton(unit.name);
+
+        button->onClick->Add([window, unitCopy]() mutable {
+            window->Close();
+
+            SpawnBackupUnit(&unitCopy);
+        });
+    }
+    
+    {
+        auto button = window->AddButton("~y~" + GetTranslatedText("close"));
+        button->onClick->Add([window]() {
+            window->Close();
+        });
+    }
+}
+
+void BackupUnits::SpawnMedicUnit()
+{
+    auto vehicleModelId = 416;
+    auto pedModelId = 274;
+
+    auto closePosition = GetPedPositionWithOffset(GetPlayerActor(), CVector(0, 100, 0));
+    auto spawnPosition = GET_CLOSEST_CAR_NODE(closePosition.x, closePosition.y, closePosition.z);
+
+    ModelLoader::AddModelToLoad(vehicleModelId);
+    ModelLoader::AddModelToLoad(pedModelId);
+    ModelLoader::LoadAll([vehicleModelId, pedModelId, spawnPosition]() {
+
+        auto carRef = CREATE_CAR_AT(vehicleModelId, spawnPosition.x, spawnPosition.y, spawnPosition.z);
+        auto car = Vehicles::RegisterVehicle(carRef);
+
+        auto driverRef = CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(carRef, PedType::Special, pedModelId);
+        Peds::RegisterPed(driverRef);
+
+        auto passengerRef = CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT(carRef, PedType::Special, pedModelId, 0);
+        Peds::RegisterPed(passengerRef);
+
+        car->SetOwners();
+        car->ShowBlip(COLOR_YELLOW);
+
+        for(auto pedRef : car->GetCurrentOccupants())
+        {
+            auto medic = Peds::GetPed(pedRef);
+
+            auto ai = new AIMedic();
+            AIController::AddAIToPed(medic, ai);
+            ai->targetPosition = GetPlayerPosition();
+            ai->Start();
+        }
+    });
 }

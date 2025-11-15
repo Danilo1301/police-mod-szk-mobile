@@ -6,6 +6,7 @@
 #include "BackupUnits.h"
 #include "Callouts.h"
 #include "TestWindow.h"
+#include "ModelLoader.h"
 
 IContainer* RadioWindow::MainContainer = nullptr;
 IContainer* RadioWindow::ScreenContainer = nullptr;
@@ -17,6 +18,8 @@ std::map<std::string, RadioScreenGroup> RadioWindow::groups;
 std::string RadioWindow::currentGroupId;
 
 int RadioWindow::currentScreenIndex = 0;
+
+bool g_isWaitingForRadio = false;
 
 void RadioWindow::Initialize()
 {
@@ -112,6 +115,8 @@ void RadioWindow::Initialize()
     AddScreen("main", "callout_menu", "callout_menu.png");
     AddScreen("main", "cancel_chase", "cancel_chase.png");
     AddScreen("main", "cancel_services", "cancel_services.png");
+    AddScreen("main", "call_backup", "call_backup.png");
+    AddScreen("main", "call_medic", "call_medic.png");
     AddScreen("main", "test_menu", "test_menu.png");
 
     // AddGroup("test", "main");
@@ -131,13 +136,24 @@ void RadioWindow::Initialize()
 
 void RadioWindow::Toggle()
 {
-    MainContainer->isVisible = !MainContainer->isVisible;
+    bool visible = !MainContainer->isVisible;
+
+    MainContainer->isVisible = visible;
+
+    if(visible)
+    {
+        ToggleRadioAnim(true);
+    } else {
+        if(g_isWaitingForRadio) return;
+        ToggleRadioAnim(false);
+    }
 }
 
 void RadioWindow::OnSelect(std::string id)
 {
     if(id == "send_qth")
     {
+        ToggleRadioAnimOff(5000);
         Toggle();
         BackupUnits::SendQTH();
         return;
@@ -168,6 +184,21 @@ void RadioWindow::OnSelect(std::string id)
         return;
     }
 
+    if(id == "call_backup")
+    {
+        Toggle();
+        BackupUnits::OpenSpawnBackupMenu();
+        return;
+    }
+
+    if(id == "call_medic")
+    {
+        ToggleRadioAnimOff(5000);
+        Toggle();
+        BackupUnits::SpawnMedicUnit();
+        return;
+    }
+
     if(id == "test_menu")
     {
         Toggle();
@@ -190,4 +221,41 @@ void RadioWindow::OnSelect(std::string id)
     }
 
     BottomMessage::SetMessage("~r~No action defined", 1000);
+}
+
+int g_radioObject = 0;
+
+void RadioWindow::ToggleRadioAnim(bool state)
+{
+    if(state == false && g_isWaitingForRadio)
+    {
+        return;
+    }
+
+    if(g_radioObject != 0)
+    {
+        DESTROY_OBJECT(g_radioObject);
+        g_radioObject = 0;
+    }
+
+    if(state)
+    {
+        int radioModelId = 321;
+
+        ModelLoader::AddModelToLoad(radioModelId);
+        ModelLoader::LoadAll([radioModelId]() {
+            g_radioObject = CREATE_OBJECT(radioModelId, 0, 0, 0);
+            ATTACH_TO_OBJECT_AND_PERFORM_ANIMATION(GetPlayerActor(), g_radioObject, 0, 0, 0, 6, 16, "PHONE_TALK", "PED", 1);
+        });
+    }
+}
+
+void RadioWindow::ToggleRadioAnimOff(int timeMs)
+{
+    g_isWaitingForRadio = true;
+    
+    WAIT(timeMs, []() {
+        g_isWaitingForRadio = false;
+        ToggleRadioAnim(false);
+    });
 }

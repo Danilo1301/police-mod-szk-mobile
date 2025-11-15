@@ -18,21 +18,15 @@ struct ePedFlags
     bool shownRG = false;
     bool wantedByJustice = false;
     bool expiredDriversLicense = false;
+    bool isBeingTreated = false;
     int targetPed = -1;
 
     CRGBA blipColor = CRGBA(255, 255, 255);
     bool showBlip = false;
 
     bool showBackCheckpoint = false;
-
     bool canShowFriskMenu = false;
-};
-
-enum SeatPosition
-{
-    NONE,
-    DRIVER,
-    PASSENGER
+    bool hasDoneWork = false;
 };
 
 class Ped {
@@ -52,7 +46,7 @@ public:
 
     IWidget* widgetOptions = nullptr;
 
-    SeatPosition prevSeatPosition = SeatPosition::NONE;
+    int prevSeatId = -1;
     int previousVehicle = -1;
 
     int vehicleOwned = -1;
@@ -87,7 +81,8 @@ public:
 
     void UpdateSeatPosition();
 
-    void EnterVehicle(int vehicleRef, SeatPosition seat, int seatId);
+    void EnterVehicle(int vehicleRef, int seatId);
+    void EnterPreviousVehicle();
 
     void StartDrivingRandomly();
 

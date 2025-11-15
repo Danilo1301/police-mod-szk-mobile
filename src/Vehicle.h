@@ -11,6 +11,7 @@ struct eVehicleFlags
     int drivingToPed = -1;
 
     bool showWidget = false;
+    bool isDrivingAway = false;
 };
 
 class Vehicle {
@@ -32,6 +33,7 @@ public:
     int timeSinceLastRepair = 0;
 
     std::string plate;
+    std::string chassis;
 
     Vehicle(int ref, void* ptr);
     ~Vehicle();
@@ -51,6 +53,8 @@ public:
     bool HasDriver();
     std::vector<int> GetCurrentPassengers();
     std::vector<int> GetCurrentOccupants();
+    bool GetSeatThatPedBelongs(int pedRef, int& seatId);
+    static int GetCurrentSeatOfPed(int carRef, int pedRef);
 
     void MakeOccupantsLeave();
     void MakeOwnersEnter();
@@ -72,6 +76,8 @@ public:
     float GetSpeed();
 
     CRGBA GetBlipColor();
+
+    void RemoveReferences();
 };
 
 inline std::string randomPlate()
@@ -128,4 +134,27 @@ inline std::string randomPlateLimited()
         plate += numbers[distNumbers(gen)];
 
     return plate;
+}
+
+inline std::string randomVIN()
+{
+    static const std::string allowedChars = "0123456789ABCDEFGHJKLMNPRSTUVWXYZ";
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, allowedChars.size() - 1);
+
+    std::string vin;
+    vin.reserve(17);
+
+    // WMI brasileiro (opcional)
+    std::string wmi = "9BD"; // FIAT
+    vin += wmi;
+
+    // restante até 17 chars
+    for (int i = 0; i < 14; i++) {
+        vin += allowedChars[dis(gen)];
+    }
+
+    return vin;
 }

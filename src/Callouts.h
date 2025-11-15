@@ -6,6 +6,8 @@
 #define NO_CALLOUT -1
 #define CALLOUT_ATM 0
 
+inline int g_secondsBetweenCallouts = 50;
+
 class Callouts {
 public:
     static void Initialize();

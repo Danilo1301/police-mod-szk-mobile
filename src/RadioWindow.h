@@ -152,4 +152,7 @@ public:
             ScreenContainer->SetBackgroundImage(screen->texture);
         }
     }
+
+    static void ToggleRadioAnim(bool state);
+    static void ToggleRadioAnimOff(int timeMs);
 };

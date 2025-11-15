@@ -15,4 +15,5 @@ public:
 
     static void ShowCNH(Ped* ped);
 
+    static void ShowChassisResult(Vehicle* vehicle);
 };

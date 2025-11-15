@@ -124,7 +124,7 @@ void Escort::OnPlayerEnterVehicle()
                 return;
             }
 
-            ped->EnterVehicle(vehicle->ref, SeatPosition::PASSENGER, lastFreeSeat);
+            ped->EnterVehicle(vehicle->ref, lastFreeSeat + 1);
             
             CleoFunctions::AddWaitForFunction("escort_wait_to_enter", [ped]() {
                 if(!Peds::IsValid(ped)) return true;

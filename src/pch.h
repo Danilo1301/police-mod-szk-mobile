@@ -45,6 +45,7 @@ inline CVector* g_playerPosition = new CVector(0, 0, 0);
 inline CVector2D g_defaultMenuPosition = CVector2D(400, 200);
 inline int g_lastPlayerVehicle = -1;
 
+inline EventListener<int>* g_onPedEnterVehicle = new EventListener<int>();
 inline EventListener<int>* g_onPedLeaveVehicle = new EventListener<int>();
 inline EventListener<int>* g_onVehicleDestroy = new EventListener<int>();
 

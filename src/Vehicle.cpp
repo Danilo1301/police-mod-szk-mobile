@@ -37,9 +37,15 @@ Vehicle::Vehicle(int ref, void* ptr)
     }
 
     plate = randomPlate();
+    chassis = randomVIN();
 
     flags.isStolen = calculateProbability(0.10);
     flags.hasExpiredDocument = calculateProbability(0.10);
+
+    if(flags.isStolen)
+    {
+        chassis = "";
+    }
 }
 
 Vehicle::~Vehicle()
@@ -167,6 +173,62 @@ std::vector<int> Vehicle::GetCurrentOccupants()
     return occupants;
 }
 
+bool Vehicle::GetSeatThatPedBelongs(int pedRef, int& seatId)
+{
+    // DRIVER É seatId 0
+    if(ownerDriver == pedRef)
+    {
+        seatId = 0;
+        return true;
+    }
+
+    // PASSAGEIROS seatId 0 até 3
+    for(int i = 0; i < ownerPassengers.size(); i++)
+    {
+        if(ownerPassengers[i] == pedRef)
+        {
+            seatId = i + 1;
+            return true;
+        }
+    }
+
+    seatId = -1;
+    return false;
+}
+
+int Vehicle::GetCurrentSeatOfPed(int carRef, int pedRef)
+{
+    fileLog->Log("1");
+
+    auto driverRef = GET_DRIVER_OF_CAR(carRef);
+
+    if(driverRef > 0)
+    {
+        if(driverRef == pedRef)
+        {
+            return 0;
+        }
+    }
+
+    fileLog->Log("2");
+
+    auto maxPassengers = CAR_MAX_PASSENGERS(carRef);
+
+    for(int seatId = 0; seatId < maxPassengers; seatId++)
+    {
+        if(!CAR_PASSENGER_SEAT_FREE(carRef, seatId))
+        {
+            auto passengerHandle = GET_ACTOR_HANDLE_FROM_CAR_PASSENGER_SEAT(carRef, seatId);
+
+            if(pedRef == passengerHandle) return seatId + 1;
+        }
+    }
+
+    fileLog->Log("3");
+
+    return -1;
+}
+
 void Vehicle::MakeOccupantsLeave()
 {
     fileLog->Log("Vehicle: MakeOccupantsLeave");
@@ -186,18 +248,15 @@ void Vehicle::MakeOwnersEnter()
 
     auto owners = GetOwners();
 
-    int passengerSeatId = 0;
     for(auto pedRef : owners)
     {
         auto ped = Peds::GetPed(pedRef);
 
-        if(ped->prevSeatPosition == SeatPosition::DRIVER)
-        {
-            ped->EnterVehicle(ref, SeatPosition::DRIVER, 0);
-        } else {
-            ped->EnterVehicle(ref, ped->prevSeatPosition, passengerSeatId);
-            passengerSeatId++;
-        }
+        int seatId;
+
+        GetSeatThatPedBelongs(pedRef, seatId);
+
+        ped->EnterVehicle(ref, seatId);
     }
 }
 
@@ -345,6 +404,8 @@ void Vehicle::QueueDestroy(bool destroyOccupants)
     }
 }
 
+
+
 void Vehicle::TryInitializePedsInside()
 {
     if(hasInitializedPeds) return;
@@ -439,4 +500,14 @@ CRGBA Vehicle::GetBlipColor()
     }
 
     return flags.blipColor;
+}
+
+void Vehicle::RemoveReferences()
+{
+    REMOVE_REFERENCES_TO_CAR(ref);
+
+    for(auto pedRef : GetCurrentOccupants())
+    {
+        REMOVE_REFERENCES_TO_ACTOR(pedRef);
+    }
 }

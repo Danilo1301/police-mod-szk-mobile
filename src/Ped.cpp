@@ -18,8 +18,6 @@ Ped::Ped(int ref, void* ptr)
 
     wasAlive = ACTOR_HEALTH(ref) > 0;
 
-    UpdateSeatPosition();
-
     cpf = randomCPF();
     rg = randomRG();
     catHab = randomCatHab();
@@ -47,6 +45,8 @@ Ped::Ped(int ref, void* ptr)
     {
         flags.willKillCops = calculateProbability(0.40);
     }
+
+    UpdateSeatPosition();
 }
 
 Ped::~Ped()
@@ -204,6 +204,8 @@ void Ped::Update()
         {
             isEnteringCar = false;
             menuDebug->AddLine("~y~Ped entered the vehicle");
+
+            g_onPedEnterVehicle->Emit(ref);
         }
     }
 
@@ -294,20 +296,27 @@ void Ped::LeaveCar()
 
 void Ped::UpdateSeatPosition()
 {
+    fileLog->Log("UpdateSeatPosition");
+
     previousVehicle = -1;
 
     if(!IsInAnyCar())
     {
-        prevSeatPosition = SeatPosition::NONE;
+        prevSeatId = -1;
         return;
     } 
 
-    previousVehicle = GetCurrentCar();
-    prevSeatPosition = IsDriver() ? SeatPosition::DRIVER : SeatPosition::PASSENGER;
+    auto carRef = GetCurrentCar();
+
+    previousVehicle = carRef;
+    prevSeatId = Vehicle::GetCurrentSeatOfPed(carRef, ref);
 }
 
-void Ped::EnterVehicle(int vehicleRef, SeatPosition seat, int seatId)
+void Ped::EnterVehicle(int vehicleRef, int seatId)
 {
+    previousVehicle = vehicleRef;
+    prevSeatId = seatId;
+
     if(!CAR_DEFINED(vehicleRef)) return;
 
     if(IsInAnyCar())
@@ -316,7 +325,7 @@ void Ped::EnterVehicle(int vehicleRef, SeatPosition seat, int seatId)
         return;
     }
 
-    if(seat == SeatPosition::NONE)
+    if(seatId < 0)
     {
         menuDebug->AddLine("~r~cant enter vehicle: seat is NONE");
         return;
@@ -342,20 +351,44 @@ void Ped::EnterVehicle(int vehicleRef, SeatPosition seat, int seatId)
         if(distance < 10) return true;
 
         return false;
-    }, [ped, vehicle, seat, seatId]() {
+    }, [ped, vehicle, seatId]() {
         if(!Peds::IsValid(ped)) return;
         if(!Vehicles::IsValid(vehicle)) return;
 
         SET_CHAR_STAY_IN_CAR_WHEN_JACKED(ped->ref, true);
         
-        if(seat == SeatPosition::DRIVER)
+        if(seatId == 0)
         {
             ENTER_CAR_AS_DRIVER_AS_ACTOR(ped->ref, vehicle->ref, 10000);
-        } else if(seat == SeatPosition::PASSENGER)
+        } else if(seatId >= 1)
         {
-            ACTOR_ENTER_CAR_PASSENGER_SEAT(ped->ref, vehicle->ref, 10000, seatId);
+            ACTOR_ENTER_CAR_PASSENGER_SEAT(ped->ref, vehicle->ref, 10000, seatId - 1);
         }
     });
+}
+
+void Ped::EnterPreviousVehicle()
+{
+    menuDebug->AddLine("enter previous vehicle");
+
+    auto vehicle = Vehicles::GetVehicle(previousVehicle);
+    if(!vehicle)
+    {
+        menuDebug->AddLine("~r~no valid vehicle");
+        return;
+    }
+
+    vehicle->ValidateOwners();
+
+    int seatId;
+
+    if(!vehicle->GetSeatThatPedBelongs(ref, seatId))
+    {
+        menuDebug->AddLine("~r~ped does not belong to vehicle");
+        return;
+    }
+
+    EnterVehicle(previousVehicle, seatId);
 }
 
 void Ped::StartDrivingRandomly()
@@ -445,11 +478,11 @@ void Ped::CopyFrom(const Ped& other)
         );
 
         // 🚗 Atualiza o novo dono conforme a posição no veículo
-        if (prevSeatPosition == SeatPosition::DRIVER)
+        if (prevSeatId == 0)
         {
             vehicle->ownerDriver = ref;
         }
-        else if (prevSeatPosition == SeatPosition::PASSENGER)
+        else if (prevSeatId > 0)
         {
             passengers.push_back(ref);
         }
@@ -460,6 +493,7 @@ void Ped::Reanimate()
 {
     ClearAnim();
     flags.isInconcious = false;
+    flags.isBeingTreated = false;
     
     if(Criminals::IsCriminal(this))
     {
@@ -468,6 +502,8 @@ void Ped::Reanimate()
     } else {
         HideBlip();
         flags.showWidget = false;
+
+        REMOVE_REFERENCES_TO_ACTOR(ref);
     }
 }
 
@@ -520,9 +556,23 @@ void Ped::OnEnterBackCheckpoint()
 
     if(flags.canShowFriskMenu)
     {
-        PERFORM_ANIMATION_AS_ACTOR(GetPlayerActor(), "hndshkfa_swt", "gangs", 2.0f, 0, 0, 0, 0, -1);
+        auto playerActor = GetPlayerActor();
+        
+        WAIT(100, [this, playerActor]() {
+            auto heading = GET_CHAR_HEADING(ref);
+            auto newPos = GetPedPositionWithOffset(ref, CVector(0, -1, 0));
 
-        WAIT(3000, [this]() {
+            newPos.z -= 1.0f;
+
+            SET_CHAR_COORDINATES(playerActor, newPos.x, newPos.y, newPos.z);
+            SET_CHAR_HEADING(playerActor, heading);
+            FREEZE_CHAR_POSITION(playerActor, true);
+
+            PERFORM_ANIMATION_AS_ACTOR(playerActor, "hndshkfa_swt", "gangs", 2.0f, 0, 0, 0, 0, -1);
+        });
+
+        WAIT(3000, [this, playerActor]() {
+            FREEZE_CHAR_POSITION(playerActor, false);
             FriskWindow::OpenForPed(this);
         });
 

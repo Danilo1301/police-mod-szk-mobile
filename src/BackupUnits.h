@@ -7,6 +7,7 @@
 
 struct BackupUnit
 {
+    std::string name = "";
     int vehicleModelId;
     int skinModelId;
     int occupants = 2;
@@ -26,13 +27,17 @@ public:
     static std::vector<Vehicle*> backupVehicles;
 
     static void Initialize();
+    static void LoadBackups();
     static void InitializeRoads();
     static void Update();
     static void OnPostDrawRadar();
     static void CheckIfVehiclesAreValid();
     static void SendQTH();
     static void PlayRoadName();
-    static void SpawnBackupUnit();
+    static void SpawnBackupUnit(BackupUnit* unit);
+    static void SpawnRandomBackupUnit();
     static void AddVehicleAsBackup(Vehicle* vehicle, bool recreatePeds);
     static BackupUnit* GetRandomUnitByChance(std::vector<BackupUnit>& units);
+    static void OpenSpawnBackupMenu();
+    static void SpawnMedicUnit();
 };

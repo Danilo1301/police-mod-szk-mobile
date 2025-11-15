@@ -92,6 +92,19 @@ void DocsWindow::ShowVehicleDocs(Vehicle* vehicle)
     }
     
     {
+        auto button = window->AddButton(GetTranslatedText("check_chassis"));
+        button->onClick->Add([window, vehicle]() {
+            window->Close();
+
+            BottomMessage::SetMessage(GetTranslatedText("checking_chassis"), 5000);
+
+            WAIT(5000, [vehicle]() {
+                ShowChassisResult(vehicle);
+            });
+        });
+    }
+
+    {
         auto button = window->AddButton("~y~" + GetTranslatedText("close"));
         button->onClick->Add([window]() {
             window->Close();
@@ -142,6 +155,31 @@ void DocsWindow::ShowCNH(Ped* ped)
         window->AddText(GetTranslatedText("with_no_cnh"));
     }
 
+    {
+        auto button = window->AddButton("~y~" + GetTranslatedText("close"));
+        button->onClick->Add([window]() {
+            window->Close();
+        });
+    }
+}
+
+void DocsWindow::ShowChassisResult(Vehicle* vehicle)
+{
+    auto window = menuSZK->CreateWindow(g_defaultMenuPosition.x, g_defaultMenuPosition.y, 800, GetTranslatedText("window_vehicle_results"));
+    
+    {
+        if(vehicle->chassis.size() == 0)
+        {
+            window->AddText("- Chassis: ~r~Suprimido");
+        } else {
+            window->AddText("- Chassis: " + vehicle->chassis);
+        }
+    }
+
+    // {
+    //     window->AddText("- Chassis do documento: " + vehicle->chassis);
+    // }
+    
     {
         auto button = window->AddButton("~y~" + GetTranslatedText("close"));
         button->onClick->Add([window]() {

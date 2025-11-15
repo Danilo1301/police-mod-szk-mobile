@@ -257,6 +257,22 @@ inline void SET_CAR_Z_ANGLE(int vehicle, float heading)
     CallScriptCommand(&scm_SET_CAR_Z_ANGLE, vehicle, heading);
 }
 
+// 0173
+static DEFOPCODE(0173, SET_CHAR_HEADING, if);
+inline void SET_CHAR_HEADING(int handle, float heading)
+{
+    CallScriptCommand(&scm_SET_CHAR_HEADING, handle, heading);
+}
+
+// 0172
+static DEFOPCODE(0172, GET_CHAR_HEADING, iv);
+inline float GET_CHAR_HEADING(int handle)
+{
+    float result;
+    CallScriptCommand(&scm_GET_CHAR_HEADING, handle, &result);
+    return result;
+}
+
 // 017A: set_car_immunities %1d BP %2d FP %3d EP %4d CP %5d MP %6d
 static DEFOPCODE(017A, SET_CAR_IMMUNITIES, iiiiii);
 inline void SET_CAR_IMMUNITIES(int vehicle, bool BP, bool FP, bool EP, bool CP, bool MP)
@@ -305,6 +321,20 @@ inline bool HAS_ANIMATION_LOADED(const char* animationFile)
 {
     bool result = CallScriptCommand_NoLog(&scm_HAS_ANIMATION_LOADED, animationFile);
     return result;
+}
+
+//04D7
+static DEFOPCODE(04D7, FREEZE_CHAR_POSITION, ib);
+inline void FREEZE_CHAR_POSITION(int handle, bool state)
+{
+    CallScriptCommand(&scm_FREEZE_CHAR_POSITION, handle, state);
+}
+
+//00A1
+static DEFOPCODE(00A1, SET_CHAR_COORDINATES, ifff);
+inline void SET_CHAR_COORDINATES(int handle, float x, float y, float z)
+{
+    CallScriptCommand(&scm_SET_CHAR_COORDINATES, handle, x, y, z);
 }
 
 //04ED: load_animation "GANGS"
@@ -691,6 +721,13 @@ inline void ACTOR_ENTER_CAR_PASSENGER_SEAT(int _char, int vehicle, int time, int
     CallScriptCommand(&scm_ACTOR_ENTER_CAR_PASSENGER_SEAT, _char, vehicle, time, seatId);
 }
 
+//04B8: get_weapon_data_from_actor $PLAYER_ACTOR slot 2 weapon 404@ ammo 405@ model 405@ 
+static DEFOPCODE(04B8, GET_WEAPON_DATA_FROM_ACTOR, iivvv);
+inline void GET_WEAPON_DATA_FROM_ACTOR(int _char, int weaponSlotId, int* weaponType, int* weaponAmmo, int* weaponModel)
+{
+    sautils->ScriptCommand(&scm_GET_WEAPON_DATA_FROM_ACTOR, _char, weaponSlotId, weaponType, weaponAmmo, weaponModel);
+}
+
 //0187: 47@ = create_marker_above_actor 75@ 
 static DEFOPCODE(0187, ADD_BLIP_FOR_CHAR, iv);
 inline int ADD_BLIP_FOR_CHAR(int _char)
@@ -806,6 +843,22 @@ inline int CREATE_MARKER_AT(float x, float y, float z, int color, int display)
     return blip;
 }
 
+
+
+//0108: destroy_object $1173 
+static DEFOPCODE(0108, DESTROY_OBJECT, i);
+inline void DESTROY_OBJECT(int object)
+{
+    sautils->ScriptCommand(&scm_DESTROY_OBJECT, object);
+}
+
+//070A: AS_actor $PLAYER_ACTOR attach_to_object 38@ offset 0.0 0.0 0.0 on_bone 6 16 perform_animation "PHONE_TALK" IFP_file "PED" time 1
+static DEFOPCODE(070A, ATTACH_TO_OBJECT_AND_PERFORM_ANIMATION, iifffiissi);
+inline void ATTACH_TO_OBJECT_AND_PERFORM_ANIMATION(int _char, int object, float offsetX, float offsetY, float offsetZ, int boneId, int _p7, const char* animationName, const char* animationFile, int time)
+{
+    sautils->ScriptCommand(&scm_ATTACH_TO_OBJECT_AND_PERFORM_ANIMATION, _char, object, offsetX, offsetY, offsetZ, boneId, _p7, animationName, animationFile, time);
+}
+
 //0168: set_marker 9@ size 3
 static DEFOPCODE(0168, SET_MARKER_SIZE, ii);
 inline void SET_MARKER_SIZE(int blip, int size)
@@ -914,4 +967,17 @@ inline int SpawnPedRandomlyAtPosition_PedNode(CVector position, PedType pedType,
     int pedRef = CREATE_ACTOR_PEDTYPE(pedType, modelId, nodePosition.x, nodePosition.y, nodePosition.z);
 
     return pedRef;
+}
+
+inline bool PedHasWeaponId(int pedRef, int weaponId)
+{
+    for(int i = 1; i <= 13; i++)
+    {
+        int weaponType = 0, weaponAmmo = 0, weaponModel = 0;
+
+        GET_WEAPON_DATA_FROM_ACTOR(pedRef, i, &weaponType, &weaponAmmo, &weaponModel);
+
+        if(weaponId == weaponType) return true;
+    }
+    return false;
 }
