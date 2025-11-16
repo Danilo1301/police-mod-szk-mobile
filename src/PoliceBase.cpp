@@ -4,11 +4,11 @@
 #include "Vehicles.h"
 #include "BottomMessage.h"
 #include "Peds.h"
+#include "Partners.h"
 
 PoliceBase::PoliceBase()
 {
     leaveCriminalCheckpoint = Checkpoints::CreateCheckpoint(CVector(0, 0, 0));
-
     leaveCriminalCheckpoint->onEnterCheckpoint = []() {
         auto playerActor = GetPlayerActor();
 
@@ -59,19 +59,30 @@ PoliceBase::PoliceBase()
 
         //BottomMessage::AddMessage("Recompensa: ~g~R$ 0", 3000);
     };
+
+    getPartnerCheckpoint = Checkpoints::CreateCheckpoint(CVector(0, 0, 0));
+    getPartnerCheckpoint->onEnterCheckpoint = []() {
+
+        auto vehicleRef = GetVehiclePedIsUsing(GetPlayerActor());
+        if(vehicleRef > 0)
+        {
+            BottomMessage::SetMessage(GetTranslatedText("error_cant_be_inside_vehicle"), 3000);
+            return;
+        }
+
+        Partners::CreateSpawnPartnerMenu();
+    };
 }
 
 void PoliceBase::Update()
 {
     auto playerActor = GetPlayerActor();
     auto vehicleRef = GetVehiclePedIsUsing(playerActor);
+    
+    auto currentPosition = vehicleRef > 0 ? GetCarPosition(vehicleRef) : GetPlayerPosition();
 
-    if(vehicleRef > 0)
-    {   
-        leaveCriminalCheckpoint->CheckEntered(GetCarPosition(vehicleRef));
-    } else {
-        leaveCriminalCheckpoint->CheckEntered(GetPlayerPosition());
-    }
+    leaveCriminalCheckpoint->CheckEntered(currentPosition);
+    getPartnerCheckpoint->CheckEntered(currentPosition);
 }
 
 void PoliceBase::OnPostDrawRadar()

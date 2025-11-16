@@ -10,8 +10,10 @@ public:
     static void ShowRG(Ped* ped);
     static void ShowRGResults(Ped* ped);
 
-    static void ShowVehicleDocs(Vehicle* vehicle);
-    static void ShowVehicleResults(Vehicle* vehicle);
+    static void ShowVehicleVisualInfo(Vehicle* vehicle);
+    static void ShowVehicleResults(Vehicle* vehicle, bool byPlate);
+
+    static void ShowCRLV(Ped* ped, Vehicle* vehicle);
 
     static void ShowCNH(Ped* ped);
 

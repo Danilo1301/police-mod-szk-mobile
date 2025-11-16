@@ -16,7 +16,7 @@ extern bool g_calloutReached;
 
 const char* StolenCarCallout::GetBroadcastMessage()
 {
-    return "~y~[COPOM] ~w~Um veiculo roubado foi identificado pelas cameras";
+    return "~y~[COPOM] ~w~Um veiculo roubado foi localizado pelas cameras do olho vivo";
 }
 
 AudioVariationGroup* StolenCarCallout::GetBroadcastAudio()
@@ -74,7 +74,8 @@ void StolenCarCallout::OnAccept()
             int carRef = CREATE_CAR_AT(vehicleModel, carNodePosition.x, carNodePosition.y, carNodePosition.z);
 
             auto car = Vehicles::RegisterVehicle(carRef);
-            car->flags.isStolen = true;
+            car->originalDoc.isStolen = true;
+            car->currentDoc.isStolen = true;
             car->ShowBlip(COLOR_CRIMINAL);
 
             auto driverRef = CREATE_ACTOR_PEDTYPE_IN_CAR_DRIVERSEAT(carRef, PedType::CivMale, driverModel);

@@ -61,6 +61,7 @@ public:
     float textMarginLeft = 0;
 
     IEventListener<>* onClick;
+    IEventListener<>* onBeforeDraw;
     IEventListener<>* onAfterDraw;
 
     virtual ~IContainer() = default;

@@ -36,15 +36,21 @@ Vehicle::Vehicle(int ref, void* ptr)
         widgetOptions = widget;
     }
 
-    plate = randomPlate();
-    chassis = randomVIN();
+    originalDoc.isStolen = calculateProbability(0.50);
+    originalDoc.isDocumentExpired = calculateProbability(0.10);
 
-    flags.isStolen = calculateProbability(0.10);
-    flags.hasExpiredDocument = calculateProbability(0.10);
-
-    if(flags.isStolen)
+    flags.swappedPlate = calculateProbability(originalDoc.isStolen ? 0.50 : 0.05);
+    if(flags.swappedPlate == false)
     {
-        chassis = "";
+        currentDoc = originalDoc;
+    }
+
+    if(originalDoc.isStolen)
+    {
+        if(calculateProbability(0.50))
+        {
+            flags.chassisErased = true;
+        }
     }
 }
 

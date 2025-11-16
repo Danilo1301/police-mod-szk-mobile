@@ -1,10 +1,10 @@
 #include "RadioSounds.h"
-#include <algorithm> // std::find
 
 #include "CleoFunctions.h"
 #include "Vehicles.h"
 #include "BottomMessage.h"
 #include "Callouts.h"
+#include "Skins.h"
 
 std::vector<IAudio*> g_radioAudios;
 std::vector<int> g_playedIndices; // guarda os índices já tocados

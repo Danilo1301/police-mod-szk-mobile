@@ -122,7 +122,7 @@ void Ped::Update()
             widgetVisible = flags.showWidget;
         }
 
-        if(g_isAnyMenuVisible)
+        if(g_blockInteractions)
         {
             widgetVisible = false;
         }
@@ -422,7 +422,7 @@ void Ped::InitializeOnVehicle(int vehicleRef)
 {
     auto vehicle = Vehicles::GetVehicle(vehicleRef);
 
-    if(vehicle->flags.isStolen || vehicle->flags.hasExpiredDocument)
+    if(vehicle->flags.swappedPlate || vehicle->flags.chassisErased)
     {
         auto occupants = vehicle->GetCurrentOccupants();
 

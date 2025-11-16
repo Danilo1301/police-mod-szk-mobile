@@ -60,22 +60,22 @@ void DocsWindow::ShowRGResults(Ped* ped)
     }
 }
 
-void DocsWindow::ShowVehicleDocs(Vehicle* vehicle)
+void DocsWindow::ShowVehicleVisualInfo(Vehicle* vehicle)
 {
     auto window = menuSZK->CreateWindow(g_defaultMenuPosition.x, g_defaultMenuPosition.y, 800, GetTranslatedText("window_vehicle"));
 
     if(vehicle == nullptr) return;
 
     {
-        window->AddText("- ID do veiculo: " + std::to_string(vehicle->ref));
+        window->AddText("- Placa: " + vehicle->currentDoc.plate);
     }
 
     {
-        window->AddText("- Placa: " + vehicle->plate);
+        window->AddText("- Cor: ?");
     }
 
     {
-        auto button = window->AddButton(GetTranslatedText("check_vehicle_plate"));
+        auto button = window->AddButton(GetTranslatedText("check_vehicle_by_plate"));
         button->onClick->Add([window, vehicle]() {
             window->Close();
 
@@ -86,20 +86,7 @@ void DocsWindow::ShowVehicleDocs(Vehicle* vehicle)
             RadioSounds::PlayAudioNowDontAttach(audio);
 
             WaitForAudioFinish(audio, [vehicle]() {
-                ShowVehicleResults(vehicle);
-            });
-        });
-    }
-    
-    {
-        auto button = window->AddButton(GetTranslatedText("check_chassis"));
-        button->onClick->Add([window, vehicle]() {
-            window->Close();
-
-            BottomMessage::SetMessage(GetTranslatedText("checking_chassis"), 5000);
-
-            WAIT(5000, [vehicle]() {
-                ShowChassisResult(vehicle);
+                ShowVehicleResults(vehicle, true);
             });
         });
     }
@@ -112,22 +99,68 @@ void DocsWindow::ShowVehicleDocs(Vehicle* vehicle)
     }
 }
 
-void DocsWindow::ShowVehicleResults(Vehicle* vehicle)
+void DocsWindow::ShowVehicleResults(Vehicle* vehicle, bool byPlate)
 {
     auto window = menuSZK->CreateWindow(g_defaultMenuPosition.x, g_defaultMenuPosition.y, 800, GetTranslatedText("window_vehicle_results"));
     
-    if(vehicle->flags.isStolen)
+    auto doc = byPlate ? vehicle->currentDoc : vehicle->originalDoc;
+
+    window->AddText("- Placa: " + doc.plate);
+    window->AddText("- Chassi: " + doc.chassis);
+
+    if(doc.isStolen)
     {
-        window->AddText(GetTranslatedText("vehicle_stolen"));
+        window->AddText("- " + GetTranslatedText("vehicle_stolen"));
+    } else {
+        window->AddText("- Nao tem queixa de roubo");
     }
 
-    if(vehicle->flags.hasExpiredDocument)
+    if(doc.isDocumentExpired)
     {
-        window->AddText(GetTranslatedText("vehicle_doc_expired"));
+        window->AddText("- " + GetTranslatedText("vehicle_doc_expired"));
     } else {
-        window->AddText(GetTranslatedText("vehicle_doc_ok"));
+        window->AddText("- " + GetTranslatedText("vehicle_doc_ok"));
+    }
+
+    if(vehicle->flags.swappedPlate)
+    {
+        window->AddText("- ~r~As caracteristicas nao batem");
+
+        if(byPlate)
+        {
+            auto button = window->AddButton(GetTranslatedText("check_vehicle_by_chassis"));
+            button->onClick->Add([window, vehicle]() {
+                window->Close();
+
+                BottomMessage::SetMessage(GetTranslatedText("checking_chassis"), 5000);
+
+                WAIT(5000, [vehicle]() {
+                    ShowVehicleResults(vehicle, false);
+                });
+            });
+        }
+
+    } else {
+        window->AddText("- As caracteristicas do veiculo batem");
     }
     
+    {
+        auto button = window->AddButton("~y~" + GetTranslatedText("close"));
+        button->onClick->Add([window]() {
+            window->Close();
+        });
+    }
+}
+
+void DocsWindow::ShowCRLV(Ped* ped, Vehicle* vehicle)
+{
+    auto window = menuSZK->CreateWindow(g_defaultMenuPosition.x, g_defaultMenuPosition.y, 800, GetTranslatedText("window_vehicle_results"));
+    
+    window->AddText("Placa: " + vehicle->originalDoc.plate);
+    window->AddText("RENAVAM: " + vehicle->originalDoc.renavam);
+    window->AddText("Chassi: " + vehicle->originalDoc.chassis);
+    window->AddText("CPF: " + ped->cpf);
+
     {
         auto button = window->AddButton("~y~" + GetTranslatedText("close"));
         button->onClick->Add([window]() {
@@ -168,18 +201,14 @@ void DocsWindow::ShowChassisResult(Vehicle* vehicle)
     auto window = menuSZK->CreateWindow(g_defaultMenuPosition.x, g_defaultMenuPosition.y, 800, GetTranslatedText("window_vehicle_results"));
     
     {
-        if(vehicle->chassis.size() == 0)
+        if(vehicle->flags.chassisErased)
         {
             window->AddText("- Chassis: ~r~Suprimido");
         } else {
-            window->AddText("- Chassis: " + vehicle->chassis);
+            window->AddText("- Chassis: " + vehicle->originalDoc.chassis);
         }
     }
 
-    // {
-    //     window->AddText("- Chassis do documento: " + vehicle->chassis);
-    // }
-    
     {
         auto button = window->AddButton("~y~" + GetTranslatedText("close"));
         button->onClick->Add([window]() {

@@ -134,10 +134,10 @@ void Pullover::FreePed(Ped* ped)
 
 void Pullover::PulloverVehicle(Vehicle* vehicle)
 {
-    BottomMessage::SetMessage(GetTranslatedText("officer_pullover_vehicle"), 3000);
-
     if(vehicle->HasDriver())
     {
+        BottomMessage::SetMessage(GetTranslatedText("officer_pullover_vehicle"), 3000);
+
         AudioCollection::PlayAsVoice(audioPulloverCar);
     }
 
@@ -158,13 +158,18 @@ void Pullover::PulloverVehicle(Vehicle* vehicle)
     vehicle->ShowBlip(COLOR_CRIMINAL);
     vehicle->flags.showWidget = true;
 
-    WAIT(1000, [vehicle]() {
-        CAR_TURN_OFF_ENGINE(vehicle->ref);
-    });
+    if(vehicle->HasDriver())
+    {
+        WAIT(1000, [vehicle]() {
+            CAR_TURN_OFF_ENGINE(vehicle->ref);
+        });
 
-    WAIT(2500, []() {
+        WAIT(2500, []() {
+            BottomMessage::SetMessage(GetTranslatedText("pullover_get_close_to_vehicle"), 3000);
+        });
+    } else {
         BottomMessage::SetMessage(GetTranslatedText("pullover_get_close_to_vehicle"), 3000);
-    });
+    }
 }
 
 void Pullover::FreeVehicle(Vehicle* vehicle)
@@ -271,13 +276,42 @@ void Pullover::OpenPedMenu(Ped* ped)
         auto button = window->AddButton(GetTranslatedText("ask_for_cnh"));
         button->onClick->Add([window, ped]() {
             window->Close();
+            g_blockInteractions = true;
 
             BottomMessage::SetMessage(GetTranslatedText("dialog_ask_for_cnh"), 3000);
 
             AudioCollection::PlayAsVoice(audioAskCNH, [ped]() {
+                g_blockInteractions = false;
                 DocsWindow::ShowCNH(ped);
             });
         });
+    }
+
+    if(ped->flags.isInconcious == false)
+    {
+        if(ped->vehicleOwned > 0)
+        {
+            auto vehicle = Vehicles::GetVehicle(ped->vehicleOwned);
+
+            auto button = window->AddButton(GetTranslatedText("ask_for_crlv"));
+            button->onClick->Add([window, ped, vehicle]() {
+                window->Close();
+
+                if(vehicle->originalDoc.isStolen)
+                {
+                    BottomMessage::SetMessage("Eu nao tenho o documento do veiculo..", 3000);
+                } else {
+                    BottomMessage::SetMessage(GetTranslatedText("dialog_ask_for_crlv"), 3000);
+                    
+                    g_blockInteractions = true;
+
+                    AudioCollection::PlayAsVoice(audioAskCNH, [ped, vehicle]() {
+                        g_blockInteractions = false;
+                        DocsWindow::ShowCRLV(ped, vehicle);
+                    });
+                }
+            });
+        }
     }
 
     if(ped->flags.isInconcious == false)
@@ -304,6 +338,8 @@ void Pullover::OpenPedMenu(Ped* ped)
                 BottomMessage::SetMessage(GetTranslatedText("error_already_escorting"), 3000);
                 return;
             }
+
+            ped->flags.showWidget = false;
 
             Escort::EscortPed(ped);
         });
@@ -444,7 +480,7 @@ void Pullover::OpenVehicleMenu(Vehicle* vehicle)
         button->onClick->Add([window, vehicle]() {
             window->Close();
 
-            DocsWindow::ShowVehicleDocs(vehicle);
+            DocsWindow::ShowVehicleVisualInfo(vehicle);
         });
     }
 

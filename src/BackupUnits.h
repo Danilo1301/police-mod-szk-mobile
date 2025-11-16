@@ -39,5 +39,5 @@ public:
     static void AddVehicleAsBackup(Vehicle* vehicle, bool recreatePeds);
     static BackupUnit* GetRandomUnitByChance(std::vector<BackupUnit>& units);
     static void OpenSpawnBackupMenu();
-    static void SpawnMedicUnit();
+    static void SpawnMedicUnit(CVector position);
 };

@@ -6,7 +6,9 @@ std::vector<int> ModelLoader::modelsToLoad;
 std::function<void()> ModelLoader::onLoadAllCallback;
 
 void ModelLoader::AddModelToLoad(int modelId) {
-    modelsToLoad.push_back(modelId);
+    if (!HAS_MODEL_LOADED(modelId)) {
+        modelsToLoad.push_back(modelId);
+    }
 }
 
 void ModelLoader::LoadAll(std::function<void()> callback) {
@@ -26,6 +28,11 @@ void ModelLoader::LoadNextModel()
     if (HAS_MODEL_LOADED(modelId)) {
         ModelLoaded(modelId);
         return;
+    }
+
+    if(IsSpecialModel(modelId))
+    {
+        fileLog->Error("You tried to load a SPECIAL model " + std::to_string(modelId) + ", and this will cause CRASH");
     }
 
     LOAD_MODEL(modelId);
@@ -50,4 +57,14 @@ void ModelLoader::ModelLoaded(int modelId)
 
     // carrega o próximo
     LoadNextModel();
+}
+
+bool ModelLoader::IsSpecialModel(int id)
+{
+    // lista simplificada
+    static std::vector<int> specialModels = {
+        265, 266, 267, 274, 275, 276, 277, 278, 279, 288
+    };
+
+    return std::find(specialModels.begin(), specialModels.end(), id) != specialModels.end();
 }

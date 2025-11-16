@@ -2,16 +2,37 @@
 
 #include "pch.h"
 
+struct VehicleDocInfo
+{
+    std::string plate;
+    std::string chassis;
+    std::string renavam;
+    
+    bool isStolen;
+    bool isDocumentExpired;
+
+    VehicleDocInfo()
+    {
+        plate = randomPlate();
+        chassis = randomVIN();
+        renavam = randomRENAVAM();
+
+        isStolen = false;
+        isDocumentExpired = false;
+    }
+};
+
 struct eVehicleFlags
 {
     CRGBA blipColor = CRGBA(255, 255, 255);
     bool showBlip = false;
-    bool isStolen = false;
-    bool hasExpiredDocument = false;
     int drivingToPed = -1;
 
     bool showWidget = false;
     bool isDrivingAway = false;
+
+    bool chassisErased = false;
+    bool swappedPlate = false;
 };
 
 class Vehicle {
@@ -26,14 +47,14 @@ public:
 
     IWidget* widgetOptions = nullptr;
 
+    VehicleDocInfo originalDoc;
+    VehicleDocInfo currentDoc;
+
     int ownerDriver = -1;
     std::vector<int> ownerPassengers;
 
     int timeAlive = 0;
     int timeSinceLastRepair = 0;
-
-    std::string plate;
-    std::string chassis;
 
     Vehicle(int ref, void* ptr);
     ~Vehicle();
@@ -79,82 +100,3 @@ public:
 
     void RemoveReferences();
 };
-
-inline std::string randomPlate()
-{
-    // Letras permitidas (pode adicionar/remover)
-    static const std::vector<std::string> prefixes = {
-        "EGC", "BRA", "MNT", "CPU", "LVR", "SJP", "FGT", "QXZ", "HJK", "VPE", 
-        "NDO", "RSC", "YAB", "ZGM", "PQL", "TJS", "WFM", "LXN", "CBF", "GVN"
-    };
-
-    // RNG (random device + Mersenne Twister)
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
-
-    // Sorteia prefixo
-    std::uniform_int_distribution<> prefixDist(0, prefixes.size() - 1);
-    std::string plate = prefixes[prefixDist(gen)];
-
-    // Sorteia números (0000–9999)
-    std::uniform_int_distribution<> numDist(0, 9999);
-    int number = numDist(gen);
-
-    // Formata para sempre ter 4 dígitos
-    char buf[10];
-    snprintf(buf, sizeof(buf), " %04d", number);
-
-    plate += buf;
-    return plate;
-}
-
-inline std::string randomPlateLimited()
-{
-    // Letras permitidas para o prefixo
-    static const std::vector<char> letters = {'A', 'C', 'E', 'P'};
-    // Números permitidos para os dígitos
-    static const std::vector<char> numbers = {'3', '4', '6', '7', '8'};
-
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
-
-    std::uniform_int_distribution<> distLetters(0, letters.size() - 1);
-    std::uniform_int_distribution<> distNumbers(0, numbers.size() - 1);
-
-    std::string plate;
-
-    // 3 letras
-    for (int i = 0; i < 3; ++i)
-        plate += letters[distLetters(gen)];
-
-    plate += " "; // espaço antes dos números
-
-    // 4 números
-    for (int i = 0; i < 4; ++i)
-        plate += numbers[distNumbers(gen)];
-
-    return plate;
-}
-
-inline std::string randomVIN()
-{
-    static const std::string allowedChars = "0123456789ABCDEFGHJKLMNPRSTUVWXYZ";
-
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(0, allowedChars.size() - 1);
-
-    std::string vin;
-    vin.reserve(17);
-
-    // WMI brasileiro (opcional)
-    std::string wmi = "9BD"; // FIAT
-    vin += wmi;
-
-    // restante até 17 chars
-    for (int i = 0; i < 14; i++) {
-        vin += allowedChars[dis(gen)];
-    }
-
-    return vin;
-}

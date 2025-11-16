@@ -424,17 +424,16 @@ void BackupUnits::OpenSpawnBackupMenu()
     }
 }
 
-void BackupUnits::SpawnMedicUnit()
+void BackupUnits::SpawnMedicUnit(CVector position)
 {
     auto vehicleModelId = 416;
     auto pedModelId = 274;
 
-    auto closePosition = GetPedPositionWithOffset(GetPlayerActor(), CVector(0, 100, 0));
-    auto spawnPosition = GET_CLOSEST_CAR_NODE(closePosition.x, closePosition.y, closePosition.z);
+    auto spawnPosition = GET_CLOSEST_CAR_NODE(position.x, position.y, position.z);
 
     ModelLoader::AddModelToLoad(vehicleModelId);
     ModelLoader::AddModelToLoad(pedModelId);
-    ModelLoader::LoadAll([vehicleModelId, pedModelId, spawnPosition]() {
+    ModelLoader::LoadAll([vehicleModelId, pedModelId, spawnPosition, position]() {
 
         auto carRef = CREATE_CAR_AT(vehicleModelId, spawnPosition.x, spawnPosition.y, spawnPosition.z);
         auto car = Vehicles::RegisterVehicle(carRef);
@@ -454,7 +453,7 @@ void BackupUnits::SpawnMedicUnit()
 
             auto ai = new AIMedic();
             AIController::AddAIToPed(medic, ai);
-            ai->targetPosition = GetPlayerPosition();
+            ai->targetPosition = position;
             ai->Start();
         }
     });

@@ -9,6 +9,7 @@ private:
     static std::vector<PoliceBase*> Bases;
 public:
     static void Initialize();
+    static void LoadBases();
     static void Update();
     static void OnPostDrawRadar();
     static void OnDraw();

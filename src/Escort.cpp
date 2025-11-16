@@ -36,7 +36,7 @@ void Escort::EscortPed(Ped* _ped)
     auto modelId = GET_ACTOR_MODEL(oldPed->ref);
     auto position = oldPed->GetPosition();
 
-    auto newPedRef = CREATE_ACTOR_PEDTYPE(PedType::Special, modelId, position.x, position.y, position.z);
+    auto newPedRef = CREATE_ACTOR_PEDTYPE(PedType::Special, modelId, position.x, position.y, position.z - 0.8f);
     auto newPed = Peds::RegisterPed(newPedRef);
 
     newPed->CopyFrom(*oldPed);
@@ -102,7 +102,7 @@ void Escort::OnPlayerEnterVehicle()
         button->onClick->Add([window, vehicle, ped]() {
             window->Close();
 
-            ped->flags.showWidget = false;
+            //ped->flags.showWidget = false;
             
             //   0
             // 1 2

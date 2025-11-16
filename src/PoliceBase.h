@@ -11,6 +11,9 @@ public:
     CVector leaveCriminalPosition = CVector(0, 0, 0);
     Checkpoint* leaveCriminalCheckpoint = nullptr;
 
+    CVector getPartnerPosition = CVector(0, 0, 0);
+    Checkpoint* getPartnerCheckpoint = nullptr;
+
     PoliceBase();
     
     void Update();

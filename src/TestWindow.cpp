@@ -7,6 +7,7 @@
 #include "Chase.h"
 #include "Callouts.h"
 #include "Vehicles.h"
+#include "Partners.h"
 
 void TestWindow::OpenWindow()
 {
@@ -69,6 +70,15 @@ void TestWindow::OpenWindow()
     }
 
     {
+        auto button = window->AddButton("Partner");
+        button->onClick->Add([window]() {
+            window->Close();
+            
+            Partners::CreateSpawnPartnerMenu();
+        });
+    }
+
+    {
         auto button = window->AddButton("Create chase car");
         button->onClick->Add([window]() {
             window->Close();
@@ -89,7 +99,7 @@ void TestWindow::OpenWindow()
                 auto passengerRef = CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT(carRef, PedType::Special, 15, 0);
                 auto passenger = Peds::RegisterPed(passengerRef);
 
-                car->flags.isStolen = true;
+                car->originalDoc.isStolen = true;
                 car->TryInitializePedsInside();
                 car->ShowBlip(CRGBA(0, 255, 255));
 

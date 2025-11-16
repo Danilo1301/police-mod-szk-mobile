@@ -100,6 +100,29 @@ inline int GET_PLAYER_ACTOR(int player)
     return playerActor;
 }
 
+//07AF: 6@ = player $PLAYER_CHAR group
+static DEFOPCODE(07AF, GET_PLAYER_GROUP, iv);
+inline int GET_PLAYER_GROUP(int player)
+{
+    int group = 0;
+    sautils->ScriptCommand(&scm_GET_PLAYER_GROUP, player, &group);
+    return group;
+}
+
+//0630: put_actor $PLAYER_ACTOR in_group 4@ as_leader
+static DEFOPCODE(0630, PUT_ACTOR_IN_GROUP_AS_LEADER, ii);
+inline void PUT_ACTOR_IN_GROUP_AS_LEADER(int group, int _char)
+{
+    sautils->ScriptCommand(&scm_PUT_ACTOR_IN_GROUP_AS_LEADER, group, _char);
+}
+
+//0631: put_actor 4@ in_group 6@
+static DEFOPCODE(0631, PUT_ACTOR_IN_GROUP, ii);
+inline void PUT_ACTOR_IN_GROUP(int group, int _char)
+{
+    sautils->ScriptCommand(&scm_PUT_ACTOR_IN_GROUP, group, _char);
+}
+
 //0457: player $PLAYER_CHAR aiming_at_actor 0@
 static DEFOPCODE(0457, PLAYER_AIMING_AT_ACTOR, ii);
 inline bool PLAYER_AIMING_AT_ACTOR(int player, int _char)

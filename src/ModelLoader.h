@@ -12,4 +12,6 @@ public:
 private:
     static void LoadNextModel();
     static void ModelLoaded(int modelId);
+public:
+    static bool IsSpecialModel(int id);
 };

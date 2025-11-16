@@ -4,6 +4,7 @@
 
 #include "IWindowItem.h"
 #include "IWindowItemButton.h"
+#include "IWindowItemOptions.h"
 
 #include <string>
 
@@ -17,7 +18,7 @@ public:
     virtual IWindowItem* AddText(std::string text) = 0;
     virtual IWindowItem* AddCheckbox(std::string text, bool* pBool) = 0;
     virtual IWindowItemButton* AddButton(std::string text) = 0;
-    virtual IWindowItem* AddOptions(std::string text) = 0;
+    virtual IWindowItemOptions* AddOptions(std::string text) = 0;
 
     virtual void Close() = 0;
 };

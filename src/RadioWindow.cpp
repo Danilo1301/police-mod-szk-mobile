@@ -195,7 +195,13 @@ void RadioWindow::OnSelect(std::string id)
     {
         ToggleRadioAnimOff(5000);
         Toggle();
-        BackupUnits::SpawnMedicUnit();
+
+        auto playerPosition = GetPlayerPosition();
+
+        WAIT(5000, [playerPosition]() {
+            BackupUnits::SpawnMedicUnit(playerPosition);
+        });
+
         return;
     }
 
