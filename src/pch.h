@@ -62,6 +62,8 @@ inline bool g_blockInteractions = false;
 inline int CHASE_VEHICLE_MAX_SPEED = 50.0f;
 inline int CHASE_POLICE_MAX_SPEED = 50.0f;
 
+inline CVector2D g_widgetsStartPosition = CVector2D(450, 50);
+
 inline void QueueDestroyPed(int ref)
 {
     g_pedsToDestroy.push_back(ref);

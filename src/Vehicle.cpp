@@ -36,8 +36,8 @@ Vehicle::Vehicle(int ref, void* ptr)
         widgetOptions = widget;
     }
 
-    originalDoc.isStolen = calculateProbability(0.50);
-    originalDoc.isDocumentExpired = calculateProbability(0.10);
+    originalDoc.isStolen = calculateProbability(0.10);
+    originalDoc.isDocumentExpired = calculateProbability(0.20);
 
     flags.swappedPlate = calculateProbability(originalDoc.isStolen ? 0.50 : 0.05);
     if(flags.swappedPlate == false)

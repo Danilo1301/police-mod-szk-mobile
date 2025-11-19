@@ -19,6 +19,7 @@ public:
     virtual IWindowItem* AddCheckbox(std::string text, bool* pBool) = 0;
     virtual IWindowItemButton* AddButton(std::string text) = 0;
     virtual IWindowItemOptions* AddOptions(std::string text) = 0;
+    virtual IWindowItem* AddCustomItem(std::string text, float height) = 0;
 
     virtual void Close() = 0;
 };

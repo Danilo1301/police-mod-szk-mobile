@@ -54,6 +54,9 @@ void ModData::LoadSettings()
     CHASE_VEHICLE_MAX_SPEED = ini.GetInt("settings", "chase_vehicle_max_speed", CHASE_VEHICLE_MAX_SPEED);
     CHASE_POLICE_MAX_SPEED = ini.GetInt("settings", "chase_police_max_speed", CHASE_POLICE_MAX_SPEED);
     g_secondsBetweenCallouts = ini.GetInt("settings", "seconds_between_callouts", g_secondsBetweenCallouts);
+
+    g_widgetsStartPosition.x = ini.GetDouble("widgets", "position_x", g_widgetsStartPosition.x);
+    g_widgetsStartPosition.y = ini.GetDouble("widgets", "position_y", g_widgetsStartPosition.y);
 }
 
 void ModData::CreateFolder(const std::string& path)

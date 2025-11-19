@@ -177,12 +177,12 @@ void DocsWindow::ShowCNH(Ped* ped)
     {
         window->AddText(GetTranslatedText("cnh_category") + ped->catHab);
 
-        if(ped->flags.expiredDriversLicense)
-        {
-            window->AddText(GetTranslatedText("vehicle_cnh_expired"));
-        } else {
-            window->AddText(GetTranslatedText("vehicle_cnh_ok"));
-        }
+        // if(ped->flags.expiredDriversLicense)
+        // {
+        //     window->AddText(GetTranslatedText("vehicle_cnh_expired"));
+        // } else {
+        //     window->AddText(GetTranslatedText("vehicle_cnh_ok"));
+        // }
         
     } else {
         window->AddText(GetTranslatedText("with_no_cnh"));

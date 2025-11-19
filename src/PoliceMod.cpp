@@ -21,6 +21,7 @@
 #include "AudioSequence.h"
 #include "RadioSounds.h"
 #include "InventoryItemManager.h"
+#include "Names.h"
 
 bool hasFirstUpdated = false;
 
@@ -189,24 +190,34 @@ void PoliceMod::OnGameUpdate()
         }
     }
     
-    fileLog->Debug("Update systems [1]");
+    DeepLog("Update systems [1]");
     
     Peds::Update();
     Vehicles::Update();
     Criminals::Update();
-    fileLog->Debug("Update systems [2]");
+
+    DeepLog("Update systems [2]");
+
     BottomMessage::Update();
     TopMessage::Update();
-    fileLog->Debug("Update systems [3]");
+
+    DeepLog("Update systems [3]");
+
     Chase::Update();
     BackupUnits::Update();
-    fileLog->Debug("Update systems [4]");
+
+    DeepLog("Update systems [4]");
+
     AIController::Update();
     Escort::Update();
-    fileLog->Debug("Update systems [5]");
+
+    DeepLog("Update systems [5]");
+
     PoliceBases::Update();
     Checkpoints::Update();
-    fileLog->Debug("Update systems [6]");
+
+    DeepLog("Update systems [6]");
+
     Callouts::Update();
     AudioSequence::ProcessAudios();
     RadioSounds::Update();
@@ -229,9 +240,11 @@ void PoliceMod::OnGameUpdate()
     }
     g_vehiclesToDestroy.clear();
 
-    fileLog->Debug("Finished updating systems");
+    DeepLog("Finished updating systems");
+
     CleoFunctions::Update(menuSZK->deltaTime);
-    fileLog->Debug("Finished updating cleo functions");
+    
+    DeepLog("Finished updating cleo functions");
 }
 
 void PoliceMod::OnFirstUpdate()
@@ -253,11 +266,14 @@ void PoliceMod::OnFirstUpdate()
     BackupUnits::Initialize();
     ATMSystem::Initialize();
     Callouts::Initialize();
+    Names::Initialize();
+
+    auto widgetStartPosition = g_widgetsStartPosition;
 
     {
         auto widget = menuSZK->CreateWidget(
-            500,
-            30,
+            widgetStartPosition.x,
+            widgetStartPosition.y,
             150,
             modData->GetFileFromMenuSZK("assets/widget_background1.png"),
             modData->GetFile("assets/widgets/widget_pullover.png")
@@ -270,8 +286,8 @@ void PoliceMod::OnFirstUpdate()
 
     {
         auto widget = menuSZK->CreateWidget(
-            500 + 170,
-            30,
+            widgetStartPosition.x + 170,
+            widgetStartPosition.y,
             150,
             modData->GetFileFromMenuSZK("assets/widget_background1.png"),
             modData->GetFile("assets/widgets/widget_radio.png")
@@ -284,8 +300,8 @@ void PoliceMod::OnFirstUpdate()
 
     {
         auto widget = menuSZK->CreateWidget(
-            500 + 170 + 170,
-            30,
+            widgetStartPosition.x + 170 + 170,
+            widgetStartPosition.y,
             150,
             modData->GetFileFromMenuSZK("assets/widget_background1.png"),
             modData->GetFile("assets/widgets/widget_vest.png")

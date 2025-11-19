@@ -25,4 +25,6 @@ public:
     static void OpenVehicleMenu(Vehicle* vehicle);
 
     static void CallTowTruck(Vehicle* vehicle);
+
+    static void AskVehicleToMoveToTheRight(Vehicle* vehicle);
 };

@@ -10,6 +10,7 @@
 #include "InventoryItemManager.h"
 #include "Checkpoint.h"
 #include "FriskWindow.h"
+#include "Names.h"
 
 Ped::Ped(int ref, void* ptr)
 {
@@ -18,9 +19,16 @@ Ped::Ped(int ref, void* ptr)
 
     wasAlive = ACTOR_HEALTH(ref) > 0;
 
-    cpf = randomCPF();
+    bool isMale = IS_CHAR_MALE(ref);
+    auto currentYear = getCurrentYear();
+
     rg = randomRG();
+    cpf = randomCPF();
+    birthDate = randomBirthDate(1970, 2000);
+    name = Names::GetName(isMale);
+
     catHab = randomCatHab();
+    cnhExpireDate = gerarValidadeCNH(currentYear - 3, currentYear + 10);
 
     if(calculateProbability(0.10))
     {
@@ -28,9 +36,6 @@ Ped::Ped(int ref, void* ptr)
     }
 
     TryInitializeInventory();
-
-    if(catHab.length() > 0)
-        flags.expiredDriversLicense = calculateProbability(0.20);
 
     flags.wantedByJustice = calculateProbability(0.10);
 

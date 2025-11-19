@@ -17,7 +17,6 @@ struct ePedFlags
     int copActingOnPed = 0;
     bool shownRG = false;
     bool wantedByJustice = false;
-    bool expiredDriversLicense = false;
     bool isBeingTreated = false;
     int targetPed = -1;
 
@@ -53,8 +52,11 @@ public:
 
     std::string rg;
     std::string cpf;
+    std::string birthDate;
+    std::string name;
 
     std::string catHab;
+    std::string cnhExpireDate;
 
     Inventory inventory;
 
@@ -169,4 +171,58 @@ inline std::string randomCatHab()
         cat = "B"; // fallback, sempre tem pelo menos B
 
     return cat;
+}
+
+inline std::string randomBirthDate(int minYear, int maxYear) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    
+    std::uniform_int_distribution<> dayDist(1, 28); // evita complicação de fevereiro
+    std::uniform_int_distribution<> monthDist(1, 12);
+    std::uniform_int_distribution<> yearDist(minYear, maxYear);
+
+    int day = dayDist(gen);
+    int month = monthDist(gen);
+    int year = yearDist(gen);
+
+    std::stringstream ss;
+    ss << (day < 10 ? "0" : "") << day << "/"
+       << (month < 10 ? "0" : "") << month << "/"
+       << year;
+
+    return ss.str();
+}
+
+// Pega ano atual
+inline int getCurrentYear()
+{
+    std::time_t t = std::time(nullptr);
+    std::tm* now = std::localtime(&t);
+    return now->tm_year + 1900;
+}
+
+// Retorna string no formato DD/MM/AAAA
+inline std::string gerarValidadeCNH(int minYear, int maxYear)
+{
+    int ano = getRandomNumber(minYear, maxYear);
+    int mes = getRandomNumber(1, 12);
+
+    int diaMax;
+    switch (mes) {
+        case 2: // Fevereiro (ignora bissexto por simplicidade)
+            diaMax = 28;
+            break;
+        case 4: case 6: case 9: case 11: // Abril, Junho, Setembro, Novembro
+            diaMax = 30;
+            break;
+        default:
+            diaMax = 31;
+    }
+
+    int dia = getRandomNumber(1, diaMax);
+
+    char buffer[11];
+    std::snprintf(buffer, sizeof(buffer), "%02d/%02d/%04d", dia, mes, ano);
+
+    return std::string(buffer);
 }

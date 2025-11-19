@@ -15,6 +15,8 @@
 #include "AudioCollection.h"
 #include "RadioSounds.h"
 #include "FriskWindow.h"
+#include "RGWindow.h"
+#include "CNHWindow.h"
 
 int aimingPed = NO_PED_FOUND;
 
@@ -266,7 +268,8 @@ void Pullover::OpenPedMenu(Ped* ped)
 
                 ped->flags.shownRG = true;
 
-                DocsWindow::ShowRG(ped);
+                RGWindow::CreateRG(ped);
+                //DocsWindow::ShowRG(ped);
             });
         });
     }
@@ -282,7 +285,8 @@ void Pullover::OpenPedMenu(Ped* ped)
 
             AudioCollection::PlayAsVoice(audioAskCNH, [ped]() {
                 g_blockInteractions = false;
-                DocsWindow::ShowCNH(ped);
+                CNHWindow::CreateCNH(ped);
+                //DocsWindow::ShowCNH(ped);
             });
         });
     }
@@ -305,7 +309,7 @@ void Pullover::OpenPedMenu(Ped* ped)
                     
                     g_blockInteractions = true;
 
-                    AudioCollection::PlayAsVoice(audioAskCNH, [ped, vehicle]() {
+                    AudioCollection::PlayAsVoice(audioAskCRLV, [ped, vehicle]() {
                         g_blockInteractions = false;
                         DocsWindow::ShowCRLV(ped, vehicle);
                     });
@@ -420,33 +424,6 @@ void Pullover::OpenVehicleMenu(Vehicle* vehicle)
     
     bool vehicleIsEmpty = vehicle->GetCurrentOccupants().size() == 0;
 
-    if(vehicleIsEmpty)
-    {
-        auto button = window->AddButton(GetTranslatedText("call_tow_truck"));
-        button->onClick->Add([window, vehicle]() {
-            window->Close();
-            
-            auto owners = vehicle->GetOwners();
-
-            for(auto pedRef : owners)
-            {
-                auto ped = Peds::GetPed(pedRef);
-                ped->vehicleOwned = -1;
-                ped->UpdateSeatPosition();
-            }
-
-            vehicle->flags.showWidget = false;
-
-            auto audio = audioRequestTowTruck->GetRandomAudio();
-
-            RadioSounds::PlayAudioNowDontAttach(audio);
-            
-            WaitForAudioFinish(audio, [vehicle]() {
-                CallTowTruck(vehicle);
-            });
-        });
-    }
-
     if(vehicleIsEmpty == false)
     {
         auto button = window->AddButton(GetTranslatedText("ask_leave_vehicle"));
@@ -471,6 +448,43 @@ void Pullover::OpenVehicleMenu(Vehicle* vehicle)
                     ped->SetCanDoHandsup();
                 }
 
+            });
+        });
+    }
+
+    if(vehicleIsEmpty == false)
+    {
+        auto button = window->AddButton(GetTranslatedText("ask_move_to_the_right"));
+        button->onClick->Add([window, vehicle]() {
+            window->Close();
+            
+            AskVehicleToMoveToTheRight(vehicle);
+        });
+    }
+
+    if(vehicleIsEmpty)
+    {
+        auto button = window->AddButton(GetTranslatedText("call_tow_truck"));
+        button->onClick->Add([window, vehicle]() {
+            window->Close();
+            
+            auto owners = vehicle->GetOwners();
+
+            for(auto pedRef : owners)
+            {
+                auto ped = Peds::GetPed(pedRef);
+                ped->vehicleOwned = -1;
+                ped->UpdateSeatPosition();
+            }
+
+            vehicle->flags.showWidget = false;
+
+            auto audio = audioRequestTowTruck->GetRandomAudio();
+
+            RadioSounds::PlayAudioNowDontAttach(audio);
+            
+            WaitForAudioFinish(audio, [vehicle]() {
+                CallTowTruck(vehicle);
             });
         });
     }
@@ -611,5 +625,21 @@ void Pullover::CallTowTruck(Vehicle* vehicle)
         taskDrive->Start();
 
         TopMessage::SetMessage(GetTranslatedText("wait_for_tow_truck"));
+    });
+}
+
+void Pullover::AskVehicleToMoveToTheRight(Vehicle* vehicle)
+{
+    auto stopPosition = GetCarPositionWithOffset(vehicle->ref, CVector(5.0f, 7.0f, 0));
+    
+    auto sphere = CREATE_SPHERE(stopPosition.x, stopPosition.y, stopPosition.z, 1.0f);
+
+    SET_CAR_ENGINE_OPERATION(vehicle->ref, true);
+    SET_CAR_TRAFFIC_BEHAVIOUR(vehicle->ref, DrivingMode::StopForCars);
+    SET_CAR_MAX_SPEED(vehicle->ref, 30.0f);
+    CAR_DRIVE_TO(vehicle->ref, stopPosition.x, stopPosition.y, stopPosition.z);
+
+    WAIT(2000, [sphere]() {
+        DESTROY_SPHERE(sphere);
     });
 }

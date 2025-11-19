@@ -30,3 +30,13 @@ private:
 extern Logger* localLogger;
 
 #define fileLog localLogger
+
+#define DEEP_LOG_ENABLED false
+
+inline void DeepLog(std::string text)
+{
+    if(DEEP_LOG_ENABLED)
+    {
+        fileLog->Log(text);
+    }
+}

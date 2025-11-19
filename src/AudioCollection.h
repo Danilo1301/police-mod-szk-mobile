@@ -10,6 +10,7 @@ inline AudioVariationGroup* audioPulloverCar = nullptr;
 inline AudioVariationGroup* audioFreePed = nullptr;
 inline AudioVariationGroup* audioAskRG = nullptr;
 inline AudioVariationGroup* audioAskCNH = nullptr;
+inline AudioVariationGroup* audioAskCRLV = nullptr;
 inline AudioVariationGroup* audioExitVehicleHandsUp = nullptr;
 inline AudioVariationGroup* audioPlateCheck = nullptr;
 inline AudioVariationGroup* audioRequestBackup = nullptr;

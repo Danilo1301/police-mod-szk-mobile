@@ -346,6 +346,14 @@ inline bool HAS_ANIMATION_LOADED(const char* animationFile)
     return result;
 }
 
+//03A3
+static DEFOPCODE(03A3, IS_CHAR_MALE, i);
+inline bool IS_CHAR_MALE(int handle)
+{
+    bool result = CallScriptCommand_NoLog(&scm_IS_CHAR_MALE, handle);
+    return result;
+}
+
 //04D7
 static DEFOPCODE(04D7, FREEZE_CHAR_POSITION, ib);
 inline void FREEZE_CHAR_POSITION(int handle, bool state)

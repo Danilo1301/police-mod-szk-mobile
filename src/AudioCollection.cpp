@@ -32,6 +32,11 @@ void AudioCollection::Initialize()
     }
 
     {
+        auto group = audioAskCRLV = CreateGroup("ask_crlv");
+        group->LoadNewAudio(modData->GetFileFromAssets("audios/officer/ask_crlv.wav"));
+    }
+
+    {
         auto group = audioExitVehicleHandsUp = CreateGroup("exit_vehicle_hands_up");
         group->LoadNewAudio(modData->GetFileFromAssets("audios/officer/exit_vehicle_hands_up.wav"));
     }

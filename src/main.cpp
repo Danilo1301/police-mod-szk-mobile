@@ -1,7 +1,7 @@
 #include <mod/amlmod.h>
 #include <mod/config.h>
 
-MYMODCFG(com.daniloszk.policemod, PoliceMod, 0.9.0, DaniloSZK)
+MYMODCFG(com.daniloszk.policemod, PoliceMod, 0.10.0, DaniloSZK)
 
 #include "pch.h"
 
