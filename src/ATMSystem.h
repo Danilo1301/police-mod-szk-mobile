@@ -13,5 +13,6 @@ public:
     static void Initialize();
     static void CreateObjects();
 
-    static Location* GetRandomLocation();
+    static Location* GetRandomATMLocation();
+    static Location* GetATMLocation(CVector position);
 };

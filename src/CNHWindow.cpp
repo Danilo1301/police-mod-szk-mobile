@@ -90,7 +90,7 @@ void CNHWindow::MakeWindow()
     {
         auto self = this;
 
-        auto button = window->AddButton("> ~r~Fechar");
+        auto button = window->AddButton("~r~" + GetTranslatedText("close"));
         button->onClick->Add([self, this]() {
             window->Close();
 

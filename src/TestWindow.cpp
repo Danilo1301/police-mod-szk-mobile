@@ -138,5 +138,5 @@ void TestWindow::TestEquip()
         CHANGE_PLAYER_MODEL_TO(0, 280);
     });
 
-    BottomMessage::SetMessage("Equipado", 3000);
+    BottomMessage::SetMessage("O mod foi iniciado", 3000);
 }

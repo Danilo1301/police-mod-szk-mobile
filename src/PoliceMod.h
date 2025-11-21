@@ -10,6 +10,8 @@ public:
     void OnModLoad();
     void OnGameUpdate();
     void OnFirstUpdate();
+    void OnPlayerReady();
+    void CreateWidgets();
 };
 
 extern PoliceMod* policeMod;

@@ -28,13 +28,14 @@ void StolenCarCallout::OnAccept()
 {
     BottomMessage::SetMessage("~w~Desloque-se ate o ~y~local do veiculo ~w~no mapa", 3000);
 
-    const float CALLOUT_DISTANCE = 200.0f;
+    const float CALLOUT_DISTANCE = 800.0f;
 
     auto playerActor = GET_PLAYER_ACTOR(0);
     auto distX = getRandomNumber(-CALLOUT_DISTANCE, CALLOUT_DISTANCE);
+    auto distY = getRandomNumber(-CALLOUT_DISTANCE, CALLOUT_DISTANCE);
 
     float x = 0, y = 0, z = 0;
-    STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, (float)distX, CALLOUT_DISTANCE, 0, &x, &y, &z);
+    STORE_COORDS_FROM_ACTOR_WITH_OFFSET(playerActor, (float)distX, (float)distY, 0, &x, &y, &z);
 
     auto carNodePosition = GET_CLOSEST_CAR_NODE(x, y, z);
 

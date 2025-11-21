@@ -20,7 +20,7 @@ Vehicle::Vehicle(int ref, void* ptr)
             200,
             100,
             modData->GetFileFromMenuSZK("assets/widget_background1.png"),
-            modData->GetFile("assets/widgets/widget_pullover.png")
+            modData->GetFile("assets/widgets/widget_frisk_car.png")
         );
         widget->visible = false;
 
@@ -36,7 +36,7 @@ Vehicle::Vehicle(int ref, void* ptr)
         widgetOptions = widget;
     }
 
-    originalDoc.isStolen = calculateProbability(0.10);
+    originalDoc.isStolen = calculateProbability(0.20);
     originalDoc.isDocumentExpired = calculateProbability(0.20);
 
     flags.swappedPlate = calculateProbability(originalDoc.isStolen ? 0.50 : 0.05);

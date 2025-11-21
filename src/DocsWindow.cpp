@@ -112,7 +112,7 @@ void DocsWindow::ShowVehicleResults(Vehicle* vehicle, bool byPlate)
     {
         window->AddText("- " + GetTranslatedText("vehicle_stolen"));
     } else {
-        window->AddText("- Nao tem queixa de roubo");
+        window->AddText("- " + GetTranslatedText("vehicle_not_stolen"));
     }
 
     if(doc.isDocumentExpired)
@@ -124,7 +124,7 @@ void DocsWindow::ShowVehicleResults(Vehicle* vehicle, bool byPlate)
 
     if(vehicle->flags.swappedPlate)
     {
-        window->AddText("- ~r~As caracteristicas nao batem");
+        window->AddText("- ~r~" + GetTranslatedText("vehicle_caracteristics_not_ok"));
 
         if(byPlate)
         {
@@ -141,7 +141,7 @@ void DocsWindow::ShowVehicleResults(Vehicle* vehicle, bool byPlate)
         }
 
     } else {
-        window->AddText("- As caracteristicas do veiculo batem");
+        window->AddText("- " + GetTranslatedText("vehicle_caracteristics_ok"));
     }
     
     {

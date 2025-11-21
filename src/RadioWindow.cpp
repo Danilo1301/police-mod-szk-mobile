@@ -198,6 +198,8 @@ void RadioWindow::OnSelect(std::string id)
 
         auto playerPosition = GetPlayerPosition();
 
+        BottomMessage::SetMessage("Chamando o resgate...", 3000);
+
         WAIT(5000, [playerPosition]() {
             BackupUnits::SpawnMedicUnit(playerPosition);
         });

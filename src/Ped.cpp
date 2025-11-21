@@ -427,11 +427,11 @@ void Ped::InitializeOnVehicle(int vehicleRef)
 {
     auto vehicle = Vehicles::GetVehicle(vehicleRef);
 
-    if(vehicle->flags.swappedPlate || vehicle->flags.chassisErased)
+    if(vehicle->originalDoc.isStolen || vehicle->flags.swappedPlate || vehicle->flags.chassisErased)
     {
         auto occupants = vehicle->GetCurrentOccupants();
 
-        bool willSurrender = calculateProbability(0.40);
+        bool willSurrender = calculateProbability(0.30);
         bool willKillCops = false;
 
         if(willSurrender == false)

@@ -17,6 +17,9 @@ public:
 
     IDebug* debug = 0;
 
+    IEventListener<>* onGameFirstUpdate;
+    IEventListener<>* onGamePlayerReady;
+
     IEventListener<>* onBeforeMenuUpdate;
     IEventListener<>* onAfterMenuUpdate;
     

@@ -429,7 +429,7 @@ void BackupUnits::SpawnMedicUnit(CVector position)
     auto vehicleModelId = 416;
     auto pedModelId = 274;
 
-    auto spawnPosition = GET_CLOSEST_CAR_NODE(position.x, position.y, position.z);
+    auto spawnPosition = GET_CLOSEST_CAR_NODE(position.x + 120, position.y, position.z);
 
     ModelLoader::AddModelToLoad(vehicleModelId);
     ModelLoader::AddModelToLoad(pedModelId);

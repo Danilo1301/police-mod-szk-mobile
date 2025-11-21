@@ -6,7 +6,7 @@
 #define NO_CALLOUT -1
 #define CALLOUT_ATM 0
 
-inline int g_secondsBetweenCallouts = 50;
+inline int g_secondsBetweenCallouts = 70;
 
 class Callouts {
 public:

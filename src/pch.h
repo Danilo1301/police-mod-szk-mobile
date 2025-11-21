@@ -271,3 +271,11 @@ inline std::string randomRENAVAM()
 
     return renavam;
 }
+
+inline float CVectorDistance(const CVector& a, const CVector& b)
+{
+    float dx = a.x - b.x;
+    float dy = a.y - b.y;
+    float dz = a.z - b.z;
+    return std::sqrt(dx*dx + dy*dy + dz*dz);
+}

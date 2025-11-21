@@ -47,7 +47,7 @@ void ATMCallout::OnAccept()
 {
     BottomMessage::SetMessage("~w~Desloque-se ate o ~y~local ~w~no mapa", 3000);
 
-    auto location = ATMSystem::GetRandomLocation();
+    auto location = ATMSystem::GetATMLocation(GetPlayerPosition());
     auto position = location->position;
 
     int marker = CreateMarker(position.x, position.y, position.z, 0, 3, 3);

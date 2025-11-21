@@ -67,6 +67,10 @@ void PoliceMod::OnModLoad()
         OnGameUpdate();
     });
 
+    menuSZK->onGamePlayerReady->Add([this]() {
+        OnPlayerReady();
+    });
+
     textureBlip = menuSZK->LoadTexture(modData->GetFileFromMenuSZK("assets/blip.png"));
     textureCircle = menuSZK->LoadTexture(modData->GetFileFromMenuSZK("assets/map/circle.png"));
     textureBigCircle = menuSZK->LoadTexture(modData->GetFileFromAssets("map/big_circle.png"));
@@ -267,7 +271,31 @@ void PoliceMod::OnFirstUpdate()
     ATMSystem::Initialize();
     Callouts::Initialize();
     Names::Initialize();
+}
 
+void PoliceMod::OnPlayerReady()
+{
+    auto widgetStartPosition = g_widgetsStartPosition;
+
+    auto widget = menuSZK->CreateWidget(
+        widgetStartPosition.x + 170 + 170,
+        widgetStartPosition.y,
+        150,
+        modData->GetFileFromMenuSZK("assets/widget_background1.png"),
+        modData->GetFile("assets/widgets/widget_vest.png")
+    );
+
+    widget->onClick->Add([this, widget]() {
+        widget->Close();
+        
+        TestWindow::TestEquip();
+
+        CreateWidgets();
+    });
+}
+
+void PoliceMod::CreateWidgets()
+{
     auto widgetStartPosition = g_widgetsStartPosition;
 
     {
@@ -295,22 +323,6 @@ void PoliceMod::OnFirstUpdate()
 
         widget->onClick->Add([]() {
             RadioWindow::Toggle();
-        });
-    }
-
-    {
-        auto widget = menuSZK->CreateWidget(
-            widgetStartPosition.x + 170 + 170,
-            widgetStartPosition.y,
-            150,
-            modData->GetFileFromMenuSZK("assets/widget_background1.png"),
-            modData->GetFile("assets/widgets/widget_vest.png")
-        );
-
-        widget->onClick->Add([widget]() {
-            widget->Close();
-            
-            TestWindow::TestEquip();
         });
     }
 }
