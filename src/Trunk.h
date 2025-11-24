@@ -1,0 +1,25 @@
+#pragma once
+
+#include "pch.h"
+
+class Trunk {
+private:
+    int vehicleRef;
+    std::vector<int> pedsInside;
+public:
+    CVector seatPosition = CVector(0.50f, -1.80f, 0.90f);
+
+    Trunk(int vehicleRef);
+
+    void AddPedToTrunk(int pedRef);
+    void RemoveAllPeds();
+    void RemovePed(int pedRef);
+
+    bool HasPedsInside() { return pedsInside.size() > 0; }
+    std::vector<int> GetPedsInTrunk() { return pedsInside; }
+
+    void CreatePreviewPeds();
+    void UpdatePreviewPeds();
+
+    static void OpenCustomizeMenu(int vehicleRef);
+};

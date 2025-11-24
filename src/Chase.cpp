@@ -4,6 +4,7 @@
 #include "Vehicles.h"
 #include "Peds.h"
 #include "Criminals.h"
+#include "ModelLoader.h"
 
 std::vector<Vehicle*> Chase::vehiclesInChase;
 
@@ -54,6 +55,14 @@ void Chase::StartChaseWithVehicle(Vehicle* vehicle)
 
         ped->ShowBlip(COLOR_CRIMINAL);
         Criminals::AddCriminal(ped);
+
+        if(ped->flags.willKillCops)
+        {
+            ModelLoader::AddModelToLoad(346);
+            ModelLoader::LoadAll([ped]() {
+                GIVE_ACTOR_WEAPON(ped->ref, 22, 100);
+            });
+        }
     }
 }
 

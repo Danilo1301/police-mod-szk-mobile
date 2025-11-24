@@ -179,7 +179,22 @@ void Pullover::FreeVehicle(Vehicle* vehicle)
     vehicle->HideBlip();
     vehicle->flags.showWidget = false;
 
+    vehicle->ValidateOwners();
     vehicle->MakeOwnersEnter();
+
+    auto owners = vehicle->GetOwners();
+    for(auto pedRef : owners)
+    {
+        auto ped = Peds::GetPed(pedRef);
+
+        if(ped)
+        {
+            Criminals::RemoveCriminal(ped);
+            ped->HideBlip();
+            ped->flags.hasSurrended = false;
+            ped->flags.showWidget = false;
+        }
+    }
 
     AudioCollection::PlayAsVoice(audioFreePed);
 
@@ -201,18 +216,6 @@ void Pullover::FreeVehicle(Vehicle* vehicle)
 
         auto driver = Peds::GetPed(driverRef);
         driver->StartDrivingRandomly();
-
-        auto ocuppants = vehicle->GetCurrentOccupants();
-            
-        for(auto pedRef : ocuppants)
-        {
-            auto ped = Peds::GetPed(pedRef);
-
-            Criminals::RemoveCriminal(ped);
-            ped->HideBlip();
-            ped->flags.hasSurrended = false;
-            ped->flags.showWidget = false;
-        }
     });
 }
 
@@ -330,22 +333,14 @@ void Pullover::OpenPedMenu(Ped* ped)
             //FriskWindow::OpenForPed(ped);
         });
     }
-
+    
     if(ped->flags.isInconcious == false)
     {
         auto button = window->AddButton(GetTranslatedText("escort_ped"));
         button->onClick->Add([window, ped]() {
             window->Close();
 
-            if(Escort::IsEscortingSomeone())
-            {
-                BottomMessage::SetMessage(GetTranslatedText("error_already_escorting"), 3000);
-                return;
-            }
-
-            ped->flags.showWidget = false;
-
-            Escort::EscortPed(ped);
+            Escort::OpenEscortWindow(ped);
         });
     }
 
@@ -495,6 +490,20 @@ void Pullover::OpenVehicleMenu(Vehicle* vehicle)
             window->Close();
 
             DocsWindow::ShowVehicleVisualInfo(vehicle);
+        });
+    }
+
+    if(vehicle->isModelBackupUnit)
+    {
+        auto button = window->AddButton(GetTranslatedText("customize_trunk"));
+        button->onClick->Add([window, vehicle]() {
+            window->Close();
+
+            vehicle->trunk->CreatePreviewPeds();
+
+            WAIT(200, [vehicle]() {
+                Trunk::OpenCustomizeMenu(vehicle->ref);
+            });
         });
     }
 

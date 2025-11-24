@@ -99,7 +99,7 @@ void AICriminal::Update()
     {
         if(criminal->flags.willSurrender == false && criminal->flags.willKillCops == false)
         {
-            int copClose = GetClosestCop(15.0f);
+            int copClose = GetClosestCop(9.0f);
 
             if(copClose > 0)
             {

@@ -84,6 +84,14 @@ build CMakeFiles/MyLib.dir/src/AICriminal.cpp.o: CXX_COMPILER__MyLib_unscanned_ 
   OBJECT_DIR = CMakeFiles\MyLib.dir
   OBJECT_FILE_DIR = CMakeFiles\MyLib.dir\src
 
+build CMakeFiles/MyLib.dir/src/AIHelicopterCop.cpp.o: CXX_COMPILER__MyLib_unscanned_ C$:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/src/AIHelicopterCop.cpp || cmake_object_order_depends_target_MyLib
+  DEFINES = -DMyLib_EXPORTS
+  DEP_FILE = CMakeFiles\MyLib.dir\src\AIHelicopterCop.cpp.o.d
+  FLAGS = -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -std=gnu++17 -fPIC -Wall -O2
+  INCLUDES = -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/aml -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/include
+  OBJECT_DIR = CMakeFiles\MyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\MyLib.dir\src
+
 build CMakeFiles/MyLib.dir/src/AIMedic.cpp.o: CXX_COMPILER__MyLib_unscanned_ C$:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/src/AIMedic.cpp || cmake_object_order_depends_target_MyLib
   DEFINES = -DMyLib_EXPORTS
   DEP_FILE = CMakeFiles\MyLib.dir\src\AIMedic.cpp.o.d
@@ -388,6 +396,14 @@ build CMakeFiles/MyLib.dir/src/TopMessage.cpp.o: CXX_COMPILER__MyLib_unscanned_ 
   OBJECT_DIR = CMakeFiles\MyLib.dir
   OBJECT_FILE_DIR = CMakeFiles\MyLib.dir\src
 
+build CMakeFiles/MyLib.dir/src/Trunk.cpp.o: CXX_COMPILER__MyLib_unscanned_ C$:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/src/Trunk.cpp || cmake_object_order_depends_target_MyLib
+  DEFINES = -DMyLib_EXPORTS
+  DEP_FILE = CMakeFiles\MyLib.dir\src\Trunk.cpp.o.d
+  FLAGS = -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -std=gnu++17 -fPIC -Wall -O2
+  INCLUDES = -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/aml -IC:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/include
+  OBJECT_DIR = CMakeFiles\MyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\MyLib.dir\src
+
 build CMakeFiles/MyLib.dir/src/Vehicle.cpp.o: CXX_COMPILER__MyLib_unscanned_ C$:/PC/Projetos/GTA_Mobile/police-mod-szk-mobile/src/Vehicle.cpp || cmake_object_order_depends_target_MyLib
   DEFINES = -DMyLib_EXPORTS
   DEP_FILE = CMakeFiles\MyLib.dir\src\Vehicle.cpp.o.d
@@ -460,7 +476,7 @@ build CMakeFiles/MyLib.dir/src/main.cpp.o: CXX_COMPILER__MyLib_unscanned_ C$:/PC
 #############################################
 # Link the shared library libPoliceModSZK.so
 
-build libPoliceModSZK.so: CXX_SHARED_LIBRARY_LINKER__MyLib_ CMakeFiles/MyLib.dir/aml/mod/config.cpp.o CMakeFiles/MyLib.dir/aml/mod/logger.cpp.o CMakeFiles/MyLib.dir/src/AIController.cpp.o CMakeFiles/MyLib.dir/src/AICop.cpp.o CMakeFiles/MyLib.dir/src/AICriminal.cpp.o CMakeFiles/MyLib.dir/src/AIMedic.cpp.o CMakeFiles/MyLib.dir/src/AIPed.cpp.o CMakeFiles/MyLib.dir/src/AIVehicle.cpp.o CMakeFiles/MyLib.dir/src/ATMSystem.cpp.o CMakeFiles/MyLib.dir/src/AudioCollection.cpp.o CMakeFiles/MyLib.dir/src/AudioSequence.cpp.o CMakeFiles/MyLib.dir/src/AudioVariationGroup.cpp.o CMakeFiles/MyLib.dir/src/BackupUnits.cpp.o CMakeFiles/MyLib.dir/src/BottomMessage.cpp.o CMakeFiles/MyLib.dir/src/CNHWindow.cpp.o CMakeFiles/MyLib.dir/src/Callouts.cpp.o CMakeFiles/MyLib.dir/src/Chase.cpp.o CMakeFiles/MyLib.dir/src/Checkpoint.cpp.o CMakeFiles/MyLib.dir/src/CleoFunctions.cpp.o CMakeFiles/MyLib.dir/src/Criminals.cpp.o CMakeFiles/MyLib.dir/src/DocsWindow.cpp.o CMakeFiles/MyLib.dir/src/DocumentWindow.cpp.o CMakeFiles/MyLib.dir/src/Escort.cpp.o CMakeFiles/MyLib.dir/src/FriskWindow.cpp.o CMakeFiles/MyLib.dir/src/Inventory.cpp.o CMakeFiles/MyLib.dir/src/InventoryItemManager.cpp.o CMakeFiles/MyLib.dir/src/Logger.cpp.o CMakeFiles/MyLib.dir/src/ModData.cpp.o CMakeFiles/MyLib.dir/src/ModelLoader.cpp.o CMakeFiles/MyLib.dir/src/Names.cpp.o CMakeFiles/MyLib.dir/src/Partners.cpp.o CMakeFiles/MyLib.dir/src/Ped.cpp.o CMakeFiles/MyLib.dir/src/Peds.cpp.o CMakeFiles/MyLib.dir/src/PoliceBase.cpp.o CMakeFiles/MyLib.dir/src/PoliceBases.cpp.o CMakeFiles/MyLib.dir/src/PoliceMod.cpp.o CMakeFiles/MyLib.dir/src/Pullover.cpp.o CMakeFiles/MyLib.dir/src/RGWindow.cpp.o CMakeFiles/MyLib.dir/src/RadioSounds.cpp.o CMakeFiles/MyLib.dir/src/RadioWindow.cpp.o CMakeFiles/MyLib.dir/src/ScriptTask.cpp.o CMakeFiles/MyLib.dir/src/TestWindow.cpp.o CMakeFiles/MyLib.dir/src/TopMessage.cpp.o CMakeFiles/MyLib.dir/src/Vehicle.cpp.o CMakeFiles/MyLib.dir/src/Vehicles.cpp.o CMakeFiles/MyLib.dir/src/WorldWidgets.cpp.o CMakeFiles/MyLib.dir/src/callouts/ATMCallout.cpp.o CMakeFiles/MyLib.dir/src/callouts/StolenCarCallout.cpp.o CMakeFiles/MyLib.dir/src/callouts/TestCallout.cpp.o CMakeFiles/MyLib.dir/src/hooks.cpp.o CMakeFiles/MyLib.dir/src/main.cpp.o | C$:/android-ndk-r26d/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/arm-linux-androideabi/21/liblog.so
+build libPoliceModSZK.so: CXX_SHARED_LIBRARY_LINKER__MyLib_ CMakeFiles/MyLib.dir/aml/mod/config.cpp.o CMakeFiles/MyLib.dir/aml/mod/logger.cpp.o CMakeFiles/MyLib.dir/src/AIController.cpp.o CMakeFiles/MyLib.dir/src/AICop.cpp.o CMakeFiles/MyLib.dir/src/AICriminal.cpp.o CMakeFiles/MyLib.dir/src/AIHelicopterCop.cpp.o CMakeFiles/MyLib.dir/src/AIMedic.cpp.o CMakeFiles/MyLib.dir/src/AIPed.cpp.o CMakeFiles/MyLib.dir/src/AIVehicle.cpp.o CMakeFiles/MyLib.dir/src/ATMSystem.cpp.o CMakeFiles/MyLib.dir/src/AudioCollection.cpp.o CMakeFiles/MyLib.dir/src/AudioSequence.cpp.o CMakeFiles/MyLib.dir/src/AudioVariationGroup.cpp.o CMakeFiles/MyLib.dir/src/BackupUnits.cpp.o CMakeFiles/MyLib.dir/src/BottomMessage.cpp.o CMakeFiles/MyLib.dir/src/CNHWindow.cpp.o CMakeFiles/MyLib.dir/src/Callouts.cpp.o CMakeFiles/MyLib.dir/src/Chase.cpp.o CMakeFiles/MyLib.dir/src/Checkpoint.cpp.o CMakeFiles/MyLib.dir/src/CleoFunctions.cpp.o CMakeFiles/MyLib.dir/src/Criminals.cpp.o CMakeFiles/MyLib.dir/src/DocsWindow.cpp.o CMakeFiles/MyLib.dir/src/DocumentWindow.cpp.o CMakeFiles/MyLib.dir/src/Escort.cpp.o CMakeFiles/MyLib.dir/src/FriskWindow.cpp.o CMakeFiles/MyLib.dir/src/Inventory.cpp.o CMakeFiles/MyLib.dir/src/InventoryItemManager.cpp.o CMakeFiles/MyLib.dir/src/Logger.cpp.o CMakeFiles/MyLib.dir/src/ModData.cpp.o CMakeFiles/MyLib.dir/src/ModelLoader.cpp.o CMakeFiles/MyLib.dir/src/Names.cpp.o CMakeFiles/MyLib.dir/src/Partners.cpp.o CMakeFiles/MyLib.dir/src/Ped.cpp.o CMakeFiles/MyLib.dir/src/Peds.cpp.o CMakeFiles/MyLib.dir/src/PoliceBase.cpp.o CMakeFiles/MyLib.dir/src/PoliceBases.cpp.o CMakeFiles/MyLib.dir/src/PoliceMod.cpp.o CMakeFiles/MyLib.dir/src/Pullover.cpp.o CMakeFiles/MyLib.dir/src/RGWindow.cpp.o CMakeFiles/MyLib.dir/src/RadioSounds.cpp.o CMakeFiles/MyLib.dir/src/RadioWindow.cpp.o CMakeFiles/MyLib.dir/src/ScriptTask.cpp.o CMakeFiles/MyLib.dir/src/TestWindow.cpp.o CMakeFiles/MyLib.dir/src/TopMessage.cpp.o CMakeFiles/MyLib.dir/src/Trunk.cpp.o CMakeFiles/MyLib.dir/src/Vehicle.cpp.o CMakeFiles/MyLib.dir/src/Vehicles.cpp.o CMakeFiles/MyLib.dir/src/WorldWidgets.cpp.o CMakeFiles/MyLib.dir/src/callouts/ATMCallout.cpp.o CMakeFiles/MyLib.dir/src/callouts/StolenCarCallout.cpp.o CMakeFiles/MyLib.dir/src/callouts/TestCallout.cpp.o CMakeFiles/MyLib.dir/src/hooks.cpp.o CMakeFiles/MyLib.dir/src/main.cpp.o | C$:/android-ndk-r26d/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/arm-linux-androideabi/21/liblog.so
   DEP_FILE = CMakeFiles\MyLib.dir\link.d
   LANGUAGE_COMPILE_FLAGS = -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security
   LINK_FLAGS = -shared -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  -Xlinker --dependency-file=CMakeFiles\MyLib.dir\link.d

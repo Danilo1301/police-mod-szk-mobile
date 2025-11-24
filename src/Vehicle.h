@@ -2,6 +2,11 @@
 
 #include "pch.h"
 
+#include "Checkpoint.h"
+#include "Trunk.h"
+
+inline bool g_canShowCarWidgetAnyTime = false;
+
 struct VehicleDocInfo
 {
     std::string plate;
@@ -55,6 +60,13 @@ public:
 
     int timeAlive = 0;
     int timeSinceLastRepair = 0;
+
+    Checkpoint* trunkCheckpoint = nullptr;
+    CVector trunkOffset = CVector(0, -4.0f, 0);
+
+    Trunk* trunk;
+
+    bool isModelBackupUnit = false;
 
     Vehicle(int ref, void* ptr);
     ~Vehicle();

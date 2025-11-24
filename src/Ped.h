@@ -75,6 +75,7 @@ public:
     void HideBlip();
 
     CVector GetPosition();
+    void SetPosition(CVector position);
 
     bool IsInAnyCar();
     int GetCurrentCar();

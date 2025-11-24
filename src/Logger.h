@@ -31,7 +31,7 @@ extern Logger* localLogger;
 
 #define fileLog localLogger
 
-#define DEEP_LOG_ENABLED false
+#define DEEP_LOG_ENABLED true
 
 inline void DeepLog(std::string text)
 {

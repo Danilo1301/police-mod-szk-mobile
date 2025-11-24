@@ -35,14 +35,20 @@ PoliceBase::PoliceBase()
             }
         }
 
-        if(pedsEscorted.size() == 0)
+        bool hasPedsInTrunk = vehicle->trunk->GetPedsInTrunk().size() > 0;
+
+        if(pedsEscorted.size() == 0 && !hasPedsInTrunk)
         {
             BottomMessage::SetMessage("~r~Voce nao esta transportando nenhum suspeito neste veiculo", 2000);
             return;
         }
 
+        int numSuspects = 0;
+
         for(auto ped : pedsEscorted)
         {
+            numSuspects++;
+
             ped->LeaveCar();
 
             WAIT(3000, [ped]() {
@@ -50,7 +56,21 @@ PoliceBase::PoliceBase()
             });
         }
 
-        if(pedsEscorted.size() == 1)
+        auto pedsInTrunkCopy = vehicle->trunk->GetPedsInTrunk();
+
+        for(auto pedRef : pedsInTrunkCopy)
+        {
+            numSuspects++;
+            vehicle->trunk->RemovePed(pedRef);
+
+            auto ped = Peds::GetPed(pedRef);
+
+            WAIT(2000, [ped]() {
+                ped->QueueDestroy();
+            });
+        }
+
+        if(numSuspects == 1)
         {
             BottomMessage::SetMessage("O suspeito ficou a ~y~disposicao da justica", 3000);
         } else {

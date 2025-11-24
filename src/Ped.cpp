@@ -11,6 +11,7 @@
 #include "Checkpoint.h"
 #include "FriskWindow.h"
 #include "Names.h"
+#include "Escort.h"
 
 Ped::Ped(int ref, void* ptr)
 {
@@ -112,6 +113,13 @@ void Ped::Update()
         WorldWidgets.push_back(w);
 
         widget->onClick->Add([this]() {
+
+            if(Escort::IsPedBeeingCarried(this))
+            {
+                Escort::OpenCarryingPedOptions(this);
+                return;
+            }
+
             Pullover::OpenPedMenu(this);
         });
 
@@ -268,6 +276,14 @@ void Ped::HideBlip()
 CVector Ped::GetPosition()
 {
     return GetPedPosition(ref);
+}
+
+void Ped::SetPosition(CVector position)
+{
+    auto cped = (CPed*)ptr;
+    auto matrix = cped->GetMatrix();
+
+    matrix->pos = position;
 }
 
 bool Ped::IsInAnyCar()

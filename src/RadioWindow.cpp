@@ -117,8 +117,10 @@ void RadioWindow::Initialize()
     AddScreen("main", "cancel_services", "cancel_services.png");
     AddScreen("main", "call_backup", "call_backup.png");
     AddScreen("main", "call_medic", "call_medic.png");
+    AddScreen("main", "toggle_car_options", "toggle_car_options.png");
     AddScreen("main", "test_menu", "test_menu.png");
 
+    
     // AddGroup("test", "main");
 
     // AddScreen("test", "test1", "test.png");
@@ -225,6 +227,20 @@ void RadioWindow::OnSelect(std::string id)
 
         BottomMessage::SetMessage("~r~There are no active callouts", 3000);
 
+        return;
+    }
+
+    if(id == "toggle_car_options")
+    {
+        Toggle();
+
+        g_canShowCarWidgetAnyTime = !g_canShowCarWidgetAnyTime;
+        if(g_canShowCarWidgetAnyTime)
+        {
+            BottomMessage::SetMessage("~g~Ativado ~w~botao de opcoes dos veiculos", 3000);
+        } else {
+            BottomMessage::SetMessage("~r~Desativado ~w~botao de opcoes dos veiculos", 3000);
+        }
         return;
     }
 

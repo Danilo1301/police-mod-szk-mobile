@@ -9,6 +9,7 @@
 #include "Criminals.h"
 #include "AICop.h"
 #include "AIMedic.h"
+#include "AIHelicopterCop.h"
 #include "AudioCollection.h"
 #include "RadioSounds.h"
 #include "IniReaderWriter.hpp"
@@ -23,6 +24,7 @@ int g_spawnUnitTimer = 0;
 std::vector<RoadName> g_roads;
 
 std::vector<BackupUnit> BackupUnits::defaultBackupUnits;
+std::vector<BackupUnit> BackupUnits::helicopterBackupUnits;
 
 std::vector<Vehicle*> BackupUnits::backupVehicles;
 
@@ -35,12 +37,18 @@ void BackupUnits::Initialize()
 
 void BackupUnits::LoadBackups()
 {
-    defaultBackupUnits.clear();
+    std::string mainFolder = modData->GetFile("data/backup");
+    std::string heliFolder = modData->GetFile("data/backup_helicopters");
 
-    std::string backupFolder = modData->GetFile("data/backup");
+    LoadBackupsFromFolder(mainFolder, defaultBackupUnits);
+    LoadBackupsFromFolder(heliFolder, helicopterBackupUnits);
+}
 
-    // listar todas as pastas dentro de data/backup
-    for (auto &entry : std::filesystem::directory_iterator(backupFolder))
+void BackupUnits::LoadBackupsFromFolder(const std::string& folder, std::vector<BackupUnit>& outVector)
+{
+    outVector.clear();
+
+    for (auto &entry : std::filesystem::directory_iterator(folder))
     {
         if (!entry.is_directory())
             continue;
@@ -56,18 +64,16 @@ void BackupUnits::LoadBackups()
 
         BackupUnit unit;
 
-        unit.name = ini.Get("backup", "name", "Unidade sem nome");
+        unit.name           = ini.Get("backup", "name", "Unidade sem nome");
         unit.vehicleModelId = ini.GetInt("backup", "vehicle_model_id", -1);
         unit.skinModelId    = ini.GetInt("backup", "ped_skin_id", -1);
         unit.occupants      = ini.GetInt("backup", "occupants", 1);
         unit.chance         = (float)ini.GetDouble("backup", "chance", 1.00);
 
         if (unit.vehicleModelId == -1 || unit.skinModelId == -1)
-        {
             continue;
-        }
 
-        defaultBackupUnits.push_back(unit);
+        outVector.push_back(unit);
     }
 }
 
@@ -286,14 +292,22 @@ void BackupUnits::SpawnBackupUnit(BackupUnit* unit)
         BottomMessage::SetMessage(GetTranslatedText("error_no_suspects_found"), 3000);
         return;
     }
+    
+    bool isHelicopter = IsHelicopterBackupUnit(unit->vehicleModelId);
 
     auto closePosition = GetPedPositionWithOffset(GetPlayerActor(), CVector(0, 120, 0));
 
     auto spawnPosition = GET_CLOSEST_CAR_NODE(closePosition.x, closePosition.y, closePosition.z);
 
+    if(isHelicopter)
+    {
+        spawnPosition.z += 100.0f;
+    }
+
     ModelLoader::AddModelToLoad(unit->vehicleModelId);
     ModelLoader::AddModelToLoad(unit->skinModelId);
-    ModelLoader::LoadAll([unit, spawnPosition]() {
+    ModelLoader::LoadAll([unit, spawnPosition, isHelicopter]() {
+
         auto carRef = CREATE_CAR_AT(unit->vehicleModelId, spawnPosition.x, spawnPosition.y, spawnPosition.z);
         auto car = Vehicles::RegisterVehicle(carRef);
 
@@ -304,6 +318,12 @@ void BackupUnits::SpawnBackupUnit(BackupUnit* unit)
         {
             auto passengerRef = CREATE_ACTOR_PEDTYPE_IN_CAR_PASSENGER_SEAT(carRef, PedType::Special, unit->skinModelId, 0);
             Peds::RegisterPed(passengerRef);
+        }
+
+        if(isHelicopter)
+        {
+            SET_HELICOPTER_INSTANT_ROTOR_START(carRef);
+            SET_CAR_ENGINE_OPERATION(carRef, true);
         }
 
         AddVehicleAsBackup(car, false);
@@ -344,20 +364,30 @@ void BackupUnits::AddVehicleAsBackup(Vehicle* vehicle, bool recreatePeds)
 
     fileLog->Log("Setup occupants");
 
+    bool isHelicopter = IsHelicopterBackupUnit(vehicle->GetModelId());
+
     auto occupants = vehicle->GetCurrentOccupants();
     for(auto pedRef : occupants)
     {
         auto cop = Peds::GetPed(pedRef);
 
-        int pistolId = 22;
-
-        GIVE_ACTOR_WEAPON(pedRef, pistolId, 5000);
+        ModelLoader::AddModelToLoad(346);
+        ModelLoader::LoadAll([pedRef]() {
+            GIVE_ACTOR_WEAPON(pedRef, 22, 100);
+        });
 
         //cop->ShowBlip(COLOR_POLICE);
 
-        auto ai = new AICop();
-        AIController::AddAIToPed(cop, ai);
-        ai->Start();
+        if(isHelicopter)
+        {
+            auto ai = new AIHelicopterCop();
+            AIController::AddAIToPed(cop, ai);
+            ai->Start();
+        } else {
+            auto ai = new AICop();
+            AIController::AddAIToPed(cop, ai);
+            ai->Start();
+        }
     }
 
     vehicle->SetOwners();
@@ -411,11 +441,22 @@ void BackupUnits::OpenSpawnBackupMenu()
 
         button->onClick->Add([window, unitCopy]() mutable {
             window->Close();
-
             SpawnBackupUnit(&unitCopy);
         });
     }
     
+    for (auto& unit : helicopterBackupUnits)
+    {
+        BackupUnit unitCopy = unit;
+
+        auto button = window->AddButton(unit.name);
+
+        button->onClick->Add([window, unitCopy]() mutable {
+            window->Close();
+            SpawnBackupUnit(&unitCopy);
+        });
+    }
+
     {
         auto button = window->AddButton("~y~" + GetTranslatedText("close"));
         button->onClick->Add([window]() {

@@ -6,6 +6,8 @@
 #include "Peds.h"
 #include "Vehicles.h"
 #include "Chase.h"
+#include "Escort.h"
+#include "BackupUnits.h"
 
 extern bool freezingCriminals;
 
@@ -13,6 +15,8 @@ Vehicle::Vehicle(int ref, void* ptr)
 {
     this->ref = ref;
     this->ptr = ptr;
+
+    trunk = new Trunk(ref);
 
     {
         auto widget = menuSZK->CreateWidget(
@@ -52,6 +56,8 @@ Vehicle::Vehicle(int ref, void* ptr)
             flags.chassisErased = true;
         }
     }
+
+    isModelBackupUnit = IsBackupUnit(GetModelId());
 }
 
 Vehicle::~Vehicle()
@@ -62,6 +68,18 @@ Vehicle::~Vehicle()
     {
         widgetOptions->Close();
         widgetOptions = nullptr;
+    }
+
+    if(trunk)
+    {
+        delete trunk;
+        trunk = nullptr;
+    }
+
+    if(trunkCheckpoint != nullptr)
+    {
+        Checkpoints::DestroyCheckpoint(trunkCheckpoint);
+        trunkCheckpoint = nullptr;
     }
 }
 
@@ -80,6 +98,8 @@ void Vehicle::Update()
         if(distanceBetweenPoints(carPosition, playerPosition) < 10.0f)
         {
             widgetVisible = flags.showWidget;
+
+            if(g_canShowCarWidgetAnyTime) widgetVisible = true;
         }
 
         widgetOptions->visible = widgetVisible;
@@ -96,6 +116,27 @@ void Vehicle::Update()
         timeSinceLastRepair = 0;
         SET_CAR_HEALTH(ref, 350);
         menuDebug->AddLine("~r~car health restored");
+    }
+
+    if(isModelBackupUnit)
+    {
+        if(Escort::IsCarryingSomeone())
+        {
+            auto trunkPosition = GetCarPositionWithOffset(ref, trunkOffset);
+
+            if(!trunkCheckpoint)
+            {
+                trunkCheckpoint = Checkpoints::CreateCheckpoint(trunkPosition);
+            }
+            
+            trunkCheckpoint->position = trunkPosition;
+        } else {
+            if(trunkCheckpoint != nullptr)
+            {
+                Checkpoints::DestroyCheckpoint(trunkCheckpoint);
+                trunkCheckpoint = nullptr;
+            }
+        }
     }
 }
 

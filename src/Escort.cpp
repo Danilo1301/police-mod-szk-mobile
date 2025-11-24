@@ -8,6 +8,7 @@
 #include "BottomMessage.h"
 
 Ped* g_escortingPed = nullptr;
+Ped* g_carryingPed = nullptr;
 
 bool g_pedWasInAVehicle = false;
 
@@ -24,6 +25,99 @@ void Escort::Update()
         {
             OnPlayerEnterVehicle();
         }
+    }
+
+    if(g_carryingPed)
+    {
+        auto playerPosition = GetPedPositionWithOffset(GetPlayerActor(), CVector(0, 1.1f, 0));
+        
+        g_carryingPed->SetPosition(playerPosition);
+    }
+}
+
+void Escort::OpenEscortWindow(Ped* ped)
+{
+    auto window = menuSZK->CreateWindow(g_defaultMenuPosition.x, g_defaultMenuPosition.y, 800, GetTranslatedText("window_escort"));
+    
+    {
+        auto button = window->AddButton(GetTranslatedText("escort_carry"));
+        button->onClick->Add([window, ped]() {
+            window->Close();
+
+            if(g_carryingPed)
+            {
+                BottomMessage::SetMessage(GetTranslatedText("error_already_escorting"), 3000);
+                return;
+            }
+
+            g_carryingPed = ped;
+
+            BottomMessage::SetMessage("Carregando o suspeito", 3000);
+        });
+    }
+
+    {
+        auto button = window->AddButton(GetTranslatedText("escort_follow"));
+        button->onClick->Add([window, ped]() {
+            window->Close();
+
+            if(Escort::IsEscortingSomeone())
+            {
+                BottomMessage::SetMessage(GetTranslatedText("error_already_escorting"), 3000);
+                return;
+            }
+
+            ped->flags.showWidget = false;
+
+            Escort::EscortPed(ped);
+        });
+    }
+
+    {
+        auto button = window->AddButton("~r~" + GetTranslatedText("close"));
+        button->onClick->Add([window]() {
+            window->Close();
+        });
+    }
+}
+
+void Escort::OpenCarryingPedOptions(Ped* ped)
+{
+    auto window = menuSZK->CreateWindow(g_defaultMenuPosition.x, g_defaultMenuPosition.y, 800, GetTranslatedText("window_escort"));
+    
+    {
+        auto button = window->AddButton(GetTranslatedText("stop_carry"));
+        button->onClick->Add([window]() {
+            window->Close();
+
+            g_carryingPed = nullptr;
+        });
+    }
+
+    {
+        auto button = window->AddButton(GetTranslatedText("put_ped_in_trunk"));
+        button->onClick->Add([window]() {
+            window->Close();
+
+            auto vehicle = GetClosestOpenTrunk();
+
+            if(!vehicle)
+            {
+                BottomMessage::SetMessage("~r~O suspeito nao esta perto de um porta malas", 3000);
+                return;
+            }
+
+            vehicle->trunk->AddPedToTrunk(g_carryingPed->ref);
+
+            g_carryingPed = nullptr;
+        });
+    }
+
+    {
+        auto button = window->AddButton("~r~" + GetTranslatedText("close"));
+        button->onClick->Add([window]() {
+            window->Close();
+        });
     }
 }
 
@@ -147,4 +241,35 @@ void Escort::OnPlayerEnterVehicle()
 bool Escort::IsEscortingSomeone()
 {
     return g_escortingPed != nullptr;
+}
+
+bool Escort::IsCarryingSomeone()
+{
+    return g_carryingPed != nullptr;
+}
+
+bool Escort::IsPedBeeingCarried(Ped* ped)
+{
+    return ped == g_carryingPed;
+}
+
+Vehicle* Escort::GetClosestOpenTrunk()
+{
+    if(!g_carryingPed) return nullptr;
+
+    auto pedPosition = g_carryingPed->GetPosition();
+
+    auto vehicles = Vehicles::GetAllCarsInSphere(pedPosition, 10.0f);
+
+    for(auto vehicle : vehicles)
+    {
+        if(!vehicle->trunkCheckpoint) continue;
+
+        if(vehicle->trunkCheckpoint->IsInRange(pedPosition))
+        {
+            return vehicle;
+        }
+    }
+
+    return nullptr;
 }
