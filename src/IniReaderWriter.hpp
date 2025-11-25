@@ -5,13 +5,21 @@
 #include <sstream>
 #include <fstream>
 #include <algorithm>
+#include <vector>
+
+// se CVector não estiver incluso aqui, incluir seu header antes
+// #include "CVector.h"
 
 class IniReaderWriter
 {
 public:
-    // estrutura: categoria -> (chave -> valor)
-    using Section = std::unordered_map<std::string, std::string>;
+    // ordem preservada dentro de cada seção
+    using Section = std::vector<std::pair<std::string, std::string>>;
     using Data = std::unordered_map<std::string, Section>;
+
+    // -------------------------------------------------------------
+    // Load / Save
+    // -------------------------------------------------------------
 
     bool LoadFromFile(const std::string& path)
     {
@@ -33,8 +41,10 @@ public:
         for (const auto& sectionPair : data)
         {
             file << "[" << sectionPair.first << "]\n";
+
             for (const auto& kv : sectionPair.second)
                 file << kv.first << " = " << kv.second << "\n";
+
             file << "\n";
         }
         return true;
@@ -70,19 +80,30 @@ public:
                 Trim(key);
                 Trim(value);
 
-                data[currentSection][key] = value;
+                Set(currentSection, key, value); // usa Set() para manter ordem
             }
         }
         return true;
     }
 
+    // -------------------------------------------------------------
+    // Getters
+    // -------------------------------------------------------------
+
     std::string Get(const std::string& section, const std::string& key, const std::string& def = "") const
     {
         auto sit = data.find(section);
-        if (sit == data.end()) return def;
-        auto kit = sit->second.find(key);
-        if (kit == sit->second.end()) return def;
-        return kit->second;
+        if (sit == data.end())
+            return def;
+
+        // procurar dentro do vector
+        for (const auto& kv : sit->second)
+        {
+            if (kv.first == key)
+                return kv.second;
+        }
+
+        return def;
     }
 
     int GetInt(const std::string& section, const std::string& key, int def = 0) const
@@ -90,14 +111,8 @@ public:
         std::string value = Get(section, key, "");
         if (value.empty()) return def;
 
-        try
-        {
-            return std::stoi(value);
-        }
-        catch (...)
-        {
-            return def;
-        }
+        try { return std::stoi(value); }
+        catch (...) { return def; }
     }
 
     double GetDouble(const std::string& section, const std::string& key, double def = 0.0) const
@@ -105,14 +120,17 @@ public:
         std::string value = Get(section, key, "");
         if (value.empty()) return def;
 
-        try
-        {
-            return std::stod(value);
-        }
-        catch (...)
-        {
-            return def;
-        }
+        try { return std::stod(value); }
+        catch (...) { return def; }
+    }
+
+    CVector GetCVector(const std::string& section, const std::string& key, CVector def) const
+    {
+        float x = GetDouble(section, key + "_x", def.x);
+        float y = GetDouble(section, key + "_y", def.y);
+        float z = GetDouble(section, key + "_z", def.z);
+
+        return CVector(x, y, z);
     }
 
     bool GetBool(const std::string& section, const std::string& key, bool def = false) const
@@ -120,28 +138,53 @@ public:
         std::string value = Get(section, key, "");
         if (value.empty()) return def;
 
-        // deixa tudo minúsculo
         std::transform(value.begin(), value.end(), value.begin(), ::tolower);
 
-        if (value == "1" || value == "true")
-            return true;
-
-        return false;
+        return (value == "1" || value == "true");
     }
+
+    // -------------------------------------------------------------
+    // Setters (preservam a ordem)
+    // -------------------------------------------------------------
 
     void Set(const std::string& section, const std::string& key, const std::string& value)
     {
-        data[section][key] = value;
+        auto& list = data[section];
+
+        // atualizar se já existir
+        for (auto& kv : list)
+        {
+            if (kv.first == key)
+            {
+                kv.second = value;
+                return;
+            }
+        }
+
+        // adicionar no fim (mantém ordem)
+        list.emplace_back(key, value);
     }
 
     void SetInt(const std::string& section, const std::string& key, int value)
     {
-        data[section][key] = std::to_string(value);
+        Set(section, key, std::to_string(value));
+    }
+
+    void SetDouble(const std::string& section, const std::string& key, double value)
+    {
+        Set(section, key, std::to_string(value));
     }
 
     void SetBool(const std::string& section, const std::string& key, bool value)
     {
-        data[section][key] = value ? "true" : "false";
+        Set(section, key, value ? "true" : "false");
+    }
+
+    void SetCVector(const std::string& section, const std::string& key, const CVector& value)
+    {
+        SetDouble(section, key + "_x", value.x);
+        SetDouble(section, key + "_y", value.y);
+        SetDouble(section, key + "_z", value.z);
     }
 
     Data* GetData()
@@ -150,6 +193,8 @@ public:
     }
 
 private:
+
+    // trim
     static void Trim(std::string& s)
     {
         s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {

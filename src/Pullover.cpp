@@ -493,7 +493,7 @@ void Pullover::OpenVehicleMenu(Vehicle* vehicle)
         });
     }
 
-    if(vehicle->isModelBackupUnit)
+    if(vehicle->policeVehicleData != nullptr)
     {
         auto button = window->AddButton(GetTranslatedText("customize_trunk"));
         button->onClick->Add([window, vehicle]() {

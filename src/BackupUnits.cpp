@@ -23,58 +23,11 @@ int g_spawnUnitTimer = 0;
 
 std::vector<RoadName> g_roads;
 
-std::vector<BackupUnit> BackupUnits::defaultBackupUnits;
-std::vector<BackupUnit> BackupUnits::helicopterBackupUnits;
-
 std::vector<Vehicle*> BackupUnits::backupVehicles;
 
 void BackupUnits::Initialize()
 {
-    LoadBackups();
-
     InitializeRoads();
-}
-
-void BackupUnits::LoadBackups()
-{
-    std::string mainFolder = modData->GetFile("data/backup");
-    std::string heliFolder = modData->GetFile("data/backup_helicopters");
-
-    LoadBackupsFromFolder(mainFolder, defaultBackupUnits);
-    LoadBackupsFromFolder(heliFolder, helicopterBackupUnits);
-}
-
-void BackupUnits::LoadBackupsFromFolder(const std::string& folder, std::vector<BackupUnit>& outVector)
-{
-    outVector.clear();
-
-    for (auto &entry : std::filesystem::directory_iterator(folder))
-    {
-        if (!entry.is_directory())
-            continue;
-
-        std::string folderPath = entry.path().string();
-        std::string iniPath = folderPath + "/backup.ini";
-
-        if (!std::filesystem::exists(iniPath))
-            continue;
-
-        IniReaderWriter ini;
-        ini.LoadFromFile(iniPath);
-
-        BackupUnit unit;
-
-        unit.name           = ini.Get("backup", "name", "Unidade sem nome");
-        unit.vehicleModelId = ini.GetInt("backup", "vehicle_model_id", -1);
-        unit.skinModelId    = ini.GetInt("backup", "ped_skin_id", -1);
-        unit.occupants      = ini.GetInt("backup", "occupants", 1);
-        unit.chance         = (float)ini.GetDouble("backup", "chance", 1.00);
-
-        if (unit.vehicleModelId == -1 || unit.skinModelId == -1)
-            continue;
-
-        outVector.push_back(unit);
-    }
 }
 
 void BackupUnits::InitializeRoads()
@@ -283,7 +236,7 @@ void BackupUnits::PlayRoadName()
     }
 }
 
-void BackupUnits::SpawnBackupUnit(BackupUnit* unit)
+void BackupUnits::SpawnBackupUnit(PoliceVehicleData* unit)
 {
     fileLog->Log("BackupUnits: SpawnBackupUnit");
 
@@ -293,7 +246,7 @@ void BackupUnits::SpawnBackupUnit(BackupUnit* unit)
         return;
     }
     
-    bool isHelicopter = IsHelicopterBackupUnit(unit->vehicleModelId);
+    bool isHelicopter = IsModelAPoliceHelicopter(unit->vehicleModelId);
 
     auto closePosition = GetPedPositionWithOffset(GetPlayerActor(), CVector(0, 120, 0));
 
@@ -334,7 +287,7 @@ void BackupUnits::SpawnRandomBackupUnit()
 {
     fileLog->Log("BackupUnits: SpawnRandomBackupUnit");
     
-    auto unit = GetRandomUnitByChance(defaultBackupUnits);
+    auto unit = GetRandomUnitByChance(PoliceVehicles::vehicles);
 
     SpawnBackupUnit(unit);
 }
@@ -364,7 +317,7 @@ void BackupUnits::AddVehicleAsBackup(Vehicle* vehicle, bool recreatePeds)
 
     fileLog->Log("Setup occupants");
 
-    bool isHelicopter = IsHelicopterBackupUnit(vehicle->GetModelId());
+    bool isHelicopter = IsModelAPoliceHelicopter(vehicle->GetModelId());
 
     auto occupants = vehicle->GetCurrentOccupants();
     for(auto pedRef : occupants)
@@ -396,7 +349,7 @@ void BackupUnits::AddVehicleAsBackup(Vehicle* vehicle, bool recreatePeds)
     backupVehicles.push_back(vehicle);
 }
 
-BackupUnit* BackupUnits::GetRandomUnitByChance(std::vector<BackupUnit>& units)
+PoliceVehicleData* BackupUnits::GetRandomUnitByChance(std::vector<PoliceVehicleData>& units)
 {
     if (units.empty())
         return nullptr;
@@ -433,9 +386,9 @@ void BackupUnits::OpenSpawnBackupMenu()
 {
     auto window = menuSZK->CreateWindow(g_defaultMenuPosition.x, g_defaultMenuPosition.y, 800, GetTranslatedText("window_spawn_backup"));
     
-    for (auto& unit : defaultBackupUnits)
+    for (auto& unit : PoliceVehicles::vehicles)
     {
-        BackupUnit unitCopy = unit;
+        PoliceVehicleData unitCopy = unit;
 
         auto button = window->AddButton(unit.name);
 
@@ -445,9 +398,9 @@ void BackupUnits::OpenSpawnBackupMenu()
         });
     }
     
-    for (auto& unit : helicopterBackupUnits)
+    for (auto& unit : PoliceVehicles::helicopters)
     {
-        BackupUnit unitCopy = unit;
+        PoliceVehicleData unitCopy = unit;
 
         auto button = window->AddButton(unit.name);
 

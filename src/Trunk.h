@@ -7,8 +7,6 @@ private:
     int vehicleRef;
     std::vector<int> pedsInside;
 public:
-    CVector seatPosition = CVector(0.50f, -1.80f, 0.90f);
-
     Trunk(int vehicleRef);
 
     void AddPedToTrunk(int pedRef);

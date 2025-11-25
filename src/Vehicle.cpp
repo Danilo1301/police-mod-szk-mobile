@@ -57,7 +57,7 @@ Vehicle::Vehicle(int ref, void* ptr)
         }
     }
 
-    isModelBackupUnit = IsBackupUnit(GetModelId());
+    policeVehicleData = GetPoliceVehicleDataByModelId(GetModelId());
 }
 
 Vehicle::~Vehicle()
@@ -118,7 +118,7 @@ void Vehicle::Update()
         menuDebug->AddLine("~r~car health restored");
     }
 
-    if(isModelBackupUnit)
+    if(policeVehicleData != nullptr)
     {
         if(Escort::IsCarryingSomeone())
         {

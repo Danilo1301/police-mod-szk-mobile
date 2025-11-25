@@ -4,6 +4,7 @@
 
 #include "Checkpoint.h"
 #include "Trunk.h"
+#include "PoliceVehicleData.h"
 
 inline bool g_canShowCarWidgetAnyTime = false;
 
@@ -66,7 +67,7 @@ public:
 
     Trunk* trunk;
 
-    bool isModelBackupUnit = false;
+    PoliceVehicleData* policeVehicleData = nullptr;
 
     Vehicle(int ref, void* ptr);
     ~Vehicle();

@@ -5,6 +5,8 @@
 #include "Vehicles.h"
 #include "BottomMessage.h"
 #include "ModelLoader.h"
+#include "PoliceVehicles.h"
+#include "IniReaderWriter.hpp"
 
 Trunk::Trunk(int vehicleRef)
 {
@@ -14,6 +16,9 @@ Trunk::Trunk(int vehicleRef)
 void Trunk::AddPedToTrunk(int pedRef)
 {
     pedsInside.push_back(pedRef);
+
+    auto vehicle = Vehicles::GetVehicle(vehicleRef);
+    auto seatPosition = vehicle->policeVehicleData->trunkSeatPosition;
 
     int index = pedsInside.size() - 1;
 
@@ -131,11 +136,12 @@ void Trunk::UpdatePreviewPeds()
 void Trunk::OpenCustomizeMenu(int vehicleRef)
 {
     auto vehicle = Vehicles::GetVehicle(vehicleRef);
+    auto data = vehicle->policeVehicleData;
 
     auto window = menuSZK->CreateWindow(g_defaultMenuPosition.x, g_defaultMenuPosition.y, 800, GetTranslatedText("window_customize_trunk"));
     
     {
-        auto item = window->AddFloatRange("X", &vehicle->trunk->seatPosition.x);
+        auto item = window->AddFloatRange("X", &data->trunkSeatPosition.x);
         item->addBy = 0.2f;
         item->onOptionChange->Add([vehicle]() {
             vehicle->trunk->UpdatePreviewPeds();
@@ -143,7 +149,7 @@ void Trunk::OpenCustomizeMenu(int vehicleRef)
     }
 
     {
-        auto item = window->AddFloatRange("Y", &vehicle->trunk->seatPosition.y);
+        auto item = window->AddFloatRange("Y", &data->trunkSeatPosition.y);
         item->addBy = 0.2f;
         item->onOptionChange->Add([vehicle]() {
             vehicle->trunk->UpdatePreviewPeds();
@@ -151,7 +157,7 @@ void Trunk::OpenCustomizeMenu(int vehicleRef)
     }
 
     {
-        auto item = window->AddFloatRange("Z", &vehicle->trunk->seatPosition.z);
+        auto item = window->AddFloatRange("Z", &data->trunkSeatPosition.z);
         item->addBy = 0.2f;
         item->onOptionChange->Add([vehicle]() {
             vehicle->trunk->UpdatePreviewPeds();
@@ -160,8 +166,19 @@ void Trunk::OpenCustomizeMenu(int vehicleRef)
 
     {
         auto button = window->AddButton("~r~" + GetTranslatedText("close"));
-        button->onClick->Add([window]() {
+        button->onClick->Add([window, data, vehicle]() {
             window->Close();
+
+            auto unit = data;
+            std::string trunkIniPath = unit->folderPath + "/trunk.ini";
+
+            IniReaderWriter ini;
+            ini.SetBool("trunk", "disabled", unit->trunkDisabled);
+            ini.SetCVector("trunk", "offset", unit->trunkOffset);
+            ini.SetCVector("seat", "position", unit->trunkSeatPosition);
+            ini.SaveToFile(trunkIniPath);
+
+            vehicle->trunk->RemoveAllPeds();
         });
     }
 }

@@ -22,6 +22,7 @@
 #include "RadioSounds.h"
 #include "InventoryItemManager.h"
 #include "Names.h"
+#include "PoliceVehicles.h"
 
 bool hasFirstUpdated = false;
 
@@ -259,6 +260,8 @@ void PoliceMod::OnFirstUpdate()
     LOAD_ANIMATION("POLICE");
     LOAD_ANIMATION("MEDIC");
     LOAD_ANIMATION("CRACK");
+
+    PoliceVehicles::Initialize();
 
     InventoryItemManager::Initialize();
     RadioSounds::Initialize();
