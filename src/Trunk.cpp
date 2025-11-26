@@ -178,7 +178,14 @@ void Trunk::OpenCustomizeMenu(int vehicleRef)
             ini.SetCVector("seat", "position", unit->trunkSeatPosition);
             ini.SaveToFile(trunkIniPath);
 
+            auto peds = vehicle->trunk->GetPedsInTrunk();
+
             vehicle->trunk->RemoveAllPeds();
+
+            for(auto pedRef : peds)
+            {
+                Peds::GetPed(pedRef)->QueueDestroy();
+            }
         });
     }
 }

@@ -560,9 +560,12 @@ void Ped::TryInitializeInventory()
         auto id = pair.first;
         auto def = pair.second;
 
+        if(!ItemDefinitionContainFlag(*def, "can_spawn_on_any_ped"))
+            continue;
+    
         if(calculateProbability(def->chance))
         {
-            auto amount = getRandomNumber(1, def->maxStack);
+            auto amount = getRandomNumber(1, def->maxAmount);
 
             inventory.AddItem(id, amount);
         }

@@ -31,18 +31,20 @@ void InventoryItemManager::LoadItems()
         double chance = ini.GetDouble("item", "chance", 1.00);
         int maxAmount = ini.GetInt("item", "max_amount", 1);
         bool isIllegal = ini.GetBool("item", "is_illegal", false);
-        std::string specialRole = ini.Get("item", "special_role", "");
+        std::string flags = ini.Get("item", "flags", "");
         bool isStolen = ini.GetBool("item", "is_stolen", false);
+        std::string amountFormat = ini.Get("item", "amount_format", "");
 
         // Cria shared_ptr e adiciona ao map
         auto itemDef = std::make_shared<ItemDefinition>();
         itemDef->name = name;
         itemDef->description = description;
         itemDef->chance = chance;
-        itemDef->maxStack = maxAmount;
+        itemDef->maxAmount = maxAmount;
         itemDef->isIllegal = isIllegal;
-        itemDef->specialRole = specialRole;
+        itemDef->flags = flags;
         itemDef->isStolen = isStolen;
+        itemDef->amountFormat = amountFormat;
 
         itemDefinitions[id] = itemDef;
     }

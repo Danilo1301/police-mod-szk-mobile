@@ -23,6 +23,7 @@
 #include "InventoryItemManager.h"
 #include "Names.h"
 #include "PoliceVehicles.h"
+#include "Biqueiras.h"
 
 bool hasFirstUpdated = false;
 
@@ -260,20 +261,22 @@ void PoliceMod::OnFirstUpdate()
     LOAD_ANIMATION("POLICE");
     LOAD_ANIMATION("MEDIC");
     LOAD_ANIMATION("CRACK");
-
-    PoliceVehicles::Initialize();
-
+    
     InventoryItemManager::Initialize();
+    PoliceVehicles::Initialize();
+    PoliceBases::Initialize();
+
+    Biqueiras::Initialize();
     RadioSounds::Initialize();
     AudioCollection::Initialize();
     BottomMessage::Initialize();
     TopMessage::Initialize();
     RadioWindow::Initialize();
-    PoliceBases::Initialize();
     BackupUnits::Initialize();
-    ATMSystem::Initialize();
-    Callouts::Initialize();
     Names::Initialize();
+    
+    Callouts::Initialize();
+    ATMSystem::Initialize();
 }
 
 void PoliceMod::OnPlayerReady()

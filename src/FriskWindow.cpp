@@ -17,12 +17,13 @@ void FriskWindow::OpenForPed(Ped* ped)
 
     for(const auto& item : ped->inventory.GetItems())
     {
-        std::string text = item.GetDefinition()->name;
-        text += " x" + std::to_string(item.GetAmount());
+        auto def = item.GetDefinition();
+        int amount = item.GetAmount();
+
+        std::string text = FormatAmount(*def, amount);
 
         auto button = window->AddButton(text);
-        button->onClick->Add([]() {
-        });
+        button->onClick->Add([](){});
     }
     
     {

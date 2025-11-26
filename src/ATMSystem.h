@@ -2,11 +2,7 @@
 
 #include "pch.h"
 
-struct Location
-{
-    CVector position;
-    CVector rotation;
-};
+#include "Location.h"
 
 class ATMSystem {
 public:

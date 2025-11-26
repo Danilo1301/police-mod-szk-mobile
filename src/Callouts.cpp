@@ -15,6 +15,7 @@
 #include "callouts/ATMCallout.h"
 #include "callouts/TestCallout.h"
 #include "callouts/StolenCarCallout.h"
+#include "callouts/DrugDealerCallout.h"
 
 bool g_onACallout = false;
 bool g_calloutReached = false;
@@ -30,7 +31,7 @@ void Callouts::Initialize()
 {
     CalloutRegistry::Register(new ATMCallout());
     CalloutRegistry::Register(new StolenCarCallout());
-    //CalloutRegistry::Register(new TestCallout());
+    CalloutRegistry::Register(new DrugDealerCallout());
 }
 
 void Callouts::Update()
@@ -83,6 +84,9 @@ void Callouts::Update()
 
 void Callouts::TryBroadcastCallout()
 {
+    // for tests
+    //g_secondsBetweenCallouts = 5;
+
     if(g_receiveCalloutTimer >= (g_secondsBetweenCallouts * 1000))
     {
         BroadcastRandomCallout();
