@@ -25,6 +25,7 @@ public:
     static void PlayRoadName();
     static void SpawnBackupUnit(PoliceVehicleData* unit);
     static void SpawnRandomBackupUnit();
+    static void SpawnHelicopterBackup();
     static void AddVehicleAsBackup(Vehicle* vehicle, bool recreatePeds);
     static PoliceVehicleData* GetRandomUnitByChance(std::vector<PoliceVehicleData>& units);
     static void OpenSpawnBackupMenu();

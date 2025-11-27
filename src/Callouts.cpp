@@ -84,9 +84,6 @@ void Callouts::Update()
 
 void Callouts::TryBroadcastCallout()
 {
-    // for tests
-    //g_secondsBetweenCallouts = 5;
-
     if(g_receiveCalloutTimer >= (g_secondsBetweenCallouts * 1000))
     {
         BroadcastRandomCallout();
@@ -95,11 +92,19 @@ void Callouts::TryBroadcastCallout()
 
 void Callouts::BroadcastRandomCallout()
 {
-    g_receiveCalloutTimer = 0;
-    g_broadcastingCallout = CalloutRegistry::GetRandom();
-    g_lastBroadcastedCallout = g_broadcastingCallout;
+    auto callout = CalloutRegistry::GetRandom();
 
-    if (!g_broadcastingCallout) return;
+    BroadcastCallout(callout);
+}
+
+void Callouts::BroadcastCallout(CalloutBase* callout)
+{   
+    g_receiveCalloutTimer = 0;
+
+    if(!callout) return;
+
+    g_broadcastingCallout = callout;
+    g_lastBroadcastedCallout = callout;
 
     BottomMessage::SetMessage(g_broadcastingCallout->GetBroadcastMessage(), 8000);
 

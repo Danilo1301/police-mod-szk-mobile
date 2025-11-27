@@ -20,6 +20,7 @@ public:
     virtual IWindowItemButton* AddButton(std::string text) = 0;
     virtual IWindowItemOptions* AddOptions(std::string text) = 0;
     virtual IWindowItemOptions* AddFloatRange(std::string text, float* pFloat) = 0;
+    virtual IWindowItemOptions* AddIntRange(std::string text, int* pInt, int min, int max) = 0;
     virtual IWindowItem* AddCustomItem(std::string text, float height) = 0;
 
     virtual void Close() = 0;

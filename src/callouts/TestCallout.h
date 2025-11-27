@@ -6,7 +6,7 @@
 
 class TestCallout : public CalloutBase {
 public:
-    const char* GetBroadcastMessage() override;
+    std::string GetBroadcastMessage() override;
     AudioVariationGroup* GetBroadcastAudio() override;
     
     void OnAccept() override;

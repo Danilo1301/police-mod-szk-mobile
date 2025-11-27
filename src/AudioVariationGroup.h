@@ -12,4 +12,5 @@ public:
     IAudio* PlayRandom();
 
     void LoadNewAudio(std::string src, bool in3d = false);
+    void FindAndLoadAudioVariants(std::string src, bool in3d = false);
 };

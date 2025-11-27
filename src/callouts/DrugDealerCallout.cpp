@@ -11,14 +11,14 @@
 
 extern bool g_calloutReached;
 
-const char* DrugDealerCallout::GetBroadcastMessage()
+std::string DrugDealerCallout::GetBroadcastMessage()
 {
-    return "~y~[COPOM] ~w~Um veiculo roubado foi localizado pelas cameras do olho vivo";
+    return GetTranslatedText("callout_drug_dealer");
 }
 
 AudioVariationGroup* DrugDealerCallout::GetBroadcastAudio()
 {
-    return audioCalloutStolenCar;
+    return audioCalloutDrugDealer;
 }
 
 void DrugDealerCallout::OnAccept()
@@ -83,8 +83,25 @@ void DrugDealerCallout::OnAccept()
                 }
             }
 
-        });
+            ScriptTask* taskRemoveRef = new ScriptTask("taskRemoveRef");
+            taskRemoveRef->onExecute = [location]() {
 
+                auto playerPosition = GetPlayerPosition();
+                auto distance = distanceBetweenPoints(playerPosition, location.position);
+                
+                if(distance > 15.0f) return SCRIPT_KEEP_GOING;
+                
+                return SCRIPT_SUCCESS;
+            };
+            taskRemoveRef->onComplete = [dealerRef]() {
+                if(ACTOR_DEFINED(dealerRef))
+                {
+                    CLEAR_ACTOR_TASK(dealerRef);
+                    REMOVE_REFERENCES_TO_ACTOR(dealerRef);
+                }
+            };
+            taskRemoveRef->Start();
+        });
     };
     taskAproach->Start();
 }

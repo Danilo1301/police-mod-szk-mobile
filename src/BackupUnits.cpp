@@ -292,6 +292,15 @@ void BackupUnits::SpawnRandomBackupUnit()
     SpawnBackupUnit(unit);
 }
 
+void BackupUnits::SpawnHelicopterBackup()
+{
+    fileLog->Log("BackupUnits: SpawnHelicopterBackup");
+    
+    auto unit = GetRandomUnitByChance(PoliceVehicles::helicopters);
+
+    SpawnBackupUnit(unit);
+}
+
 void BackupUnits::AddVehicleAsBackup(Vehicle* vehicle, bool recreatePeds)
 {
     fileLog->Log("BackupUnits: AddVehicleAsBackup");

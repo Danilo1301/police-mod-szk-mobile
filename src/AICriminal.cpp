@@ -41,6 +41,8 @@ void AICriminal::Update()
     
     int dt = menuSZK->deltaTime;
 
+    timeElapsed += dt;
+
     findTargetTimer += dt;
 
     if (findTargetTimer >= 3000)
@@ -85,7 +87,7 @@ void AICriminal::Update()
         {
             carWasSlow = isSlow;
 
-            if(isSlow && isPlayerClose)
+            if(isSlow && isPlayerClose && timeElapsed >= CHASE_MIN_TIME_TO_SURRENDER)
             {
                 if(calculateProbability(0.20))
                 {

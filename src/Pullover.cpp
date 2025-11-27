@@ -97,6 +97,8 @@ void Pullover::PulloverPed(Ped* ped)
         return;
     }
 
+    AudioCollection::PlayAsVoice(audioPulloverPed);
+
     menuDebug->AddLine("~g~pull over ped");
 
     if(ped->flags.willSurrender == false && ped->flags.willKillCops == true)
@@ -363,6 +365,8 @@ void Pullover::OpenPedMenu(Ped* ped)
             button->onClick->Add([window, ped]() {
                 window->Close();
 
+                AudioCollection::PlayAsVoice(audioPutHandsHead);
+
                 ped->SetAnim("handscower", "PED");
             });
         }
@@ -371,6 +375,8 @@ void Pullover::OpenPedMenu(Ped* ped)
             auto button = window->AddButton(GetTranslatedText("hands_behind"));
             button->onClick->Add([window, ped]() {
                 window->Close();
+
+                AudioCollection::PlayAsVoice(audioPutHandsBehind);
 
                 ped->SetAnim("bomber", "PED");
             });
@@ -639,6 +645,8 @@ void Pullover::CallTowTruck(Vehicle* vehicle)
 
 void Pullover::AskVehicleToMoveToTheRight(Vehicle* vehicle)
 {
+    AudioCollection::PlayAsVoice(audioMoveVehicleToRight);
+
     auto stopPosition = GetCarPositionWithOffset(vehicle->ref, CVector(5.0f, 7.0f, 0));
     
     auto sphere = CREATE_SPHERE(stopPosition.x, stopPosition.y, stopPosition.z, 1.0f);

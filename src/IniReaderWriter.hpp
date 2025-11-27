@@ -8,7 +8,7 @@
 #include <vector>
 
 // se CVector não estiver incluso aqui, incluir seu header antes
-// #include "CVector.h"
+#include "simpleGta.h"
 
 class IniReaderWriter
 {
@@ -43,10 +43,24 @@ public:
             file << "[" << sectionPair.first << "]\n";
 
             for (const auto& kv : sectionPair.second)
-                file << kv.first << " = " << kv.second << "\n";
+            {
+                const std::string& value = kv.second;
+
+                if (IsNumberOrBool(value))
+                {
+                    // salva sem aspas
+                    file << kv.first << " = " << value << "\n";
+                }
+                else
+                {
+                    // salva com aspas
+                    file << kv.first << " = \"" << value << "\"\n";
+                }
+            }
 
             file << "\n";
         }
+
         return true;
     }
 
@@ -63,26 +77,38 @@ public:
             if (line.empty()) continue;
             if (line[0] == '#' || line[0] == ';') continue;
 
+            // seção
             if (line.front() == '[' && line.back() == ']')
             {
                 currentSection = line.substr(1, line.size() - 2);
                 Trim(currentSection);
+                continue;
             }
-            else
-            {
-                auto eq = line.find('=');
-                if (eq == std::string::npos)
-                    continue;
 
-                std::string key = line.substr(0, eq);
-                std::string value = line.substr(eq + 1);
+            // chave=valor
+            auto eq = line.find('=');
+            if (eq == std::string::npos)
+                continue;
 
-                Trim(key);
-                Trim(value);
+            std::string key = line.substr(0, eq);
+            std::string value = line.substr(eq + 1);
 
-                Set(currentSection, key, value); // usa Set() para manter ordem
-            }
+            Trim(key);
+            Trim(value);
+
+            // -----------------------------------------
+            // REMOVER ASPAS EXTERNAS DE FORMA ROBUSTA
+            // -----------------------------------------
+            if (!value.empty() && value.front() == '"')
+                value.erase(value.begin());
+
+            if (!value.empty() && value.back() == '"')
+                value.pop_back();
+
+            // salvar no mapa
+            Set(currentSection, key, value);
         }
+
         return true;
     }
 
@@ -203,6 +229,38 @@ private:
         s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
             return !std::isspace(ch);
         }).base(), s.end());
+    }
+
+    static bool IsNumberOrBool(const std::string& s)
+    {
+        if (s == "true" || s == "false" || s == "1" || s == "0")
+            return true;
+
+        // Tentar detectar número
+        bool decimalFound = false;
+        bool digitFound = false;
+
+        for (size_t i = 0; i < s.size(); ++i)
+        {
+            char c = s[i];
+
+            if (i == 0 && (c == '-' || c == '+'))
+                continue;
+
+            if (c == '.')
+            {
+                if (decimalFound) return false;
+                decimalFound = true;
+                continue;
+            }
+
+            if (!std::isdigit(c))
+                return false;
+
+            digitFound = true;
+        }
+
+        return digitFound;
     }
 
     Data data;

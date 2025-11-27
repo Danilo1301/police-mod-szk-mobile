@@ -14,9 +14,9 @@
 
 extern bool g_calloutReached;
 
-const char* StolenCarCallout::GetBroadcastMessage()
+std::string StolenCarCallout::GetBroadcastMessage()
 {
-    return "~y~[COPOM] ~w~Um veiculo roubado foi localizado pelas cameras do olho vivo";
+    return GetTranslatedText("callout_stolen_vehicle");
 }
 
 AudioVariationGroup* StolenCarCallout::GetBroadcastAudio()

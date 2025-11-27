@@ -10,6 +10,27 @@ void Biqueiras::Initialize()
         location.rotation = CVector(0, 0, 270);
         g_biqueiras.push_back(location);
     }
+
+    {
+        Location location;
+        location.position = CVector(2171.47, -1673.27, 15.09);
+        location.rotation = CVector(0, 0, 0);
+        g_biqueiras.push_back(location);
+    }
+
+    {
+        Location location;
+        location.position = CVector(2182.26, -1341.58, 23.98);
+        location.rotation = CVector(0, 0, 0);
+        g_biqueiras.push_back(location);
+    }
+
+     {
+        Location location;
+        location.position = CVector(1993.58, -1094.40, 24.94);
+        location.rotation = CVector(0, 0, 0);
+        g_biqueiras.push_back(location);
+    }
 }
 
 Location Biqueiras::GetRandomCloseBiqueira(CVector point)

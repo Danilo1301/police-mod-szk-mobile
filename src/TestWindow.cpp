@@ -11,6 +11,8 @@
 
 void TestWindow::OpenWindow()
 {
+    static int calloutIndex = 0;
+
     auto window = menuSZK->CreateWindow(200, 200, 800, "Mod Policia - tests");
 
     {
@@ -19,6 +21,23 @@ void TestWindow::OpenWindow()
             window->Close();
 
             TestEquip();
+        });
+    }
+
+    {
+        auto item = window->AddIntRange("Callout: ID", &calloutIndex, 0, CalloutRegistry::m_callouts.size() - 1);
+        item->addBy = 1;
+    }
+
+    {
+        auto button = window->AddButton("Callout: Spawn");
+        button->onClick->Add([window]() {
+            window->Close();
+
+            auto callouts = CalloutRegistry::m_callouts;
+            auto ptr = callouts[calloutIndex];;
+
+            Callouts::BroadcastCallout(ptr);
         });
     }
 

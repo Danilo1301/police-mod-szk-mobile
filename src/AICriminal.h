@@ -10,8 +10,10 @@ public:
     int findTargetTimer = 0;
     bool carWasSlow = true;
 
-    int timeToSurrender = 3000;
+    int timeToSurrender = 5000;
     int surrenderTimer = 0;
+
+    int timeElapsed = 0;
 
     ~AICriminal() override;
 

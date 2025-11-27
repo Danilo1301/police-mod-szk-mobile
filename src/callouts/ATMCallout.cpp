@@ -33,9 +33,9 @@ void TryCreateExplosion(CVector position)
     task->Start();
 }
 
-const char* ATMCallout::GetBroadcastMessage()
+std::string ATMCallout::GetBroadcastMessage()
 {
-    return "~y~[COPOM] ~w~Denuncia de assalto a caixa eletronico em andamento";
+    return GetTranslatedText("callout_atm");
 }
 
 AudioVariationGroup* ATMCallout::GetBroadcastAudio()

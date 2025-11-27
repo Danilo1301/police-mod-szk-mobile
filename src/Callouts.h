@@ -15,6 +15,7 @@ public:
 
     static void TryBroadcastCallout();
     static void BroadcastRandomCallout();
+    static void BroadcastCallout(CalloutBase* callout);
 
     static void AcceptCallout();
 

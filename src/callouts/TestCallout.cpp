@@ -13,7 +13,7 @@
 
 extern bool g_calloutReached;
 
-const char* TestCallout::GetBroadcastMessage()
+std::string TestCallout::GetBroadcastMessage()
 {
     return "~y~[COPOM] ~w~Denuncia de alguma coisa n sei bem oq e";
 }

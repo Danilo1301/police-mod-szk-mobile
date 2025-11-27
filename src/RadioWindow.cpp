@@ -7,6 +7,7 @@
 #include "Callouts.h"
 #include "TestWindow.h"
 #include "ModelLoader.h"
+#include "RadioSounds.h"
 
 IContainer* RadioWindow::MainContainer = nullptr;
 IContainer* RadioWindow::ScreenContainer = nullptr;
@@ -112,6 +113,7 @@ void RadioWindow::Initialize()
     currentScreenIndex = 0;
 
     AddScreen("main", "send_qth", "send_qth.png");
+    AddScreen("main", "call_helicopter", "call_helicopter.png");
     AddScreen("main", "callout_menu", "callout_menu.png");
     AddScreen("main", "cancel_chase", "cancel_chase.png");
     AddScreen("main", "cancel_services", "cancel_services.png");
@@ -161,6 +163,17 @@ void RadioWindow::OnSelect(std::string id)
         return;
     }
 
+    if(id == "call_helicopter")
+    {
+        ToggleRadioAnimOff(5000);
+        Toggle();
+
+        BottomMessage::SetMessage("Chamando apoio do aguia...", 3000);
+
+        BackupUnits::SpawnHelicopterBackup();
+        return;
+    }
+
     if(id == "callout_menu")
     {
         SwitchToGroup("callout");
@@ -198,11 +211,15 @@ void RadioWindow::OnSelect(std::string id)
         ToggleRadioAnimOff(5000);
         Toggle();
 
-        auto playerPosition = GetPlayerPosition();
-
         BottomMessage::SetMessage("Chamando o resgate...", 3000);
 
-        WAIT(5000, [playerPosition]() {
+        auto audio = audioRequestAmbulance->GetRandomAudio();
+
+        RadioSounds::PlayAudioNowDontAttach(audio);
+
+        WaitForAudioFinish(audio, []() {
+            auto playerPosition = GetPlayerPosition();
+            
             BackupUnits::SpawnMedicUnit(playerPosition);
         });
 

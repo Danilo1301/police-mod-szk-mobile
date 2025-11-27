@@ -61,6 +61,7 @@ inline bool g_blockInteractions = false;
 
 inline int CHASE_VEHICLE_MAX_SPEED = 50.0f;
 inline int CHASE_POLICE_MAX_SPEED = 50.0f;
+inline int CHASE_MIN_TIME_TO_SURRENDER = 40.0f;
 
 inline CVector2D g_widgetsStartPosition = CVector2D(450, 50);
 

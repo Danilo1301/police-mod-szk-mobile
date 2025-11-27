@@ -5,20 +5,20 @@
 #include "CalloutBase.h"
 
 class CalloutRegistry {
-private:
-    static inline std::vector<std::unique_ptr<CalloutBase>> s_callouts;
 public:
+    static inline std::vector<CalloutBase*> m_callouts;
+
     static void Register(CalloutBase* callout) {
-        s_callouts.emplace_back(callout);
+        m_callouts.emplace_back(callout);
     }
 
     static CalloutBase* GetRandom() {
-        if (s_callouts.empty()) return nullptr;
-        int idx = rand() % s_callouts.size();
-        return s_callouts[idx].get();
+        if (m_callouts.empty()) return nullptr;
+        int idx = rand() % m_callouts.size();
+        return m_callouts[idx];
     }
 
-    static const std::vector<std::unique_ptr<CalloutBase>>& GetAll() {
-        return s_callouts;
+    static const std::vector<CalloutBase*>& GetAll() {
+        return m_callouts;
     }
 };

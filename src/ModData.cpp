@@ -53,6 +53,7 @@ void ModData::LoadSettings()
 
     CHASE_VEHICLE_MAX_SPEED = ini.GetInt("settings", "chase_vehicle_max_speed", CHASE_VEHICLE_MAX_SPEED);
     CHASE_POLICE_MAX_SPEED = ini.GetInt("settings", "chase_police_max_speed", CHASE_POLICE_MAX_SPEED);
+    CHASE_MIN_TIME_TO_SURRENDER = ini.GetInt("settings", "chase_minimum_time_to_surrender", CHASE_MIN_TIME_TO_SURRENDER);
     g_secondsBetweenCallouts = ini.GetInt("settings", "seconds_between_callouts", g_secondsBetweenCallouts);
 
     g_widgetsStartPosition.x = ini.GetDouble("widgets", "position_x", g_widgetsStartPosition.x);

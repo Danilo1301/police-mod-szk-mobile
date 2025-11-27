@@ -11,59 +11,90 @@ void AudioCollection::Initialize()
     const bool IN_3D = true;
 
     {
-        auto group = audioPulloverCar = CreateGroup("pull_over_car");
-        group->LoadNewAudio(modData->GetFileFromAssets("audios/officer/pull_over_car.wav"));
-        //group->LoadNewAudio(modData->GetFileFromAssets("audios/officer2/pull_over_car.wav"));
+        auto group = audioPulloverCar = CreateGroup("pull_over_vehicle");
+        group->FindAndLoadAudioVariants(modData->GetFileFromAssets("audios/officer/pull_over_vehicle.wav"));
     }
 
     {
+        auto group = audioPulloverPed = CreateGroup("pull_over_ped");
+        group->FindAndLoadAudioVariants(modData->GetFileFromAssets("audios/officer/pull_over_ped.wav"));
+    }
+
+
+    {
         auto group = audioFreePed = CreateGroup("free_ped");
-        group->LoadNewAudio(modData->GetFileFromAssets("audios/officer/all_clear.wav"));
+        group->FindAndLoadAudioVariants(modData->GetFileFromAssets("audios/officer/all_clear.wav"));
     }
 
     {
         auto group = audioAskRG = CreateGroup("ask_rg");
-        group->LoadNewAudio(modData->GetFileFromAssets("audios/officer/ask_rg.wav"));
+        group->FindAndLoadAudioVariants(modData->GetFileFromAssets("audios/officer/ask_rg.wav"));
     }
     
     {
         auto group = audioAskCNH = CreateGroup("ask_cnh");
-        group->LoadNewAudio(modData->GetFileFromAssets("audios/officer/ask_cnh.wav"));
+        group->FindAndLoadAudioVariants(modData->GetFileFromAssets("audios/officer/ask_cnh.wav"));
     }
 
     {
         auto group = audioAskCRLV = CreateGroup("ask_crlv");
-        group->LoadNewAudio(modData->GetFileFromAssets("audios/officer/ask_crlv.wav"));
+        group->FindAndLoadAudioVariants(modData->GetFileFromAssets("audios/officer/ask_crlv.wav"));
     }
 
     {
         auto group = audioExitVehicleHandsUp = CreateGroup("exit_vehicle_hands_up");
-        group->LoadNewAudio(modData->GetFileFromAssets("audios/officer/exit_vehicle_hands_up.wav"));
+        group->FindAndLoadAudioVariants(modData->GetFileFromAssets("audios/officer/exit_vehicle_hands_up.wav"));
     }
 
     {
         auto group = audioPlateCheck = CreateGroup("plate_check");
-        group->LoadNewAudio(modData->GetFileFromAssets("audios/officer/license_plate_check.wav"));
+        group->FindAndLoadAudioVariants(modData->GetFileFromAssets("audios/officer/license_plate_check.wav"));
     }
 
     {
         auto group = audioRequestBackup = CreateGroup("request_backup");
-        group->LoadNewAudio(modData->GetFileFromAssets("audios/officer/request_backup.wav"));
+        group->FindAndLoadAudioVariants(modData->GetFileFromAssets("audios/officer/request_backup.wav"));
+    }
+
+    {
+        auto group = audioRequestAmbulance = CreateGroup("request_ambulance");
+        group->FindAndLoadAudioVariants(modData->GetFileFromAssets("audios/officer/request_ambulance.wav"));
     }
 
     {
         auto group = audioCalloutATM = CreateGroup("callout_atm");
-        group->LoadNewAudio(modData->GetFileFromAssets("audios/callouts/atm.wav"), IN_3D);
+        group->FindAndLoadAudioVariants(modData->GetFileFromAssets("audios/callouts/atm.wav"), IN_3D);
     }
 
     {
         auto group = audioCalloutStolenCar = CreateGroup("callout_stolen_car");
-        group->LoadNewAudio(modData->GetFileFromAssets("audios/callouts/stolen_car.wav"), IN_3D);
+        group->FindAndLoadAudioVariants(modData->GetFileFromAssets("audios/callouts/stolen_car.wav"), IN_3D);
     }
 
     {
+        auto group = audioCalloutDrugDealer = CreateGroup("drug_dealer");
+        group->FindAndLoadAudioVariants(modData->GetFileFromAssets("audios/callouts/drug_dealer.wav"), IN_3D);
+    }
+    
+
+    {
         auto group = audioRequestTowTruck = CreateGroup("request_tow_truck");
-        group->LoadNewAudio(modData->GetFileFromAssets("audios/officer/request_tow_truck.wav"));
+        group->FindAndLoadAudioVariants(modData->GetFileFromAssets("audios/officer/request_tow_truck.wav"));
+    }
+
+    {
+        auto group = audioMoveVehicleToRight = CreateGroup("ask_to_move_vehicle_to_his_right");
+        group->FindAndLoadAudioVariants(modData->GetFileFromAssets("audios/officer/ask_to_move_vehicle_to_his_right.wav"));
+    }
+
+    {
+        auto group = audioPutHandsBehind = CreateGroup("put_hands_behind");
+        group->FindAndLoadAudioVariants(modData->GetFileFromAssets("audios/officer/put_hands_behind.wav"));
+    }
+
+    {
+        auto group = audioPutHandsHead = CreateGroup("put_hands_on_head");
+        group->FindAndLoadAudioVariants(modData->GetFileFromAssets("audios/officer/put_hands_on_head.wav"));
     }
 }
 
