@@ -19,8 +19,6 @@ Github: https://github.com/Danilo1301/menu-szk-mobile-releases
 
 # Como instalar
 
-É necessário ter o jogo instalado já. Para instalar apenas o mod você faz o seguinte:
-
 1. Baixe o .zip do mod em [Releases](https://github.com/Danilo1301/police-mod-szk-mobile/releases)
 2. Dentro do .zip, copie a pasta "com.rockstargames.gtasa" para onde fica sua data (em Android/data/ por exemplo)
 
